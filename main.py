@@ -150,8 +150,19 @@ def rebuild_history_index():
 
 if __name__ == "__main__":
     rates = get_rates()
-    write_json(os.path.join(API_DIR, "rate.json"), rates)
+    # Persist the canonical snapshot for the captured effective date.
     write_json(os.path.join(HISTORY_DIR, f"{rates['date']}.json"), rates)
+    # Fill calendar days (weekends/holidays inherit the previous business day's rate).
     rebuild_calendar_history()
+    # api/rate.json represents *today's* rate — the one officially in effect on
+    # the current calendar day in Venezuela — not the just-captured future rate.
+    today_iso = datetime.now(VENEZUELA_TZ).date().isoformat()
+    today_path = os.path.join(HISTORY_DIR, f"{today_iso}.json")
+    if os.path.exists(today_path):
+        with open(today_path, encoding="utf-8") as f:
+            current = json.load(f)
+        write_json(os.path.join(API_DIR, "rate.json"), current)
+    else:
+        write_json(os.path.join(API_DIR, "rate.json"), rates)
     rebuild_history_index()
     print(json.dumps(rates, indent=2))

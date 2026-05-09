@@ -15,6 +15,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
@@ -39,13 +40,24 @@ jobs:
         run: python main.py
 
       - name: Commit rate.json
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add api
           if git diff --cached --quiet -- api; then
             echo "No changes in api/"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git commit -m "chore: update rate"
           git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger Pages deploy
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Pushes by GITHUB_TOKEN don't trigger other workflows, but
+        # workflow_dispatch does — so we kick off the Pages deploy explicitly.
+        run: gh workflow run pages.yml --ref main

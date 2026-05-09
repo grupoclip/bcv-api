@@ -4,13 +4,25 @@ Unofficial JSON API for the official exchange rates published by the [Banco Cent
 
 ## Website
 
-A small static dashboard is available via GitHub Pages at:
+A small Jekyll site is published via GitHub Pages at:
 
 > https://grupoclip.github.io/bcv-api/
 
-It fetches `api/rate.json` and renders the latest rates in the browser.
+It has two pages:
 
-To enable it on a fork, go to **Settings → Pages → Build and deployment**, set the source to **Deploy from a branch**, branch `main`, folder `/ (root)`. Each commit by the workflow triggers a Pages rebuild.
+- `/` — dashboard that fetches `api/rate.json` and renders the latest rates.
+- `/api/` — full API documentation with endpoints, schema, and code examples.
+
+The site is built and deployed by `.github/workflows/pages.yml`, which uses the official Pages Jekyll workflow (`actions/configure-pages`, `actions/upload-pages-artifact`, `actions/deploy-pages`).
+
+To enable it on a fork: **Settings → Pages → Build and deployment** → source **GitHub Actions**. The rate-update workflow triggers the Pages deploy after each commit.
+
+### Local preview
+
+```bash
+bundle install
+bundle exec jekyll serve
+```
 
 ## Endpoints
 
@@ -70,7 +82,8 @@ This writes `api/rate.json` and the corresponding `api/history/<date>.json` and 
 
 ## Repository setup
 
-For the workflow to push commits back, the repository's **Settings → Actions → General → Workflow permissions** must allow read and write access (the workflow already declares `contents: write`).
+- **Settings → Actions → General → Workflow permissions** must allow read and write access (the rate-update workflow declares `contents: write` and `actions: write`).
+- **Settings → Pages → Build and deployment** → source **GitHub Actions**.
 
 ## Disclaimer
 

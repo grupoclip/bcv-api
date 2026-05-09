@@ -1,0 +1,28 @@
+title: BCV API
+description: >-
+  API JSON no oficial con las tasas oficiales del Banco Central de Venezuela:
+  USD, EUR, CNY, TRY, RUB.
+url: https://grupoclip.github.io
+baseurl: /bcv-api
+repository: grupoclip/bcv-api
+lang: es
+
+nav:
+  - title: Tasas
+    url: /
+  - title: API
+    url: /api/
+
+permalink: pretty
+
+exclude:
+  - main.py
+  - requirements.txt
+  - README.md
+  - LICENSE
+  - .gitignore
+  - .gitattributes
+  - .idea
+  - vendor
+  - Gemfile
+  - Gemfile.lock

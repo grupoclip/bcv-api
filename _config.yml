@@ -1,7 +1,7 @@
-title: BCV API
+title: BCV Today
 description: >-
-  API JSON no oficial con las tasas oficiales del Banco Central de Venezuela:
-  USD, EUR, CNY, TRY, RUB.
+  Tasas oficiales del Banco Central de Venezuela, hoy. USD, EUR, CNY, TRY y RUB
+  contra el bolívar, actualizadas a diario.
 url: https://bcv.today
 baseurl: ""
 repository: grupoclip/bcv-api

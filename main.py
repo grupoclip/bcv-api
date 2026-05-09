@@ -13,6 +13,7 @@ urllib3.disable_warnings()
 API_DIR = "api"
 HISTORY_DIR = os.path.join(API_DIR, "history")
 HISTORY_INDEX = os.path.join(API_DIR, "history.json")
+HISTORY_INDEX_LIMIT = 365
 VENEZUELA_TZ = ZoneInfo("America/Caracas")
 
 CURRENCIES = {
@@ -51,8 +52,10 @@ def write_json(path, data):
 
 
 def rebuild_history_index():
+    paths = sorted(glob.glob(os.path.join(HISTORY_DIR, "*.json")))
+    paths = paths[-HISTORY_INDEX_LIMIT:]
     history = []
-    for path in sorted(glob.glob(os.path.join(HISTORY_DIR, "*.json"))):
+    for path in paths:
         with open(path, encoding="utf-8") as f:
             history.append(json.load(f))
     with open(HISTORY_INDEX, "w", encoding="utf-8") as f:

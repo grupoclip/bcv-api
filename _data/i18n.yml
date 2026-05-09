@@ -1,7 +1,7 @@
 es:
   site_description: >-
-    API JSON no oficial con las tasas oficiales del Banco Central de Venezuela:
-    USD, EUR, CNY, TRY, RUB.
+    Tasas oficiales del Banco Central de Venezuela, hoy. USD, EUR, CNY, TRY y
+    RUB contra el bolívar, actualizadas a diario.
   nav_rates: "Tasas"
   nav_history: "Histórico"
   nav_api: "API"
@@ -47,8 +47,8 @@ es:
 
 en:
   site_description: >-
-    Unofficial JSON API for the official Banco Central de Venezuela exchange
-    rates: USD, EUR, CNY, TRY, RUB.
+    Official Banco Central de Venezuela rates, today. USD, EUR, CNY, TRY, and
+    RUB against the bolívar, updated daily.
   nav_rates: "Rates"
   nav_history: "History"
   nav_api: "API"

@@ -1,6 +1,8 @@
-# bcv-api
+# BCV Today
 
-Unofficial JSON API for the official exchange rates published by the [Banco Central de Venezuela](https://www.bcv.org.ve/) — USD, EUR, CNY (yuan), TRY (lira), and RUB (rublo). A GitHub Actions workflow scrapes the BCV homepage on a schedule and commits the values back to this repository, so the JSON files are served directly from GitHub.
+> [bcv.today](https://bcv.today) — the official Banco Central de Venezuela rates, today.
+
+Unofficial JSON API and dashboard for the exchange rates published by the [Banco Central de Venezuela](https://www.bcv.org.ve/) — USD, EUR, CNY (yuan), TRY (lira), and RUB (rublo). A GitHub Actions workflow scrapes the BCV homepage on a schedule and commits the values back to this repository, so the JSON files are served directly from GitHub Pages at `bcv.today`.
 
 ## Website
 

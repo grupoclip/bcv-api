@@ -8,6 +8,7 @@ alt_url: /history/
 
 {%- assign t = site.data.i18n[page.lang] -%}
 {%- assign history_url = '/api/history.json' | relative_url -%}
+{%- assign rate_url = '/api/rate.json' | relative_url -%}
 
 <h1>{{ t.history_title }}</h1>
 
@@ -54,6 +55,7 @@ alt_url: /history/
   const LANG = "{{ page.lang }}";
   const LOCALE = "en-US";
   const HISTORY_URL = "{{ history_url }}";
+  const RATE_URL = "{{ rate_url }}";
   const CURRENCY_NAMES = {{ t.currencies | jsonify }};
   const STRINGS = {
     error: "{{ t.error_loading }}",

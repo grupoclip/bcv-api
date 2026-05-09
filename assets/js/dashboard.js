@@ -25,8 +25,8 @@
       signDisplay: "exceptZero",
     }).format(n / 100);
 
-  // Plain numeric string for <input type="number"> (no locale separators).
-  const numForInput = (n) => (isFinite(n) ? String(Number(n.toFixed(6))) : "");
+  // Plain numeric string for <input type="number">: 2 decimals max, no locale separators.
+  const numForInput = (n) => (isFinite(n) ? n.toFixed(2) : "");
 
   const fmtDateTime = (iso) =>
     new Intl.DateTimeFormat(LOCALE, {

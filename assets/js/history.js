@@ -168,7 +168,7 @@
     }).format(new Date());
   }
 
-  function render(history, code) {
+  function render(history, current, code) {
     const message = document.getElementById("history-message");
     const stats = document.getElementById("history-stats");
     const chartCard = document.getElementById("chart-card");
@@ -201,8 +201,12 @@
         ? ((last.value - rFirst.value) / rFirst.value) * 100
         : null;
 
+    // The "current" stat reflects what the home dashboard shows (api/rate.json),
+    // not the last entry in the history series.
+    const currentValue =
+      current && typeof current[code] === "number" ? current[code] : last.value;
     document.getElementById("stat-current").textContent =
-      fmtRate(last.value) + " Bs.";
+      fmtRate(currentValue) + " Bs.";
 
     const c1 = document.getElementById("stat-change-1d");
     if (change1d === null) {
@@ -263,10 +267,19 @@
     fillSelect(select, readQueryCurrency());
 
     let history = [];
+    let current = null;
     try {
-      const res = await fetch(bust(HISTORY_URL), { cache: "no-store" });
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      history = await res.json();
+      const [historyData, rateData] = await Promise.all([
+        fetch(bust(HISTORY_URL), { cache: "no-store" }).then((r) => {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.json();
+        }),
+        fetch(bust(RATE_URL), { cache: "no-store" })
+          .then((r) => (r.ok ? r.json() : null))
+          .catch(() => null),
+      ]);
+      history = historyData;
+      current = rateData;
     } catch (err) {
       const msg = document.getElementById("history-message");
       msg.textContent = STRINGS.error + " " + err.message;
@@ -274,12 +287,12 @@
       return;
     }
 
-    render(history, select.value);
+    render(history, current, select.value);
     select.addEventListener("change", () => {
       const url = new URL(location.href);
       url.searchParams.set("c", select.value);
       window.history.replaceState({}, "", url);
-      render(history, select.value);
+      render(history, current, select.value);
     });
   }
 

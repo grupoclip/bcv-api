@@ -1,0 +1,46 @@
+name: Update BCV rate
+
+on:
+  schedule:
+    - cron: "0 14 * * 1-5"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "main.py"
+      - "requirements.txt"
+      - ".github/workflows/update-rate.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  update-rate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch rate
+        run: python main.py
+
+      - name: Commit rate.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- rate.json; then
+            echo "No changes in rate.json"
+            exit 0
+          fi
+          git add rate.json
+          git commit -m "chore: update rate.json"
+          git push

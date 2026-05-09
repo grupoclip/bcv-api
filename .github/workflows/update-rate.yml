@@ -2,10 +2,12 @@ name: Update BCV rate
 
 on:
   schedule:
-    - cron: "0 14 * * 1-5"
+    # 21:00 UTC = 17:00 Venezuela (UTC-4). BCV publishes the next day's rate
+    # around 16:00 Venezuela, so this gives a ~1h buffer.
+    - cron: "0 21 * * 1-5"
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [ main ]
     paths:
       - "main.py"
       - "requirements.txt"
@@ -27,7 +29,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.14"
           cache: pip
 
       - name: Install dependencies
@@ -40,10 +42,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add rate.json
-          if git diff --cached --quiet -- rate.json; then
-            echo "No changes in rate.json"
+          git add api
+          if git diff --cached --quiet -- api; then
+            echo "No changes in api/"
             exit 0
           fi
-          git commit -m "chore: update rate.json"
+          git commit -m "chore: update rate"
           git push

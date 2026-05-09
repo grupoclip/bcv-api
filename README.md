@@ -6,7 +6,7 @@ Unofficial JSON API for the official exchange rates published by the [Banco Cent
 
 A Jekyll site is published via GitHub Pages at:
 
-> https://grupoclip.github.io/bcv-api/
+> https://bcv.today
 
 Pages:
 
@@ -33,12 +33,12 @@ bundle exec jekyll serve --baseurl ""
 
 ## Endpoints
 
-Files are committed under `api/` and can be consumed via the raw GitHub URL or via [jsDelivr](https://www.jsdelivr.com/) for CDN caching.
+Files are committed under `api/` and served from the custom domain (or via [jsDelivr](https://www.jsdelivr.com/) for CDN caching).
 
-| Resource | Path | Raw URL |
-| --- | --- | --- |
-| Latest rate | `api/rate.json` | https://raw.githubusercontent.com/grupoclip/bcv-api/main/api/rate.json |
-| History (per day) | `api/history/<YYYY-MM-DD>.json` | https://raw.githubusercontent.com/grupoclip/bcv-api/main/api/history/2026-05-09.json |
+| Resource           | Path                              | URL                                              |
+| ------------------ | --------------------------------- | ------------------------------------------------ |
+| Latest rate        | `api/rate.json`                   | https://bcv.today/api/rate.json                  |
+| History (per day)  | `api/history/<YYYY-MM-DD>.json`   | https://bcv.today/api/history/2026-05-09.json    |
 
 ### Response shape
 

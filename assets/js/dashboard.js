@@ -216,14 +216,15 @@
         fetchJson(RATE_URL),
         fetchJson(HISTORY_URL).catch(() => []),
       ]);
+      const effective = rate.effective_date || rate.date;
       meta.innerHTML =
         "<span>" +
         STRINGS.date +
         ": <strong>" +
-        fmtDate(rate.date) +
+        fmtDate(effective) +
         "</strong></span>" +
         "<span>" +
-        STRINGS.updated +
+        STRINGS.scraped +
         ": <strong>" +
         fmtDateTime(rate.updated_at) +
         "</strong> " +

@@ -37,7 +37,8 @@ curl -s {{ site.url }}{{ site.baseurl }}/api/rate.json
   "TRY": 12.9412,
   "RUB": 5.6231,
   "updated_at": "2026-05-09T21:00:13.996037+00:00",
-  "date": "2026-05-09"
+  "date": "2026-05-09",
+  "effective_date": "2026-05-11"
 }
 ```
 
@@ -72,9 +73,12 @@ Respuesta `404` si la fecha solicitada no existe en el repositorio.
 | `TRY` | number | Tasa en bolívares por 1 lira turca. |
 | `RUB` | number | Tasa en bolívares por 1 rublo ruso. |
 | `updated_at` | string (ISO 8601) | Momento en UTC en que el scraper obtuvo el dato. |
-| `date` | string (`YYYY-MM-DD`) | Fecha local de Venezuela a la que pertenece el snapshot. Coincide con el nombre del archivo en `api/history/`. |
+| `date` | string (`YYYY-MM-DD`) | Día calendario al que corresponde el archivo. Coincide con el nombre del archivo en `api/history/`. |
+| `effective_date` | string (`YYYY-MM-DD`) | Fecha de vigencia oficial publicada por el BCV (`Fecha Valor`). Para días hábiles coincide con `date`; para sábados, domingos y feriados apunta al último día hábil con tasa publicada (la tasa **vigente** ese día). |
 
-> El BCV publica cada día la tasa que aplicará al **siguiente día hábil**, alrededor de las 16:00 hora de Caracas. El scraper se ejecuta una hora después de esa publicación, por lo que el valor en `rate.json` corresponde a la tasa que entrará en vigor al día siguiente.
+> El BCV publica la tasa los días hábiles, alrededor de las **16:30 hora de Caracas**, con vigencia para el **siguiente día hábil**: viernes publica para el lunes; si el lunes es feriado, publica para el siguiente día hábil (martes, etc.).
+>
+> Sábados, domingos y feriados no hay nueva publicación. El scraper corre todos los días y, además del archivo del día efectivo, rellena los días calendario faltantes. Por eso `api/history/2026-05-09.json` (sábado) y `api/history/2026-05-10.json` (domingo) llevan la tasa con `effective_date = "2026-05-08"` (viernes), porque esa era la tasa oficialmente vigente esos días.
 
 ## Ejemplos de uso
 

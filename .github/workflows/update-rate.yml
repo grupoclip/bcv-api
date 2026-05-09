@@ -2,9 +2,11 @@ name: Update BCV rate
 
 on:
   schedule:
-    # 21:00 UTC = 17:00 Venezuela (UTC-4). BCV publishes the next day's rate
-    # around 16:00 Venezuela, so this gives a ~1h buffer.
-    - cron: "0 21 * * 1-5"
+    # 21:00 UTC = 17:00 Venezuela (UTC-4). BCV publishes around 16:30 on
+    # business days; on weekends and holidays nothing new is posted, but we
+    # still scrape so the history has an entry for every calendar day with
+    # the rate that was officially in effect.
+    - cron: "0 21 * * *"
   workflow_dispatch:
   push:
     branches: [ main ]

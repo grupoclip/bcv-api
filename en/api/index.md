@@ -38,7 +38,8 @@ curl -s {{ site.url }}{{ site.baseurl }}/api/rate.json
   "TRY": 12.9412,
   "RUB": 5.6231,
   "updated_at": "2026-05-09T21:00:13.996037+00:00",
-  "date": "2026-05-09"
+  "date": "2026-05-09",
+  "effective_date": "2026-05-11"
 }
 ```
 
@@ -73,9 +74,12 @@ Responds with `404` if the requested date is not committed in the repository.
 | `TRY` | number | Bolívares per 1 Turkish lira. |
 | `RUB` | number | Bolívares per 1 Russian ruble. |
 | `updated_at` | string (ISO 8601) | UTC timestamp of when the scrape ran. |
-| `date` | string (`YYYY-MM-DD`) | Local Venezuela date the snapshot belongs to. Matches the filename in `api/history/`. |
+| `date` | string (`YYYY-MM-DD`) | Calendar day the file represents. Matches the filename in `api/history/`. |
+| `effective_date` | string (`YYYY-MM-DD`) | Official validity date published by BCV (`Fecha Valor`). On business days it equals `date`; on Saturdays, Sundays, and holidays it points to the previous business day whose rate was still officially in effect. |
 
-> BCV publishes each day's rate around 16:00 Caracas time, **for the next business day**. The scraper runs about an hour after that publish window, so the value in `rate.json` is the rate effective the following business day.
+> BCV publishes the rate on business days around **16:30 Caracas time**, effective the **next business day**: Fridays publish for Monday; if Monday is a holiday, they publish for the following business day (Tuesday, etc.).
+>
+> Saturdays, Sundays, and holidays have no new publish. The scraper runs every day and, in addition to writing the file for the effective day, fills in any missing calendar days. That's why `api/history/2026-05-09.json` (Saturday) and `api/history/2026-05-10.json` (Sunday) carry the rate with `effective_date = "2026-05-08"` (Friday) — that's the rate officially in effect those days.
 
 ## Usage examples
 

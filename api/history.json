@@ -1,11 +1,1028 @@
 [
   {
+    "USD": 301.3709,
+    "EUR": 354.4935,
+    "updated_at": "2026-01-01T21:00:00+00:00",
+    "date": "2026-01-01",
+    "effective_date": "2026-01-01",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 301.3709,
+    "EUR": 354.4935,
+    "updated_at": "2026-01-02T21:00:00+00:00",
+    "date": "2026-01-02",
+    "effective_date": "2026-01-01",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 304.6796,
+    "EUR": 357.8858,
+    "updated_at": "2026-01-03T21:00:00+00:00",
+    "date": "2026-01-03",
+    "effective_date": "2026-01-03",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 304.6796,
+    "EUR": 357.8858,
+    "updated_at": "2026-01-04T21:00:00+00:00",
+    "date": "2026-01-04",
+    "effective_date": "2026-01-03",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 304.6796,
+    "EUR": 357.8858,
+    "updated_at": "2026-01-05T21:00:00+00:00",
+    "date": "2026-01-05",
+    "effective_date": "2026-01-03",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 308.1546,
+    "EUR": 360.5039,
+    "updated_at": "2026-01-06T21:00:00+00:00",
+    "date": "2026-01-06",
+    "effective_date": "2026-01-06",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 311.8814,
+    "EUR": 364.8389,
+    "updated_at": "2026-01-07T21:00:00+00:00",
+    "date": "2026-01-07",
+    "effective_date": "2026-01-07",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 321.0323,
+    "EUR": 375.3092,
+    "updated_at": "2026-01-08T21:00:00+00:00",
+    "date": "2026-01-08",
+    "effective_date": "2026-01-08",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 325.3894,
+    "EUR": 379.6416,
+    "updated_at": "2026-01-09T21:00:00+00:00",
+    "date": "2026-01-09",
+    "effective_date": "2026-01-09",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 330.3751,
+    "EUR": 384.332,
+    "updated_at": "2026-01-10T21:00:00+00:00",
+    "date": "2026-01-10",
+    "effective_date": "2026-01-10",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 330.3751,
+    "EUR": 384.332,
+    "updated_at": "2026-01-11T21:00:00+00:00",
+    "date": "2026-01-11",
+    "effective_date": "2026-01-10",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 330.3751,
+    "EUR": 384.332,
+    "updated_at": "2026-01-12T21:00:00+00:00",
+    "date": "2026-01-12",
+    "effective_date": "2026-01-10",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 330.3751,
+    "EUR": 384.332,
+    "updated_at": "2026-01-13T21:00:00+00:00",
+    "date": "2026-01-13",
+    "effective_date": "2026-01-10",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 336.4596,
+    "EUR": 391.8846,
+    "updated_at": "2026-01-14T21:00:00+00:00",
+    "date": "2026-01-14",
+    "effective_date": "2026-01-14",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 339.1495,
+    "EUR": 395.2686,
+    "updated_at": "2026-01-15T21:00:00+00:00",
+    "date": "2026-01-15",
+    "effective_date": "2026-01-15",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 341.7425,
+    "EUR": 396.4794,
+    "updated_at": "2026-01-16T21:00:00+00:00",
+    "date": "2026-01-16",
+    "effective_date": "2026-01-16",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 344.5071,
+    "EUR": 400.4929,
+    "updated_at": "2026-01-17T21:00:00+00:00",
+    "date": "2026-01-17",
+    "effective_date": "2026-01-17",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 344.5071,
+    "EUR": 400.4929,
+    "updated_at": "2026-01-18T21:00:00+00:00",
+    "date": "2026-01-18",
+    "effective_date": "2026-01-17",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 344.5071,
+    "EUR": 400.4929,
+    "updated_at": "2026-01-19T21:00:00+00:00",
+    "date": "2026-01-19",
+    "effective_date": "2026-01-17",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 344.5071,
+    "EUR": 400.4929,
+    "updated_at": "2026-01-20T21:00:00+00:00",
+    "date": "2026-01-20",
+    "effective_date": "2026-01-17",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 347.2631,
+    "EUR": 407.1729,
+    "updated_at": "2026-01-21T21:00:00+00:00",
+    "date": "2026-01-21",
+    "effective_date": "2026-01-21",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 349.9272,
+    "EUR": 409.6493,
+    "updated_at": "2026-01-22T21:00:00+00:00",
+    "date": "2026-01-22",
+    "effective_date": "2026-01-22",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 352.7063,
+    "EUR": 413.3894,
+    "updated_at": "2026-01-23T21:00:00+00:00",
+    "date": "2026-01-23",
+    "effective_date": "2026-01-23",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 355.5528,
+    "EUR": 417.5861,
+    "updated_at": "2026-01-24T21:00:00+00:00",
+    "date": "2026-01-24",
+    "effective_date": "2026-01-24",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 355.5528,
+    "EUR": 417.5861,
+    "updated_at": "2026-01-25T21:00:00+00:00",
+    "date": "2026-01-25",
+    "effective_date": "2026-01-24",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 355.5528,
+    "EUR": 417.5861,
+    "updated_at": "2026-01-26T21:00:00+00:00",
+    "date": "2026-01-26",
+    "effective_date": "2026-01-24",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 358.9247,
+    "EUR": 426.1872,
+    "updated_at": "2026-01-27T21:00:00+00:00",
+    "date": "2026-01-27",
+    "effective_date": "2026-01-27",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 361.4906,
+    "EUR": 432.7151,
+    "updated_at": "2026-01-28T21:00:00+00:00",
+    "date": "2026-01-28",
+    "effective_date": "2026-01-28",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 363.6623,
+    "EUR": 434.4273,
+    "updated_at": "2026-01-29T21:00:00+00:00",
+    "date": "2026-01-29",
+    "effective_date": "2026-01-29",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 367.3069,
+    "EUR": 439.468,
+    "updated_at": "2026-01-30T21:00:00+00:00",
+    "date": "2026-01-30",
+    "effective_date": "2026-01-30",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 370.2544,
+    "EUR": 440.4768,
+    "updated_at": "2026-01-31T21:00:00+00:00",
+    "date": "2026-01-31",
+    "effective_date": "2026-01-31",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 370.2544,
+    "EUR": 440.4768,
+    "updated_at": "2026-02-01T21:00:00+00:00",
+    "date": "2026-02-01",
+    "effective_date": "2026-01-31",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 370.2544,
+    "EUR": 440.4768,
+    "updated_at": "2026-02-02T21:00:00+00:00",
+    "date": "2026-02-02",
+    "effective_date": "2026-01-31",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 372.1057,
+    "EUR": 439.6392,
+    "updated_at": "2026-02-03T21:00:00+00:00",
+    "date": "2026-02-03",
+    "effective_date": "2026-02-03",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 375.0825,
+    "EUR": 442.5898,
+    "updated_at": "2026-02-04T21:00:00+00:00",
+    "date": "2026-02-04",
+    "effective_date": "2026-02-04",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 378.4582,
+    "EUR": 447.2165,
+    "updated_at": "2026-02-05T21:00:00+00:00",
+    "date": "2026-02-05",
+    "effective_date": "2026-02-05",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 381.1074,
+    "EUR": 449.8592,
+    "updated_at": "2026-02-06T21:00:00+00:00",
+    "date": "2026-02-06",
+    "effective_date": "2026-02-06",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 382.6318,
+    "EUR": 451.8767,
+    "updated_at": "2026-02-07T21:00:00+00:00",
+    "date": "2026-02-07",
+    "effective_date": "2026-02-07",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 382.6318,
+    "EUR": 451.8767,
+    "updated_at": "2026-02-08T21:00:00+00:00",
+    "date": "2026-02-08",
+    "effective_date": "2026-02-07",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 382.6318,
+    "EUR": 451.8767,
+    "updated_at": "2026-02-09T21:00:00+00:00",
+    "date": "2026-02-09",
+    "effective_date": "2026-02-07",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 385.272,
+    "EUR": 458.8782,
+    "updated_at": "2026-02-10T21:00:00+00:00",
+    "date": "2026-02-10",
+    "effective_date": "2026-02-10",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 388.7394,
+    "EUR": 462.7826,
+    "updated_at": "2026-02-11T21:00:00+00:00",
+    "date": "2026-02-11",
+    "effective_date": "2026-02-11",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 390.2944,
+    "EUR": 463.0843,
+    "updated_at": "2026-02-12T21:00:00+00:00",
+    "date": "2026-02-12",
+    "effective_date": "2026-02-12",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 393.2216,
+    "EUR": 467.3321,
+    "updated_at": "2026-02-13T21:00:00+00:00",
+    "date": "2026-02-13",
+    "effective_date": "2026-02-13",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 396.3674,
+    "EUR": 470.282,
+    "updated_at": "2026-02-14T21:00:00+00:00",
+    "date": "2026-02-14",
+    "effective_date": "2026-02-14",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 396.3674,
+    "EUR": 470.282,
+    "updated_at": "2026-02-15T21:00:00+00:00",
+    "date": "2026-02-15",
+    "effective_date": "2026-02-14",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 396.3674,
+    "EUR": 470.282,
+    "updated_at": "2026-02-16T21:00:00+00:00",
+    "date": "2026-02-16",
+    "effective_date": "2026-02-14",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 396.3674,
+    "EUR": 470.282,
+    "updated_at": "2026-02-17T21:00:00+00:00",
+    "date": "2026-02-17",
+    "effective_date": "2026-02-14",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 396.3674,
+    "EUR": 470.282,
+    "updated_at": "2026-02-18T21:00:00+00:00",
+    "date": "2026-02-18",
+    "effective_date": "2026-02-14",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 398.7456,
+    "EUR": 471.417,
+    "updated_at": "2026-02-19T21:00:00+00:00",
+    "date": "2026-02-19",
+    "effective_date": "2026-02-19",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 402.3343,
+    "EUR": 472.8313,
+    "updated_at": "2026-02-20T21:00:00+00:00",
+    "date": "2026-02-20",
+    "effective_date": "2026-02-20",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 405.3518,
+    "EUR": 476.7059,
+    "updated_at": "2026-02-21T21:00:00+00:00",
+    "date": "2026-02-21",
+    "effective_date": "2026-02-21",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 405.3518,
+    "EUR": 476.7059,
+    "updated_at": "2026-02-22T21:00:00+00:00",
+    "date": "2026-02-22",
+    "effective_date": "2026-02-21",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 405.3518,
+    "EUR": 476.7059,
+    "updated_at": "2026-02-23T21:00:00+00:00",
+    "date": "2026-02-23",
+    "effective_date": "2026-02-21",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 407.3786,
+    "EUR": 480.8045,
+    "updated_at": "2026-02-24T21:00:00+00:00",
+    "date": "2026-02-24",
+    "effective_date": "2026-02-24",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 411.0857,
+    "EUR": 483.9178,
+    "updated_at": "2026-02-25T21:00:00+00:00",
+    "date": "2026-02-25",
+    "effective_date": "2026-02-25",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 414.0455,
+    "EUR": 488.6027,
+    "updated_at": "2026-02-26T21:00:00+00:00",
+    "date": "2026-02-26",
+    "effective_date": "2026-02-26",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 417.3579,
+    "EUR": 493.1125,
+    "updated_at": "2026-02-27T21:00:00+00:00",
+    "date": "2026-02-27",
+    "effective_date": "2026-02-27",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 419.9873,
+    "EUR": 495.606,
+    "updated_at": "2026-02-28T21:00:00+00:00",
+    "date": "2026-02-28",
+    "effective_date": "2026-02-28",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 419.9873,
+    "EUR": 495.606,
+    "updated_at": "2026-03-01T21:00:00+00:00",
+    "date": "2026-03-01",
+    "effective_date": "2026-02-28",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 419.9873,
+    "EUR": 495.606,
+    "updated_at": "2026-03-02T21:00:00+00:00",
+    "date": "2026-03-02",
+    "effective_date": "2026-02-28",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 421.8772,
+    "EUR": 493.5373,
+    "updated_at": "2026-03-03T21:00:00+00:00",
+    "date": "2026-03-03",
+    "effective_date": "2026-03-03",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 425.6741,
+    "EUR": 491.4918,
+    "updated_at": "2026-03-04T21:00:00+00:00",
+    "date": "2026-03-04",
+    "effective_date": "2026-03-04",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 427.9302,
+    "EUR": 497.4218,
+    "updated_at": "2026-03-05T21:00:00+00:00",
+    "date": "2026-03-05",
+    "effective_date": "2026-03-05",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 431.0113,
+    "EUR": 499.6154,
+    "updated_at": "2026-03-06T21:00:00+00:00",
+    "date": "2026-03-06",
+    "effective_date": "2026-03-06",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 433.1664,
+    "EUR": 501.728,
+    "updated_at": "2026-03-07T21:00:00+00:00",
+    "date": "2026-03-07",
+    "effective_date": "2026-03-07",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 433.1664,
+    "EUR": null,
+    "updated_at": "2026-03-09T21:00:00+00:00",
+    "date": "2026-03-09",
+    "effective_date": "2026-03-09",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 436.2419,
+    "EUR": 505.4168,
+    "updated_at": "2026-03-10T21:00:00+00:00",
+    "date": "2026-03-10",
+    "effective_date": "2026-03-10",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 438.205,
+    "EUR": 510.2108,
+    "updated_at": "2026-03-11T21:00:00+00:00",
+    "date": "2026-03-11",
+    "effective_date": "2026-03-11",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 440.9657,
+    "EUR": 510.4884,
+    "updated_at": "2026-03-12T21:00:00+00:00",
+    "date": "2026-03-12",
+    "effective_date": "2026-03-12",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 443.2587,
+    "EUR": 510.3415,
+    "updated_at": "2026-03-13T21:00:00+00:00",
+    "date": "2026-03-13",
+    "effective_date": "2026-03-13",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 446.8048,
+    "EUR": 511.2206,
+    "updated_at": "2026-03-14T21:00:00+00:00",
+    "date": "2026-03-14",
+    "effective_date": "2026-03-14",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 446.8048,
+    "EUR": 511.2206,
+    "updated_at": "2026-03-15T21:00:00+00:00",
+    "date": "2026-03-15",
+    "effective_date": "2026-03-14",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 446.8048,
+    "EUR": 511.2206,
+    "updated_at": "2026-03-16T21:00:00+00:00",
+    "date": "2026-03-16",
+    "effective_date": "2026-03-14",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 448.3686,
+    "EUR": 514.9782,
+    "updated_at": "2026-03-17T21:00:00+00:00",
+    "date": "2026-03-17",
+    "effective_date": "2026-03-17",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 451.5072,
+    "EUR": 520.642,
+    "updated_at": "2026-03-18T21:00:00+00:00",
+    "date": "2026-03-18",
+    "effective_date": "2026-03-18",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 455.2547,
+    "EUR": 524.508,
+    "updated_at": "2026-03-19T21:00:00+00:00",
+    "date": "2026-03-19",
+    "effective_date": "2026-03-19",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 455.2547,
+    "EUR": 524.508,
+    "updated_at": "2026-03-20T21:00:00+00:00",
+    "date": "2026-03-20",
+    "effective_date": "2026-03-19",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 457.0757,
+    "EUR": 527.7945,
+    "updated_at": "2026-03-21T21:00:00+00:00",
+    "date": "2026-03-21",
+    "effective_date": "2026-03-21",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 457.0757,
+    "EUR": 527.7945,
+    "updated_at": "2026-03-22T21:00:00+00:00",
+    "date": "2026-03-22",
+    "effective_date": "2026-03-21",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 457.0757,
+    "EUR": 527.7945,
+    "updated_at": "2026-03-23T21:00:00+00:00",
+    "date": "2026-03-23",
+    "effective_date": "2026-03-21",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 459.4525,
+    "EUR": 533.4565,
+    "updated_at": "2026-03-24T21:00:00+00:00",
+    "date": "2026-03-24",
+    "effective_date": "2026-03-24",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 462.6687,
+    "EUR": 536.0942,
+    "updated_at": "2026-03-25T21:00:00+00:00",
+    "date": "2026-03-25",
+    "effective_date": "2026-03-25",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 466.6014,
+    "EUR": 540.1704,
+    "updated_at": "2026-03-26T21:00:00+00:00",
+    "date": "2026-03-26",
+    "effective_date": "2026-03-26",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 468.5145,
+    "EUR": 541.1905,
+    "updated_at": "2026-03-27T21:00:00+00:00",
+    "date": "2026-03-27",
+    "effective_date": "2026-03-27",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 471.7004,
+    "EUR": 543.9413,
+    "updated_at": "2026-03-28T21:00:00+00:00",
+    "date": "2026-03-28",
+    "effective_date": "2026-03-28",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 471.7004,
+    "EUR": 543.9413,
+    "updated_at": "2026-03-29T21:00:00+00:00",
+    "date": "2026-03-29",
+    "effective_date": "2026-03-28",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 471.7004,
+    "EUR": 543.9413,
+    "updated_at": "2026-03-30T21:00:00+00:00",
+    "date": "2026-03-30",
+    "effective_date": "2026-03-28",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 473.8702,
+    "EUR": 542.6382,
+    "updated_at": "2026-03-31T21:00:00+00:00",
+    "date": "2026-03-31",
+    "effective_date": "2026-03-31",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 473.9176,
+    "EUR": 545.9483,
+    "updated_at": "2026-04-01T21:00:00+00:00",
+    "date": "2026-04-01",
+    "effective_date": "2026-04-01",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 474.0598,
+    "EUR": 550.8954,
+    "updated_at": "2026-04-02T21:00:00+00:00",
+    "date": "2026-04-02",
+    "effective_date": "2026-04-02",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 474.0598,
+    "EUR": 550.8954,
+    "updated_at": "2026-04-03T21:00:00+00:00",
+    "date": "2026-04-03",
+    "effective_date": "2026-04-02",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 474.0598,
+    "EUR": 550.8954,
+    "updated_at": "2026-04-04T21:00:00+00:00",
+    "date": "2026-04-04",
+    "effective_date": "2026-04-02",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 474.0598,
+    "EUR": 550.8954,
+    "updated_at": "2026-04-05T21:00:00+00:00",
+    "date": "2026-04-05",
+    "effective_date": "2026-04-02",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 474.0598,
+    "EUR": 550.8954,
+    "updated_at": "2026-04-06T21:00:00+00:00",
+    "date": "2026-04-06",
+    "effective_date": "2026-04-02",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 474.5338,
+    "EUR": 547.5598,
+    "updated_at": "2026-04-07T21:00:00+00:00",
+    "date": "2026-04-07",
+    "effective_date": "2026-04-07",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 475.0083,
+    "EUR": 549.6986,
+    "updated_at": "2026-04-08T21:00:00+00:00",
+    "date": "2026-04-08",
+    "effective_date": "2026-04-08",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 475.9583,
+    "EUR": 556.519,
+    "updated_at": "2026-04-09T21:00:00+00:00",
+    "date": "2026-04-09",
+    "effective_date": "2026-04-09",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 476.4342,
+    "EUR": 556.661,
+    "updated_at": "2026-04-10T21:00:00+00:00",
+    "date": "2026-04-10",
+    "effective_date": "2026-04-10",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 477.1488,
+    "EUR": 560.0486,
+    "updated_at": "2026-04-11T21:00:00+00:00",
+    "date": "2026-04-11",
+    "effective_date": "2026-04-11",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 477.1488,
+    "EUR": 560.0486,
+    "updated_at": "2026-04-12T21:00:00+00:00",
+    "date": "2026-04-12",
+    "effective_date": "2026-04-11",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 477.1488,
+    "EUR": 560.0486,
+    "updated_at": "2026-04-13T21:00:00+00:00",
+    "date": "2026-04-13",
+    "effective_date": "2026-04-11",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 477.6259,
+    "EUR": 559.2092,
+    "updated_at": "2026-04-14T21:00:00+00:00",
+    "date": "2026-04-14",
+    "effective_date": "2026-04-14",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 478.5811,
+    "EUR": 564.9793,
+    "updated_at": "2026-04-15T21:00:00+00:00",
+    "date": "2026-04-15",
+    "effective_date": "2026-04-15",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 479.7775,
+    "EUR": 565.9839,
+    "updated_at": "2026-04-16T21:00:00+00:00",
+    "date": "2026-04-16",
+    "effective_date": "2026-04-16",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 480.2572,
+    "EUR": 565.4116,
+    "updated_at": "2026-04-17T21:00:00+00:00",
+    "date": "2026-04-17",
+    "effective_date": "2026-04-17",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 481.2177,
+    "EUR": 568.5154,
+    "updated_at": "2026-04-18T21:00:00+00:00",
+    "date": "2026-04-18",
+    "effective_date": "2026-04-18",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 481.2177,
+    "EUR": 568.5154,
+    "updated_at": "2026-04-19T21:00:00+00:00",
+    "date": "2026-04-19",
+    "effective_date": "2026-04-18",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 481.2177,
+    "EUR": 568.5154,
+    "updated_at": "2026-04-20T21:00:00+00:00",
+    "date": "2026-04-20",
+    "effective_date": "2026-04-18",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 481.6989,
+    "EUR": 567.581,
+    "updated_at": "2026-04-21T21:00:00+00:00",
+    "date": "2026-04-21",
+    "effective_date": "2026-04-21",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 482.7586,
+    "EUR": 567.7096,
+    "updated_at": "2026-04-22T21:00:00+00:00",
+    "date": "2026-04-22",
+    "effective_date": "2026-04-22",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 483.3379,
+    "EUR": 567.0134,
+    "updated_at": "2026-04-23T21:00:00+00:00",
+    "date": "2026-04-23",
+    "effective_date": "2026-04-23",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 483.8695,
+    "EUR": 566.8434,
+    "updated_at": "2026-04-24T21:00:00+00:00",
+    "date": "2026-04-24",
+    "effective_date": "2026-04-24",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 484.7404,
+    "EUR": 567.4032,
+    "updated_at": "2026-04-25T21:00:00+00:00",
+    "date": "2026-04-25",
+    "effective_date": "2026-04-25",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 484.7404,
+    "EUR": 567.4032,
+    "updated_at": "2026-04-26T21:00:00+00:00",
+    "date": "2026-04-26",
+    "effective_date": "2026-04-25",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 484.7404,
+    "EUR": 567.4032,
+    "updated_at": "2026-04-27T21:00:00+00:00",
+    "date": "2026-04-27",
+    "effective_date": "2026-04-25",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 485.2251,
+    "EUR": 569.2952,
+    "updated_at": "2026-04-28T21:00:00+00:00",
+    "date": "2026-04-28",
+    "effective_date": "2026-04-28",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 486.1955,
+    "EUR": 569.4273,
+    "updated_at": "2026-04-29T21:00:00+00:00",
+    "date": "2026-04-29",
+    "effective_date": "2026-04-29",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 487.1192,
+    "EUR": 569.7638,
+    "updated_at": "2026-04-30T21:00:00+00:00",
+    "date": "2026-04-30",
+    "effective_date": "2026-04-30",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 489.5547,
+    "EUR": 574.1938,
+    "updated_at": "2026-05-01T21:00:00+00:00",
+    "date": "2026-05-01",
+    "effective_date": "2026-05-01",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 489.5547,
+    "EUR": 574.1938,
+    "updated_at": "2026-05-02T21:00:00+00:00",
+    "date": "2026-05-02",
+    "effective_date": "2026-05-01",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 489.5547,
+    "EUR": 574.1938,
+    "updated_at": "2026-05-03T21:00:00+00:00",
+    "date": "2026-05-03",
+    "effective_date": "2026-05-01",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 489.5547,
+    "EUR": 574.1938,
+    "updated_at": "2026-05-04T21:00:00+00:00",
+    "date": "2026-05-04",
+    "effective_date": "2026-05-01",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 490.0442,
+    "EUR": 574.0378,
+    "updated_at": "2026-05-05T21:00:00+00:00",
+    "date": "2026-05-05",
+    "effective_date": "2026-05-05",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 493.3765,
+    "EUR": 577.5219,
+    "updated_at": "2026-05-06T21:00:00+00:00",
+    "date": "2026-05-06",
+    "effective_date": "2026-05-06",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 496.8301,
+    "EUR": 583.8698,
+    "updated_at": "2026-05-07T21:00:00+00:00",
+    "date": "2026-05-07",
+    "effective_date": "2026-05-07",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 499.8608,
+    "EUR": 588.0962,
+    "updated_at": "2026-05-08T21:00:00+00:00",
+    "date": "2026-05-08",
+    "effective_date": "2026-05-08",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
     "USD": 500.4606,
     "EUR": 589.27233807,
     "CNY": 73.59606476,
     "TRY": 11.03277068,
     "RUB": 6.71398712,
     "updated_at": "2026-05-09T19:45:08.461884+00:00",
-    "date": "2026-05-09"
+    "date": "2026-05-09",
+    "effective_date": "2026-05-09"
   }
 ]

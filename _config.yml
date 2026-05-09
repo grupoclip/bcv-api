@@ -36,3 +36,4 @@ exclude:
   - vendor
   - Gemfile
   - Gemfile.lock
+  - "*.xlsx"

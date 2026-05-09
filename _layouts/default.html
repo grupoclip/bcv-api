@@ -30,13 +30,16 @@
         <nav class="site-nav">
           {% if page.lang == 'en' %}
             {% assign rates_url = '/en/' | relative_url %}
+            {% assign history_url = '/en/history/' | relative_url %}
             {% assign api_url = '/en/api/' | relative_url %}
           {% else %}
             {% assign rates_url = '/' | relative_url %}
+            {% assign history_url = '/history/' | relative_url %}
             {% assign api_url = '/api/' | relative_url %}
           {% endif %}
           {% assign current = page.url | replace: 'index.html', '' %}
           <a href="{{ rates_url }}"{% if current == rates_url %} aria-current="page"{% endif %}>{{ t.nav_rates }}</a>
+          <a href="{{ history_url }}"{% if current == history_url %} aria-current="page"{% endif %}>{{ t.nav_history }}</a>
           <a href="{{ api_url }}"{% if current == api_url %} aria-current="page"{% endif %}>{{ t.nav_api }}</a>
           <a href="https://github.com/{{ site.repository }}" target="_blank" rel="noopener">GitHub</a>
         </nav>

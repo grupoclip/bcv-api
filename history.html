@@ -1,0 +1,65 @@
+---
+layout: default
+title: Histórico
+lang: es
+permalink: /history/
+alt_url: /en/history/
+---
+
+{%- assign t = site.data.i18n[page.lang] -%}
+{%- assign history_url = '/api/history.json' | relative_url -%}
+
+<h1>{{ t.history_title }}</h1>
+
+<div class="history-controls">
+  <label class="history-field">
+    <span>{{ t.history_currency_label }}</span>
+    <select id="history-currency"></select>
+  </label>
+</div>
+
+<div class="history-stats" id="history-stats" hidden>
+  <div class="stat">
+    <div class="stat-label">{{ t.history_current }}</div>
+    <div class="stat-value" id="stat-current">—</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">{{ t.history_change_d }}</div>
+    <div class="stat-value" id="stat-change-1d">—</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label" id="stat-change-n-label">—</div>
+    <div class="stat-value" id="stat-change-n">—</div>
+  </div>
+</div>
+
+<div id="history-message" class="error" hidden></div>
+
+<div class="chart-card" id="chart-card" hidden>
+  <div id="chart"></div>
+</div>
+
+<table class="history-table" id="history-table" hidden>
+  <thead>
+    <tr>
+      <th>{{ t.history_table_date }}</th>
+      <th>{{ t.history_table_value }}</th>
+      <th>{{ t.history_table_change }}</th>
+    </tr>
+  </thead>
+  <tbody id="history-rows"></tbody>
+</table>
+
+<script>
+  const LANG = "{{ page.lang }}";
+  const LOCALE = "es-VE";
+  const HISTORY_URL = "{{ history_url }}";
+  const CURRENCY_NAMES = {{ t.currencies | jsonify }};
+  const STRINGS = {
+    error: "{{ t.error_loading }}",
+    loading: "{{ t.loading }}",
+    no_data: "{{ t.history_no_data }}",
+    change_n_label: "{{ t.history_change_n }}",
+  };
+</script>
+<script src="{{ '/assets/js/history.js' | relative_url }}"></script>

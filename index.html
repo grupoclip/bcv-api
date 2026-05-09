@@ -8,6 +8,8 @@ alt_url: /en/
 {%- assign t = site.data.i18n[page.lang] -%}
 {%- assign api_url = '/api/' | relative_url -%}
 {%- assign rate_url = '/api/rate.json' | relative_url -%}
+{%- assign history_url = '/api/history.json' | relative_url -%}
+{%- assign history_page_url = '/history/' | relative_url -%}
 
 <h1>{{ t.index_title }}</h1>
 <p class="lede">{{ t.index_lede_html }}</p>
@@ -17,6 +19,35 @@ alt_url: /en/
   <p>{{ t.loading }}</p>
 </div>
 
+<h2>{{ t.calc_title }}</h2>
+<div class="calculator" id="calculator" hidden>
+  <div class="calc-row">
+    <input
+      type="number"
+      step="any"
+      inputmode="decimal"
+      id="calc-amount-from"
+      class="calc-input"
+    />
+    <select id="calc-currency-from" class="calc-select"></select>
+  </div>
+  <button type="button" id="calc-swap" class="calc-swap" aria-label="{{ t.calc_swap }}" title="{{ t.calc_swap }}">
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+      <path d="M7 4l-4 4 4 4M3 8h14M17 20l4-4-4-4M21 16H7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <div class="calc-row">
+    <input
+      type="number"
+      step="any"
+      inputmode="decimal"
+      id="calc-amount-to"
+      class="calc-input"
+    />
+    <select id="calc-currency-to" class="calc-select"></select>
+  </div>
+</div>
+
 <h2>{{ t.index_integrate_h2 }}</h2>
 <p>{{ t.index_integrate_p_html | replace: '__API_URL__', api_url }}</p>
 
@@ -24,11 +55,16 @@ alt_url: /en/
   const LANG = "{{ page.lang }}";
   const LOCALE = "es-VE";
   const RATE_URL = "{{ rate_url }}";
+  const HISTORY_URL = "{{ history_url }}";
+  const HISTORY_PAGE_URL = "{{ history_page_url }}";
   const STRINGS = {
     error: "{{ t.error_loading }}",
     date: "{{ t.date_label }}",
     updated: "{{ t.updated_label }}",
     zone: "{{ t.caracas_zone }}",
+    view_history: "{{ t.card_view_history }}",
+    variation: "{{ t.card_variation }}",
+    no_history: "{{ t.card_no_history }}",
   };
   const CURRENCY_NAMES = {{ t.currencies | jsonify }};
 </script>

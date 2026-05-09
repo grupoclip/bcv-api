@@ -1,3 +1,4 @@
+import glob
 import json
 import os
 from datetime import datetime, timezone
@@ -11,6 +12,7 @@ urllib3.disable_warnings()
 
 API_DIR = "api"
 HISTORY_DIR = os.path.join(API_DIR, "history")
+HISTORY_INDEX = os.path.join(API_DIR, "history.json")
 VENEZUELA_TZ = ZoneInfo("America/Caracas")
 
 CURRENCIES = {
@@ -48,8 +50,19 @@ def write_json(path, data):
         f.write("\n")
 
 
+def rebuild_history_index():
+    history = []
+    for path in sorted(glob.glob(os.path.join(HISTORY_DIR, "*.json"))):
+        with open(path, encoding="utf-8") as f:
+            history.append(json.load(f))
+    with open(HISTORY_INDEX, "w", encoding="utf-8") as f:
+        json.dump(history, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+
+
 if __name__ == "__main__":
     rates = get_rates()
     write_json(os.path.join(API_DIR, "rate.json"), rates)
     write_json(os.path.join(HISTORY_DIR, f"{rates['date']}.json"), rates)
+    rebuild_history_index()
     print(json.dumps(rates, indent=2))

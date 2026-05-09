@@ -381,6 +381,198 @@ pre code,
 .highlight .na { color: var(--syn-number); }
 .highlight .err { color: #ff5e5e; }
 
+/* Card link, sparkline, change ------------------------------------------ */
+a.card,
+a.card:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  height: 28px;
+  color: var(--accent);
+}
+.card-foot .muted {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.spark {
+  width: 100%;
+  height: 28px;
+  flex: 1 1 auto;
+  display: block;
+}
+.change {
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.change.up,
+.up {
+  color: #2ecc71;
+}
+.change.down,
+.down {
+  color: #ff6b6b;
+}
+
+/* Calculator ------------------------------------------------------------ */
+.calculator {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 560px;
+  position: relative;
+}
+.calc-row {
+  display: flex;
+  gap: 10px;
+}
+.calc-input,
+.calc-select {
+  height: 42px;
+  padding: 0 12px;
+  font-size: 1rem;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.calc-input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.calc-select {
+  flex: 0 0 auto;
+}
+.calc-input:focus,
+.calc-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.calc-swap {
+  align-self: center;
+  justify-self: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: var(--text);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.calc-swap:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* History page --------------------------------------------------------- */
+.history-controls {
+  margin: 16px 0 24px;
+}
+.history-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.history-field select {
+  height: 38px;
+  padding: 0 12px;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.history-field select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.history-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 16px 0 24px;
+}
+.stat {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.stat-value {
+  margin-top: 4px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 24px 0;
+}
+.chart {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.chart .grid {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+.chart .axis {
+  fill: var(--muted);
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.chart .line {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.chart .area {
+  fill: var(--accent);
+  opacity: 0.12;
+}
+.chart .dot {
+  fill: var(--accent);
+  stroke: var(--panel);
+  stroke-width: 1.5;
+}
+
+.history-table td.up {
+  color: #2ecc71;
+}
+.history-table td.down {
+  color: #ff6b6b;
+}
+
 /* Footer ---------------------------------------------------------------- */
 .site-footer {
   border-top: 1px solid var(--border);

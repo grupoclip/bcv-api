@@ -3,6 +3,7 @@ es:
     API JSON no oficial con las tasas oficiales del Banco Central de Venezuela:
     USD, EUR, CNY, TRY, RUB.
   nav_rates: "Tasas"
+  nav_history: "Histórico"
   nav_api: "API"
   theme_toggle: "Cambiar tema"
   language_toggle: "English"
@@ -22,18 +23,34 @@ es:
   index_integrate_p_html: >-
     Consulta la <a href="__API_URL__">documentación de la API</a>
     para los endpoints, el formato de respuesta y ejemplos de uso.
+  card_view_history: "Ver histórico"
+  card_variation: "Variación"
+  card_no_history: "Sin histórico"
+  calc_title: "Calculadora"
+  calc_swap: "Intercambiar"
+  history_title: "Histórico"
+  history_currency_label: "Moneda"
+  history_current: "Actual"
+  history_change_d: "Variación 1d"
+  history_change_n: "Variación %{n}d"
+  history_no_data: "Aún no hay datos suficientes para mostrar."
+  history_table_date: "Fecha"
+  history_table_value: "Valor (Bs.)"
+  history_table_change: "Variación"
   currencies:
     USD: "Dólar estadounidense"
     EUR: "Euro"
     CNY: "Yuan chino"
     TRY: "Lira turca"
     RUB: "Rublo ruso"
+    VES: "Bolívares"
 
 en:
   site_description: >-
     Unofficial JSON API for the official Banco Central de Venezuela exchange
     rates: USD, EUR, CNY, TRY, RUB.
   nav_rates: "Rates"
+  nav_history: "History"
   nav_api: "API"
   theme_toggle: "Toggle theme"
   language_toggle: "Español"
@@ -53,9 +70,24 @@ en:
   index_integrate_p_html: >-
     Check the <a href="__API_URL__">API documentation</a>
     for endpoints, response format, and usage examples.
+  card_view_history: "View history"
+  card_variation: "Change"
+  card_no_history: "No history"
+  calc_title: "Calculator"
+  calc_swap: "Swap"
+  history_title: "History"
+  history_currency_label: "Currency"
+  history_current: "Current"
+  history_change_d: "1d change"
+  history_change_n: "%{n}d change"
+  history_no_data: "Not enough data to display yet."
+  history_table_date: "Date"
+  history_table_value: "Value (Bs.)"
+  history_table_change: "Change"
   currencies:
     USD: "US Dollar"
     EUR: "Euro"
     CNY: "Chinese Yuan"
     TRY: "Turkish Lira"
     RUB: "Russian Ruble"
+    VES: "Bolívares"

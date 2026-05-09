@@ -40,10 +40,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- rate.json; then
+          git add rate.json
+          if git diff --cached --quiet -- rate.json; then
             echo "No changes in rate.json"
             exit 0
           fi
-          git add rate.json
           git commit -m "chore: update rate.json"
           git push

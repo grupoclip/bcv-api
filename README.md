@@ -4,16 +4,23 @@ Unofficial JSON API for the official exchange rates published by the [Banco Cent
 
 ## Website
 
-A small Jekyll site is published via GitHub Pages at:
+A Jekyll site is published via GitHub Pages at:
 
 > https://grupoclip.github.io/bcv-api/
 
-It has two pages:
+Pages:
 
-- `/` — dashboard that fetches `api/rate.json` and renders the latest rates.
-- `/api/` — full API documentation with endpoints, schema, and code examples.
+- `/` and `/en/` — dashboard that fetches `api/rate.json` and renders the latest rates.
+- `/api/` and `/en/api/` — full API documentation with endpoints, schema, and code examples.
 
-The site is built and deployed by `.github/workflows/pages.yml`, which uses the official Pages Jekyll workflow (`actions/configure-pages`, `actions/upload-pages-artifact`, `actions/deploy-pages`).
+Features:
+
+- **Localization (ES/EN)** — strings live in `_data/i18n.yml`; each page declares `lang` and `alt_url` so the header switcher links to its counterpart.
+- **Light/dark mode** — defaults to `prefers-color-scheme`, with a header toggle that persists the user's choice in `localStorage`. A pre-paint script in the layout reads it back to avoid a flash.
+- **Code highlighting** — Rouge via kramdown, with a custom token palette in `assets/css/style.css` that adapts to both themes.
+- **Logo and favicon** — `assets/logo.svg`, used inline in the header and as a `rel="icon"` link.
+
+The site is built and deployed by `.github/workflows/pages.yml`, using the official Pages Jekyll workflow (`actions/configure-pages`, `actions/upload-pages-artifact`, `actions/deploy-pages`).
 
 To enable it on a fork: **Settings → Pages → Build and deployment** → source **GitHub Actions**. The rate-update workflow triggers the Pages deploy after each commit.
 
@@ -21,7 +28,7 @@ To enable it on a fork: **Settings → Pages → Build and deployment** → sour
 
 ```bash
 bundle install
-bundle exec jekyll serve
+bundle exec jekyll serve --baseurl ""
 ```
 
 ## Endpoints

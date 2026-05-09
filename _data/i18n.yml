@@ -1,0 +1,61 @@
+es:
+  site_description: >-
+    API JSON no oficial con las tasas oficiales del Banco Central de Venezuela:
+    USD, EUR, CNY, TRY, RUB.
+  nav_rates: "Tasas"
+  nav_api: "API"
+  theme_toggle: "Cambiar tema"
+  language_toggle: "English"
+  language_toggle_aria: "Switch to English"
+  footer_text: "Proyecto no oficial. Datos tomados de"
+  loading: "Cargando…"
+  error_loading: "No se pudo cargar la tasa:"
+  date_label: "Fecha"
+  updated_label: "Actualizado"
+  caracas_zone: "(hora de Caracas)"
+  index_title: "Tasas oficiales"
+  index_lede_html: >-
+    Datos publicados por el
+    <a href="https://www.bcv.org.ve/" target="_blank" rel="noopener">Banco Central de Venezuela</a>.
+    Actualizados los días hábiles después de las 4:00&nbsp;p.&nbsp;m. (hora de Caracas).
+  index_integrate_h2: "¿Necesitas integrarlo?"
+  index_integrate_p_html: >-
+    Consulta la <a href="{api_url}">documentación de la API</a>
+    para los endpoints, el formato de respuesta y ejemplos de uso.
+  currencies:
+    USD: "Dólar estadounidense"
+    EUR: "Euro"
+    CNY: "Yuan chino"
+    TRY: "Lira turca"
+    RUB: "Rublo ruso"
+
+en:
+  site_description: >-
+    Unofficial JSON API for the official Banco Central de Venezuela exchange
+    rates: USD, EUR, CNY, TRY, RUB.
+  nav_rates: "Rates"
+  nav_api: "API"
+  theme_toggle: "Toggle theme"
+  language_toggle: "Español"
+  language_toggle_aria: "Cambiar a español"
+  footer_text: "Unofficial project. Data sourced from"
+  loading: "Loading…"
+  error_loading: "Failed to load rate:"
+  date_label: "Date"
+  updated_label: "Updated"
+  caracas_zone: "(Caracas time)"
+  index_title: "Official rates"
+  index_lede_html: >-
+    Published by the
+    <a href="https://www.bcv.org.ve/" target="_blank" rel="noopener">Banco Central de Venezuela</a>.
+    Updated on weekdays after 4:00&nbsp;p.m. (Caracas time).
+  index_integrate_h2: "Need to integrate it?"
+  index_integrate_p_html: >-
+    Check the <a href="{api_url}">API documentation</a>
+    for endpoints, response format, and usage examples.
+  currencies:
+    USD: "US Dollar"
+    EUR: "Euro"
+    CNY: "Chinese Yuan"
+    TRY: "Turkish Lira"
+    RUB: "Russian Ruble"

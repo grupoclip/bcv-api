@@ -1,6 +1,8 @@
 ---
 layout: default
 title: API
+lang: es
+alt_url: /en/api/
 description: Documentación de la API JSON con las tasas oficiales del BCV.
 ---
 

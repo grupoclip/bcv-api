@@ -1,33 +1,79 @@
 <!doctype html>
-<html lang="{{ site.lang | default: 'es' }}">
+<html lang="{{ page.lang | default: 'es' }}">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {%- assign t = site.data.i18n[page.lang] -%}
     <title>{% if page.title %}{{ page.title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
-    <meta name="description" content="{{ page.description | default: site.description }}" />
+    <meta name="description" content="{{ page.description | default: t.site_description }}" />
+    <link rel="icon" type="image/svg+xml" href="{{ '/assets/logo.svg' | relative_url }}" />
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}" />
+    <script>
+      // Set theme before paint to avoid flash.
+      (function () {
+        try {
+          var t = localStorage.getItem("theme");
+          if (t === "light" || t === "dark") {
+            document.documentElement.dataset.theme = t;
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <header class="site-header">
       <div class="container">
-        <a class="brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-        <nav>
-          {% for item in site.nav %}
-            {% assign item_url = item.url | relative_url %}
-            {% assign current = page.url | replace: 'index.html', '' %}
-            {% if current == item.url or current == item_url %}
-              <a href="{{ item_url }}" aria-current="page">{{ item.title }}</a>
-            {% else %}
-              <a href="{{ item_url }}">{{ item.title }}</a>
-            {% endif %}
-          {% endfor %}
-          <a
-            href="https://github.com/{{ site.repository }}"
-            target="_blank"
-            rel="noopener"
-            >GitHub</a
-          >
+        <a class="brand" href="{% if page.lang == 'en' %}{{ '/en/' | relative_url }}{% else %}{{ '/' | relative_url }}{% endif %}">
+          <img src="{{ '/assets/logo.svg' | relative_url }}" alt="" width="28" height="28" />
+          <span>{{ site.title }}</span>
+        </a>
+        <nav class="site-nav">
+          {% if page.lang == 'en' %}
+            {% assign rates_url = '/en/' | relative_url %}
+            {% assign api_url = '/en/api/' | relative_url %}
+          {% else %}
+            {% assign rates_url = '/' | relative_url %}
+            {% assign api_url = '/api/' | relative_url %}
+          {% endif %}
+          {% assign current = page.url | replace: 'index.html', '' %}
+          <a href="{{ rates_url }}"{% if current == rates_url %} aria-current="page"{% endif %}>{{ t.nav_rates }}</a>
+          <a href="{{ api_url }}"{% if current == api_url %} aria-current="page"{% endif %}>{{ t.nav_api }}</a>
+          <a href="https://github.com/{{ site.repository }}" target="_blank" rel="noopener">GitHub</a>
         </nav>
+        <div class="header-controls">
+          {% if page.alt_url %}
+            <a
+              class="control"
+              href="{{ page.alt_url | relative_url }}"
+              aria-label="{{ t.language_toggle_aria }}"
+              title="{{ t.language_toggle_aria }}"
+              >{{ t.language_toggle }}</a
+            >
+          {% endif %}
+          <button
+            id="theme-toggle"
+            class="control theme-toggle"
+            type="button"
+            aria-label="{{ t.theme_toggle }}"
+            title="{{ t.theme_toggle }}"
+          >
+            <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" fill="currentColor" />
+              <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M12 2v3" /><path d="M12 19v3" />
+                <path d="M2 12h3" /><path d="M19 12h3" />
+                <path d="M4.2 4.2l2.1 2.1" /><path d="M17.7 17.7l2.1 2.1" />
+                <path d="M4.2 19.8l2.1-2.1" /><path d="M17.7 6.3l2.1-2.1" />
+              </g>
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path
+                d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -35,11 +81,30 @@
 
     <footer class="site-footer">
       <div class="container">
-        Proyecto no oficial. Datos tomados de
-        <a href="https://www.bcv.org.ve/" target="_blank" rel="noopener"
-          >bcv.org.ve</a
-        >.
+        {{ t.footer_text }}
+        <a href="https://www.bcv.org.ve/" target="_blank" rel="noopener">bcv.org.ve</a>.
       </div>
     </footer>
+
+    <script>
+      (function () {
+        var btn = document.getElementById("theme-toggle");
+        if (!btn) return;
+        var root = document.documentElement;
+        function current() {
+          if (root.dataset.theme) return root.dataset.theme;
+          return matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+        btn.addEventListener("click", function () {
+          var next = current() === "dark" ? "light" : "dark";
+          root.dataset.theme = next;
+          try {
+            localStorage.setItem("theme", next);
+          } catch (e) {}
+        });
+      })();
+    </script>
   </body>
 </html>

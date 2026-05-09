@@ -1,12 +1,13 @@
 ---
 layout: default
-title: Tasas
-lang: es
-alt_url: /en/
+title: Rates
+lang: en
+permalink: /en/
+alt_url: /
 ---
 
 {%- assign t = site.data.i18n[page.lang] -%}
-{%- assign api_url = '/api/' | relative_url -%}
+{%- assign api_url = '/en/api/' | relative_url -%}
 {%- assign rate_url = '/api/rate.json' | relative_url -%}
 
 <h1>{{ t.index_title }}</h1>
@@ -22,7 +23,7 @@ alt_url: /en/
 
 <script>
   const LANG = "{{ page.lang }}";
-  const LOCALE = "es-VE";
+  const LOCALE = "en-US";
   const RATE_URL = "{{ rate_url }}";
   const STRINGS = {
     error: "{{ t.error_loading }}",

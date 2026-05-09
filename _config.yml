@@ -5,15 +5,25 @@ description: >-
 url: https://grupoclip.github.io
 baseurl: /bcv-api
 repository: grupoclip/bcv-api
-lang: es
-
-nav:
-  - title: Tasas
-    url: /
-  - title: API
-    url: /api/
 
 permalink: pretty
+
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: "highlight"
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      lang: es
+  - scope:
+      path: "en"
+    values:
+      lang: en
 
 exclude:
   - main.py

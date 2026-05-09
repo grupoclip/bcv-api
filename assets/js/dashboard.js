@@ -21,7 +21,8 @@
     const grid = document.getElementById("grid");
     const meta = document.getElementById("meta");
     try {
-      const res = await fetch(RATE_URL, { cache: "no-cache" });
+      const url = RATE_URL + (RATE_URL.includes("?") ? "&" : "?") + "t=" + Date.now();
+      const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
 

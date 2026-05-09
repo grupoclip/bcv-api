@@ -20,7 +20,7 @@ es:
     Actualizados los días hábiles después de las 4:00&nbsp;p.&nbsp;m. (hora de Caracas).
   index_integrate_h2: "¿Necesitas integrarlo?"
   index_integrate_p_html: >-
-    Consulta la <a href="{api_url}">documentación de la API</a>
+    Consulta la <a href="__API_URL__">documentación de la API</a>
     para los endpoints, el formato de respuesta y ejemplos de uso.
   currencies:
     USD: "Dólar estadounidense"
@@ -51,7 +51,7 @@ en:
     Updated on weekdays after 4:00&nbsp;p.m. (Caracas time).
   index_integrate_h2: "Need to integrate it?"
   index_integrate_p_html: >-
-    Check the <a href="{api_url}">API documentation</a>
+    Check the <a href="__API_URL__">API documentation</a>
     for endpoints, response format, and usage examples.
   currencies:
     USD: "US Dollar"

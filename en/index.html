@@ -19,7 +19,7 @@ alt_url: /
 </div>
 
 <h2>{{ t.index_integrate_h2 }}</h2>
-<p>{{ t.index_integrate_p_html | replace: '{api_url}', api_url }}</p>
+<p>{{ t.index_integrate_p_html | replace: '__API_URL__', api_url }}</p>
 
 <script>
   const LANG = "{{ page.lang }}";

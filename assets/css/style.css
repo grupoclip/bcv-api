@@ -388,6 +388,76 @@ a.card:hover {
   text-decoration: none;
 }
 
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.card-title {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.curr-icon {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ffd166, #f4a300);
+  color: #0b1020;
+  font-weight: 800;
+  font-size: 1.05rem;
+  line-height: 1;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+.curr-icon[data-code="EUR"] {
+  background: linear-gradient(135deg, #79c2ff, #2c79c4);
+  color: #fff;
+}
+.curr-icon[data-code="CNY"] {
+  background: linear-gradient(135deg, #ff8a8a, #d83a3a);
+  color: #fff;
+}
+.curr-icon[data-code="TRY"] {
+  background: linear-gradient(135deg, #ff9b6a, #cc3a3a);
+  color: #fff;
+}
+.curr-icon[data-code="RUB"] {
+  background: linear-gradient(135deg, #c0a3ff, #5e3aa6);
+  color: #fff;
+}
+.curr-icon[data-code="VES"] {
+  background: linear-gradient(135deg, #ffd166, #f4a300);
+  color: #0b1020;
+  font-size: 0.95rem;
+}
+
+.card .code {
+  margin: 0;
+}
+.card .name {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Nav GitHub link with icon -------------------------------------------- */
+.nav-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-github svg {
+  display: block;
+}
+
 .card-foot {
   display: flex;
   align-items: center;

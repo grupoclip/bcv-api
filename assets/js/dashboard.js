@@ -1,6 +1,15 @@
 (function () {
   const FOREIGN_CODES = Object.keys(CURRENCY_NAMES).filter((c) => c !== "VES");
   const SPARK_WINDOW = 20;
+  const CURRENCY_SYMBOLS = {
+    USD: "$",
+    EUR: "€",
+    CNY: "¥",
+    TRY: "₺",
+    RUB: "₽",
+    VES: "Bs",
+  };
+  const symbolFor = (c) => CURRENCY_SYMBOLS[c] || c;
 
   const fmtRate = (n) =>
     new Intl.NumberFormat(LOCALE, {
@@ -16,11 +25,8 @@
       signDisplay: "exceptZero",
     }).format(n / 100);
 
-  const fmtAmount = (n) =>
-    new Intl.NumberFormat(LOCALE, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 6,
-    }).format(n);
+  // Plain numeric string for <input type="number"> (no locale separators).
+  const numForInput = (n) => (isFinite(n) ? String(Number(n.toFixed(6))) : "");
 
   const fmtDateTime = (iso) =>
     new Intl.DateTimeFormat(LOCALE, {
@@ -104,11 +110,20 @@
       card.href = href;
       card.setAttribute("aria-label", STRINGS.view_history + " " + code);
       card.innerHTML =
+        '<div class="card-head">' +
+        '<div class="curr-icon" data-code="' +
+        code +
+        '">' +
+        symbolFor(code) +
+        "</div>" +
+        '<div class="card-title">' +
         '<div class="code">' +
         code +
         "</div>" +
         '<div class="name">' +
         CURRENCY_NAMES[code] +
+        "</div>" +
+        "</div>" +
         "</div>" +
         '<div class="value">' +
         fmtRate(data[code]) +
@@ -135,7 +150,7 @@
       for (const c of options) {
         const opt = document.createElement("option");
         opt.value = c;
-        opt.textContent = c + " — " + CURRENCY_NAMES[c];
+        opt.textContent = symbolFor(c) + "  " + c + " — " + CURRENCY_NAMES[c];
         if (c === selected) opt.selected = true;
         sel.appendChild(opt);
       }
@@ -154,14 +169,18 @@
           amountTo.value = "";
           return;
         }
-        amountTo.value = fmtAmount(fromBs(toBs(a, currFrom.value), currTo.value));
+        amountTo.value = numForInput(
+          fromBs(toBs(a, currFrom.value), currTo.value)
+        );
       } else {
         const a = parseFloat(amountTo.value);
         if (Number.isNaN(a)) {
           amountFrom.value = "";
           return;
         }
-        amountFrom.value = fmtAmount(fromBs(toBs(a, currTo.value), currFrom.value));
+        amountFrom.value = numForInput(
+          fromBs(toBs(a, currTo.value), currFrom.value)
+        );
       }
     }
 
@@ -170,9 +189,12 @@
     amountTo.addEventListener("input", () => update("to"));
     currTo.addEventListener("change", () => update("to"));
     swap.addEventListener("click", () => {
-      const fromVal = currFrom.value;
+      const fromCurr = currFrom.value;
+      const fromAmt = amountFrom.value;
       currFrom.value = currTo.value;
-      currTo.value = fromVal;
+      currTo.value = fromCurr;
+      amountFrom.value = amountTo.value;
+      amountTo.value = fromAmt;
       update("from");
     });
 

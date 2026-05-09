@@ -1,6 +1,15 @@
 (function () {
   const FOREIGN_CODES = Object.keys(CURRENCY_NAMES).filter((c) => c !== "VES");
   const WINDOW = 20;
+  const CURRENCY_SYMBOLS = {
+    USD: "$",
+    EUR: "€",
+    CNY: "¥",
+    TRY: "₺",
+    RUB: "₽",
+    VES: "Bs",
+  };
+  const symbolFor = (c) => CURRENCY_SYMBOLS[c] || c;
 
   const fmtRate = (n) =>
     new Intl.NumberFormat(LOCALE, {
@@ -35,7 +44,7 @@
     for (const c of FOREIGN_CODES) {
       const opt = document.createElement("option");
       opt.value = c;
-      opt.textContent = c + " — " + CURRENCY_NAMES[c];
+      opt.textContent = symbolFor(c) + "  " + c + " — " + CURRENCY_NAMES[c];
       if (c === selected) opt.selected = true;
       sel.appendChild(opt);
     }

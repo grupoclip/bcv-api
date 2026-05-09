@@ -2,6 +2,16 @@
 
 Unofficial JSON API for the official exchange rates published by the [Banco Central de Venezuela](https://www.bcv.org.ve/) — USD, EUR, CNY (yuan), TRY (lira), and RUB (rublo). A GitHub Actions workflow scrapes the BCV homepage on a schedule and commits the values back to this repository, so the JSON files are served directly from GitHub.
 
+## Website
+
+A small static dashboard is available via GitHub Pages at:
+
+> https://grupoclip.github.io/bcv-api/
+
+It fetches `api/rate.json` and renders the latest rates in the browser.
+
+To enable it on a fork, go to **Settings → Pages → Build and deployment**, set the source to **Deploy from a branch**, branch `main`, folder `/ (root)`. Each commit by the workflow triggers a Pages rebuild.
+
 ## Endpoints
 
 Files are committed under `api/` and can be consumed via the raw GitHub URL or via [jsDelivr](https://www.jsdelivr.com/) for CDN caching.

@@ -2,7 +2,7 @@
   {
     "USD": 301.3709,
     "EUR": 354.4935,
-    "updated_at": "2026-01-01T21:00:00+00:00",
+    "updated_at": "2026-01-02T21:00:00+00:00",
     "date": "2026-01-01",
     "effective_date": "2026-01-01",
     "source": "Moneda (res.currency).xlsx"
@@ -18,7 +18,7 @@
   {
     "USD": 304.6796,
     "EUR": 357.8858,
-    "updated_at": "2026-01-03T21:00:00+00:00",
+    "updated_at": "2026-01-05T21:00:00+00:00",
     "date": "2026-01-03",
     "effective_date": "2026-01-03",
     "source": "Moneda (res.currency).xlsx"
@@ -26,7 +26,7 @@
   {
     "USD": 304.6796,
     "EUR": 357.8858,
-    "updated_at": "2026-01-04T21:00:00+00:00",
+    "updated_at": "2026-01-05T21:00:00+00:00",
     "date": "2026-01-04",
     "effective_date": "2026-01-03",
     "source": "Moneda (res.currency).xlsx"
@@ -74,7 +74,7 @@
   {
     "USD": 330.3751,
     "EUR": 384.332,
-    "updated_at": "2026-01-10T21:00:00+00:00",
+    "updated_at": "2026-01-13T21:00:00+00:00",
     "date": "2026-01-10",
     "effective_date": "2026-01-10",
     "source": "Moneda (res.currency).xlsx"
@@ -82,7 +82,7 @@
   {
     "USD": 330.3751,
     "EUR": 384.332,
-    "updated_at": "2026-01-11T21:00:00+00:00",
+    "updated_at": "2026-01-13T21:00:00+00:00",
     "date": "2026-01-11",
     "effective_date": "2026-01-10",
     "source": "Moneda (res.currency).xlsx"
@@ -90,7 +90,7 @@
   {
     "USD": 330.3751,
     "EUR": 384.332,
-    "updated_at": "2026-01-12T21:00:00+00:00",
+    "updated_at": "2026-01-13T21:00:00+00:00",
     "date": "2026-01-12",
     "effective_date": "2026-01-10",
     "source": "Moneda (res.currency).xlsx"
@@ -130,7 +130,7 @@
   {
     "USD": 344.5071,
     "EUR": 400.4929,
-    "updated_at": "2026-01-17T21:00:00+00:00",
+    "updated_at": "2026-01-20T21:00:00+00:00",
     "date": "2026-01-17",
     "effective_date": "2026-01-17",
     "source": "Moneda (res.currency).xlsx"
@@ -138,7 +138,7 @@
   {
     "USD": 344.5071,
     "EUR": 400.4929,
-    "updated_at": "2026-01-18T21:00:00+00:00",
+    "updated_at": "2026-01-20T21:00:00+00:00",
     "date": "2026-01-18",
     "effective_date": "2026-01-17",
     "source": "Moneda (res.currency).xlsx"
@@ -146,7 +146,7 @@
   {
     "USD": 344.5071,
     "EUR": 400.4929,
-    "updated_at": "2026-01-19T21:00:00+00:00",
+    "updated_at": "2026-01-20T21:00:00+00:00",
     "date": "2026-01-19",
     "effective_date": "2026-01-17",
     "source": "Moneda (res.currency).xlsx"
@@ -186,7 +186,7 @@
   {
     "USD": 355.5528,
     "EUR": 417.5861,
-    "updated_at": "2026-01-24T21:00:00+00:00",
+    "updated_at": "2026-01-26T21:00:00+00:00",
     "date": "2026-01-24",
     "effective_date": "2026-01-24",
     "source": "Moneda (res.currency).xlsx"
@@ -194,7 +194,7 @@
   {
     "USD": 355.5528,
     "EUR": 417.5861,
-    "updated_at": "2026-01-25T21:00:00+00:00",
+    "updated_at": "2026-01-26T21:00:00+00:00",
     "date": "2026-01-25",
     "effective_date": "2026-01-24",
     "source": "Moneda (res.currency).xlsx"
@@ -242,7 +242,7 @@
   {
     "USD": 370.2544,
     "EUR": 440.4768,
-    "updated_at": "2026-01-31T21:00:00+00:00",
+    "updated_at": "2026-02-02T21:00:00+00:00",
     "date": "2026-01-31",
     "effective_date": "2026-01-31",
     "source": "Moneda (res.currency).xlsx"
@@ -250,7 +250,7 @@
   {
     "USD": 370.2544,
     "EUR": 440.4768,
-    "updated_at": "2026-02-01T21:00:00+00:00",
+    "updated_at": "2026-02-02T21:00:00+00:00",
     "date": "2026-02-01",
     "effective_date": "2026-01-31",
     "source": "Moneda (res.currency).xlsx"
@@ -298,7 +298,7 @@
   {
     "USD": 382.6318,
     "EUR": 451.8767,
-    "updated_at": "2026-02-07T21:00:00+00:00",
+    "updated_at": "2026-02-09T21:00:00+00:00",
     "date": "2026-02-07",
     "effective_date": "2026-02-07",
     "source": "Moneda (res.currency).xlsx"
@@ -306,7 +306,7 @@
   {
     "USD": 382.6318,
     "EUR": 451.8767,
-    "updated_at": "2026-02-08T21:00:00+00:00",
+    "updated_at": "2026-02-09T21:00:00+00:00",
     "date": "2026-02-08",
     "effective_date": "2026-02-07",
     "source": "Moneda (res.currency).xlsx"
@@ -354,7 +354,7 @@
   {
     "USD": 396.3674,
     "EUR": 470.282,
-    "updated_at": "2026-02-14T21:00:00+00:00",
+    "updated_at": "2026-02-18T21:00:00+00:00",
     "date": "2026-02-14",
     "effective_date": "2026-02-14",
     "source": "Moneda (res.currency).xlsx"
@@ -362,7 +362,7 @@
   {
     "USD": 396.3674,
     "EUR": 470.282,
-    "updated_at": "2026-02-15T21:00:00+00:00",
+    "updated_at": "2026-02-18T21:00:00+00:00",
     "date": "2026-02-15",
     "effective_date": "2026-02-14",
     "source": "Moneda (res.currency).xlsx"
@@ -370,7 +370,7 @@
   {
     "USD": 396.3674,
     "EUR": 470.282,
-    "updated_at": "2026-02-16T21:00:00+00:00",
+    "updated_at": "2026-02-18T21:00:00+00:00",
     "date": "2026-02-16",
     "effective_date": "2026-02-14",
     "source": "Moneda (res.currency).xlsx"
@@ -378,7 +378,7 @@
   {
     "USD": 396.3674,
     "EUR": 470.282,
-    "updated_at": "2026-02-17T21:00:00+00:00",
+    "updated_at": "2026-02-18T21:00:00+00:00",
     "date": "2026-02-17",
     "effective_date": "2026-02-14",
     "source": "Moneda (res.currency).xlsx"
@@ -410,7 +410,7 @@
   {
     "USD": 405.3518,
     "EUR": 476.7059,
-    "updated_at": "2026-02-21T21:00:00+00:00",
+    "updated_at": "2026-02-23T21:00:00+00:00",
     "date": "2026-02-21",
     "effective_date": "2026-02-21",
     "source": "Moneda (res.currency).xlsx"
@@ -418,7 +418,7 @@
   {
     "USD": 405.3518,
     "EUR": 476.7059,
-    "updated_at": "2026-02-22T21:00:00+00:00",
+    "updated_at": "2026-02-23T21:00:00+00:00",
     "date": "2026-02-22",
     "effective_date": "2026-02-21",
     "source": "Moneda (res.currency).xlsx"
@@ -466,7 +466,7 @@
   {
     "USD": 419.9873,
     "EUR": 495.606,
-    "updated_at": "2026-02-28T21:00:00+00:00",
+    "updated_at": "2026-03-02T21:00:00+00:00",
     "date": "2026-02-28",
     "effective_date": "2026-02-28",
     "source": "Moneda (res.currency).xlsx"
@@ -474,7 +474,7 @@
   {
     "USD": 419.9873,
     "EUR": 495.606,
-    "updated_at": "2026-03-01T21:00:00+00:00",
+    "updated_at": "2026-03-02T21:00:00+00:00",
     "date": "2026-03-01",
     "effective_date": "2026-02-28",
     "source": "Moneda (res.currency).xlsx"
@@ -529,6 +529,14 @@
   },
   {
     "USD": 433.1664,
+    "EUR": 501.728,
+    "updated_at": "2026-03-07T21:00:00+00:00",
+    "date": "2026-03-08",
+    "effective_date": "2026-03-07",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 433.1664,
     "EUR": null,
     "updated_at": "2026-03-09T21:00:00+00:00",
     "date": "2026-03-09",
@@ -570,7 +578,7 @@
   {
     "USD": 446.8048,
     "EUR": 511.2206,
-    "updated_at": "2026-03-14T21:00:00+00:00",
+    "updated_at": "2026-03-16T21:00:00+00:00",
     "date": "2026-03-14",
     "effective_date": "2026-03-14",
     "source": "Moneda (res.currency).xlsx"
@@ -578,7 +586,7 @@
   {
     "USD": 446.8048,
     "EUR": 511.2206,
-    "updated_at": "2026-03-15T21:00:00+00:00",
+    "updated_at": "2026-03-16T21:00:00+00:00",
     "date": "2026-03-15",
     "effective_date": "2026-03-14",
     "source": "Moneda (res.currency).xlsx"
@@ -610,7 +618,7 @@
   {
     "USD": 455.2547,
     "EUR": 524.508,
-    "updated_at": "2026-03-19T21:00:00+00:00",
+    "updated_at": "2026-03-20T21:00:00+00:00",
     "date": "2026-03-19",
     "effective_date": "2026-03-19",
     "source": "Moneda (res.currency).xlsx"
@@ -626,7 +634,7 @@
   {
     "USD": 457.0757,
     "EUR": 527.7945,
-    "updated_at": "2026-03-21T21:00:00+00:00",
+    "updated_at": "2026-03-23T21:00:00+00:00",
     "date": "2026-03-21",
     "effective_date": "2026-03-21",
     "source": "Moneda (res.currency).xlsx"
@@ -634,7 +642,7 @@
   {
     "USD": 457.0757,
     "EUR": 527.7945,
-    "updated_at": "2026-03-22T21:00:00+00:00",
+    "updated_at": "2026-03-23T21:00:00+00:00",
     "date": "2026-03-22",
     "effective_date": "2026-03-21",
     "source": "Moneda (res.currency).xlsx"
@@ -682,7 +690,7 @@
   {
     "USD": 471.7004,
     "EUR": 543.9413,
-    "updated_at": "2026-03-28T21:00:00+00:00",
+    "updated_at": "2026-03-30T21:00:00+00:00",
     "date": "2026-03-28",
     "effective_date": "2026-03-28",
     "source": "Moneda (res.currency).xlsx"
@@ -690,7 +698,7 @@
   {
     "USD": 471.7004,
     "EUR": 543.9413,
-    "updated_at": "2026-03-29T21:00:00+00:00",
+    "updated_at": "2026-03-30T21:00:00+00:00",
     "date": "2026-03-29",
     "effective_date": "2026-03-28",
     "source": "Moneda (res.currency).xlsx"
@@ -722,7 +730,7 @@
   {
     "USD": 474.0598,
     "EUR": 550.8954,
-    "updated_at": "2026-04-02T21:00:00+00:00",
+    "updated_at": "2026-04-06T21:00:00+00:00",
     "date": "2026-04-02",
     "effective_date": "2026-04-02",
     "source": "Moneda (res.currency).xlsx"
@@ -730,7 +738,7 @@
   {
     "USD": 474.0598,
     "EUR": 550.8954,
-    "updated_at": "2026-04-03T21:00:00+00:00",
+    "updated_at": "2026-04-06T21:00:00+00:00",
     "date": "2026-04-03",
     "effective_date": "2026-04-02",
     "source": "Moneda (res.currency).xlsx"
@@ -738,7 +746,7 @@
   {
     "USD": 474.0598,
     "EUR": 550.8954,
-    "updated_at": "2026-04-04T21:00:00+00:00",
+    "updated_at": "2026-04-06T21:00:00+00:00",
     "date": "2026-04-04",
     "effective_date": "2026-04-02",
     "source": "Moneda (res.currency).xlsx"
@@ -746,7 +754,7 @@
   {
     "USD": 474.0598,
     "EUR": 550.8954,
-    "updated_at": "2026-04-05T21:00:00+00:00",
+    "updated_at": "2026-04-06T21:00:00+00:00",
     "date": "2026-04-05",
     "effective_date": "2026-04-02",
     "source": "Moneda (res.currency).xlsx"
@@ -794,7 +802,7 @@
   {
     "USD": 477.1488,
     "EUR": 560.0486,
-    "updated_at": "2026-04-11T21:00:00+00:00",
+    "updated_at": "2026-04-13T21:00:00+00:00",
     "date": "2026-04-11",
     "effective_date": "2026-04-11",
     "source": "Moneda (res.currency).xlsx"
@@ -802,7 +810,7 @@
   {
     "USD": 477.1488,
     "EUR": 560.0486,
-    "updated_at": "2026-04-12T21:00:00+00:00",
+    "updated_at": "2026-04-13T21:00:00+00:00",
     "date": "2026-04-12",
     "effective_date": "2026-04-11",
     "source": "Moneda (res.currency).xlsx"
@@ -850,7 +858,7 @@
   {
     "USD": 481.2177,
     "EUR": 568.5154,
-    "updated_at": "2026-04-18T21:00:00+00:00",
+    "updated_at": "2026-04-20T21:00:00+00:00",
     "date": "2026-04-18",
     "effective_date": "2026-04-18",
     "source": "Moneda (res.currency).xlsx"
@@ -858,7 +866,7 @@
   {
     "USD": 481.2177,
     "EUR": 568.5154,
-    "updated_at": "2026-04-19T21:00:00+00:00",
+    "updated_at": "2026-04-20T21:00:00+00:00",
     "date": "2026-04-19",
     "effective_date": "2026-04-18",
     "source": "Moneda (res.currency).xlsx"
@@ -906,7 +914,7 @@
   {
     "USD": 484.7404,
     "EUR": 567.4032,
-    "updated_at": "2026-04-25T21:00:00+00:00",
+    "updated_at": "2026-04-27T21:00:00+00:00",
     "date": "2026-04-25",
     "effective_date": "2026-04-25",
     "source": "Moneda (res.currency).xlsx"
@@ -914,7 +922,7 @@
   {
     "USD": 484.7404,
     "EUR": 567.4032,
-    "updated_at": "2026-04-26T21:00:00+00:00",
+    "updated_at": "2026-04-27T21:00:00+00:00",
     "date": "2026-04-26",
     "effective_date": "2026-04-25",
     "source": "Moneda (res.currency).xlsx"
@@ -954,7 +962,7 @@
   {
     "USD": 489.5547,
     "EUR": 574.1938,
-    "updated_at": "2026-05-01T21:00:00+00:00",
+    "updated_at": "2026-05-04T21:00:00+00:00",
     "date": "2026-05-01",
     "effective_date": "2026-05-01",
     "source": "Moneda (res.currency).xlsx"
@@ -962,7 +970,7 @@
   {
     "USD": 489.5547,
     "EUR": 574.1938,
-    "updated_at": "2026-05-02T21:00:00+00:00",
+    "updated_at": "2026-05-04T21:00:00+00:00",
     "date": "2026-05-02",
     "effective_date": "2026-05-01",
     "source": "Moneda (res.currency).xlsx"
@@ -970,7 +978,7 @@
   {
     "USD": 489.5547,
     "EUR": 574.1938,
-    "updated_at": "2026-05-03T21:00:00+00:00",
+    "updated_at": "2026-05-04T21:00:00+00:00",
     "date": "2026-05-03",
     "effective_date": "2026-05-01",
     "source": "Moneda (res.currency).xlsx"
@@ -1037,8 +1045,8 @@
     "CNY": 73.59606476,
     "TRY": 11.03277068,
     "RUB": 6.71398712,
-    "updated_at": "2026-05-09T19:45:08.461884+00:00",
-    "date": "2026-05-11",
-    "effective_date": "2026-05-11"
+    "updated_at": "2026-05-09T23:41:13.520896+00:00",
+    "effective_date": "2026-05-11",
+    "date": "2026-05-11"
   }
 ]

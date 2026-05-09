@@ -148,21 +148,46 @@ def rebuild_history_index():
         f.write("\n")
 
 
+def build_current_rate():
+    """Return the rate to advertise as 'today's current rate':
+    today's calendar entry, with any missing currencies (e.g. early backfills
+    that only cover USD/EUR) filled from the latest available source."""
+    today_iso = datetime.now(VENEZUELA_TZ).date().isoformat()
+    today_path = os.path.join(HISTORY_DIR, f"{today_iso}.json")
+
+    if os.path.exists(today_path):
+        with open(today_path, encoding="utf-8") as f:
+            current = json.load(f)
+    else:
+        current = {}
+
+    # Fill any missing currency from the most recent file that has it.
+    files = sorted(
+        glob.glob(os.path.join(HISTORY_DIR, "*.json")), reverse=True
+    )
+    for code in CURRENCIES.keys():
+        if isinstance(current.get(code), (int, float)):
+            continue
+        for path in files:
+            try:
+                with open(path, encoding="utf-8") as f:
+                    data = json.load(f)
+            except (OSError, json.JSONDecodeError):
+                continue
+            if isinstance(data.get(code), (int, float)):
+                current[code] = data[code]
+                break
+
+    return current
+
+
 if __name__ == "__main__":
     rates = get_rates()
     # Persist the canonical snapshot for the captured effective date.
     write_json(os.path.join(HISTORY_DIR, f"{rates['date']}.json"), rates)
     # Fill calendar days (weekends/holidays inherit the previous business day's rate).
     rebuild_calendar_history()
-    # api/rate.json represents *today's* rate — the one officially in effect on
-    # the current calendar day in Venezuela — not the just-captured future rate.
-    today_iso = datetime.now(VENEZUELA_TZ).date().isoformat()
-    today_path = os.path.join(HISTORY_DIR, f"{today_iso}.json")
-    if os.path.exists(today_path):
-        with open(today_path, encoding="utf-8") as f:
-            current = json.load(f)
-        write_json(os.path.join(API_DIR, "rate.json"), current)
-    else:
-        write_json(os.path.join(API_DIR, "rate.json"), rates)
+    # api/rate.json reflects *today's* rate, with all currencies present.
+    write_json(os.path.join(API_DIR, "rate.json"), build_current_rate())
     rebuild_history_index()
     print(json.dumps(rates, indent=2))

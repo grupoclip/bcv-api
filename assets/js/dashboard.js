@@ -72,9 +72,20 @@
     );
   }
 
+  function todayCaracas() {
+    return new Intl.DateTimeFormat("en-CA", {
+      timeZone: "America/Caracas",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(new Date());
+  }
+
   function lastValuesFor(history, code, n) {
+    const today = todayCaracas();
     const out = [];
     for (const entry of history) {
+      if (entry.date && entry.date > today) continue;
       if (typeof entry[code] === "number") out.push(entry[code]);
     }
     return out.slice(-n);

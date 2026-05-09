@@ -159,6 +159,15 @@
     );
   }
 
+  function todayCaracas() {
+    return new Intl.DateTimeFormat("en-CA", {
+      timeZone: "America/Caracas",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(new Date());
+  }
+
   function render(history, code) {
     const message = document.getElementById("history-message");
     const stats = document.getElementById("history-stats");
@@ -166,8 +175,10 @@
     const table = document.getElementById("history-table");
     const rows = document.getElementById("history-rows");
 
+    const today = todayCaracas();
+    // Drop any entries dated in the future (rates already captured but not yet in effect).
     const series = history
-      .filter((e) => typeof e[code] === "number")
+      .filter((e) => typeof e[code] === "number" && e.date <= today)
       .map((e) => ({ date: e.date, value: e[code] }));
 
     if (series.length === 0) {

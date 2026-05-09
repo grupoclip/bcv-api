@@ -1016,13 +1016,29 @@
     "source": "Moneda (res.currency).xlsx"
   },
   {
+    "USD": 499.8608,
+    "EUR": 588.0962,
+    "updated_at": "2026-05-08T21:00:00+00:00",
+    "date": "2026-05-09",
+    "effective_date": "2026-05-08",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
+    "USD": 499.8608,
+    "EUR": 588.0962,
+    "updated_at": "2026-05-08T21:00:00+00:00",
+    "date": "2026-05-10",
+    "effective_date": "2026-05-08",
+    "source": "Moneda (res.currency).xlsx"
+  },
+  {
     "USD": 500.4606,
     "EUR": 589.27233807,
     "CNY": 73.59606476,
     "TRY": 11.03277068,
     "RUB": 6.71398712,
     "updated_at": "2026-05-09T19:45:08.461884+00:00",
-    "date": "2026-05-09",
-    "effective_date": "2026-05-09"
+    "date": "2026-05-11",
+    "effective_date": "2026-05-11"
   }
 ]

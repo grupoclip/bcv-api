@@ -1,102 +1,157 @@
 # BCV Today
 
-> [bcv.today](https://bcv.today) — the official Banco Central de Venezuela rates, today.
+> [bcv.today](https://bcv.today) - official Banco Central de Venezuela exchange rates, served as a static JSON API and dashboard.
 
-Unofficial JSON API and dashboard for the exchange rates published by the [Banco Central de Venezuela](https://www.bcv.org.ve/) — USD, EUR, CNY (yuan), TRY (lira), and RUB (rublo). A GitHub Actions workflow scrapes the BCV homepage on a schedule and commits the values back to this repository, so the JSON files are served directly from GitHub Pages at `bcv.today`.
+BCV Today is an unofficial API and bilingual website for the exchange rates published by the [Banco Central de Venezuela](https://www.bcv.org.ve/). It tracks USD, EUR, CNY, TRY, and RUB against the Venezuelan bolivar, stores daily JSON snapshots, and publishes everything through GitHub Pages.
 
 ## Website
 
-A Jekyll site is published via GitHub Pages at:
+The public site is available at:
 
 > https://bcv.today
 
 Pages:
 
-- `/` and `/en/` — dashboard that fetches `api/rate.json` and renders the latest rates.
-- `/api/` and `/en/api/` — full API documentation with endpoints, schema, and code examples.
+- `/` and `/en/` - latest rates dashboard with rate cards, daily variation, and a currency calculator.
+- `/history/` and `/en/history/` - historical chart, current value, daily change, period change, and table view.
+- `/api/` and `/en/api/` - API documentation with endpoints, response schema, and examples.
 
 Features:
 
-- **Localization (ES/EN)** — strings live in `_data/i18n.yml`; each page declares `lang` and `alt_url` so the header switcher links to its counterpart.
-- **Light/dark mode** — defaults to `prefers-color-scheme`, with a header toggle that persists the user's choice in `localStorage`. A pre-paint script in the layout reads it back to avoid a flash.
-- **Code highlighting** — Rouge via kramdown, with a custom token palette in `assets/css/style.css` that adapts to both themes.
-- **Logo and favicon** — `assets/logo.svg`, used inline in the header and as a `rel="icon"` link.
+- **Static JSON API** - files are committed under `api/` and served directly by GitHub Pages.
+- **Calendar history** - weekends and holidays are filled with the latest officially effective rate.
+- **Bilingual UI** - Spanish and English strings live in `_data/i18n.yml`.
+- **Light/dark mode** - follows `prefers-color-scheme` and stores manual selection in `localStorage`.
+- **No server runtime** - the site is built with Jekyll; dashboard data is loaded client-side from JSON files.
 
-The site is built and deployed by `.github/workflows/pages.yml`, using the official Pages Jekyll workflow (`actions/configure-pages`, `actions/upload-pages-artifact`, `actions/deploy-pages`).
+## API Endpoints
 
-To enable it on a fork: **Settings → Pages → Build and deployment** → source **GitHub Actions**. The rate-update workflow triggers the Pages deploy after each commit.
+Base URL:
 
-### Local preview
-
-```bash
-bundle install
-bundle exec jekyll serve --baseurl ""
+```text
+https://bcv.today
 ```
 
-## Endpoints
+| Resource | Path | Description |
+| --- | --- | --- |
+| Latest rate | `/api/rate.json` | Today's current rate entry. |
+| History index | `/api/history.json` | Up to the latest 365 daily entries. |
+| History by date | `/api/history/YYYY-MM-DD.json` | One calendar-day snapshot. |
 
-Files are committed under `api/` and served from the custom domain (or via [jsDelivr](https://www.jsdelivr.com/) for CDN caching).
+Example:
 
-| Resource           | Path                              | URL                                              |
-| ------------------ | --------------------------------- | ------------------------------------------------ |
-| Latest rate        | `api/rate.json`                   | https://bcv.today/api/rate.json                  |
-| History (per day)  | `api/history/<YYYY-MM-DD>.json`   | https://bcv.today/api/history/2026-05-09.json    |
+```bash
+curl -s https://bcv.today/api/rate.json
+```
 
-### Response shape
+Current response shape:
 
 ```json
 {
   "USD": 500.4606,
   "EUR": 589.27233807,
-  "CNY": 69.4823,
-  "TRY": 12.9412,
-  "RUB": 5.6231,
-  "updated_at": "2026-05-09T16:52:48.996037+00:00",
-  "date": "2026-05-09"
+  "CNY": 73.59606476,
+  "TRY": 11.03277068,
+  "RUB": 6.71398712,
+  "updated_at": "2026-05-11T13:28:27.091112+00:00",
+  "effective_date": "2026-05-11",
+  "date": "2026-05-11"
 }
 ```
 
-- `USD`, `EUR`, `CNY`, `TRY`, `RUB` — bolívar quote per 1 unit of the foreign currency (US dollar, euro, Chinese yuan, Turkish lira, Russian ruble).
-- `updated_at` — ISO 8601 UTC timestamp of the moment the scrape ran.
-- `date` — Venezuela local date (`America/Caracas`) the snapshot belongs to. Matches the filename in `api/history/`.
+Fields:
 
-> BCV publishes each day's rate around 16:00 Venezuela time *for the next business day*. The workflow scrapes after the publish window, so the value in `rate.json` is the rate that becomes effective the following business day.
+- `USD`, `EUR`, `CNY`, `TRY`, `RUB` - bolivares per 1 unit of the foreign currency.
+- `updated_at` - UTC timestamp when the scraper captured the rate.
+- `date` - calendar date represented by the file.
+- `effective_date` - official BCV validity date. On weekends and holidays this can point to the previous business day whose rate is still in effect.
+- `source` - optional field present on some historical backfill entries.
 
-## How it works
+## How The Data Works
 
-1. `main.py` fetches `https://www.bcv.org.ve/` and parses the `#dolar`, `#euro`, `#yuan`, `#lira`, and `#rublo` blocks with BeautifulSoup.
-2. The values are written to `api/rate.json` and `api/history/<date>.json`.
-3. `.github/workflows/update-rate.yml` runs the script on a cron, then commits and pushes the changes if either file changed.
+`main.py` fetches `https://www.bcv.org.ve/`, parses the published currency blocks, and reads BCV's `Fecha Valor` when available.
 
-The history file for a given day is overwritten by later runs that same day — only the latest snapshot of the day is kept.
+On each run it:
 
-## Schedule
+1. Writes the canonical snapshot to `api/history/<effective-date>.json`.
+2. Rebuilds calendar history from the earliest stored snapshot through today.
+3. Fills weekends, holidays, and missing dates with the latest rate whose `effective_date` is less than or equal to that day.
+4. Writes `api/rate.json` as today's current rate, filling missing currencies from the latest available source when older backfills only include USD/EUR.
+5. Rebuilds `api/history.json` with the latest 365 entries.
 
-The workflow runs:
+BCV usually publishes on business days around 16:30 Caracas time, effective for the following business day. The workflow runs often and commits only when `api/` changes.
 
-- On a cron — `0 21 * * 1-5` (21:00 UTC = 17:00 Venezuela, Monday–Friday). BCV publishes the next day's rate around 16:00 Venezuela; the cron fires roughly an hour later as a buffer.
-- On manual dispatch from the **Actions** tab (`workflow_dispatch`).
-- On push to `main` when `main.py`, `requirements.txt`, or the workflow file changes.
+## Automation
 
-## Running locally
+Two GitHub Actions workflows keep the project updated and deployed:
 
-Requires Python 3.10+.
+- `.github/workflows/update-rate.yml`
+  - Runs every 30 minutes.
+  - Can be run manually with `workflow_dispatch`.
+  - Also runs on pushes that change `main.py`, `requirements.txt`, or the workflow itself.
+  - Installs Python dependencies, runs `python main.py`, commits changed `api/` files, and triggers the Pages deploy workflow.
+
+- `.github/workflows/pages.yml`
+  - Builds the Jekyll site with Ruby 3.3.
+  - Deploys to GitHub Pages.
+  - Runs on pushes to `main` and manual dispatch.
+
+## Local Development
+
+Install Python dependencies and update the local JSON files:
 
 ```bash
 pip install -r requirements.txt
 python main.py
 ```
 
-This writes `api/rate.json` and the corresponding `api/history/<date>.json` and prints the JSON to stdout.
+Preview the website locally:
 
-## Repository setup
+```bash
+bundle install
+bundle exec jekyll serve --baseurl ""
+```
 
-- **Settings → Actions → General → Workflow permissions** must allow read and write access (the rate-update workflow declares `contents: write` and `actions: write`).
-- **Settings → Pages → Build and deployment** → source **GitHub Actions**.
+Then open:
+
+```text
+http://127.0.0.1:4000
+```
+
+## Project Structure
+
+```text
+.
+api/                  # Published JSON API files
+  rate.json
+  history.json
+  history/
+assets/
+  css/style.css
+  js/dashboard.js
+  js/history.js
+  logo.svg
+_data/i18n.yml        # Spanish and English UI strings
+_layouts/default.html # Shared Jekyll layout
+index.html            # Spanish dashboard
+history.html          # Spanish history page
+en/                   # English pages
+main.py               # BCV scraper and JSON writer
+requirements.txt
+```
+
+## Repository Setup
+
+For a fork or new deployment:
+
+1. Enable GitHub Pages with **Settings -> Pages -> Build and deployment -> GitHub Actions**.
+2. Allow workflow writes with **Settings -> Actions -> General -> Workflow permissions -> Read and write permissions**.
+3. Update `_config.yml` if the domain, base URL, or repository name changes.
+4. Update `CNAME` if using a custom domain.
 
 ## Disclaimer
 
-This project is not affiliated with the Banco Central de Venezuela. Rates are scraped from the public BCV homepage and provided as-is, without uptime or accuracy guarantees. Verify against the official source before using these values for anything that matters.
+This project is not affiliated with the Banco Central de Venezuela. Rates are scraped from the public BCV website and provided as-is, without uptime, accuracy, or financial-use guarantees. Verify against the official BCV source before relying on the data.
 
 ## License
 

@@ -2,10 +2,10 @@ name: Update BCV rate
 
 on:
   schedule:
-    # Every 2 hours. BCV publishes around 16:30 Venezuela (20:30 UTC) on
+    # Every 30 minutes. BCV publishes around 16:30 Venezuela (20:30 UTC) on
     # business days; running often catches the publish quickly, recovers from
     # any missed run, and is a no-op (no commit) when nothing changed.
-    - cron: "0 */2 * * *"
+    - cron: "*/30 * * * *"
   workflow_dispatch:
   push:
     branches: [ main ]

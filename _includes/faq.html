@@ -1,0 +1,12 @@
+{%- assign faq = include.faq -%}
+{%- if faq and faq.items -%}
+  <section class="faq" aria-labelledby="{{ include.id | default: 'faq-heading' }}">
+    <h2 id="{{ include.id | default: 'faq-heading' }}">{{ faq.title }}</h2>
+    {%- for item in faq.items -%}
+      <details>
+        <summary>{{ item.question }}</summary>
+        <p>{{ item.answer }}</p>
+      </details>
+    {%- endfor -%}
+  </section>
+{%- endif -%}

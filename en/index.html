@@ -6,6 +6,7 @@ lang: en
 permalink: /en/
 alt_url: /
 description: BCV dollar today, euro rate and official Banco Central de Venezuela exchange rates in bolivares, with history, calculator and free JSON API.
+faq_key: homepage
 ---
 
 {%- assign t = site.data.i18n[page.lang] -%}
@@ -99,6 +100,8 @@ description: BCV dollar today, euro rate and official Banco Central de Venezuela
   <a href="{{ '/en/bcv-lira/' | relative_url }}">BCV Turkish lira today</a>
   <a href="{{ '/en/bcv-ruble/' | relative_url }}">BCV ruble today</a>
 </div>
+
+{% include faq.html faq=site.data.faq.en.homepage id="faq" %}
 
 <script>
   const LANG = "{{ page.lang }}";

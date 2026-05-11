@@ -259,6 +259,26 @@
             "isPartOf": { "@id": "{{ site.url }}{{ site.baseurl }}/#website" },
             "inLanguage": "{% if page.lang == 'en' %}en-US{% else %}es-VE{% endif %}"
           }
+          {%- if page.faq_key and site.data.faq[page.lang][page.faq_key] -%}
+          ,
+          {
+            "@type": "FAQPage",
+            "@id": "{{ canonical_url }}#faq",
+            "mainEntity": [
+              {%- assign faq_items = site.data.faq[page.lang][page.faq_key].items -%}
+              {%- for item in faq_items -%}
+                {
+                  "@type": "Question",
+                  "name": {{ item.question | jsonify }},
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": {{ item.answer | jsonify }}
+                  }
+                }{% unless forloop.last %},{% endunless %}
+              {%- endfor -%}
+            ]
+          }
+          {%- endif -%}
           {%- if page.url == '/api/' or page.url == '/en/api/' or page.url == '/' or page.url == '/en/' -%}
           ,
           {

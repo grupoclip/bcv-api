@@ -61,3 +61,6 @@ layout: default
     <a href="{{ related.url | relative_url }}">{{ related.label }}</a>
   {%- endfor -%}
 </div>
+
+{%- assign currency_faq = site.data.faq[page.lang].currency -%}
+{% include faq.html faq=currency_faq id="faq" %}

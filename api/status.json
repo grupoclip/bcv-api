@@ -1,0 +1,28 @@
+{
+  "status": "ok",
+  "updated_at": "2026-05-11T15:39:01.127606+00:00",
+  "generated_at": "2026-05-11T15:39:01.127606+00:00",
+  "date": "2026-05-11",
+  "effective_date": "2026-05-11",
+  "timezone": "America/Caracas",
+  "source": "https://www.bcv.org.ve/",
+  "supported_currencies": [
+    "USD",
+    "EUR",
+    "CNY",
+    "TRY",
+    "RUB"
+  ],
+  "currencies": {
+    "USD": true,
+    "EUR": true,
+    "CNY": true,
+    "TRY": true,
+    "RUB": true
+  },
+  "endpoints": {
+    "latest": "/api/rate.json",
+    "history": "/api/history.json",
+    "status": "/api/status.json"
+  }
+}

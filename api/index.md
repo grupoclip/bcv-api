@@ -57,6 +57,33 @@ Retorna hasta las últimas 365 entradas diarias, ordenadas de la más antigua a 
 curl -s {{ site.url }}{{ site.baseurl }}/api/history.json
 ```
 
+### Estado de la API
+
+<div class="endpoint">
+  <span class="method">GET</span>
+  <span class="path">/api/status.json</span>
+</div>
+
+Retorna el estado del dataset publicado, la fecha de vigencia, la hora de generación y las monedas disponibles.
+
+**Ejemplo:**
+
+```bash
+curl -s {{ site.url }}{{ site.baseurl }}/api/status.json
+```
+
+```json
+{
+  "status": "ok",
+  "updated_at": "2026-05-11T15:39:01.127606+00:00",
+  "generated_at": "2026-05-11T15:39:01.127606+00:00",
+  "date": "2026-05-11",
+  "effective_date": "2026-05-11",
+  "timezone": "America/Caracas",
+  "supported_currencies": ["USD", "EUR", "CNY", "TRY", "RUB"]
+}
+```
+
 ### Histórico por fecha
 
 <div class="endpoint">

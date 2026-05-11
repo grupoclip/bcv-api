@@ -1,0 +1,47 @@
+es:
+  homepage:
+    title: "Preguntas frecuentes"
+    items:
+      - question: "¿Cuál es el dólar BCV hoy?"
+        answer: "El dólar BCV hoy es la tasa oficial USD/VES publicada por el Banco Central de Venezuela. BCV Today la muestra en la página principal y en la página dedicada al dólar BCV."
+      - question: "¿A qué hora actualiza el BCV la tasa?"
+        answer: "El BCV suele publicar la tasa en días hábiles alrededor de las 4:30 p. m., hora de Caracas, con vigencia para el siguiente día hábil."
+      - question: "¿La API BCV requiere clave?"
+        answer: "No. La API JSON de BCV Today es pública, de solo lectura y no requiere clave de acceso."
+      - question: "¿Qué significa Fecha Valor?"
+        answer: "Fecha Valor es la fecha de vigencia oficial indicada por el BCV. En fines de semana o feriados puede mantenerse la tasa del día hábil anterior."
+      - question: "¿Este sitio es oficial del BCV?"
+        answer: "No. BCV Today es un proyecto no oficial que toma los datos publicados por el Banco Central de Venezuela y los organiza como sitio web y API estática."
+  currency:
+    title: "Preguntas frecuentes"
+    items:
+      - question: "¿Esta tasa es oficial?"
+        answer: "La tasa mostrada proviene de los datos publicados por el Banco Central de Venezuela. BCV Today no es un sitio oficial del BCV."
+      - question: "¿Dónde puedo ver el histórico?"
+        answer: "Cada página de moneda enlaza al histórico diario, donde puedes revisar la evolución de la tasa frente al bolívar."
+      - question: "¿Puedo consumir esta tasa por API?"
+        answer: "Sí. La API pública devuelve la tasa vigente, el histórico y un endpoint de estado sin requerir autenticación."
+
+en:
+  homepage:
+    title: "Frequently asked questions"
+    items:
+      - question: "What is the BCV dollar today?"
+        answer: "The BCV dollar today is the official USD/VES rate published by Banco Central de Venezuela. BCV Today shows it on the homepage and on the dedicated BCV dollar page."
+      - question: "What time does BCV update the exchange rate?"
+        answer: "BCV usually publishes rates on business days around 4:30 p.m. Caracas time, effective for the next business day."
+      - question: "Does the BCV API require an API key?"
+        answer: "No. BCV Today's JSON API is public, read-only and does not require an access key."
+      - question: "What does effective date mean?"
+        answer: "The effective date is the official validity date indicated by BCV. On weekends or holidays, the previous business day's rate may remain in effect."
+      - question: "Is this an official BCV website?"
+        answer: "No. BCV Today is an unofficial project that reads public data published by Banco Central de Venezuela and organizes it as a website and static API."
+  currency:
+    title: "Frequently asked questions"
+    items:
+      - question: "Is this an official rate?"
+        answer: "The displayed rate comes from data published by Banco Central de Venezuela. BCV Today is not an official BCV website."
+      - question: "Where can I view the history?"
+        answer: "Each currency page links to the daily history, where you can review how the rate has changed against the bolivar."
+      - question: "Can I consume this rate through an API?"
+        answer: "Yes. The public API returns the latest rate, the history index and a status endpoint without authentication."

@@ -766,6 +766,26 @@ a.card:hover {
   margin: 18px 0 32px;
 }
 
+.faq {
+  margin-top: 40px;
+}
+.faq details {
+  border-top: 1px solid var(--border);
+  padding: 14px 0;
+}
+.faq details:last-child {
+  border-bottom: 1px solid var(--border);
+}
+.faq summary {
+  cursor: pointer;
+  color: var(--text);
+  font-weight: 700;
+}
+.faq p {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
 /* Footer ---------------------------------------------------------------- */
 .site-footer {
   border-top: 1px solid var(--border);

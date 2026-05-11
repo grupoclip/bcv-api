@@ -5,6 +5,7 @@ seo_title: Dólar BCV hoy
 lang: es
 alt_url: /en/
 description: Dólar BCV hoy, euro BCV y tasas oficiales del Banco Central de Venezuela en bolívares, con histórico, calculadora y API JSON gratuita.
+faq_key: homepage
 ---
 
 {%- assign t = site.data.i18n[page.lang] -%}
@@ -98,6 +99,8 @@ description: Dólar BCV hoy, euro BCV y tasas oficiales del Banco Central de Ven
   <a href="{{ '/lira-bcv/' | relative_url }}">Lira turca BCV hoy</a>
   <a href="{{ '/rublo-bcv/' | relative_url }}">Rublo BCV hoy</a>
 </div>
+
+{% include faq.html faq=site.data.faq.es.homepage id="faq" %}
 
 <script>
   const LANG = "{{ page.lang }}";

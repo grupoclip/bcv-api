@@ -14,6 +14,7 @@ API_DIR = "api"
 DATA_DIR = "_data"
 HISTORY_DIR = os.path.join(API_DIR, "history")
 HISTORY_INDEX = os.path.join(API_DIR, "history.json")
+STATUS_PATH = os.path.join(API_DIR, "status.json")
 DATA_RATE = os.path.join(DATA_DIR, "rate.json")
 HISTORY_INDEX_LIMIT = 365
 VENEZUELA_TZ = ZoneInfo("America/Caracas")
@@ -183,6 +184,30 @@ def build_current_rate():
     return current
 
 
+def build_status(current_rate):
+    now = datetime.now(timezone.utc)
+    currency_status = {
+        code: isinstance(current_rate.get(code), (int, float))
+        for code in CURRENCIES.keys()
+    }
+    return {
+        "status": "ok" if all(currency_status.values()) else "partial",
+        "updated_at": current_rate.get("updated_at"),
+        "generated_at": now.isoformat(),
+        "date": current_rate.get("date"),
+        "effective_date": current_rate.get("effective_date"),
+        "timezone": "America/Caracas",
+        "source": "https://www.bcv.org.ve/",
+        "supported_currencies": list(CURRENCIES.keys()),
+        "currencies": currency_status,
+        "endpoints": {
+            "latest": "/api/rate.json",
+            "history": "/api/history.json",
+            "status": "/api/status.json",
+        },
+    }
+
+
 if __name__ == "__main__":
     rates = get_rates()
     # Persist the canonical snapshot for the captured effective date.
@@ -192,6 +217,7 @@ if __name__ == "__main__":
     # api/rate.json reflects *today's* rate, with all currencies present.
     current_rate = build_current_rate()
     write_json(os.path.join(API_DIR, "rate.json"), current_rate)
+    write_json(STATUS_PATH, build_status(current_rate))
     # Jekyll reads _data/rate.json at build time so the latest rates are also
     # present in crawlable HTML, not only in client-rendered JSON.
     write_json(DATA_RATE, current_rate)

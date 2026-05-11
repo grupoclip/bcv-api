@@ -108,4 +108,10 @@
     <changefreq>daily</changefreq>
     <priority>0.4</priority>
   </url>
+  <url>
+    <loc>https://bcv.today/api/status.json</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.4</priority>
+  </url>
 </urlset>

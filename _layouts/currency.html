@@ -1,0 +1,63 @@
+---
+layout: default
+---
+
+{%- assign t = site.data.i18n[page.lang] -%}
+{%- assign rate = site.data.rate -%}
+{%- assign code = page.currency -%}
+{%- assign value = rate[code] -%}
+{%- assign history_page_url = page.history_url | relative_url -%}
+{%- assign api_page_url = page.api_url | relative_url -%}
+
+<h1>{{ page.heading }}</h1>
+<p class="lede">{{ page.lede }}</p>
+
+<section class="rate-hero" aria-labelledby="rate-heading">
+  <div>
+    <div class="code">{{ code }}</div>
+    <h2 id="rate-heading">{{ page.rate_label }}</h2>
+    {%- if value -%}
+      <div class="rate-hero-value">{{ value }}<span>Bs.</span></div>
+    {%- else -%}
+      <p>{{ t.loading }}</p>
+    {%- endif -%}
+  </div>
+  <dl class="rate-facts">
+    {%- if rate.effective_date -%}
+      <div>
+        <dt>{{ t.date_label }}</dt>
+        <dd>{{ rate.effective_date }}</dd>
+      </div>
+    {%- endif -%}
+    {%- if rate.updated_at -%}
+      <div>
+        <dt>{{ t.updated_label }}</dt>
+        <dd>{{ rate.updated_at | date: "%Y-%m-%d %H:%M UTC" }}</dd>
+      </div>
+    {%- endif -%}
+    <div>
+      <dt>{{ page.source_label }}</dt>
+      <dd><a href="https://www.bcv.org.ve/" target="_blank" rel="noopener">bcv.org.ve</a></dd>
+    </div>
+  </dl>
+</section>
+
+<div class="action-row">
+  <a class="button-link" href="{{ history_page_url }}?c={{ code }}">{{ page.history_cta }}</a>
+  <a class="button-link secondary" href="{{ api_page_url }}">{{ page.api_cta }}</a>
+</div>
+
+<h2>{{ page.about_heading }}</h2>
+<p>{{ page.about }}</p>
+
+<h2>{{ page.api_heading }}</h2>
+<p>{{ page.api_copy }}</p>
+
+<pre><code>curl -s {{ site.url }}{{ site.baseurl }}/api/rate.json</code></pre>
+
+<h2>{{ page.related_heading }}</h2>
+<div class="landing-links" aria-label="{{ page.related_label }}">
+  {%- for related in page.related -%}
+    <a href="{{ related.url | relative_url }}">{{ related.label }}</a>
+  {%- endfor -%}
+</div>

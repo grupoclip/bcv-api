@@ -674,6 +674,93 @@ a.card:hover {
   opacity: 0.45;
 }
 
+/* Landing and currency pages ------------------------------------------- */
+.landing-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0 24px;
+}
+.landing-links a,
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+.landing-links a:hover,
+.button-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+}
+.button-link.secondary {
+  background: var(--panel-2);
+  color: var(--muted);
+}
+
+.rate-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.7fr);
+  gap: 20px;
+  align-items: stretch;
+  margin: 24px 0;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+}
+.rate-hero h2 {
+  margin: 4px 0 10px;
+}
+.rate-hero-value {
+  font-size: 2.2rem;
+  line-height: 1.1;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.rate-hero-value span {
+  margin-left: 6px;
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 600;
+}
+.rate-facts {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+.rate-facts div {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.rate-facts div:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.rate-facts dt {
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.rate-facts dd {
+  margin: 3px 0 0;
+  font-weight: 600;
+}
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0 32px;
+}
+
 /* Footer ---------------------------------------------------------------- */
 .site-footer {
   border-top: 1px solid var(--border);
@@ -713,5 +800,14 @@ a.card:hover {
 
   .history-pagination {
     justify-content: space-between;
+  }
+
+  .rate-hero {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .rate-hero-value {
+    font-size: 1.8rem;
   }
 }

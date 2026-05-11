@@ -1,9 +1,11 @@
 ---
 layout: default
-title: Histórico
+title: Histórico dólar BCV y tasas oficiales
+seo_title: Histórico BCV
 lang: es
 permalink: /history/
 alt_url: /en/history/
+description: Histórico diario del dólar BCV, euro BCV y otras tasas oficiales del Banco Central de Venezuela frente al bolívar.
 ---
 
 {%- assign t = site.data.i18n[page.lang] -%}
@@ -11,6 +13,10 @@ alt_url: /en/history/
 {%- assign rate_url = '/api/rate.json' | relative_url -%}
 
 <h1>{{ t.history_title }}</h1>
+<p class="lede">
+  Histórico diario de las tasas oficiales del Banco Central de Venezuela para
+  USD, EUR, CNY, TRY y RUB frente al bolívar.
+</p>
 
 <div class="history-controls">
   <label class="history-field">

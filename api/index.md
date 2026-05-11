@@ -8,7 +8,7 @@ description: Documentación de la API JSON con las tasas oficiales del BCV.
 
 # Documentación de la API
 
-API JSON de solo lectura con las tasas oficiales del Banco Central de Venezuela. Los datos se sirven como archivos estáticos desde GitHub Pages, sin autenticación, sin claves y sin límites de uso impuestos por este proyecto más allá de los de GitHub Pages.
+API BCV gratuita en JSON, de solo lectura, con las tasas oficiales del Banco Central de Venezuela. Los datos se sirven como archivos estáticos desde GitHub Pages, sin autenticación, sin claves y sin límites de uso impuestos por este proyecto más allá de los de GitHub Pages.
 
 **Base URL:** `{{ site.url }}{{ site.baseurl }}`
 

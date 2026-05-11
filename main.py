@@ -11,8 +11,10 @@ from bs4 import BeautifulSoup
 urllib3.disable_warnings()
 
 API_DIR = "api"
+DATA_DIR = "_data"
 HISTORY_DIR = os.path.join(API_DIR, "history")
 HISTORY_INDEX = os.path.join(API_DIR, "history.json")
+DATA_RATE = os.path.join(DATA_DIR, "rate.json")
 HISTORY_INDEX_LIMIT = 365
 VENEZUELA_TZ = ZoneInfo("America/Caracas")
 
@@ -188,6 +190,10 @@ if __name__ == "__main__":
     # Fill calendar days (weekends/holidays inherit the previous business day's rate).
     rebuild_calendar_history()
     # api/rate.json reflects *today's* rate, with all currencies present.
-    write_json(os.path.join(API_DIR, "rate.json"), build_current_rate())
+    current_rate = build_current_rate()
+    write_json(os.path.join(API_DIR, "rate.json"), current_rate)
+    # Jekyll reads _data/rate.json at build time so the latest rates are also
+    # present in crawlable HTML, not only in client-rendered JSON.
+    write_json(DATA_RATE, current_rate)
     rebuild_history_index()
     print(json.dumps(rates, indent=2))

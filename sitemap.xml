@@ -19,6 +19,36 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://bcv.today/dolar-bcv/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bcv.today/euro-bcv/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bcv.today/yuan-bcv/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bcv.today/lira-bcv/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bcv.today/rublo-bcv/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://bcv.today/en/</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>daily</changefreq>
@@ -35,6 +65,36 @@
     <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bcv.today/en/bcv-dollar/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bcv.today/en/bcv-euro/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bcv.today/en/bcv-yuan/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bcv.today/en/bcv-lira/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bcv.today/en/bcv-ruble/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://bcv.today/api/rate.json</loc>

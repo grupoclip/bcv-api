@@ -1,11 +1,14 @@
 ---
 layout: default
-title: Tasas
+title: Dólar BCV hoy y tasas oficiales
+seo_title: Dólar BCV hoy
 lang: es
 alt_url: /en/
+description: Dólar BCV hoy, euro BCV y tasas oficiales del Banco Central de Venezuela en bolívares, con histórico, calculadora y API JSON gratuita.
 ---
 
 {%- assign t = site.data.i18n[page.lang] -%}
+{%- assign rate = site.data.rate -%}
 {%- assign api_url = '/api/' | relative_url -%}
 {%- assign rate_url = '/api/rate.json' | relative_url -%}
 {%- assign history_url = '/api/history.json' | relative_url -%}
@@ -14,9 +17,36 @@ alt_url: /en/
 <h1>{{ t.index_title }}</h1>
 <p class="lede">{{ t.index_lede_html }}</p>
 
-<div class="meta" id="meta"></div>
+<div class="meta" id="meta">
+  {%- if rate.effective_date -%}
+    <span>{{ t.date_label }}: <strong>{{ rate.effective_date }}</strong></span>
+  {%- endif -%}
+  {%- if rate.updated_at -%}
+    <span>{{ t.scraped_label }}: <strong>{{ rate.updated_at | date: "%Y-%m-%d %H:%M UTC" }}</strong></span>
+  {%- endif -%}
+</div>
 <div class="grid" id="grid">
-  <p>{{ t.loading }}</p>
+  {%- for item in t.currencies -%}
+    {%- assign code = item[0] -%}
+    {%- assign name = item[1] -%}
+    {%- if code != 'VES' and rate[code] -%}
+      <a class="card" href="{{ history_page_url }}?c={{ code }}" aria-label="Ver histórico {{ code }}">
+        <div class="card-head">
+          <div class="curr-icon" data-code="{{ code }}">
+            {%- case code -%}
+              {%- when 'USD' -%}${%- when 'EUR' -%}€{%- when 'CNY' -%}¥{%- when 'TRY' -%}₺{%- when 'RUB' -%}₽
+            {%- endcase -%}
+          </div>
+          <div class="card-title">
+            <div class="code">{{ code }}</div>
+            <div class="name">{{ name }}</div>
+          </div>
+        </div>
+        <div class="value">{{ rate[code] }}<span class="unit">Bs.</span></div>
+        <div class="card-foot"><span class="muted">{{ t.card_view_history }}</span></div>
+      </a>
+    {%- endif -%}
+  {%- endfor -%}
 </div>
 
 <h2>{{ t.calc_title }}</h2>
@@ -50,6 +80,22 @@ alt_url: /en/
 
 <h2>{{ t.index_integrate_h2 }}</h2>
 <p>{{ t.index_integrate_p_html | replace: '__API_URL__', api_url }}</p>
+
+<h2>Dólar BCV, euro y otras tasas oficiales</h2>
+<p>
+  BCV Today publica la tasa oficial del Banco Central de Venezuela para el dólar,
+  euro, yuan chino, lira turca y rublo ruso frente al bolívar. Puedes consultar
+  el valor vigente, revisar el histórico diario o consumir los datos desde una
+  API JSON pública.
+</p>
+
+<div class="landing-links" aria-label="Páginas por moneda">
+  <a href="{{ '/dolar-bcv/' | relative_url }}">Dólar BCV hoy</a>
+  <a href="{{ '/euro-bcv/' | relative_url }}">Euro BCV hoy</a>
+  <a href="{{ '/yuan-bcv/' | relative_url }}">Yuan BCV hoy</a>
+  <a href="{{ '/lira-bcv/' | relative_url }}">Lira turca BCV hoy</a>
+  <a href="{{ '/rublo-bcv/' | relative_url }}">Rublo BCV hoy</a>
+</div>
 
 <script>
   const LANG = "{{ page.lang }}";

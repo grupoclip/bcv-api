@@ -9,7 +9,7 @@ description: Reference for the JSON API serving Banco Central de Venezuela excha
 
 # API reference
 
-A read-only JSON API for the official exchange rates published by Banco Central de Venezuela. Data is served as static files from GitHub Pages, with no authentication, no API keys, and no project-level rate limits beyond GitHub Pages itself.
+A free read-only JSON BCV API for the official exchange rates published by Banco Central de Venezuela. Data is served as static files from GitHub Pages, with no authentication, no API keys, and no project-level rate limits beyond GitHub Pages itself.
 
 **Base URL:** `{{ site.url }}{{ site.baseurl }}`
 

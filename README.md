@@ -1,5 +1,11 @@
 # BCV Today
 
+[![Website](https://img.shields.io/badge/site-bcv.today-ffd166)](https://bcv.today)
+[![API v1](https://img.shields.io/badge/API-v1-187a3b)](https://bcv.today/api/)
+[![Status](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fbcv.today%2Fapi%2Fv1%2Fstatus.json&query=$.status&label=status)](https://bcv.today/api/v1/status.json)
+[![USD BCV](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fbcv.today%2Fapi%2Fv1%2Frate.json&query=$.USD&label=USD%20BCV&suffix=%20Bs)](https://bcv.today/api/v1/rate.json)
+[![License](https://img.shields.io/github/license/grupoclip/bcv-api)](LICENSE)
+
 > [bcv.today](https://bcv.today) - official Banco Central de Venezuela exchange rates, served as a static JSON API and dashboard.
 
 BCV Today is an unofficial API and bilingual website for the exchange rates published by the [Banco Central de Venezuela](https://www.bcv.org.ve/). It tracks USD, EUR, CNY, TRY, and RUB against the Venezuelan bolivar, stores daily JSON snapshots, and publishes everything through GitHub Pages.

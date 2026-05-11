@@ -12,6 +12,16 @@ API BCV gratuita en JSON, de solo lectura, con las tasas oficiales del Banco Cen
 
 **Base URL:** `{{ site.url }}{{ site.baseurl }}`
 
+## Descubrimiento para agentes
+
+| Recurso | URL | Uso |
+| --- | --- | --- |
+| OpenAPI | `/openapi.json` | Descripción machine-readable de los endpoints. |
+| API catalog | `/.well-known/api-catalog` | Catálogo RFC-style con docs, estado y OpenAPI. |
+| Agent card | `/.well-known/agent-card.json` | Capacidades de acceso a datos para agentes. |
+| LLM index | `/llms.txt` | Resumen corto para agentes y LLMs. |
+| LLM full context | `/llms-full.txt` | Contexto completo en Markdown/texto. |
+
 ## Endpoints
 
 ### Tasa actual

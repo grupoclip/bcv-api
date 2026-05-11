@@ -13,6 +13,16 @@ A free read-only JSON BCV API for the official exchange rates published by Banco
 
 **Base URL:** `{{ site.url }}{{ site.baseurl }}`
 
+## Agent discovery
+
+| Resource | URL | Use |
+| --- | --- | --- |
+| OpenAPI | `/openapi.json` | Machine-readable endpoint description. |
+| API catalog | `/.well-known/api-catalog` | RFC-style catalog with docs, status and OpenAPI. |
+| Agent card | `/.well-known/agent-card.json` | Data-access capabilities for agents. |
+| LLM index | `/llms.txt` | Short summary for agents and LLMs. |
+| LLM full context | `/llms-full.txt` | Full Markdown/text context. |
+
 ## Endpoints
 
 ### Latest rate

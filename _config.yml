@@ -6,6 +6,9 @@ url: https://bcv.today
 baseurl: ""
 repository: grupoclip/bcv-api
 
+include:
+  - .well-known
+
 permalink: pretty
 
 markdown: kramdown

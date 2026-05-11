@@ -1,8 +1,9 @@
 (function () {
   const FOREIGN_CODES = Object.keys(CURRENCY_NAMES).filter((c) => c !== "VES");
-  const WINDOW = 20;
   const PAGE_SIZE = 25;
+  const DEFAULT_RANGE = 30;
   let tablePage = 1;
+  let activeRange = DEFAULT_RANGE;
   const CURRENCY_SYMBOLS = {
     USD: "$",
     EUR: "€",
@@ -39,6 +40,12 @@
     const params = new URLSearchParams(location.search);
     const c = (params.get("c") || "").toUpperCase();
     return FOREIGN_CODES.indexOf(c) >= 0 ? c : "USD";
+  }
+
+  function readQueryRange() {
+    const params = new URLSearchParams(location.search);
+    const days = parseInt(params.get("range"), 10);
+    return [7, 30, 90, 365].indexOf(days) >= 0 ? days : DEFAULT_RANGE;
   }
 
   function fillSelect(sel, selected) {
@@ -170,7 +177,26 @@
     }).format(new Date());
   }
 
-  function render(history, current, code) {
+  function updateShareLink(code, range) {
+    const share = document.getElementById("history-share");
+    if (!share) return;
+    const url = new URL(location.href);
+    url.searchParams.set("c", code);
+    url.searchParams.set("range", range);
+    share.href = url.pathname + url.search + url.hash;
+  }
+
+  function syncRangeButtons(range) {
+    document.querySelectorAll("[data-range]").forEach((button) => {
+      button.classList.toggle("is-active", Number(button.dataset.range) === range);
+      button.setAttribute(
+        "aria-pressed",
+        Number(button.dataset.range) === range ? "true" : "false"
+      );
+    });
+  }
+
+  function render(history, current, code, range) {
     const message = document.getElementById("history-message");
     const stats = document.getElementById("history-stats");
     const chartCard = document.getElementById("chart-card");
@@ -200,7 +226,7 @@
 
     const last = series[series.length - 1];
     const prev = series.length >= 2 ? series[series.length - 2] : null;
-    const recent = series.slice(-WINDOW);
+    const recent = series.slice(-range);
     const rFirst = recent[0];
     const change1d = prev ? ((last.value - prev.value) / prev.value) * 100 : null;
     const changeN =
@@ -240,6 +266,8 @@
 
     document.getElementById("chart").innerHTML = chartSvg(recent);
     chartCard.hidden = false;
+    syncRangeButtons(range);
+    updateShareLink(code, range);
 
     const reversed = series.slice().reverse();
     const totalPages = Math.max(1, Math.ceil(reversed.length / PAGE_SIZE));
@@ -299,6 +327,7 @@
   async function load() {
     const select = document.getElementById("history-currency");
     fillSelect(select, readQueryCurrency());
+    activeRange = readQueryRange();
 
     let history = [];
     let current = null;
@@ -321,13 +350,26 @@
       return;
     }
 
-    render(history, current, select.value);
+    render(history, current, select.value, activeRange);
     select.addEventListener("change", () => {
       const url = new URL(location.href);
       url.searchParams.set("c", select.value);
+      url.searchParams.set("range", activeRange);
       window.history.replaceState({}, "", url);
       tablePage = 1;
-      render(history, current, select.value);
+      render(history, current, select.value, activeRange);
+    });
+
+    document.querySelectorAll("[data-range]").forEach((button) => {
+      button.addEventListener("click", () => {
+        activeRange = Number(button.dataset.range);
+        const url = new URL(location.href);
+        url.searchParams.set("c", select.value);
+        url.searchParams.set("range", activeRange);
+        window.history.replaceState({}, "", url);
+        tablePage = 1;
+        render(history, current, select.value, activeRange);
+      });
     });
   }
 

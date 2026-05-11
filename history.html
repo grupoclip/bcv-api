@@ -23,6 +23,14 @@ description: Histórico diario del dólar BCV, euro BCV y otras tasas oficiales 
     <span>{{ t.history_currency_label }}</span>
     <select id="history-currency"></select>
   </label>
+  <div class="history-field history-range" aria-label="{{ t.history_range_label }}">
+    <span>{{ t.history_range_label }}</span>
+    <button type="button" data-range="7">7d</button>
+    <button type="button" data-range="30">30d</button>
+    <button type="button" data-range="90">90d</button>
+    <button type="button" data-range="365">1a</button>
+  </div>
+  <a class="button-link secondary" id="history-share" href="#">{{ t.history_share }}</a>
 </div>
 
 <div class="history-stats" id="history-stats" hidden>
@@ -74,6 +82,7 @@ description: Histórico diario del dólar BCV, euro BCV y otras tasas oficiales 
     no_data: "{{ t.history_no_data }}",
     change_n_label: "{{ t.history_change_n }}",
     page_label: "{{ t.history_page_label }}",
+    share: "{{ t.history_share }}",
   };
 </script>
 <script src="{{ '/assets/js/history.js' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}"></script>

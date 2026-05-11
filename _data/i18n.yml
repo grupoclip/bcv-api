@@ -15,6 +15,12 @@ es:
   scraped_label: "Capturado"
   updated_label: "Actualizado"
   caracas_zone: "(hora de Caracas)"
+  effective_label: "Vigente"
+  captured_label: "Capturado"
+  status_ok: "API operativa"
+  status_partial: "API parcial"
+  status_source: "Fuente BCV"
+  status_history: "Histórico diario"
   index_title: "Tasas oficiales"
   index_lede_html: >-
     Datos publicados por el
@@ -33,6 +39,8 @@ es:
   calc_swap: "Intercambiar"
   history_title: "Histórico"
   history_currency_label: "Moneda"
+  history_range_label: "Rango"
+  history_share: "Compartir"
   history_current: "Actual"
   history_change_d: "Variación 1d"
   history_change_n: "Variación %{n}d"
@@ -68,6 +76,12 @@ en:
   scraped_label: "Captured"
   updated_label: "Updated"
   caracas_zone: "(Caracas time)"
+  effective_label: "Effective"
+  captured_label: "Captured"
+  status_ok: "API operational"
+  status_partial: "Partial API"
+  status_source: "BCV source"
+  status_history: "Daily history"
   index_title: "Official rates"
   index_lede_html: >-
     Published by the
@@ -85,6 +99,8 @@ en:
   calc_swap: "Swap"
   history_title: "History"
   history_currency_label: "Currency"
+  history_range_label: "Range"
+  history_share: "Share"
   history_current: "Current"
   history_change_d: "1d change"
   history_change_n: "%{n}d change"

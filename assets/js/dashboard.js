@@ -229,7 +229,7 @@
       const effective = rate.effective_date || rate.date;
       meta.innerHTML =
         "<span>" +
-        STRINGS.date +
+        STRINGS.effective +
         ": <strong>" +
         fmtDate(effective) +
         "</strong></span>" +
@@ -240,6 +240,32 @@
         "</strong> " +
         STRINGS.zone +
         "</span>";
+
+      const status = document.getElementById("api-status");
+      if (status) {
+        const complete = FOREIGN_CODES.every((code) => typeof rate[code] === "number");
+        status.innerHTML =
+          '<span class="status-pill ' +
+          (complete ? "ok" : "partial") +
+          '">' +
+          (complete ? STRINGS.statusOk : STRINGS.statusPartial) +
+          "</span>" +
+          "<span>" +
+          STRINGS.effective +
+          " <strong>" +
+          fmtDate(effective) +
+          "</strong></span>" +
+          "<span>" +
+          STRINGS.scraped +
+          " <strong>" +
+          fmtDateTime(rate.updated_at) +
+          "</strong></span>" +
+          '<a href="' +
+          API_PAGE_URL +
+          '">' +
+          STRINGS.apiLabel +
+          "</a>";
+      }
 
       renderCards(rate, history);
       setupCalculator(rate);

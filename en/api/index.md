@@ -136,6 +136,31 @@ Returns `404` if the requested date does not exist in the repository.
 
 ## Usage examples
 
+### Badges
+
+You can show API availability or the latest USD rate in a README, internal
+dashboard, or public docs.
+
+**Markdown:**
+
+```md
+![BCV Today](https://img.shields.io/badge/BCV%20Today-API%20online-187a3b)
+![USD BCV](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fbcv.today%2Fapi%2Frate.json&query=$.USD&label=USD%20BCV&suffix=%20Bs)
+```
+
+**HTML:**
+
+```html
+<img
+  alt="BCV Today API online"
+  src="https://img.shields.io/badge/BCV%20Today-API%20online-187a3b"
+/>
+<img
+  alt="USD BCV"
+  src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fbcv.today%2Fapi%2Frate.json&query=$.USD&label=USD%20BCV&suffix=%20Bs"
+/>
+```
+
 ### JavaScript
 
 ```js
@@ -144,6 +169,18 @@ const res = await fetch("{{ site.url }}{{ site.baseurl }}/api/rate.json", {
 });
 const { USD, EUR, date } = await res.json();
 console.log(`Rate for ${date}: USD ${USD} - EUR ${EUR}`);
+```
+
+### Node.js
+
+```js
+const res = await fetch("{{ site.url }}{{ site.baseurl }}/api/rate.json");
+if (!res.ok) throw new Error(`BCV API ${res.status}`);
+
+const rate = await res.json();
+const ves = 100 * rate.USD;
+
+console.log(`100 USD = ${ves.toFixed(2)} Bs. (${rate.date})`);
 ```
 
 ### Python
@@ -159,10 +196,35 @@ data = requests.get(
 print(f"USD: {data['USD']}  EUR: {data['EUR']}  ({data['date']})")
 ```
 
+### PHP
+
+```php
+<?php
+$json = file_get_contents("{{ site.url }}{{ site.baseurl }}/api/rate.json");
+$rate = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+
+$ves = 100 * $rate["USD"];
+echo "100 USD = " . number_format($ves, 2) . " Bs. ({$rate['date']})";
+```
+
 ### cURL + jq
 
 ```bash
 curl -s {{ site.url }}{{ site.baseurl }}/api/rate.json | jq '.USD'
+```
+
+### Quick conversion
+
+```js
+function convert(amount, from, to, rate) {
+  const toBs = from === "VES" ? amount : amount * rate[from];
+  return to === "VES" ? toBs : toBs / rate[to];
+}
+
+const rate = await fetch("{{ site.url }}{{ site.baseurl }}/api/rate.json").then((r) => r.json());
+
+console.log(convert(100, "USD", "VES", rate));
+console.log(convert(1000, "VES", "USD", rate));
 ```
 
 ## Availability and caching

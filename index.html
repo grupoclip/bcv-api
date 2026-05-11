@@ -20,12 +20,24 @@ faq_key: homepage
 
 <div class="meta" id="meta">
   {%- if rate.effective_date -%}
-    <span>{{ t.date_label }}: <strong>{{ rate.effective_date }}</strong></span>
+    <span>{{ t.effective_label }}: <strong>{{ rate.effective_date }}</strong></span>
   {%- endif -%}
   {%- if rate.updated_at -%}
-    <span>{{ t.scraped_label }}: <strong>{{ rate.updated_at | date: "%Y-%m-%d %H:%M UTC" }}</strong></span>
+    <span>{{ t.captured_label }}: <strong>{{ rate.updated_at | date: "%Y-%m-%d %H:%M UTC" }}</strong></span>
   {%- endif -%}
 </div>
+
+<div class="status-strip" id="api-status">
+  <span class="status-pill ok">{{ t.status_ok }}</span>
+  {%- if rate.effective_date -%}
+    <span>{{ t.effective_label }} <strong>{{ rate.effective_date }}</strong></span>
+  {%- endif -%}
+  {%- if rate.updated_at -%}
+    <span>{{ t.captured_label }} <strong>{{ rate.updated_at | date: "%Y-%m-%d %H:%M UTC" }}</strong></span>
+  {%- endif -%}
+  <a href="{{ api_url }}">{{ t.nav_api }}</a>
+</div>
+
 <div class="grid" id="grid">
   {%- for item in t.currencies -%}
     {%- assign code = item[0] -%}
@@ -108,10 +120,15 @@ faq_key: homepage
   const RATE_URL = "{{ rate_url }}";
   const HISTORY_URL = "{{ history_url }}";
   const HISTORY_PAGE_URL = "{{ history_page_url }}";
+  const API_PAGE_URL = "{{ api_url }}";
   const STRINGS = {
     error: "{{ t.error_loading }}",
     date: "{{ t.date_label }}",
-    scraped: "{{ t.scraped_label }}",
+    scraped: "{{ t.captured_label }}",
+    effective: "{{ t.effective_label }}",
+    statusOk: "{{ t.status_ok }}",
+    statusPartial: "{{ t.status_partial }}",
+    apiLabel: "{{ t.nav_api }}",
     updated: "{{ t.updated_label }}",
     zone: "{{ t.caracas_zone }}",
     view_history: "{{ t.card_view_history }}",

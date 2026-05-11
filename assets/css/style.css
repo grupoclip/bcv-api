@@ -240,6 +240,42 @@ h3 {
   font-weight: 600;
 }
 
+.status-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin: -4px 0 24px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.status-strip strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.status-strip a {
+  margin-left: auto;
+  font-weight: 700;
+}
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: #187a3b;
+}
+.status-pill.partial {
+  background: #a35a00;
+}
+
 .grid {
   display: grid;
   gap: 16px;
@@ -561,6 +597,10 @@ a.card:hover {
 
 /* History page --------------------------------------------------------- */
 .history-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
   margin: 16px 0 24px;
 }
 .history-field {
@@ -582,6 +622,29 @@ a.card:hover {
 .history-field select:focus {
   outline: none;
   border-color: var(--accent);
+}
+.history-range {
+  flex-wrap: wrap;
+}
+.history-range button {
+  min-width: 44px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-2);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+}
+.history-range button:hover,
+.history-range button.is-active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.history-controls .button-link {
+  margin-left: auto;
 }
 .history-stats {
   display: grid;
@@ -825,6 +888,15 @@ a.card:hover {
 
   .history-pagination {
     justify-content: space-between;
+  }
+
+  .status-strip a,
+  .history-controls .button-link {
+    margin-left: 0;
+  }
+
+  .history-controls {
+    align-items: stretch;
   }
 
   .rate-hero {

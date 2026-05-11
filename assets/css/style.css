@@ -501,12 +501,14 @@ a.card:hover {
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 20px;
+  width: 100%;
   max-width: 560px;
   position: relative;
 }
 .calc-row {
   display: flex;
   gap: 10px;
+  min-width: 0;
 }
 .calc-input,
 .calc-select {
@@ -524,7 +526,9 @@ a.card:hover {
   min-width: 0;
 }
 .calc-select {
-  flex: 0 0 auto;
+  flex: 0 1 240px;
+  min-width: 0;
+  max-width: 240px;
 }
 .calc-input:focus,
 .calc-select:focus {
@@ -658,5 +662,25 @@ a.card:hover {
     order: 3;
     width: 100%;
     margin-left: 0;
+  }
+
+  .calculator {
+    padding: 14px;
+  }
+
+  .calc-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(92px, 38%);
+    gap: 8px;
+  }
+
+  .calc-input,
+  .calc-select {
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .calc-select {
+    max-width: none;
   }
 }

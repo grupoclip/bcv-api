@@ -1,0 +1,40 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://bcv.today/api/",
+      "service-desc": [
+        {
+          "href": "https://bcv.today/openapi.json",
+          "type": "application/vnd.oai.openapi+json",
+          "title": "BCV Today OpenAPI description"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://bcv.today/api/",
+          "type": "text/html",
+          "title": "BCV Today API documentation"
+        },
+        {
+          "href": "https://bcv.today/en/api/",
+          "type": "text/html",
+          "title": "BCV Today API documentation in English"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://bcv.today/api/status.json",
+          "type": "application/json",
+          "title": "BCV Today API status"
+        }
+      ],
+      "describedby": [
+        {
+          "href": "https://bcv.today/llms.txt",
+          "type": "text/plain",
+          "title": "BCV Today agent index"
+        }
+      ]
+    }
+  ]
+}

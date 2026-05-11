@@ -1,0 +1,154 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "BCV Today API",
+    "version": "1.0.0",
+    "description": "Read-only JSON API for official Banco Central de Venezuela exchange rates served as static files.",
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/grupoclip/bcv-api/blob/main/LICENSE"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://bcv.today"
+    }
+  ],
+  "paths": {
+    "/api/rate.json": {
+      "get": {
+        "operationId": "getLatestRate",
+        "summary": "Get latest BCV exchange rates",
+        "responses": {
+          "200": {
+            "description": "Latest current rate entry",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rate"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/history.json": {
+      "get": {
+        "operationId": "getHistoryIndex",
+        "summary": "Get recent BCV exchange-rate history",
+        "responses": {
+          "200": {
+            "description": "Up to the latest 365 daily entries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Rate"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/history/{date}.json": {
+      "get": {
+        "operationId": "getHistoryByDate",
+        "summary": "Get one dated BCV exchange-rate snapshot",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "description": "Calendar date in YYYY-MM-DD format.",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "examples": ["2026-05-11"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One daily rate snapshot",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rate"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No snapshot exists for the requested date."
+          }
+        }
+      }
+    },
+    "/api/status.json": {
+      "get": {
+        "operationId": "getApiStatus",
+        "summary": "Get API freshness and currency availability",
+        "responses": {
+          "200": {
+            "description": "API status document",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Rate": {
+        "type": "object",
+        "properties": {
+          "USD": { "type": "number", "description": "Bolivares per 1 US dollar." },
+          "EUR": { "type": "number", "description": "Bolivares per 1 euro." },
+          "CNY": { "type": "number", "description": "Bolivares per 1 Chinese yuan." },
+          "TRY": { "type": "number", "description": "Bolivares per 1 Turkish lira." },
+          "RUB": { "type": "number", "description": "Bolivares per 1 Russian ruble." },
+          "updated_at": { "type": "string", "format": "date-time" },
+          "effective_date": { "type": "string", "format": "date" },
+          "date": { "type": "string", "format": "date" },
+          "source": { "type": "string" }
+        },
+        "required": ["USD", "EUR", "CNY", "TRY", "RUB", "updated_at", "date"]
+      },
+      "Status": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string", "enum": ["ok", "partial"] },
+          "updated_at": { "type": "string", "format": "date-time" },
+          "generated_at": { "type": "string", "format": "date-time" },
+          "date": { "type": "string", "format": "date" },
+          "effective_date": { "type": "string", "format": "date" },
+          "timezone": { "type": "string" },
+          "source": { "type": "string", "format": "uri" },
+          "supported_currencies": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "currencies": {
+            "type": "object",
+            "additionalProperties": { "type": "boolean" }
+          },
+          "endpoints": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          }
+        },
+        "required": ["status", "generated_at", "supported_currencies", "currencies", "endpoints"]
+      }
+    }
+  }
+}

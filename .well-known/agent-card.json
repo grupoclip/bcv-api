@@ -1,0 +1,49 @@
+{
+  "name": "BCV Today Data Agent",
+  "description": "Machine-readable discovery card for the BCV Today public exchange-rate data service.",
+  "version": "1.0.0",
+  "url": "https://bcv.today",
+  "documentationUrl": "https://bcv.today/api/",
+  "provider": {
+    "organization": "BCV Today",
+    "url": "https://bcv.today"
+  },
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": false
+  },
+  "defaultInputModes": ["text/plain", "application/json"],
+  "defaultOutputModes": ["application/json", "text/plain"],
+  "skills": [
+    {
+      "id": "get-latest-bcv-rates",
+      "name": "Get latest BCV exchange rates",
+      "description": "Fetch current official BCV rates for USD, EUR, CNY, TRY and RUB against the Venezuelan bolivar.",
+      "tags": ["exchange-rates", "venezuela", "bcv", "api"],
+      "examples": [
+        "Get the latest BCV dollar rate",
+        "Fetch current USD/VES and EUR/VES official rates"
+      ]
+    },
+    {
+      "id": "get-bcv-rate-history",
+      "name": "Get BCV exchange-rate history",
+      "description": "Fetch recent daily history or a specific dated snapshot from the static JSON API.",
+      "tags": ["history", "time-series", "exchange-rates"],
+      "examples": [
+        "Get BCV history for 2026-05-11",
+        "Fetch the recent USD/VES history"
+      ]
+    }
+  ],
+  "interfaces": [
+    {
+      "url": "https://bcv.today/openapi.json",
+      "protocolBinding": "OpenAPI",
+      "protocolVersion": "3.1.0"
+    }
+  ],
+  "securitySchemes": {},
+  "security": []
+}

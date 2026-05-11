@@ -1,0 +1,98 @@
+# BCV Today Agent Context
+
+BCV Today is an unofficial public data service for the official exchange rates published by Banco Central de Venezuela. It exposes a bilingual website and a static JSON API for agents, applications and humans.
+
+## Base URL
+
+https://bcv.today
+
+## Data source
+
+The source is the public Banco Central de Venezuela website:
+
+https://www.bcv.org.ve/
+
+BCV usually publishes rates on business days around 16:30 Caracas time, effective for the next business day. The `effective_date` field represents the official validity date, sometimes called Fecha Valor.
+
+## Supported currencies
+
+- USD: US dollar
+- EUR: Euro
+- CNY: Chinese yuan
+- TRY: Turkish lira
+- RUB: Russian ruble
+
+All numeric currency fields are denominated in bolivares per one unit of the foreign currency.
+
+## API
+
+The API is public, unauthenticated, read-only and served as static JSON.
+
+### Latest rate
+
+`GET https://bcv.today/api/rate.json`
+
+Returns the latest current rate entry.
+
+Example response:
+
+```json
+{
+  "USD": 500.4606,
+  "EUR": 589.27233807,
+  "CNY": 73.59606476,
+  "TRY": 11.03277068,
+  "RUB": 6.71398712,
+  "updated_at": "2026-05-11T15:39:01.127606+00:00",
+  "effective_date": "2026-05-11",
+  "date": "2026-05-11"
+}
+```
+
+### History index
+
+`GET https://bcv.today/api/history.json`
+
+Returns up to the latest 365 daily entries, ordered from oldest to newest.
+
+### History by date
+
+`GET https://bcv.today/api/history/{YYYY-MM-DD}.json`
+
+Returns the snapshot for one calendar date, for example:
+
+`GET https://bcv.today/api/history/2026-05-11.json`
+
+### Status
+
+`GET https://bcv.today/api/status.json`
+
+Returns the publication status, latest generated timestamp, effective date and supported currency availability.
+
+## Machine-readable discovery
+
+- OpenAPI: https://bcv.today/openapi.json
+- API catalog: https://bcv.today/.well-known/api-catalog
+- API catalog JSON copy: https://bcv.today/.well-known/api-catalog.json
+- Agent card: https://bcv.today/.well-known/agent-card.json
+- Sitemap: https://bcv.today/sitemap.xml
+- Robots: https://bcv.today/robots.txt
+
+## Human pages
+
+- Spanish homepage: https://bcv.today/
+- English homepage: https://bcv.today/en/
+- Spanish API docs: https://bcv.today/api/
+- English API docs: https://bcv.today/en/api/
+- Spanish history: https://bcv.today/history/
+- English history: https://bcv.today/en/history/
+- Dollar page: https://bcv.today/dolar-bcv/
+- Euro page: https://bcv.today/euro-bcv/
+
+## Usage guidance
+
+Prefer `api/status.json` before long-running integrations to confirm freshness. Prefer `api/rate.json` for current conversions. Prefer `api/history.json` for charting and recent time-series analysis. Use dated history files when reproducibility for a specific calendar date matters.
+
+## Disclaimer
+
+BCV Today is not affiliated with Banco Central de Venezuela. Data is provided as-is from public sources. Verify against the official BCV source before relying on the data for financial, legal or operational decisions.

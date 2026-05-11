@@ -1,0 +1,33 @@
+# BCV Today
+
+> Official Banco Central de Venezuela exchange rates made available as a static website and JSON API.
+
+BCV Today publishes the official Banco Central de Venezuela rates for USD, EUR, CNY, TRY and RUB against the Venezuelan bolivar. The site is unofficial and uses public BCV data.
+
+## Agent entry points
+
+- API documentation: https://bcv.today/api/
+- OpenAPI description: https://bcv.today/openapi.json
+- API catalog: https://bcv.today/.well-known/api-catalog
+- API status: https://bcv.today/api/status.json
+- Latest rate: https://bcv.today/api/rate.json
+- History index: https://bcv.today/api/history.json
+- Sitemap: https://bcv.today/sitemap.xml
+- Full agent context: https://bcv.today/llms-full.txt
+
+## API endpoints
+
+- `GET /api/rate.json` returns the latest current rate entry.
+- `GET /api/history.json` returns up to the latest 365 daily entries.
+- `GET /api/history/{YYYY-MM-DD}.json` returns one calendar-day snapshot.
+- `GET /api/status.json` returns freshness, effective date and supported currency status.
+
+## Notes for agents
+
+- No authentication is required.
+- Responses are static JSON files served from GitHub Pages.
+- Dates are ISO 8601 strings.
+- `effective_date` is the official BCV validity date.
+- `updated_at` is the UTC capture timestamp.
+- On weekends and holidays, `effective_date` may point to the previous business day whose rate remains in effect.
+- This project is not affiliated with Banco Central de Venezuela.

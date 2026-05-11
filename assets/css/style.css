@@ -1,24 +1,24 @@
 :root {
   color-scheme: dark;
-  --bg: #0b1020;
-  --panel: #121a33;
-  --panel-2: #182242;
-  --text: #e8ecf5;
-  --muted: #9aa3bf;
+  --bg: #050505;
+  --panel: #101010;
+  --panel-2: #181818;
+  --text: #eeeeee;
+  --muted: #a3a3a3;
   --accent: #ffd166;
-  --border: #233056;
-  --code-bg: #0f1730;
+  --border: #2a2a2a;
+  --code-bg: #0c0c0c;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 
   /* Syntax highlight tokens */
-  --syn-comment: #7a86a8;
+  --syn-comment: #858585;
   --syn-keyword: #ff8fa3;
   --syn-string: #b9eea0;
   --syn-number: #ffd166;
-  --syn-name: #e8ecf5;
+  --syn-name: #eeeeee;
   --syn-builtin: #88d0ff;
-  --syn-operator: #c2cae6;
-  --syn-punct: #c2cae6;
+  --syn-operator: #c7c7c7;
+  --syn-punct: #c7c7c7;
   --syn-tag: #ff8fa3;
 }
 

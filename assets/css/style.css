@@ -30,7 +30,7 @@
   --panel-2: #f0f3fa;
   --text: #16213e;
   --muted: #5b6478;
-  --accent: #b8860b;
+  --accent: #7a5700;
   --border: #e3e8f3;
   --code-bg: #eef1f8;
   --shadow: 0 1px 2px rgba(15, 23, 50, 0.06);
@@ -54,7 +54,7 @@
     --panel-2: #f0f3fa;
     --text: #16213e;
     --muted: #5b6478;
-    --accent: #b8860b;
+    --accent: #7a5700;
     --border: #e3e8f3;
     --code-bg: #eef1f8;
     --shadow: 0 1px 2px rgba(15, 23, 50, 0.06);
@@ -100,6 +100,11 @@ a {
 }
 a:hover {
   text-decoration: underline;
+}
+main a,
+.site-footer a {
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
 }
 
 /* Header ---------------------------------------------------------------- */
@@ -485,11 +490,11 @@ a.card:hover {
 }
 .change.up,
 .up {
-  color: #2ecc71;
+  color: #187a3b;
 }
 .change.down,
 .down {
-  color: #ff6b6b;
+  color: #c83a3a;
 }
 
 /* Calculator ------------------------------------------------------------ */
@@ -641,10 +646,10 @@ a.card:hover {
 }
 
 .history-table td.up {
-  color: #2ecc71;
+  color: #187a3b;
 }
 .history-table td.down {
-  color: #ff6b6b;
+  color: #c83a3a;
 }
 .history-pagination {
   display: flex;

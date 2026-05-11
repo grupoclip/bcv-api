@@ -52,7 +52,7 @@
         --panel-2: #f0f3fa;
         --text: #16213e;
         --muted: #5b6478;
-        --accent: #b8860b;
+        --accent: #7a5700;
         --border: #e3e8f3;
         --code-bg: #eef1f8;
         --shadow: 0 1px 2px rgba(15, 23, 50, 0.06);
@@ -65,7 +65,7 @@
           --panel-2: #f0f3fa;
           --text: #16213e;
           --muted: #5b6478;
-          --accent: #b8860b;
+          --accent: #7a5700;
           --border: #e3e8f3;
           --code-bg: #eef1f8;
           --shadow: 0 1px 2px rgba(15, 23, 50, 0.06);
@@ -88,7 +88,8 @@
       }
       a {
         color: var(--accent);
-        text-decoration: none;
+        text-decoration: underline;
+        text-underline-offset: 0.14em;
       }
       .site-header {
         border-bottom: 1px solid var(--border);
@@ -114,6 +115,7 @@
         font-weight: 700;
         font-size: 1.05rem;
         color: var(--text);
+        text-decoration: none;
       }
       .brand img { display: block; }
       .site-nav {
@@ -140,6 +142,7 @@
         color: var(--muted);
         font-size: 0.85rem;
         font-weight: 600;
+        text-decoration: none;
       }
       main.container {
         padding-top: 40px;
@@ -179,6 +182,7 @@
         border-radius: 12px;
       }
       .card { padding: 20px; }
+      a.card { text-decoration: none; }
       .card-head {
         display: flex;
         align-items: center;

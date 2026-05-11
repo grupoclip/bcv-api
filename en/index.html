@@ -31,7 +31,7 @@ description: BCV dollar today, euro rate and official Banco Central de Venezuela
     {%- assign code = item[0] -%}
     {%- assign name = item[1] -%}
     {%- if code != 'VES' and rate[code] -%}
-      <a class="card" href="{{ history_page_url }}?c={{ code }}" aria-label="View history {{ code }}">
+      <a class="card" href="{{ history_page_url }}?c={{ code }}">
         <div class="card-head">
           <div class="curr-icon" data-code="{{ code }}">
             {%- case code -%}
@@ -59,8 +59,9 @@ description: BCV dollar today, euro rate and official Banco Central de Venezuela
       inputmode="decimal"
       id="calc-amount-from"
       class="calc-input"
+      aria-label="Source amount"
     />
-    <select id="calc-currency-from" class="calc-select"></select>
+    <select id="calc-currency-from" class="calc-select" aria-label="Source currency"></select>
   </div>
   <button type="button" id="calc-swap" class="calc-swap" aria-label="{{ t.calc_swap }}" title="{{ t.calc_swap }}">
     <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
@@ -74,8 +75,9 @@ description: BCV dollar today, euro rate and official Banco Central de Venezuela
       inputmode="decimal"
       id="calc-amount-to"
       class="calc-input"
+      aria-label="Target amount"
     />
-    <select id="calc-currency-to" class="calc-select"></select>
+    <select id="calc-currency-to" class="calc-select" aria-label="Target currency"></select>
   </div>
 </div>
 

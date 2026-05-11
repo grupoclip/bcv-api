@@ -119,7 +119,6 @@
       const card = document.createElement("a");
       card.className = "card";
       card.href = href;
-      card.setAttribute("aria-label", STRINGS.view_history + " " + code);
       card.innerHTML =
         '<div class="card-head">' +
         '<div class="curr-icon" data-code="' +

@@ -28,6 +28,29 @@ CURRENCIES = {
 }
 
 
+def read_json(path):
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def same_rate_payload(a, b):
+    if not isinstance(a, dict) or not isinstance(b, dict):
+        return False
+    keys = list(CURRENCIES.keys()) + ["date", "effective_date"]
+    return all(a.get(key) == b.get(key) for key in keys)
+
+
+def stable_rate_payload(new_rate, previous_rate):
+    if isinstance(previous_rate, dict) and same_rate_payload(new_rate, previous_rate) and previous_rate.get("updated_at"):
+        out = {**new_rate}
+        out["updated_at"] = previous_rate["updated_at"]
+        return out
+    return new_rate
+
+
 def parse_rate(html, element_id):
     container = html.find('div', {'id': element_id})
     text = container.find('strong').text.strip()
@@ -185,15 +208,25 @@ def build_current_rate():
 
 
 def build_status(current_rate):
+    previous_status = read_json(STATUS_PATH)
     now = datetime.now(timezone.utc)
     currency_status = {
         code: isinstance(current_rate.get(code), (int, float))
         for code in CURRENCIES.keys()
     }
+    generated_at = now.isoformat()
+    if (
+        isinstance(previous_status, dict)
+        and previous_status.get("updated_at") == current_rate.get("updated_at")
+        and previous_status.get("date") == current_rate.get("date")
+        and previous_status.get("effective_date") == current_rate.get("effective_date")
+        and previous_status.get("currencies") == currency_status
+    ):
+        generated_at = previous_status.get("generated_at", generated_at)
     return {
         "status": "ok" if all(currency_status.values()) else "partial",
         "updated_at": current_rate.get("updated_at"),
-        "generated_at": now.isoformat(),
+        "generated_at": generated_at,
         "date": current_rate.get("date"),
         "effective_date": current_rate.get("effective_date"),
         "timezone": "America/Caracas",
@@ -211,11 +244,14 @@ def build_status(current_rate):
 if __name__ == "__main__":
     rates = get_rates()
     # Persist the canonical snapshot for the captured effective date.
-    write_json(os.path.join(HISTORY_DIR, f"{rates['date']}.json"), rates)
+    canonical_path = os.path.join(HISTORY_DIR, f"{rates['date']}.json")
+    rates = stable_rate_payload(rates, read_json(canonical_path))
+    write_json(canonical_path, rates)
     # Fill calendar days (weekends/holidays inherit the previous business day's rate).
     rebuild_calendar_history()
     # api/rate.json reflects *today's* rate, with all currencies present.
     current_rate = build_current_rate()
+    current_rate = stable_rate_payload(current_rate, read_json(DATA_RATE))
     write_json(os.path.join(API_DIR, "rate.json"), current_rate)
     write_json(STATUS_PATH, build_status(current_rate))
     # Jekyll reads _data/rate.json at build time so the latest rates are also

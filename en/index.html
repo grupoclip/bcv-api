@@ -70,4 +70,4 @@ alt_url: /
   };
   const CURRENCY_NAMES = {{ t.currencies | jsonify }};
 </script>
-<script src="{{ '/assets/js/dashboard.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/dashboard.js' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}"></script>

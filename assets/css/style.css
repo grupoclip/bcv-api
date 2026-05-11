@@ -646,6 +646,33 @@ a.card:hover {
 .history-table td.down {
   color: #ff6b6b;
 }
+.history-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin: -4px 0 24px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.history-pagination button {
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-2);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+}
+.history-pagination button:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.history-pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
 
 /* Footer ---------------------------------------------------------------- */
 .site-footer {
@@ -682,5 +709,9 @@ a.card:hover {
 
   .calc-select {
     max-width: none;
+  }
+
+  .history-pagination {
+    justify-content: space-between;
   }
 }

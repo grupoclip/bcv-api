@@ -1,6 +1,8 @@
 (function () {
   const FOREIGN_CODES = Object.keys(CURRENCY_NAMES).filter((c) => c !== "VES");
   const WINDOW = 20;
+  const PAGE_SIZE = 25;
+  let tablePage = 1;
   const CURRENCY_SYMBOLS = {
     USD: "$",
     EUR: "€",
@@ -174,6 +176,10 @@
     const chartCard = document.getElementById("chart-card");
     const table = document.getElementById("history-table");
     const rows = document.getElementById("history-rows");
+    const pagination = document.getElementById("history-pagination");
+    const prevBtn = document.getElementById("history-prev");
+    const nextBtn = document.getElementById("history-next");
+    const pageLabel = document.getElementById("history-page-label");
 
     const today = todayCaracas();
     // Drop any entries dated in the future (rates already captured but not yet in effect).
@@ -187,6 +193,7 @@
       stats.hidden = true;
       chartCard.hidden = true;
       table.hidden = true;
+      pagination.hidden = true;
       return;
     }
     message.hidden = true;
@@ -234,32 +241,59 @@
     document.getElementById("chart").innerHTML = chartSvg(recent);
     chartCard.hidden = false;
 
-    rows.innerHTML = "";
     const reversed = series.slice().reverse();
-    for (let i = 0; i < reversed.length; i++) {
-      const d = reversed[i];
-      const next = reversed[i + 1];
-      let changeCell = "—";
-      let cls = "";
-      if (next) {
-        const ch = ((d.value - next.value) / next.value) * 100;
-        cls = ch >= 0 ? "up" : "down";
-        changeCell = fmtPct(ch);
+    const totalPages = Math.max(1, Math.ceil(reversed.length / PAGE_SIZE));
+    tablePage = Math.min(Math.max(1, tablePage), totalPages);
+
+    function renderTablePage() {
+      const start = (tablePage - 1) * PAGE_SIZE;
+      const pageRows = reversed.slice(start, start + PAGE_SIZE);
+      rows.innerHTML = "";
+      for (let i = 0; i < pageRows.length; i++) {
+        const d = pageRows[i];
+        const next = reversed[start + i + 1];
+        let changeCell = "—";
+        let cls = "";
+        if (next) {
+          const ch = ((d.value - next.value) / next.value) * 100;
+          cls = ch >= 0 ? "up" : "down";
+          changeCell = fmtPct(ch);
+        }
+        const tr = document.createElement("tr");
+        tr.innerHTML =
+          "<td>" +
+          fmtDate(d.date) +
+          "</td><td>" +
+          fmtRate(d.value) +
+          '</td><td class="' +
+          cls +
+          '">' +
+          changeCell +
+          "</td>";
+        rows.appendChild(tr);
       }
-      const tr = document.createElement("tr");
-      tr.innerHTML =
-        "<td>" +
-        fmtDate(d.date) +
-        "</td><td>" +
-        fmtRate(d.value) +
-        '</td><td class="' +
-        cls +
-        '">' +
-        changeCell +
-        "</td>";
-      rows.appendChild(tr);
+
+      prevBtn.disabled = tablePage <= 1;
+      nextBtn.disabled = tablePage >= totalPages;
+      pageLabel.textContent = STRINGS.page_label
+        .replace("%{page}", tablePage)
+        .replace("%{pages}", totalPages);
     }
+
+    prevBtn.onclick = () => {
+      if (tablePage <= 1) return;
+      tablePage -= 1;
+      renderTablePage();
+    };
+    nextBtn.onclick = () => {
+      if (tablePage >= totalPages) return;
+      tablePage += 1;
+      renderTablePage();
+    };
+
+    renderTablePage();
     table.hidden = false;
+    pagination.hidden = reversed.length <= PAGE_SIZE;
   }
 
   async function load() {
@@ -292,6 +326,7 @@
       const url = new URL(location.href);
       url.searchParams.set("c", select.value);
       window.history.replaceState({}, "", url);
+      tablePage = 1;
       render(history, current, select.value);
     });
   }

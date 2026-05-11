@@ -40,6 +40,9 @@ es:
   history_table_date: "Fecha"
   history_table_value: "Valor (Bs.)"
   history_table_change: "Variación"
+  history_prev: "Anterior"
+  history_next: "Siguiente"
+  history_page_label: "Página %{page} de %{pages}"
   currencies:
     USD: "Dólar estadounidense"
     EUR: "Euro"
@@ -89,6 +92,9 @@ en:
   history_table_date: "Date"
   history_table_value: "Value (Bs.)"
   history_table_change: "Change"
+  history_prev: "Previous"
+  history_next: "Next"
+  history_page_label: "Page %{page} of %{pages}"
   currencies:
     USD: "US Dollar"
     EUR: "Euro"

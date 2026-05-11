@@ -50,6 +50,11 @@ alt_url: /history/
   </thead>
   <tbody id="history-rows"></tbody>
 </table>
+<div class="history-pagination" id="history-pagination" hidden>
+  <button type="button" id="history-prev">{{ t.history_prev }}</button>
+  <span id="history-page-label"></span>
+  <button type="button" id="history-next">{{ t.history_next }}</button>
+</div>
 
 <script>
   const LANG = "{{ page.lang }}";
@@ -62,6 +67,7 @@ alt_url: /history/
     loading: "{{ t.loading }}",
     no_data: "{{ t.history_no_data }}",
     change_n_label: "{{ t.history_change_n }}",
+    page_label: "{{ t.history_page_label }}",
   };
 </script>
 <script src="{{ '/assets/js/history.js' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}"></script>

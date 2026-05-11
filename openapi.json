@@ -15,7 +15,7 @@
     }
   ],
   "paths": {
-    "/api/rate.json": {
+    "/api/v1/rate.json": {
       "get": {
         "operationId": "getLatestRate",
         "summary": "Get latest BCV exchange rates",
@@ -33,7 +33,7 @@
         }
       }
     },
-    "/api/history.json": {
+    "/api/v1/history.json": {
       "get": {
         "operationId": "getHistoryIndex",
         "summary": "Get recent BCV exchange-rate history",
@@ -54,7 +54,7 @@
         }
       }
     },
-    "/api/history/{date}.json": {
+    "/api/v1/history/{date}.json": {
       "get": {
         "operationId": "getHistoryByDate",
         "summary": "Get one dated BCV exchange-rate snapshot",
@@ -88,7 +88,7 @@
         }
       }
     },
-    "/api/status.json": {
+    "/api/v1/status.json": {
       "get": {
         "operationId": "getApiStatus",
         "summary": "Get API freshness and currency availability",
@@ -134,6 +134,7 @@
           "effective_date": { "type": "string", "format": "date" },
           "timezone": { "type": "string" },
           "source": { "type": "string", "format": "uri" },
+          "api_version": { "type": "string", "const": "v1" },
           "supported_currencies": {
             "type": "array",
             "items": { "type": "string" }
@@ -147,7 +148,7 @@
             "additionalProperties": { "type": "string" }
           }
         },
-        "required": ["status", "generated_at", "supported_currencies", "currencies", "endpoints"]
+        "required": ["status", "generated_at", "api_version", "supported_currencies", "currencies", "endpoints"]
       }
     }
   }

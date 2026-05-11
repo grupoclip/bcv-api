@@ -97,19 +97,19 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://bcv.today/api/rate.json</loc>
+    <loc>https://bcv.today/api/v1/rate.json</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://bcv.today/api/history.json</loc>
+    <loc>https://bcv.today/api/v1/history.json</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://bcv.today/api/status.json</loc>
+    <loc>https://bcv.today/api/v1/status.json</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.4</priority>

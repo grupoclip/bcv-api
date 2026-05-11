@@ -9,18 +9,18 @@ BCV Today publishes the official Banco Central de Venezuela rates for USD, EUR, 
 - API documentation: https://bcv.today/api/
 - OpenAPI description: https://bcv.today/openapi.json
 - API catalog: https://bcv.today/.well-known/api-catalog
-- API status: https://bcv.today/api/status.json
-- Latest rate: https://bcv.today/api/rate.json
-- History index: https://bcv.today/api/history.json
+- API status: https://bcv.today/api/v1/status.json
+- Latest rate: https://bcv.today/api/v1/rate.json
+- History index: https://bcv.today/api/v1/history.json
 - Sitemap: https://bcv.today/sitemap.xml
 - Full agent context: https://bcv.today/llms-full.txt
 
 ## API endpoints
 
-- `GET /api/rate.json` returns the latest current rate entry.
-- `GET /api/history.json` returns up to the latest 365 daily entries.
-- `GET /api/history/{YYYY-MM-DD}.json` returns one calendar-day snapshot.
-- `GET /api/status.json` returns freshness, effective date and supported currency status.
+- `GET /api/v1/rate.json` returns the latest current rate entry.
+- `GET /api/v1/history.json` returns up to the latest 365 daily entries.
+- `GET /api/v1/history/{YYYY-MM-DD}.json` returns one calendar-day snapshot.
+- `GET /api/v1/status.json` returns freshness, effective date and supported currency status.
 
 ## Notes for agents
 

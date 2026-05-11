@@ -13,6 +13,7 @@
     "TRY",
     "RUB"
   ],
+  "api_version": "v1",
   "currencies": {
     "USD": true,
     "EUR": true,
@@ -21,8 +22,8 @@
     "RUB": true
   },
   "endpoints": {
-    "latest": "/api/rate.json",
-    "history": "/api/history.json",
-    "status": "/api/status.json"
+    "latest": "/api/v1/rate.json",
+    "history": "/api/v1/history.json",
+    "status": "/api/v1/status.json"
   }
 }

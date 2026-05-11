@@ -1,7 +1,7 @@
 {
   "linkset": [
     {
-      "anchor": "https://bcv.today/api/",
+      "anchor": "https://bcv.today/api/v1/",
       "service-desc": [
         {
           "href": "https://bcv.today/openapi.json",
@@ -23,7 +23,7 @@
       ],
       "status": [
         {
-          "href": "https://bcv.today/api/status.json",
+          "href": "https://bcv.today/api/v1/status.json",
           "type": "application/json",
           "title": "BCV Today API status"
         }

@@ -13,6 +13,8 @@ A free read-only JSON BCV API for the official exchange rates published by Banco
 
 **Base URL:** `{{ site.url }}{{ site.baseurl }}`
 
+**API v1 root:** `{{ site.url }}{{ site.baseurl }}/api/v1`
+
 ## Agent discovery
 
 | Resource | URL | Use |
@@ -29,15 +31,15 @@ A free read-only JSON BCV API for the official exchange rates published by Banco
 
 <div class="endpoint">
   <span class="method">GET</span>
-  <span class="path">/api/rate.json</span>
+  <span class="path">/api/v1/rate.json</span>
 </div>
 
-Returns today's current rate entry. The file is rebuilt every time the scraper runs and commits only when the generated files in `api/` change.
+Returns today's current rate entry. The file is rebuilt every time the scraper runs and commits only when the generated files in `api/v1/` change.
 
 **Example:**
 
 ```bash
-curl -s {{ site.url }}{{ site.baseurl }}/api/rate.json
+curl -s {{ site.url }}{{ site.baseurl }}/api/v1/rate.json
 ```
 
 ```json
@@ -57,7 +59,7 @@ curl -s {{ site.url }}{{ site.baseurl }}/api/rate.json
 
 <div class="endpoint">
   <span class="method">GET</span>
-  <span class="path">/api/history.json</span>
+  <span class="path">/api/v1/history.json</span>
 </div>
 
 Returns up to the latest 365 daily entries, ordered from oldest to newest. This file powers the history chart and table on the website.
@@ -65,14 +67,14 @@ Returns up to the latest 365 daily entries, ordered from oldest to newest. This 
 **Example:**
 
 ```bash
-curl -s {{ site.url }}{{ site.baseurl }}/api/history.json
+curl -s {{ site.url }}{{ site.baseurl }}/api/v1/history.json
 ```
 
 ### API status
 
 <div class="endpoint">
   <span class="method">GET</span>
-  <span class="path">/api/status.json</span>
+  <span class="path">/api/v1/status.json</span>
 </div>
 
 Returns the status of the published dataset, the effective date, generation time, and available currencies.
@@ -80,7 +82,7 @@ Returns the status of the published dataset, the effective date, generation time
 **Example:**
 
 ```bash
-curl -s {{ site.url }}{{ site.baseurl }}/api/status.json
+curl -s {{ site.url }}{{ site.baseurl }}/api/v1/status.json
 ```
 
 ```json
@@ -91,6 +93,7 @@ curl -s {{ site.url }}{{ site.baseurl }}/api/status.json
   "date": "2026-05-11",
   "effective_date": "2026-05-11",
   "timezone": "America/Caracas",
+  "api_version": "v1",
   "supported_currencies": ["USD", "EUR", "CNY", "TRY", "RUB"]
 }
 ```
@@ -99,7 +102,7 @@ curl -s {{ site.url }}{{ site.baseurl }}/api/status.json
 
 <div class="endpoint">
   <span class="method">GET</span>
-  <span class="path">/api/history/{YYYY-MM-DD}.json</span>
+  <span class="path">/api/v1/history/{YYYY-MM-DD}.json</span>
 </div>
 
 Returns the snapshot stored for a specific `America/Caracas` calendar date. The response format matches `rate.json`.
@@ -111,7 +114,7 @@ Returns the snapshot stored for a specific `America/Caracas` calendar date. The 
 **Example:**
 
 ```bash
-curl -s {{ site.url }}{{ site.baseurl }}/api/history/2026-05-11.json
+curl -s {{ site.url }}{{ site.baseurl }}/api/v1/history/2026-05-11.json
 ```
 
 Returns `404` if the requested date does not exist in the repository.
@@ -145,7 +148,7 @@ dashboard, or public docs.
 
 ```md
 ![BCV Today](https://img.shields.io/badge/BCV%20Today-API%20online-187a3b)
-![USD BCV](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fbcv.today%2Fapi%2Frate.json&query=$.USD&label=USD%20BCV&suffix=%20Bs)
+![USD BCV](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fbcv.today%2Fapi%2Fv1%2Frate.json&query=$.USD&label=USD%20BCV&suffix=%20Bs)
 ```
 
 **HTML:**
@@ -157,14 +160,14 @@ dashboard, or public docs.
 />
 <img
   alt="USD BCV"
-  src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fbcv.today%2Fapi%2Frate.json&query=$.USD&label=USD%20BCV&suffix=%20Bs"
+  src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fbcv.today%2Fapi%2Fv1%2Frate.json&query=$.USD&label=USD%20BCV&suffix=%20Bs"
 />
 ```
 
 ### JavaScript
 
 ```js
-const res = await fetch("{{ site.url }}{{ site.baseurl }}/api/rate.json", {
+const res = await fetch("{{ site.url }}{{ site.baseurl }}/api/v1/rate.json", {
   cache: "no-cache",
 });
 const { USD, EUR, date } = await res.json();
@@ -174,7 +177,7 @@ console.log(`Rate for ${date}: USD ${USD} - EUR ${EUR}`);
 ### Node.js
 
 ```js
-const res = await fetch("{{ site.url }}{{ site.baseurl }}/api/rate.json");
+const res = await fetch("{{ site.url }}{{ site.baseurl }}/api/v1/rate.json");
 if (!res.ok) throw new Error(`BCV API ${res.status}`);
 
 const rate = await res.json();
@@ -189,7 +192,7 @@ console.log(`100 USD = ${ves.toFixed(2)} Bs. (${rate.date})`);
 import requests
 
 data = requests.get(
-    "{{ site.url }}{{ site.baseurl }}/api/rate.json",
+    "{{ site.url }}{{ site.baseurl }}/api/v1/rate.json",
     timeout=10,
 ).json()
 
@@ -200,7 +203,7 @@ print(f"USD: {data['USD']}  EUR: {data['EUR']}  ({data['date']})")
 
 ```php
 <?php
-$json = file_get_contents("{{ site.url }}{{ site.baseurl }}/api/rate.json");
+$json = file_get_contents("{{ site.url }}{{ site.baseurl }}/api/v1/rate.json");
 $rate = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
 
 $ves = 100 * $rate["USD"];
@@ -210,7 +213,7 @@ echo "100 USD = " . number_format($ves, 2) . " Bs. ({$rate['date']})";
 ### cURL + jq
 
 ```bash
-curl -s {{ site.url }}{{ site.baseurl }}/api/rate.json | jq '.USD'
+curl -s {{ site.url }}{{ site.baseurl }}/api/v1/rate.json | jq '.USD'
 ```
 
 ### Quick conversion
@@ -221,7 +224,7 @@ function convert(amount, from, to, rate) {
   return to === "VES" ? toBs : toBs / rate[to];
 }
 
-const rate = await fetch("{{ site.url }}{{ site.baseurl }}/api/rate.json").then((r) => r.json());
+const rate = await fetch("{{ site.url }}{{ site.baseurl }}/api/v1/rate.json").then((r) => r.json());
 
 console.log(convert(100, "USD", "VES", rate));
 console.log(convert(1000, "VES", "USD", rate));
@@ -232,7 +235,7 @@ console.log(convert(1000, "VES", "USD", rate));
 - Files are served by **GitHub Pages** behind GitHub's CDN cache.
 - To force a fresh read, use `cache: "no-cache"` with `fetch` or send `Cache-Control: no-cache` with cURL.
 - You can also consume the files through jsDelivr:
-  `https://cdn.jsdelivr.net/gh/{{ site.repository }}/api/rate.json`.
+  `https://cdn.jsdelivr.net/gh/{{ site.repository }}/api/v1/rate.json`.
 
 ## Changes and support
 

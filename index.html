@@ -11,8 +11,8 @@ faq_key: homepage
 {%- assign t = site.data.i18n[page.lang] -%}
 {%- assign rate = site.data.rate -%}
 {%- assign api_url = '/api/' | relative_url -%}
-{%- assign rate_url = '/api/rate.json' | relative_url -%}
-{%- assign history_url = '/api/history.json' | relative_url -%}
+{%- assign rate_url = '/api/v1/rate.json' | relative_url -%}
+{%- assign history_url = '/api/v1/history.json' | relative_url -%}
 {%- assign history_page_url = '/history/' | relative_url -%}
 
 <h1>{{ t.index_title }}</h1>

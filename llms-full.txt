@@ -30,7 +30,7 @@ The API is public, unauthenticated, read-only and served as static JSON.
 
 ### Latest rate
 
-`GET https://bcv.today/api/rate.json`
+`GET https://bcv.today/api/v1/rate.json`
 
 Returns the latest current rate entry.
 
@@ -51,21 +51,21 @@ Example response:
 
 ### History index
 
-`GET https://bcv.today/api/history.json`
+`GET https://bcv.today/api/v1/history.json`
 
 Returns up to the latest 365 daily entries, ordered from oldest to newest.
 
 ### History by date
 
-`GET https://bcv.today/api/history/{YYYY-MM-DD}.json`
+`GET https://bcv.today/api/v1/history/{YYYY-MM-DD}.json`
 
 Returns the snapshot for one calendar date, for example:
 
-`GET https://bcv.today/api/history/2026-05-11.json`
+`GET https://bcv.today/api/v1/history/2026-05-11.json`
 
 ### Status
 
-`GET https://bcv.today/api/status.json`
+`GET https://bcv.today/api/v1/status.json`
 
 Returns the publication status, latest generated timestamp, effective date and supported currency availability.
 
@@ -91,7 +91,7 @@ Returns the publication status, latest generated timestamp, effective date and s
 
 ## Usage guidance
 
-Prefer `api/status.json` before long-running integrations to confirm freshness. Prefer `api/rate.json` for current conversions. Prefer `api/history.json` for charting and recent time-series analysis. Use dated history files when reproducibility for a specific calendar date matters.
+Prefer `api/v1/status.json` before long-running integrations to confirm freshness. Prefer `api/v1/rate.json` for current conversions. Prefer `api/v1/history.json` for charting and recent time-series analysis. Use dated history files when reproducibility for a specific calendar date matters.
 
 ## Disclaimer
 

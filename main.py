@@ -11,10 +11,11 @@ from bs4 import BeautifulSoup
 urllib3.disable_warnings()
 
 API_DIR = "api"
+API_V1_DIR = os.path.join(API_DIR, "v1")
 DATA_DIR = "_data"
-HISTORY_DIR = os.path.join(API_DIR, "history")
-HISTORY_INDEX = os.path.join(API_DIR, "history.json")
-STATUS_PATH = os.path.join(API_DIR, "status.json")
+HISTORY_DIR = os.path.join(API_V1_DIR, "history")
+HISTORY_INDEX = os.path.join(API_V1_DIR, "history.json")
+STATUS_PATH = os.path.join(API_V1_DIR, "status.json")
 DATA_RATE = os.path.join(DATA_DIR, "rate.json")
 HISTORY_INDEX_LIMIT = 365
 VENEZUELA_TZ = ZoneInfo("America/Caracas")
@@ -232,11 +233,12 @@ def build_status(current_rate):
         "timezone": "America/Caracas",
         "source": "https://www.bcv.org.ve/",
         "supported_currencies": list(CURRENCIES.keys()),
+        "api_version": "v1",
         "currencies": currency_status,
         "endpoints": {
-            "latest": "/api/rate.json",
-            "history": "/api/history.json",
-            "status": "/api/status.json",
+            "latest": "/api/v1/rate.json",
+            "history": "/api/v1/history.json",
+            "status": "/api/v1/status.json",
         },
     }
 
@@ -249,10 +251,10 @@ if __name__ == "__main__":
     write_json(canonical_path, rates)
     # Fill calendar days (weekends/holidays inherit the previous business day's rate).
     rebuild_calendar_history()
-    # api/rate.json reflects *today's* rate, with all currencies present.
+    # api/v1/rate.json reflects *today's* rate, with all currencies present.
     current_rate = build_current_rate()
     current_rate = stable_rate_payload(current_rate, read_json(DATA_RATE))
-    write_json(os.path.join(API_DIR, "rate.json"), current_rate)
+    write_json(os.path.join(API_V1_DIR, "rate.json"), current_rate)
     write_json(STATUS_PATH, build_status(current_rate))
     # Jekyll reads _data/rate.json at build time so the latest rates are also
     # present in crawlable HTML, not only in client-rendered JSON.

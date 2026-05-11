@@ -32,16 +32,23 @@ Base URL:
 https://bcv.today
 ```
 
+API v1 root:
+
+```text
+https://bcv.today/api/v1
+```
+
 | Resource | Path | Description |
 | --- | --- | --- |
-| Latest rate | `/api/rate.json` | Today's current rate entry. |
-| History index | `/api/history.json` | Up to the latest 365 daily entries. |
-| History by date | `/api/history/YYYY-MM-DD.json` | One calendar-day snapshot. |
+| Latest rate | `/api/v1/rate.json` | Today's current rate entry. |
+| History index | `/api/v1/history.json` | Up to the latest 365 daily entries. |
+| History by date | `/api/v1/history/YYYY-MM-DD.json` | One calendar-day snapshot. |
+| API status | `/api/v1/status.json` | Freshness, API version and currency availability. |
 
 Example:
 
 ```bash
-curl -s https://bcv.today/api/rate.json
+curl -s https://bcv.today/api/v1/rate.json
 ```
 
 Current response shape:
@@ -73,11 +80,11 @@ Fields:
 
 On each run it:
 
-1. Writes the canonical snapshot to `api/history/<effective-date>.json`.
+1. Writes the canonical snapshot to `api/v1/history/<effective-date>.json`.
 2. Rebuilds calendar history from the earliest stored snapshot through today.
 3. Fills weekends, holidays, and missing dates with the latest rate whose `effective_date` is less than or equal to that day.
-4. Writes `api/rate.json` as today's current rate, filling missing currencies from the latest available source when older backfills only include USD/EUR.
-5. Rebuilds `api/history.json` with the latest 365 entries.
+4. Writes `api/v1/rate.json` as today's current rate, filling missing currencies from the latest available source when older backfills only include USD/EUR.
+5. Rebuilds `api/v1/history.json` with the latest 365 entries.
 
 BCV usually publishes on business days around 16:30 Caracas time, effective for the following business day. The workflow runs often and commits only when `api/` changes.
 

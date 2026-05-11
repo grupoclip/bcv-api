@@ -234,7 +234,7 @@
         ? ((last.value - rFirst.value) / rFirst.value) * 100
         : null;
 
-    // The "current" stat reflects what the home dashboard shows (api/rate.json),
+    // The "current" stat reflects what the home dashboard shows (api/v1/rate.json),
     // not the last entry in the history series.
     const currentValue =
       current && typeof current[code] === "number" ? current[code] : last.value;

@@ -36,7 +36,7 @@
   async function handleShare(event) {
     event.preventDefault();
     const button = event.currentTarget;
-    const url = button.dataset.shareUrl || button.href || location.href;
+    const url = button.dataset.shareUrl || button.getAttribute("href") || location.href;
     const title = button.dataset.shareTitle || document.title;
 
     if (navigator.share) {

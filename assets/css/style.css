@@ -221,12 +221,17 @@ main a,
 }
 .site-nav {
   display: flex;
-  gap: 16px;
+  gap: 6px;
   font-size: 0.95rem;
   margin-left: auto;
 }
 .site-nav a {
   color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 8px;
+  border-radius: 999px;
 }
 .site-nav a[aria-current="page"] {
   color: var(--text);
@@ -240,9 +245,9 @@ main a,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 34px;
+  height: 44px;
   padding: 0 10px;
-  min-width: 34px;
+  min-width: 44px;
   border: 1px solid var(--border);
   border-radius: 999px;
   background:
@@ -266,7 +271,7 @@ main a,
 .theme-toggle {
   font-family: inherit;
   padding: 0;
-  width: 34px;
+  width: 44px;
 }
 .theme-toggle .icon-sun,
 .theme-toggle .icon-moon {
@@ -370,8 +375,8 @@ h3 {
 .status-pill {
   display: inline-flex;
   align-items: center;
-  min-height: 24px;
-  padding: 2px 8px;
+  min-height: 28px;
+  padding: 3px 10px;
   border-radius: 999px;
   font-size: 0.78rem;
   font-weight: 700;
@@ -755,7 +760,7 @@ a.card:hover {
 }
 .calc-input,
 .calc-select {
-  height: 42px;
+  height: 44px;
   padding: 0 12px;
   font-size: 1rem;
   background:
@@ -784,8 +789,8 @@ a.card:hover {
 .calc-swap {
   align-self: center;
   justify-self: center;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 1px solid var(--border);
   background:
@@ -819,7 +824,7 @@ a.card:hover {
   font-size: 0.9rem;
 }
 .history-field select {
-  height: 38px;
+  height: 44px;
   padding: 0 12px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.09), transparent),
@@ -838,7 +843,7 @@ a.card:hover {
 }
 .history-range button {
   min-width: 44px;
-  height: 34px;
+  height: 44px;
   padding: 0 10px;
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -967,7 +972,7 @@ a.card:hover {
   font-size: 0.9rem;
 }
 .history-pagination button {
-  height: 36px;
+  min-height: 44px;
   padding: 0 12px;
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -1001,8 +1006,8 @@ a.card:hover {
 .button-link {
   display: inline-flex;
   align-items: center;
-  min-height: 38px;
-  padding: 7px 12px;
+  min-height: 44px;
+  padding: 8px 14px;
   border: 1px solid var(--border);
   border-radius: 999px;
   background:
@@ -1012,6 +1017,8 @@ a.card:hover {
   font-size: 0.92rem;
   font-weight: 600;
   box-shadow: var(--inner-light);
+  cursor: pointer;
+  font-family: inherit;
 }
 .landing-links a:hover,
 .button-link:hover {

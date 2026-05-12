@@ -153,11 +153,18 @@
       .brand img { display: block; }
       .site-nav {
         display: flex;
-        gap: 16px;
+        gap: 6px;
         font-size: 0.95rem;
         margin-left: auto;
       }
-      .site-nav a { color: var(--muted); }
+      .site-nav a {
+        color: var(--muted);
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 8px;
+        border-radius: 999px;
+      }
       .site-nav a[aria-current="page"] { color: var(--text); }
       .header-controls {
         display: flex;
@@ -166,9 +173,9 @@
       }
       .control {
         justify-content: center;
-        height: 34px;
+        height: 44px;
         padding: 0 10px;
-        min-width: 34px;
+        min-width: 44px;
         border: 1px solid var(--border);
         border-radius: 999px;
         background:

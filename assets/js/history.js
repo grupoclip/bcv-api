@@ -191,7 +191,7 @@
     const url = new URL(location.href);
     url.searchParams.set("c", code);
     url.searchParams.set("range", range);
-    share.href = url.pathname + url.search + url.hash;
+    if ("href" in share) share.href = url.pathname + url.search + url.hash;
     share.dataset.shareUrl = url.href;
   }
 

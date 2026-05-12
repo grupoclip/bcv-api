@@ -45,9 +45,9 @@ layout: default
 <div class="action-row">
   <a class="button-link" href="{{ history_page_url }}?c={{ code }}">{{ page.history_cta }}</a>
   <a class="button-link secondary" href="{{ api_page_url }}">{{ page.api_cta }}</a>
-  <a
+  <button
+    type="button"
     class="button-link secondary"
-    href="{{ page.url | absolute_url }}"
     data-share-button
     data-share-url="{{ page.url | absolute_url }}"
     data-share-label="{{ t.history_share }}"
@@ -61,7 +61,7 @@ layout: default
       <path d="M12 2v14" />
     </svg>
     <span data-share-text>{{ t.history_share }}</span>
-  </a>
+  </button>
 </div>
 
 <h2>{{ page.about_heading }}</h2>

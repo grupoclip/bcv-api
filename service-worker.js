@@ -1,27 +1,24 @@
-const CACHE_VERSION = "bcv-today-v1";
+const CACHE_VERSION = "bcv-today-v2";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const API_CACHE = `${CACHE_VERSION}-api`;
 
 const STATIC_URLS = [
   "/",
-  "/en/",
-  "/history/",
-  "/en/history/",
-  "/api/",
-  "/en/api/",
   "/offline/",
   "/assets/logo.svg",
   "/assets/icon-192.png",
   "/assets/icon-512.png",
   "/assets/css/style.css",
+  "/assets/js/share-link.js",
+  "/assets/js/code-copy.js",
   "/assets/js/dashboard.js",
   "/assets/js/history.js",
+  "/service-worker.js",
   "/manifest.webmanifest",
 ];
 
 const API_URLS = [
   "/api/v1/rate.json",
-  "/api/v1/history.json",
   "/api/v1/status.json",
 ];
 

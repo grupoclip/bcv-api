@@ -12,11 +12,16 @@ description: Daily BCV dollar history, euro history and other official Banco Cen
 {%- assign history_url = '/api/v1/history.json' | relative_url -%}
 {%- assign rate_url = '/api/v1/rate.json' | relative_url -%}
 
-<h1>{{ t.history_title }}</h1>
-<p class="lede">
-  Daily history for official Banco Central de Venezuela rates covering USD,
-  EUR, CNY, TRY and RUB against the bolivar.
-</p>
+<div class="page-head">
+  <div>
+    <h1>{{ t.history_title }}</h1>
+    <p class="lede">
+      Daily history for official Banco Central de Venezuela rates covering USD,
+      EUR, CNY, TRY and RUB against the bolivar.
+    </p>
+  </div>
+  <a class="button-link secondary history-share" id="history-share" href="#">{{ t.history_share }}</a>
+</div>
 
 <div class="history-controls">
   <label class="history-field">
@@ -34,7 +39,6 @@ description: Daily BCV dollar history, euro history and other official Banco Cen
     <button type="button" data-range="1460">4y</button>
     <button type="button" data-range="1825">5y</button>
   </div>
-  <a class="button-link secondary" id="history-share" href="#">{{ t.history_share }}</a>
 </div>
 
 <div class="history-stats" id="history-stats" hidden>

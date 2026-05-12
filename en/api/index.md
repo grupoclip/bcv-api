@@ -5,6 +5,7 @@ lang: en
 permalink: /en/api/
 alt_url: /api/
 description: Reference for the JSON API serving Banco Central de Venezuela exchange rates.
+copy_code: true
 ---
 
 # API reference

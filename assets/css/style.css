@@ -1,14 +1,24 @@
 :root {
   color-scheme: dark;
-  --bg: #050505;
-  --panel: #101010;
-  --panel-2: #181818;
-  --text: #eeeeee;
-  --muted: #a3a3a3;
+  --bg: #07090f;
+  --panel: rgba(17, 20, 28, 0.58);
+  --panel-2: rgba(28, 33, 45, 0.52);
+  --text: #f5f7fb;
+  --muted: #b5bdca;
   --accent: #ffd166;
-  --border: #2a2a2a;
-  --code-bg: #0c0c0c;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --accent-2: #7dd3fc;
+  --accent-3: #f0abfc;
+  --border: rgba(255, 255, 255, 0.2);
+  --code-bg: rgba(8, 11, 18, 0.72);
+  --glass: rgba(255, 255, 255, 0.08);
+  --glass-strong: rgba(255, 255, 255, 0.14);
+  --glass-edge: rgba(255, 255, 255, 0.36);
+  --glass-shadow: 0 18px 60px rgba(0, 0, 0, 0.34);
+  --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+  --shadow: 0 14px 50px rgba(0, 0, 0, 0.28);
+  --positive: #5ee08a;
+  --negative: #ff7a7a;
 
   /* Syntax highlight tokens */
   --syn-comment: #858585;
@@ -25,15 +35,25 @@
 :root[data-theme="light"],
 :root.is-light {
   color-scheme: light;
-  --bg: #f6f7fb;
-  --panel: #ffffff;
-  --panel-2: #f0f3fa;
-  --text: #16213e;
-  --muted: #5b6478;
-  --accent: #7a5700;
-  --border: #e3e8f3;
-  --code-bg: #eef1f8;
-  --shadow: 0 1px 2px rgba(15, 23, 50, 0.06);
+  --bg: #eef4fb;
+  --panel: rgba(255, 255, 255, 0.62);
+  --panel-2: rgba(255, 255, 255, 0.46);
+  --text: #132038;
+  --muted: #5c6677;
+  --accent: #875f00;
+  --accent-2: #0369a1;
+  --accent-3: #a21caf;
+  --border: rgba(255, 255, 255, 0.58);
+  --code-bg: rgba(255, 255, 255, 0.62);
+  --glass: rgba(255, 255, 255, 0.46);
+  --glass-strong: rgba(255, 255, 255, 0.68);
+  --glass-edge: rgba(255, 255, 255, 0.86);
+  --glass-shadow: 0 18px 50px rgba(62, 79, 112, 0.18);
+  --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.86),
+    inset 0 -1px 0 rgba(31, 41, 55, 0.08);
+  --shadow: 0 16px 40px rgba(62, 79, 112, 0.16);
+  --positive: #187a3b;
+  --negative: #c83a3a;
 
   --syn-comment: #7e8aa3;
   --syn-keyword: #c4146e;
@@ -49,15 +69,25 @@
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
     color-scheme: light;
-    --bg: #f6f7fb;
-    --panel: #ffffff;
-    --panel-2: #f0f3fa;
-    --text: #16213e;
-    --muted: #5b6478;
-    --accent: #7a5700;
-    --border: #e3e8f3;
-    --code-bg: #eef1f8;
-    --shadow: 0 1px 2px rgba(15, 23, 50, 0.06);
+    --bg: #eef4fb;
+    --panel: rgba(255, 255, 255, 0.62);
+    --panel-2: rgba(255, 255, 255, 0.46);
+    --text: #132038;
+    --muted: #5c6677;
+    --accent: #875f00;
+    --accent-2: #0369a1;
+    --accent-3: #a21caf;
+    --border: rgba(255, 255, 255, 0.58);
+    --code-bg: rgba(255, 255, 255, 0.62);
+    --glass: rgba(255, 255, 255, 0.46);
+    --glass-strong: rgba(255, 255, 255, 0.68);
+    --glass-edge: rgba(255, 255, 255, 0.86);
+    --glass-shadow: 0 18px 50px rgba(62, 79, 112, 0.18);
+    --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.86),
+      inset 0 -1px 0 rgba(31, 41, 55, 0.08);
+    --shadow: 0 16px 40px rgba(62, 79, 112, 0.16);
+    --positive: #187a3b;
+    --negative: #c83a3a;
 
     --syn-comment: #7e8aa3;
     --syn-keyword: #c4146e;
@@ -77,6 +107,7 @@
 
 html,
 body {
+  min-height: 100%;
   background: var(--bg);
 }
 
@@ -86,6 +117,54 @@ body {
     "Helvetica Neue", Arial, sans-serif;
   color: var(--text);
   line-height: 1.6;
+  background:
+    linear-gradient(135deg, rgba(255, 209, 102, 0.16), transparent 34%),
+    linear-gradient(225deg, rgba(125, 211, 252, 0.14), transparent 38%),
+    linear-gradient(315deg, rgba(240, 171, 252, 0.12), transparent 42%),
+    var(--bg);
+  background-attachment: fixed;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(110deg, rgba(255, 255, 255, 0.08), transparent 24%, rgba(255, 255, 255, 0.04) 48%, transparent 72%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 84px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 84px);
+  mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+}
+
+@supports (backdrop-filter: blur(18px)) or (-webkit-backdrop-filter: blur(18px)) {
+  .site-header,
+  .card,
+  .status-strip,
+  .calculator,
+  .endpoint,
+  pre,
+  .highlighter-rouge,
+  div.highlight,
+  .history-field select,
+  .history-range button,
+  .stat,
+  .chart-card,
+  .history-table,
+  .history-pagination button,
+  .landing-links a,
+  .button-link,
+  .rate-hero,
+  .control,
+  .calc-input,
+  .calc-select,
+  .calc-swap,
+  .error {
+    -webkit-backdrop-filter: blur(22px) saturate(1.55);
+    backdrop-filter: blur(22px) saturate(1.55);
+  }
 }
 
 .container {
@@ -109,9 +188,14 @@ main a,
 
 /* Header ---------------------------------------------------------------- */
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   border-bottom: 1px solid var(--border);
-  background: var(--panel);
-  box-shadow: var(--shadow);
+  background:
+    linear-gradient(180deg, var(--glass-strong), rgba(255, 255, 255, 0.04)),
+    var(--panel);
+  box-shadow: var(--shadow), var(--inner-light);
 }
 .site-header .container {
   display: flex;
@@ -160,19 +244,24 @@ main a,
   padding: 0 10px;
   min-width: 34px;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--panel-2);
+  border-radius: 999px;
+  background:
+    linear-gradient(140deg, var(--glass-strong), rgba(255, 255, 255, 0.03)),
+    var(--panel-2);
   color: var(--muted);
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  box-shadow: var(--inner-light);
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease,
+    transform 0.15s ease;
 }
 .control:hover {
   color: var(--text);
   border-color: var(--accent);
   text-decoration: none;
+  transform: translateY(-1px);
 }
 .theme-toggle {
   font-family: inherit;
@@ -226,6 +315,20 @@ h3 {
   color: var(--muted);
   font-size: 1.02rem;
 }
+.page-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+.page-head .lede {
+  margin-bottom: 0;
+}
+.page-head .history-share {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
 
 .meta {
   display: flex;
@@ -248,10 +351,13 @@ h3 {
   margin: -4px 0 24px;
   padding: 10px 12px;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--panel);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, var(--glass-strong), rgba(255, 255, 255, 0.04)),
+    var(--panel);
   color: var(--muted);
   font-size: 0.9rem;
+  box-shadow: var(--glass-shadow), var(--inner-light);
 }
 .status-strip strong {
   color: var(--text);
@@ -283,15 +389,47 @@ h3 {
 }
 
 .card {
-  background: var(--panel);
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, var(--glass-strong), rgba(255, 255, 255, 0.035) 48%, rgba(255, 255, 255, 0.08)),
+    var(--panel);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 22px;
   padding: 20px;
-  transition: transform 0.15s ease, border-color 0.15s ease;
+  box-shadow: var(--glass-shadow), var(--inner-light);
+  transition: transform 0.18s ease, border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.card::before,
+.calculator::before,
+.endpoint::before,
+.chart-card::before,
+.rate-hero::before,
+.stat::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.36), transparent 18%, transparent 74%, rgba(125, 211, 252, 0.16)),
+    linear-gradient(300deg, transparent 58%, rgba(240, 171, 252, 0.16));
+  opacity: 0.56;
+  mix-blend-mode: screen;
+}
+.card > *,
+.calculator > *,
+.endpoint > *,
+.chart-card > *,
+.rate-hero > *,
+.stat > * {
+  position: relative;
+  z-index: 1;
 }
 .card:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent);
+  transform: translateY(-3px) scale(1.005);
+  border-color: var(--glass-edge);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34), var(--inner-light);
 }
 .card .code {
   font-size: 0.8rem;
@@ -317,27 +455,33 @@ h3 {
 
 .error {
   padding: 16px;
-  border-radius: 8px;
-  background: rgba(255, 100, 100, 0.12);
+  border-radius: 18px;
+  background: rgba(255, 100, 100, 0.14);
   border: 1px solid rgba(255, 100, 100, 0.4);
   color: #ff8888;
+  box-shadow: var(--inner-light);
 }
 
 .endpoint {
-  background: var(--panel-2);
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, var(--glass-strong), rgba(255, 255, 255, 0.04)),
+    var(--panel-2);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 20px;
   padding: 16px 20px;
   margin: 16px 0;
+  box-shadow: var(--glass-shadow), var(--inner-light);
 }
 .endpoint .method {
   display: inline-block;
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent), #ffe7a3);
   color: #0b1020;
   font-weight: 700;
   font-size: 0.75rem;
   padding: 2px 8px;
-  border-radius: 4px;
+  border-radius: 999px;
   margin-right: 8px;
 }
 .endpoint .path {
@@ -378,10 +522,11 @@ pre,
 div.highlight {
   background: var(--code-bg);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 18px;
   font-size: 0.88rem;
   line-height: 1.55;
   overflow-x: auto;
+  box-shadow: var(--inner-light);
 }
 pre {
   padding: 16px;
@@ -400,6 +545,39 @@ pre code,
   background: transparent;
   padding: 0;
   font-size: inherit;
+}
+.copy-code-block {
+  position: relative;
+  overflow: hidden;
+}
+.copy-code-block pre {
+  padding-top: 44px;
+  padding-right: 16px;
+}
+.copy-code-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  min-height: 28px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.16), transparent),
+    var(--panel-2);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--inner-light);
+}
+.copy-code-button:hover,
+.copy-code-button.is-copied {
+  border-color: var(--glass-edge);
+  color: var(--accent);
 }
 
 /* Rouge syntax tokens --------------------------------------------------- */
@@ -526,11 +704,11 @@ a.card:hover {
 }
 .change.up,
 .up {
-  color: #187a3b;
+  color: var(--positive);
 }
 .change.down,
 .down {
-  color: #c83a3a;
+  color: var(--negative);
 }
 
 /* Calculator ------------------------------------------------------------ */
@@ -538,13 +716,17 @@ a.card:hover {
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
-  background: var(--panel);
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, var(--glass-strong), rgba(255, 255, 255, 0.04)),
+    var(--panel);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 24px;
   padding: 20px;
   width: 100%;
   max-width: 560px;
   position: relative;
+  box-shadow: var(--glass-shadow), var(--inner-light);
 }
 .calc-row {
   display: flex;
@@ -556,11 +738,14 @@ a.card:hover {
   height: 42px;
   padding: 0 12px;
   font-size: 1rem;
-  background: var(--panel-2);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.09), transparent),
+    var(--panel-2);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 16px;
   font-variant-numeric: tabular-nums;
+  box-shadow: var(--inner-light);
 }
 .calc-input {
   flex: 1 1 auto;
@@ -583,12 +768,15 @@ a.card:hover {
   height: 36px;
   border-radius: 50%;
   border: 1px solid var(--border);
-  background: var(--panel-2);
+  background:
+    linear-gradient(145deg, var(--glass-strong), rgba(255, 255, 255, 0.04)),
+    var(--panel-2);
   color: var(--text);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  box-shadow: var(--inner-light);
 }
 .calc-swap:hover {
   border-color: var(--accent);
@@ -613,10 +801,12 @@ a.card:hover {
 .history-field select {
   height: 38px;
   padding: 0 12px;
-  background: var(--panel-2);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.09), transparent),
+    var(--panel-2);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 16px;
   font-size: 0.95rem;
 }
 .history-field select:focus {
@@ -631,8 +821,10 @@ a.card:hover {
   height: 34px;
   padding: 0 10px;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--panel-2);
+  border-radius: 999px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), transparent),
+    var(--panel-2);
   color: var(--text);
   cursor: pointer;
   font: inherit;
@@ -640,8 +832,11 @@ a.card:hover {
 }
 .history-range button:hover,
 .history-range button.is-active {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--glass-edge);
+  color: var(--text);
+  background:
+    linear-gradient(145deg, rgba(255, 209, 102, 0.28), rgba(125, 211, 252, 0.12)),
+    var(--panel-2);
 }
 .history-controls .button-link {
   margin-left: auto;
@@ -653,10 +848,15 @@ a.card:hover {
   margin: 16px 0 24px;
 }
 .stat {
-  background: var(--panel);
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, var(--glass-strong), rgba(255, 255, 255, 0.04)),
+    var(--panel);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 20px;
   padding: 14px 16px;
+  box-shadow: var(--glass-shadow), var(--inner-light);
 }
 .stat-label {
   font-size: 0.8rem;
@@ -672,11 +872,16 @@ a.card:hover {
 }
 
 .chart-card {
-  background: var(--panel);
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, var(--glass-strong), rgba(255, 255, 255, 0.04)),
+    var(--panel);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 24px;
   padding: 16px;
   margin: 24px 0;
+  box-shadow: var(--glass-shadow), var(--inner-light);
 }
 .chart {
   width: 100%;
@@ -709,10 +914,28 @@ a.card:hover {
 }
 
 .history-table td.up {
-  color: #187a3b;
+  color: var(--positive);
 }
 .history-table td.down {
-  color: #c83a3a;
+  color: var(--negative);
+}
+.history-table {
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, var(--glass-strong), rgba(255, 255, 255, 0.04)),
+    var(--panel);
+  box-shadow: var(--glass-shadow), var(--inner-light);
+}
+.history-table th,
+.history-table td {
+  background: transparent;
+}
+.history-table tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.06);
 }
 .history-pagination {
   display: flex;
@@ -727,8 +950,10 @@ a.card:hover {
   height: 36px;
   padding: 0 12px;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--panel-2);
+  border-radius: 999px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), transparent),
+    var(--panel-2);
   color: var(--text);
   cursor: pointer;
   font: inherit;
@@ -756,11 +981,14 @@ a.card:hover {
   min-height: 38px;
   padding: 7px 12px;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--panel);
+  border-radius: 999px;
+  background:
+    linear-gradient(145deg, var(--glass-strong), rgba(255, 255, 255, 0.04)),
+    var(--panel);
   color: var(--text);
   font-size: 0.92rem;
   font-weight: 600;
+  box-shadow: var(--inner-light);
 }
 .landing-links a:hover,
 .button-link:hover {
@@ -769,11 +997,15 @@ a.card:hover {
   text-decoration: none;
 }
 .button-link.secondary {
-  background: var(--panel-2);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), transparent),
+    var(--panel-2);
   color: var(--muted);
 }
 
 .rate-hero {
+  position: relative;
+  overflow: hidden;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(220px, 0.7fr);
   gap: 20px;
@@ -781,8 +1013,11 @@ a.card:hover {
   margin: 24px 0;
   padding: 22px;
   border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--panel);
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, var(--glass-strong), rgba(255, 255, 255, 0.04)),
+    var(--panel);
+  box-shadow: var(--glass-shadow), var(--inner-light);
 }
 .rate-hero h2 {
   margin: 4px 0 10px;
@@ -833,7 +1068,8 @@ a.card:hover {
   margin-top: 40px;
 }
 .faq details {
-  border-top: 1px solid var(--border);
+  border: 1px solid transparent;
+  border-top-color: var(--border);
   padding: 14px 0;
 }
 .faq details:last-child {
@@ -852,6 +1088,7 @@ a.card:hover {
 /* Footer ---------------------------------------------------------------- */
 .site-footer {
   border-top: 1px solid var(--border);
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.04));
   padding: 24px 0;
   margin-top: 64px;
   font-size: 0.85rem;
@@ -893,6 +1130,14 @@ a.card:hover {
   .status-strip a,
   .history-controls .button-link {
     margin-left: 0;
+  }
+
+  .page-head {
+    display: block;
+  }
+
+  .page-head .history-share {
+    margin-top: 14px;
   }
 
   .history-controls {

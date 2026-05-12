@@ -12,11 +12,16 @@ description: Histórico diario del dólar BCV, euro BCV y otras tasas oficiales 
 {%- assign history_url = '/api/v1/history.json' | relative_url -%}
 {%- assign rate_url = '/api/v1/rate.json' | relative_url -%}
 
-<h1>{{ t.history_title }}</h1>
-<p class="lede">
-  Histórico diario de las tasas oficiales del Banco Central de Venezuela para
-  USD, EUR, CNY, TRY y RUB frente al bolívar.
-</p>
+<div class="page-head">
+  <div>
+    <h1>{{ t.history_title }}</h1>
+    <p class="lede">
+      Histórico diario de las tasas oficiales del Banco Central de Venezuela para
+      USD, EUR, CNY, TRY y RUB frente al bolívar.
+    </p>
+  </div>
+  <a class="button-link secondary history-share" id="history-share" href="#">{{ t.history_share }}</a>
+</div>
 
 <div class="history-controls">
   <label class="history-field">
@@ -34,7 +39,6 @@ description: Histórico diario del dólar BCV, euro BCV y otras tasas oficiales 
     <button type="button" data-range="1460">4a</button>
     <button type="button" data-range="1825">5a</button>
   </div>
-  <a class="button-link secondary" id="history-share" href="#">{{ t.history_share }}</a>
 </div>
 
 <div class="history-stats" id="history-stats" hidden>

@@ -8,6 +8,8 @@
     const area = document.createElement("textarea");
     area.value = text;
     area.setAttribute("readonly", "");
+    area.setAttribute("aria-hidden", "true");
+    area.tabIndex = -1;
     area.style.position = "fixed";
     area.style.left = "-9999px";
     document.body.appendChild(area);
@@ -17,6 +19,7 @@
   }
 
   function setLabel(button, label) {
+    button.setAttribute("aria-label", label);
     const text = button.querySelector("[data-share-text]");
     if (text) {
       text.textContent = label;
@@ -62,6 +65,7 @@
   document.querySelectorAll("[data-share-button]").forEach((button) => {
     if (button.dataset.shareReady === "true") return;
     button.dataset.shareReady = "true";
+    setLabel(button, button.dataset.shareLabel || button.textContent.trim());
     button.addEventListener("click", handleShare);
   });
 })();

@@ -44,20 +44,20 @@ description: Histórico diario del dólar BCV, euro BCV y otras tasas oficiales 
     <span>{{ t.history_currency_label }}</span>
     <select id="history-currency"></select>
   </label>
-  <div class="history-field history-range" aria-label="{{ t.history_range_label }}">
-    <span>{{ t.history_range_label }}</span>
-    <button type="button" data-range="7">7d</button>
-    <button type="button" data-range="30">30d</button>
-    <button type="button" data-range="90">90d</button>
-    <button type="button" data-range="365">1a</button>
-    <button type="button" data-range="730">2a</button>
-    <button type="button" data-range="1095">3a</button>
-    <button type="button" data-range="1460">4a</button>
-    <button type="button" data-range="1825">5a</button>
+  <div class="history-field history-range" role="group" aria-labelledby="history-range-label">
+    <span id="history-range-label">{{ t.history_range_label }}</span>
+    <button type="button" data-range="7" aria-label="Mostrar 7 días">7d</button>
+    <button type="button" data-range="30" aria-label="Mostrar 30 días">30d</button>
+    <button type="button" data-range="90" aria-label="Mostrar 90 días">90d</button>
+    <button type="button" data-range="365" aria-label="Mostrar 1 año">1a</button>
+    <button type="button" data-range="730" aria-label="Mostrar 2 años">2a</button>
+    <button type="button" data-range="1095" aria-label="Mostrar 3 años">3a</button>
+    <button type="button" data-range="1460" aria-label="Mostrar 4 años">4a</button>
+    <button type="button" data-range="1825" aria-label="Mostrar 5 años">5a</button>
   </div>
 </div>
 
-<div class="history-stats" id="history-stats" hidden>
+<div class="history-stats" id="history-stats" aria-live="polite" hidden>
   <div class="stat">
     <div class="stat-label">{{ t.history_current }}</div>
     <div class="stat-value" id="stat-current">—</div>
@@ -72,13 +72,13 @@ description: Histórico diario del dólar BCV, euro BCV y otras tasas oficiales 
   </div>
 </div>
 
-<div id="history-message" class="error" hidden></div>
+<div id="history-message" class="error" role="status" aria-live="polite" hidden></div>
 
-<div class="chart-card" id="chart-card" hidden>
+<div class="chart-card" id="chart-card" aria-live="polite" hidden>
   <div id="chart"></div>
 </div>
 
-<table class="history-table" id="history-table" hidden>
+<table class="history-table" id="history-table" aria-live="polite" hidden>
   <thead>
     <tr>
       <th>{{ t.history_table_date }}</th>
@@ -95,7 +95,7 @@ description: Histórico diario del dólar BCV, euro BCV y otras tasas oficiales 
     </svg>
     <span>{{ t.history_prev }}</span>
   </button>
-  <span id="history-page-label"></span>
+  <span id="history-page-label" aria-live="polite"></span>
   <button type="button" id="history-next">
     <span>{{ t.history_next }}</span>
     <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">

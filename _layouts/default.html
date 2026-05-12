@@ -53,6 +53,7 @@
         --text: #f5f7fb;
         --muted: #b5bdca;
         --accent: #ffd166;
+        --focus-ring: #8bd3ff;
         --border: rgba(255, 255, 255, 0.2);
         --code-bg: rgba(8, 11, 18, 0.72);
         --glass-strong: rgba(255, 255, 255, 0.14);
@@ -70,6 +71,7 @@
         --text: #132038;
         --muted: #5c6677;
         --accent: #875f00;
+        --focus-ring: #005fcc;
         --border: rgba(255, 255, 255, 0.58);
         --code-bg: rgba(255, 255, 255, 0.62);
         --glass-strong: rgba(255, 255, 255, 0.68);
@@ -87,6 +89,7 @@
           --text: #132038;
           --muted: #5c6677;
           --accent: #875f00;
+          --focus-ring: #005fcc;
           --border: rgba(255, 255, 255, 0.58);
           --code-bg: rgba(255, 255, 255, 0.62);
           --glass-strong: rgba(255, 255, 255, 0.68);
@@ -121,6 +124,10 @@
         color: var(--accent);
         text-decoration: underline;
         text-underline-offset: 0.14em;
+      }
+      :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+        outline: 3px solid var(--focus-ring);
+        outline-offset: 3px;
       }
       .site-header {
         border-bottom: 1px solid var(--border);
@@ -378,7 +385,7 @@
           <img src="{{ '/assets/logo.svg' | relative_url }}?v={{ asset_version }}" alt="" width="28" height="28" />
           <span>{{ site.title }}</span>
         </a>
-        <nav class="site-nav">
+        <nav class="site-nav" aria-label="{{ t.primary_navigation }}">
           {% if page.lang == 'en' %}
             {% assign rates_url = '/en/' | relative_url %}
             {% assign history_url = '/en/history/' | relative_url %}
@@ -414,6 +421,7 @@
             class="control theme-toggle"
             type="button"
             aria-label="{{ t.theme_toggle }}"
+            aria-pressed="false"
             title="{{ t.theme_toggle }}"
           >
             <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
@@ -436,7 +444,7 @@
       </div>
     </header>
 
-    <main class="container">{{ content }}</main>
+    <main id="main-content" class="container">{{ content }}</main>
 
     <footer class="site-footer">
       <div class="container">
@@ -456,12 +464,18 @@
             ? "dark"
             : "light";
         }
+        function syncState() {
+          btn.setAttribute("aria-pressed", current() === "dark" ? "true" : "false");
+          btn.setAttribute("title", btn.getAttribute("aria-label"));
+        }
+        syncState();
         btn.addEventListener("click", function () {
           var next = current() === "dark" ? "light" : "dark";
           root.dataset.theme = next;
           try {
             localStorage.setItem("theme", next);
           } catch (e) {}
+          syncState();
         });
       })();
     </script>

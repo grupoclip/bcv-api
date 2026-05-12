@@ -8,6 +8,7 @@
   --accent: #ffd166;
   --accent-2: #7dd3fc;
   --accent-3: #f0abfc;
+  --focus-ring: #8bd3ff;
   --border: rgba(255, 255, 255, 0.2);
   --code-bg: rgba(8, 11, 18, 0.72);
   --glass: rgba(255, 255, 255, 0.08);
@@ -43,6 +44,7 @@
   --accent: #875f00;
   --accent-2: #0369a1;
   --accent-3: #a21caf;
+  --focus-ring: #005fcc;
   --border: rgba(255, 255, 255, 0.58);
   --code-bg: rgba(255, 255, 255, 0.62);
   --glass: rgba(255, 255, 255, 0.46);
@@ -77,6 +79,7 @@
     --accent: #875f00;
     --accent-2: #0369a1;
     --accent-3: #a21caf;
+    --focus-ring: #005fcc;
     --border: rgba(255, 255, 255, 0.58);
     --code-bg: rgba(255, 255, 255, 0.62);
     --glass: rgba(255, 255, 255, 0.46);
@@ -184,6 +187,13 @@ main a,
 .site-footer a {
   text-decoration: underline;
   text-underline-offset: 0.14em;
+}
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+:where(button, input, select, textarea):focus {
+  border-color: var(--focus-ring);
 }
 
 /* Header ---------------------------------------------------------------- */

@@ -11,6 +11,8 @@
     const area = document.createElement("textarea");
     area.value = text;
     area.setAttribute("readonly", "");
+    area.setAttribute("aria-hidden", "true");
+    area.tabIndex = -1;
     area.style.position = "fixed";
     area.style.left = "-9999px";
     document.body.appendChild(area);
@@ -31,6 +33,7 @@
     button.type = "button";
     button.className = "copy-code-button";
     button.setAttribute("aria-label", copyText);
+    button.setAttribute("aria-live", "polite");
     button.innerHTML =
       '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">' +
       '<rect x="9" y="9" width="11" height="11" rx="2" />' +
@@ -46,13 +49,16 @@
       try {
         await copyToClipboard(code.innerText.trimEnd());
         label.textContent = copiedText;
+        button.setAttribute("aria-label", copiedText);
         button.classList.add("is-copied");
       } catch (error) {
         label.textContent = copyText;
+        button.setAttribute("aria-label", copyText);
       }
 
       window.setTimeout(() => {
         label.textContent = original;
+        button.setAttribute("aria-label", copyText);
         button.classList.remove("is-copied");
       }, 1400);
     });

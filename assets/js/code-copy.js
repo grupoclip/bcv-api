@@ -30,21 +30,29 @@
     const button = document.createElement("button");
     button.type = "button";
     button.className = "copy-code-button";
-    button.textContent = copyText;
     button.setAttribute("aria-label", copyText);
+    button.innerHTML =
+      '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">' +
+      '<rect x="9" y="9" width="11" height="11" rx="2" />' +
+      '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />' +
+      "</svg>" +
+      '<span data-copy-text>' +
+      copyText +
+      "</span>";
+    const label = button.querySelector("[data-copy-text]");
 
     button.addEventListener("click", async () => {
-      const original = button.textContent;
+      const original = label.textContent;
       try {
         await copyToClipboard(code.innerText.trimEnd());
-        button.textContent = copiedText;
+        label.textContent = copiedText;
         button.classList.add("is-copied");
       } catch (error) {
-        button.textContent = copyText;
+        label.textContent = copyText;
       }
 
       window.setTimeout(() => {
-        button.textContent = original;
+        label.textContent = original;
         button.classList.remove("is-copied");
       }, 1400);
     });

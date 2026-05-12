@@ -45,6 +45,23 @@ layout: default
 <div class="action-row">
   <a class="button-link" href="{{ history_page_url }}?c={{ code }}">{{ page.history_cta }}</a>
   <a class="button-link secondary" href="{{ api_page_url }}">{{ page.api_cta }}</a>
+  <a
+    class="button-link secondary"
+    href="{{ page.url | absolute_url }}"
+    data-share-button
+    data-share-url="{{ page.url | absolute_url }}"
+    data-share-label="{{ t.history_share }}"
+    data-share-copied="{{ t.history_share_copied }}"
+    data-share-failed="{{ t.history_share_failed }}"
+    data-share-title="{{ page.title }}"
+  >
+    <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" />
+      <path d="M16 6l-4-4-4 4" />
+      <path d="M12 2v14" />
+    </svg>
+    <span data-share-text>{{ t.history_share }}</span>
+  </a>
 </div>
 
 <h2>{{ page.about_heading }}</h2>

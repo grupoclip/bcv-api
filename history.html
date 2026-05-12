@@ -20,7 +20,23 @@ description: Histórico diario del dólar BCV, euro BCV y otras tasas oficiales 
       USD, EUR, CNY, TRY y RUB frente al bolívar.
     </p>
   </div>
-  <a class="button-link secondary history-share" id="history-share" href="#">{{ t.history_share }}</a>
+  <a
+    class="button-link secondary history-share"
+    id="history-share"
+    href="#"
+    data-share-button
+    data-share-label="{{ t.history_share }}"
+    data-share-copied="{{ t.history_share_copied }}"
+    data-share-failed="{{ t.history_share_failed }}"
+    data-share-title="{{ page.title }}"
+  >
+    <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" />
+      <path d="M16 6l-4-4-4 4" />
+      <path d="M12 2v14" />
+    </svg>
+    <span data-share-text>{{ t.history_share }}</span>
+  </a>
 </div>
 
 <div class="history-controls">
@@ -73,9 +89,19 @@ description: Histórico diario del dólar BCV, euro BCV y otras tasas oficiales 
   <tbody id="history-rows"></tbody>
 </table>
 <div class="history-pagination" id="history-pagination" hidden>
-  <button type="button" id="history-prev">{{ t.history_prev }}</button>
+  <button type="button" id="history-prev">
+    <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M15 18l-6-6 6-6" />
+    </svg>
+    <span>{{ t.history_prev }}</span>
+  </button>
   <span id="history-page-label"></span>
-  <button type="button" id="history-next">{{ t.history_next }}</button>
+  <button type="button" id="history-next">
+    <span>{{ t.history_next }}</span>
+    <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M9 18l6-6-6-6" />
+    </svg>
+  </button>
 </div>
 
 <script>

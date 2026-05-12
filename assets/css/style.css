@@ -567,6 +567,9 @@ pre code,
     linear-gradient(145deg, rgba(255, 255, 255, 0.16), transparent),
     var(--panel-2);
   color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font: inherit;
   font-size: 0.78rem;
   font-weight: 700;
@@ -675,6 +678,23 @@ a.card:hover {
 }
 .nav-github svg {
   display: block;
+}
+
+.ui-icon {
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
+  display: inline-block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.button-link,
+.history-pagination button,
+.copy-code-button {
+  gap: 7px;
 }
 
 .card-foot {
@@ -956,6 +976,9 @@ a.card:hover {
     var(--panel-2);
   color: var(--text);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font: inherit;
 }
 .history-pagination button:hover:not(:disabled) {

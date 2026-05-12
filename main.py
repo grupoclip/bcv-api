@@ -45,7 +45,8 @@ def same_rate_payload(a, b):
 
 
 def stable_rate_payload(new_rate, previous_rate):
-    if isinstance(previous_rate, dict) and same_rate_payload(new_rate, previous_rate) and previous_rate.get("updated_at"):
+    if isinstance(previous_rate, dict) and same_rate_payload(new_rate, previous_rate) and previous_rate.get(
+            "updated_at"):
         out = {**new_rate}
         out["updated_at"] = previous_rate["updated_at"]
         return out
@@ -165,7 +166,7 @@ def rebuild_calendar_history():
 
 def rebuild_history_index():
     paths = sorted(glob.glob(os.path.join(HISTORY_DIR, "*.json")))
-    paths = paths[-HISTORY_INDEX_LIMIT:]
+    # paths = paths[-HISTORY_INDEX_LIMIT:]
     history = []
     for path in paths:
         with open(path, encoding="utf-8") as f:
@@ -217,11 +218,11 @@ def build_status(current_rate):
     }
     generated_at = now.isoformat()
     if (
-        isinstance(previous_status, dict)
-        and previous_status.get("updated_at") == current_rate.get("updated_at")
-        and previous_status.get("date") == current_rate.get("date")
-        and previous_status.get("effective_date") == current_rate.get("effective_date")
-        and previous_status.get("currencies") == currency_status
+            isinstance(previous_status, dict)
+            and previous_status.get("updated_at") == current_rate.get("updated_at")
+            and previous_status.get("date") == current_rate.get("date")
+            and previous_status.get("effective_date") == current_rate.get("effective_date")
+            and previous_status.get("currencies") == currency_status
     ):
         generated_at = previous_status.get("generated_at", generated_at)
     return {

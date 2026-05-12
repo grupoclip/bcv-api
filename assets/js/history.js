@@ -184,6 +184,41 @@
     url.searchParams.set("c", code);
     url.searchParams.set("range", range);
     share.href = url.pathname + url.search + url.hash;
+    share.dataset.shareUrl = url.href;
+  }
+
+  function flashShareLabel(text) {
+    const share = document.getElementById("history-share");
+    if (!share) return;
+    share.textContent = text;
+    window.clearTimeout(share._resetTimer);
+    share._resetTimer = window.setTimeout(() => {
+      share.textContent = STRINGS.share;
+    }, 1600);
+  }
+
+  async function shareCurrentUrl(event) {
+    event.preventDefault();
+    const share = document.getElementById("history-share");
+    if (!share) return;
+    const url = share.dataset.shareUrl || share.href || location.href;
+    const title = document.title;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ title, url });
+        return;
+      } catch (err) {
+        if (err && err.name === "AbortError") return;
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(url);
+      flashShareLabel(STRINGS.share_copied);
+    } catch (err) {
+      flashShareLabel(STRINGS.share_failed);
+    }
   }
 
   function syncRangeButtons(range) {
@@ -351,6 +386,9 @@
     }
 
     render(history, current, select.value, activeRange);
+    const share = document.getElementById("history-share");
+    if (share) share.addEventListener("click", shareCurrentUrl);
+
     select.addEventListener("change", () => {
       const url = new URL(location.href);
       url.searchParams.set("c", select.value);

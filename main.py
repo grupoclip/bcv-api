@@ -17,7 +17,7 @@ HISTORY_DIR = os.path.join(API_V1_DIR, "history")
 HISTORY_INDEX = os.path.join(API_V1_DIR, "history.json")
 STATUS_PATH = os.path.join(API_V1_DIR, "status.json")
 DATA_RATE = os.path.join(DATA_DIR, "rate.json")
-HISTORY_INDEX_LIMIT = 365
+HISTORY_INDEX_LIMIT = 1830
 VENEZUELA_TZ = ZoneInfo("America/Caracas")
 
 CURRENCIES = {
@@ -166,7 +166,7 @@ def rebuild_calendar_history():
 
 def rebuild_history_index():
     paths = sorted(glob.glob(os.path.join(HISTORY_DIR, "*.json")))
-    # paths = paths[-HISTORY_INDEX_LIMIT:]
+    paths = paths[-HISTORY_INDEX_LIMIT:]
     history = []
     for path in paths:
         with open(path, encoding="utf-8") as f:

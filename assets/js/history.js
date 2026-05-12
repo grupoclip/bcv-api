@@ -20,6 +20,12 @@
       maximumFractionDigits: 8,
     }).format(n);
 
+  const fmtAxisRate = (n) =>
+    new Intl.NumberFormat(LOCALE, {
+      minimumFractionDigits: n >= 100 ? 0 : 2,
+      maximumFractionDigits: n >= 100 ? 0 : 2,
+    }).format(n);
+
   const fmtPct = (n) =>
     new Intl.NumberFormat(LOCALE, {
       style: "percent",
@@ -65,7 +71,7 @@
     if (!series.length) return "";
     const w = 720;
     const h = 240;
-    const padL = 56;
+    const padL = 48;
     const padR = 12;
     const padT = 16;
     const padB = 32;
@@ -113,7 +119,7 @@
           '" y="' +
           (yy + 4) +
           '" text-anchor="end" class="axis">' +
-          fmtRate(v) +
+          fmtAxisRate(v) +
           "</text>"
       );
     }

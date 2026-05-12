@@ -10,6 +10,12 @@
     {%- assign page_description = page.description | default: t.site_description -%}
     <title>{% if page.title %}{{ page.title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
     <meta name="description" content="{{ page_description }}" />
+    <meta name="theme-color" content="#101010" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="application-name" content="{{ site.title }}" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="{{ site.title }}" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="canonical" href="{{ canonical_url }}" />
     {%- if page.alt_url -%}
       {%- assign alt_lang = 'en' -%}
@@ -31,6 +37,8 @@
     <meta name="twitter:description" content="{{ page_description }}" />
     <meta name="twitter:image" content="{{ '/assets/logo.svg' | absolute_url }}" />
     <link rel="icon" type="image/svg+xml" href="{{ '/assets/logo.svg' | relative_url }}?v={{ asset_version }}" />
+    <link rel="apple-touch-icon" href="{{ '/assets/icon-192.png' | relative_url }}?v={{ asset_version }}" />
+    <link rel="manifest" href="{{ '/manifest.webmanifest' | relative_url }}?v={{ asset_version }}" />
     <link rel="alternate" type="text/plain" title="LLMs index" href="{{ '/llms.txt' | absolute_url }}" />
     <link rel="alternate" type="text/plain" title="Full LLM context" href="{{ '/llms-full.txt' | absolute_url }}" />
     <link rel="service-desc" type="application/vnd.oai.openapi+json" title="OpenAPI" href="{{ '/openapi.json' | absolute_url }}" />
@@ -422,6 +430,14 @@
           try {
             localStorage.setItem("theme", next);
           } catch (e) {}
+        });
+      })();
+    </script>
+    <script>
+      (function () {
+        if (!("serviceWorker" in navigator)) return;
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("{{ '/service-worker.js' | relative_url }}");
         });
       })();
     </script>

@@ -45,7 +45,9 @@
   function readQueryRange() {
     const params = new URLSearchParams(location.search);
     const days = parseInt(params.get("range"), 10);
-    return [7, 30, 90, 365].indexOf(days) >= 0 ? days : DEFAULT_RANGE;
+    return [7, 30, 90, 365, 730, 1095, 1460, 1825].indexOf(days) >= 0
+      ? days
+      : DEFAULT_RANGE;
   }
 
   function fillSelect(sel, selected) {

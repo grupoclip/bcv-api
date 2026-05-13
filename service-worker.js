@@ -1,4 +1,4 @@
-const CACHE_VERSION = "bcv-today-v2";
+const CACHE_VERSION = "bcv-today-v3";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const API_CACHE = `${CACHE_VERSION}-api`;
 
@@ -61,7 +61,7 @@ async function networkFirst(request, cacheName) {
 }
 
 async function cacheFirst(request) {
-  const cached = await caches.match(request, { ignoreSearch: true });
+  const cached = await caches.match(request);
   if (cached) return cached;
   const response = await fetch(request);
   if (response.ok) {

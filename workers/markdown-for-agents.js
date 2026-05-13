@@ -6,9 +6,6 @@ const AGENT_LINK_HEADER = [
   '</.well-known/agent-card.json>; rel="describedby"; type="application/json"',
   '</.well-known/agent-skills/index.json>; rel="describedby"; type="application/json"',
 ].join(", ");
-const TRUSTED_TYPES_CSP =
-  "require-trusted-types-for 'script'; trusted-types bcv-today";
-
 function wantsMarkdown(request) {
   const accept = request.headers.get("Accept") || "";
   return accept.toLowerCase().includes("text/markdown");
@@ -21,9 +18,6 @@ function isHtml(response) {
 
 function withSecurityHeaders(response, url) {
   const headers = new Headers(response.headers);
-  if (isHtml(response)) {
-    headers.set("Content-Security-Policy", TRUSTED_TYPES_CSP);
-  }
   if (url.pathname === "/" && !headers.has("Link")) {
     headers.set("Link", AGENT_LINK_HEADER);
   }

@@ -4,5 +4,5 @@ compatibility_date = "2026-05-13"
 workers_dev = false
 
 routes = [
-  { pattern = "bcv.today/*", zone_name = "bcv.today" }
+    { pattern = "bcv.today/*", zone_name = "bcv.today" }
 ]

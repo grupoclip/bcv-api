@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.2.0",
+  "publisher": {
+    "name": "BCV Today",
+    "url": "https://bcv.today"
+  },
+  "skills": [
+    {
+      "name": "bcv-rates",
+      "description": "Use the BCV Today static JSON API to fetch official Banco Central de Venezuela exchange rates and history.",
+      "url": "https://bcv.today/.well-known/agent-skills/bcv-rates/SKILL.md"
+    }
+  ]
+}

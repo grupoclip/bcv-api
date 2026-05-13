@@ -75,6 +75,7 @@ Returns the publication status, latest generated timestamp, effective date and s
 - API catalog: https://bcv.today/.well-known/api-catalog
 - API catalog JSON copy: https://bcv.today/.well-known/api-catalog.json
 - Agent card: https://bcv.today/.well-known/agent-card.json
+- Agent Skills index: https://bcv.today/.well-known/agent-skills/index.json
 - Sitemap: https://bcv.today/sitemap.xml
 - Robots: https://bcv.today/robots.txt
 

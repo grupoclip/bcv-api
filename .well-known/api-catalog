@@ -33,6 +33,16 @@
           "href": "https://bcv.today/llms.txt",
           "type": "text/plain",
           "title": "BCV Today agent index"
+        },
+        {
+          "href": "https://bcv.today/.well-known/agent-card.json",
+          "type": "application/json",
+          "title": "BCV Today A2A agent card"
+        },
+        {
+          "href": "https://bcv.today/.well-known/agent-skills/index.json",
+          "type": "application/json",
+          "title": "BCV Today Agent Skills index"
         }
       ]
     }

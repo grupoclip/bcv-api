@@ -40,6 +40,9 @@ jobs:
         env:
           JEKYLL_ENV: production
 
+      - name: Preserve raw Agent Skills artifacts
+        run: cp -R .well-known/agent-skills/. _site/.well-known/agent-skills/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:

@@ -10,6 +10,8 @@ BCV Today publishes the official Banco Central de Venezuela rates for USD, EUR, 
 - OpenAPI description: https://bcv.today/openapi.json
 - API catalog: https://bcv.today/.well-known/api-catalog
 - API status: https://bcv.today/api/v1/status.json
+- Agent card: https://bcv.today/.well-known/agent-card.json
+- Agent Skills: https://bcv.today/.well-known/agent-skills/index.json
 - Latest rate: https://bcv.today/api/v1/rate.json
 - History index: https://bcv.today/api/v1/history.json
 - Sitemap: https://bcv.today/sitemap.xml

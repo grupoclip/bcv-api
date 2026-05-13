@@ -31,4 +31,5 @@ jobs:
             exit 1
           fi
 
+          export CLOUDFLARE_API_TOKEN="${CF_WORKERS_API_TOKEN}"
           npx --yes wrangler@4 deploy --config wrangler.toml

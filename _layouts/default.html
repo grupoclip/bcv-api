@@ -39,6 +39,8 @@
     <meta name="twitter:title" content="{% if page_title %}{{ page_title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}" />
     <meta name="twitter:description" content="{{ page_description }}" />
     <meta name="twitter:image" content="{{ '/assets/logo.svg' | absolute_url }}" />
+    <link rel="icon" href="{{ '/favicon.ico' | relative_url }}?v={{ asset_version }}" sizes="any" />
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ '/assets/icon-192.png' | relative_url }}?v={{ asset_version }}" />
     <link rel="icon" type="image/svg+xml" href="{{ '/assets/logo.svg' | relative_url }}?v={{ asset_version }}" />
     <link rel="apple-touch-icon" href="{{ '/assets/icon-192.png' | relative_url }}?v={{ asset_version }}" />
     <link rel="manifest" href="{{ '/manifest.webmanifest' | relative_url }}?v={{ asset_version }}" />
@@ -280,7 +282,7 @@
         }
       }
     </style>
-    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v={{ asset_version }}" media="print" onload="this.media='all'" />
+    <link rel="preload" href="{{ '/assets/css/style.css' | relative_url }}?v={{ asset_version }}" as="style" />
     <noscript><link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v={{ asset_version }}" /></noscript>
     <script type="application/ld+json">
       {
@@ -506,6 +508,29 @@
         window.addEventListener("load", function () {
           navigator.serviceWorker.register("{{ '/service-worker.js' | relative_url }}");
         });
+      })();
+    </script>
+    <script>
+      (function () {
+        var href = "{{ '/assets/css/style.css' | relative_url }}?v={{ asset_version }}";
+        function loadFullStyles() {
+          var link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = href;
+          document.head.appendChild(link);
+        }
+        function schedule() {
+          if ("requestIdleCallback" in window) {
+            requestIdleCallback(loadFullStyles, { timeout: 2500 });
+          } else {
+            setTimeout(loadFullStyles, 1200);
+          }
+        }
+        if (document.readyState === "complete") {
+          schedule();
+        } else {
+          window.addEventListener("load", schedule, { once: true });
+        }
       })();
     </script>
     {%- assign needs_share_link = false -%}

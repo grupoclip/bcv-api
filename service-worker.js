@@ -5,6 +5,7 @@ const API_CACHE = `${CACHE_VERSION}-api`;
 const STATIC_URLS = [
   "/",
   "/offline/",
+  "/favicon.ico",
   "/assets/logo.svg",
   "/assets/icon-192.png",
   "/assets/icon-512.png",

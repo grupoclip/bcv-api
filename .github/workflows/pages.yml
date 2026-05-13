@@ -62,7 +62,7 @@ jobs:
       - name: Configure Cloudflare agent discovery Link headers
         env:
           CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
-          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_RULES_API_TOKEN: ${{ secrets.CF_RULES_API_TOKEN }}
           RULE_REF: bcv-agent-discovery-link-headers
           RULE_DESCRIPTION: BCV Today agent discovery Link headers
           RULE_EXPRESSION: '(http.host eq "bcv.today" and http.request.uri.path eq "/")'
@@ -74,8 +74,9 @@ jobs:
             </.well-known/agent-card.json>; rel="describedby"; type="application/json",
             </.well-known/agent-skills/index.json>; rel="describedby"; type="application/json"
         run: |
-          if [ -z "${CF_ZONE_ID}" ] || [ -z "${CF_API_TOKEN}" ]; then
-            echo "Cloudflare secrets are not configured; skipping Link header rule."
+          if [ -z "${CF_ZONE_ID}" ] || [ -z "${CF_RULES_API_TOKEN}" ]; then
+            echo "Cloudflare ruleset secrets are not configured; skipping Link header rule."
+            echo "Add CF_RULES_API_TOKEN with Cloudflare Zone:Read and Zone Rulesets:Edit permissions."
             exit 0
           fi
 
@@ -87,7 +88,7 @@ jobs:
           status="$(curl --show-error --silent \
             --output "${response}" \
             --write-out "%{http_code}" \
-            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+            -H "Authorization: Bearer ${CF_RULES_API_TOKEN}" \
             -H "Content-Type: application/json" \
             "${api_base}/phases/${phase}/entrypoint")"
 
@@ -124,10 +125,17 @@ jobs:
 
             curl --fail --show-error --silent \
               -X POST "${api_base}" \
-              -H "Authorization: Bearer ${CF_API_TOKEN}" \
+              -H "Authorization: Bearer ${CF_RULES_API_TOKEN}" \
               -H "Content-Type: application/json" \
               --data @"${payload}"
             exit 0
+          fi
+
+          if [ "${status}" = "401" ] || [ "${status}" = "403" ]; then
+            cat "${response}"
+            echo
+            echo "Cloudflare refused CF_RULES_API_TOKEN. Recreate it with Zone:Read and Zone Rulesets:Edit for this zone."
+            exit 1
           fi
 
           if [ "${status}" != "200" ]; then
@@ -153,7 +161,7 @@ jobs:
 
           curl --fail --show-error --silent \
             -X PUT "${api_base}/${ruleset_id}" \
-            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+            -H "Authorization: Bearer ${CF_RULES_API_TOKEN}" \
             -H "Content-Type: application/json" \
             --data @"${payload}"
 

@@ -257,7 +257,7 @@ if __name__ == "__main__":
     current_rate = stable_rate_payload(current_rate, read_json(DATA_RATE))
     write_json(os.path.join(API_V1_DIR, "rate.json"), current_rate)
     write_json(STATUS_PATH, build_status(current_rate))
-    # Jekyll reads _data/rate.json at build time so the latest rates are also
+    # Jekyll reads _data/rate.json at build time, so the latest rates are also
     # present in crawlable HTML, not only in client-rendered JSON.
     write_json(DATA_RATE, current_rate)
     rebuild_history_index()

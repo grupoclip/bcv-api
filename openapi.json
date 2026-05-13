@@ -27,7 +27,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Rate"
+                  "$ref": "#/components/schemas/LatestRate"
                 }
               }
             }
@@ -42,13 +42,13 @@
         "security": [],
         "responses": {
           "200": {
-            "description": "Up to the latest 365 daily entries",
+            "description": "Up to the latest 1830 daily entries",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Rate"
+                    "$ref": "#/components/schemas/HistoricalRate"
                   }
                 }
               }
@@ -81,7 +81,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Rate"
+                  "$ref": "#/components/schemas/HistoricalRate"
                 }
               }
             }
@@ -115,7 +115,7 @@
   "components": {
     "securitySchemes": {},
     "schemas": {
-      "Rate": {
+      "RateBase": {
         "type": "object",
         "properties": {
           "USD": { "type": "number", "description": "Bolivares per 1 US dollar." },
@@ -127,8 +127,33 @@
           "effective_date": { "type": "string", "format": "date" },
           "date": { "type": "string", "format": "date" },
           "source": { "type": "string" }
-        },
-        "required": ["USD", "EUR", "CNY", "TRY", "RUB", "updated_at", "date"]
+        }
+      },
+      "LatestRate": {
+        "allOf": [
+          { "$ref": "#/components/schemas/RateBase" },
+          {
+            "type": "object",
+            "required": ["USD", "EUR", "CNY", "TRY", "RUB", "updated_at", "date"]
+          }
+        ]
+      },
+      "HistoricalRate": {
+        "allOf": [
+          { "$ref": "#/components/schemas/RateBase" },
+          {
+            "type": "object",
+            "description": "Daily historical snapshot. Older backfilled entries may omit currencies that were unavailable in the source data, but currency fields are numeric when present.",
+            "required": ["USD", "updated_at", "date"]
+          }
+        ]
+      },
+      "Rate": {
+        "deprecated": true,
+        "description": "Deprecated alias for the fully populated latest-rate response. Use LatestRate or HistoricalRate.",
+        "allOf": [
+          { "$ref": "#/components/schemas/LatestRate" }
+        ]
       },
       "Status": {
         "type": "object",

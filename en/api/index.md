@@ -63,7 +63,7 @@ curl -s {{ site.url }}{{ site.baseurl }}/api/v1/rate.json
   <span class="path">/api/v1/history.json</span>
 </div>
 
-Returns up to the latest 365 daily entries, ordered from oldest to newest. This file powers the history chart and table on the website.
+Returns up to the latest 1830 daily entries, ordered from oldest to newest. This file powers the history chart and table on the website.
 
 **Example:**
 
@@ -106,7 +106,7 @@ curl -s {{ site.url }}{{ site.baseurl }}/api/v1/status.json
   <span class="path">/api/v1/history/{YYYY-MM-DD}.json</span>
 </div>
 
-Returns the snapshot stored for a specific `America/Caracas` calendar date. The response format matches `rate.json`.
+Returns the snapshot stored for a specific `America/Caracas` calendar date. Historical snapshots use the same base format as `rate.json`, but older entries may omit currencies that were unavailable in the original source data.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
@@ -125,10 +125,10 @@ Returns `404` if the requested date does not exist in the repository.
 | Field | Type | Description |
 | --- | --- | --- |
 | `USD` | number | Bolívares per 1 US dollar. |
-| `EUR` | number | Bolívares per 1 euro. |
-| `CNY` | number | Bolívares per 1 Chinese yuan. |
-| `TRY` | number | Bolívares per 1 Turkish lira. |
-| `RUB` | number | Bolívares per 1 Russian ruble. |
+| `EUR` | number | Bolívares per 1 euro. Always present in `rate.json`; may be omitted from older history entries if unavailable in the source. |
+| `CNY` | number | Bolívares per 1 Chinese yuan. Always present in `rate.json`; may be omitted from older history entries if unavailable in the source. |
+| `TRY` | number | Bolívares per 1 Turkish lira. Always present in `rate.json`; may be omitted from older history entries if unavailable in the source. |
+| `RUB` | number | Bolívares per 1 Russian ruble. Always present in `rate.json`; may be omitted from older history entries if unavailable in the source. |
 | `updated_at` | string (ISO 8601) | UTC timestamp when the scraper captured the rate. |
 | `date` | string (`YYYY-MM-DD`) | Calendar date represented by the file. For per-day history files, this matches the filename. |
 | `effective_date` | string (`YYYY-MM-DD`) | Official BCV validity date (`Fecha Valor`). On weekends and holidays this can point to the previous business day whose rate is still officially in effect. |

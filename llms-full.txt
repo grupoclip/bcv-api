@@ -53,7 +53,7 @@ Example response:
 
 `GET https://bcv.today/api/v1/history.json`
 
-Returns up to the latest 365 daily entries, ordered from oldest to newest.
+Returns up to the latest 1830 daily entries, ordered from oldest to newest. Older historical entries may omit currencies that were unavailable in the source data; currency fields are numeric when present.
 
 ### History by date
 

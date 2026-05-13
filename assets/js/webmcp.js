@@ -1,6 +1,7 @@
 (function () {
   const api = navigator.modelContext;
   if (!api || typeof api.provideContext !== "function") return;
+  const HISTORY_LIMIT = 1830;
 
   const json = async (path) => {
     const response = await fetch(path, { cache: "no-store" });
@@ -51,7 +52,7 @@
           limit: {
             type: "integer",
             minimum: 1,
-            maximum: 365,
+            maximum: HISTORY_LIMIT,
             description: "Optional maximum number of latest entries to return.",
           },
         },
@@ -65,7 +66,7 @@
         }
 
         const size = Number.isInteger(limit)
-          ? Math.min(Math.max(limit, 1), 365)
+          ? Math.min(Math.max(limit, 1), HISTORY_LIMIT)
           : data.length;
         const entries = data.slice(-size);
 

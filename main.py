@@ -100,6 +100,14 @@ def write_json(path, data):
         f.write("\n")
 
 
+def normalize_rate_payload(data):
+    out = {**data}
+    for code in CURRENCIES.keys():
+        if code in out and not isinstance(out[code], (int, float)):
+            del out[code]
+    return out
+
+
 def rebuild_calendar_history():
     """Ensure every calendar day from the earliest snapshot to today has a
     history file. For canonical days (where effective_date matches) the rate
@@ -123,7 +131,7 @@ def rebuild_calendar_history():
             eff = date.fromisoformat(eff_str)
         except (ValueError, TypeError):
             continue
-        rates_by_eff[eff] = data
+        rates_by_eff[eff] = normalize_rate_payload(data)
 
     if not rates_by_eff:
         return
@@ -170,7 +178,7 @@ def rebuild_history_index():
     history = []
     for path in paths:
         with open(path, encoding="utf-8") as f:
-            history.append(json.load(f))
+            history.append(normalize_rate_payload(json.load(f)))
     with open(HISTORY_INDEX, "w", encoding="utf-8") as f:
         json.dump(history, f, indent=2, ensure_ascii=False)
         f.write("\n")

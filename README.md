@@ -47,7 +47,7 @@ https://bcv.today/api/v1
 | Resource | Path | Description |
 | --- | --- | --- |
 | Latest rate | `/api/v1/rate.json` | Today's current rate entry. |
-| History index | `/api/v1/history.json` | Up to the latest 365 daily entries. |
+| History index | `/api/v1/history.json` | Up to the latest 1830 daily entries. |
 | History by date | `/api/v1/history/YYYY-MM-DD.json` | One calendar-day snapshot. |
 | API status | `/api/v1/status.json` | Freshness, API version and currency availability. |
 
@@ -74,7 +74,7 @@ Current response shape:
 
 Fields:
 
-- `USD`, `EUR`, `CNY`, `TRY`, `RUB` - bolivares per 1 unit of the foreign currency.
+- `USD`, `EUR`, `CNY`, `TRY`, `RUB` - bolivares per 1 unit of the foreign currency. The latest-rate endpoint includes all five currencies; older historical backfills may omit currencies that were unavailable in the source data.
 - `updated_at` - UTC timestamp when the scraper captured the rate.
 - `date` - calendar date represented by the file.
 - `effective_date` - official BCV validity date. On weekends and holidays this can point to the previous business day whose rate is still in effect.
@@ -90,7 +90,7 @@ On each run it:
 2. Rebuilds calendar history from the earliest stored snapshot through today.
 3. Fills weekends, holidays, and missing dates with the latest rate whose `effective_date` is less than or equal to that day.
 4. Writes `api/v1/rate.json` as today's current rate, filling missing currencies from the latest available source when older backfills only include USD/EUR.
-5. Rebuilds `api/v1/history.json` with the latest 365 entries.
+5. Rebuilds `api/v1/history.json` with the latest 1830 entries.
 
 BCV usually publishes on business days around 16:30 Caracas time, effective for the following business day. The workflow runs often and commits only when `api/` changes.
 

@@ -62,7 +62,7 @@ curl -s {{ site.url }}{{ site.baseurl }}/api/v1/rate.json
   <span class="path">/api/v1/history.json</span>
 </div>
 
-Retorna hasta las últimas 365 entradas diarias, ordenadas de la más antigua a la más reciente. Este archivo alimenta la gráfica y la tabla del histórico en el sitio.
+Retorna hasta las últimas 1830 entradas diarias, ordenadas de la más antigua a la más reciente. Este archivo alimenta la gráfica y la tabla del histórico en el sitio.
 
 **Ejemplo:**
 
@@ -105,7 +105,7 @@ curl -s {{ site.url }}{{ site.baseurl }}/api/v1/status.json
   <span class="path">/api/v1/history/{YYYY-MM-DD}.json</span>
 </div>
 
-Retorna el snapshot guardado para una fecha específica del calendario `America/Caracas`. El formato coincide con `rate.json`.
+Retorna el snapshot guardado para una fecha específica del calendario `America/Caracas`. Los snapshots históricos usan el mismo formato base que `rate.json`, pero las entradas antiguas pueden omitir monedas que no estaban disponibles en la fuente original.
 
 | Parámetro | Tipo | Descripción |
 | --- | --- | --- |
@@ -124,10 +124,10 @@ Retorna `404` si la fecha solicitada no existe en el repositorio.
 | Campo | Tipo | Descripción |
 | --- | --- | --- |
 | `USD` | number | Tasa en bolívares por 1 dólar estadounidense. |
-| `EUR` | number | Tasa en bolívares por 1 euro. |
-| `CNY` | number | Tasa en bolívares por 1 yuan chino. |
-| `TRY` | number | Tasa en bolívares por 1 lira turca. |
-| `RUB` | number | Tasa en bolívares por 1 rublo ruso. |
+| `EUR` | number | Tasa en bolívares por 1 euro. Siempre presente en `rate.json`; puede estar omitido en históricos antiguos si no estaba disponible en la fuente. |
+| `CNY` | number | Tasa en bolívares por 1 yuan chino. Siempre presente en `rate.json`; puede estar omitido en históricos antiguos si no estaba disponible en la fuente. |
+| `TRY` | number | Tasa en bolívares por 1 lira turca. Siempre presente en `rate.json`; puede estar omitido en históricos antiguos si no estaba disponible en la fuente. |
+| `RUB` | number | Tasa en bolívares por 1 rublo ruso. Siempre presente en `rate.json`; puede estar omitido en históricos antiguos si no estaba disponible en la fuente. |
 | `updated_at` | string (ISO 8601) | Momento en UTC en que el scraper obtuvo el dato. |
 | `date` | string (`YYYY-MM-DD`) | Día calendario representado por el archivo. En los archivos históricos por día coincide con el nombre del archivo. |
 | `effective_date` | string (`YYYY-MM-DD`) | Fecha de vigencia oficial publicada por el BCV (`Fecha Valor`). En fines de semana y feriados puede apuntar al día hábil anterior cuya tasa sigue vigente. |

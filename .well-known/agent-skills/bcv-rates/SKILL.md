@@ -10,7 +10,7 @@ Use this skill when a user asks for official Banco Central de Venezuela exchange
 ## Sources
 
 - Latest rates: `https://bcv.today/api/v1/rate.json`
-- Recent history: `https://bcv.today/api/v1/history.json`
+- Recent history: `https://bcv.today/api/v1/history.json` (up to 1830 daily entries)
 - Dated snapshot: `https://bcv.today/api/v1/history/{YYYY-MM-DD}.json`
 - API status: `https://bcv.today/api/v1/status.json`
 - OpenAPI description: `https://bcv.today/openapi.json`
@@ -23,6 +23,7 @@ Use this skill when a user asks for official Banco Central de Venezuela exchange
 - Prefer `effective_date` when explaining when a rate applies.
 - Use `updated_at` only to describe when BCV Today captured or published the data.
 - Explain that weekend or holiday rates may remain in effect from the previous business day.
+- Older historical entries may omit currencies that were unavailable in the source data; currency fields are numeric when present.
 - Do not invent currencies outside `USD`, `EUR`, `CNY`, `TRY`, `RUB`, and `VES`.
 - Do not present BCV Today as affiliated with Banco Central de Venezuela.
 

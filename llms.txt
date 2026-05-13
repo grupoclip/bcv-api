@@ -20,7 +20,7 @@ BCV Today publishes the official Banco Central de Venezuela rates for USD, EUR, 
 ## API endpoints
 
 - `GET /api/v1/rate.json` returns the latest current rate entry.
-- `GET /api/v1/history.json` returns up to the latest 365 daily entries.
+- `GET /api/v1/history.json` returns up to the latest 1830 daily entries.
 - `GET /api/v1/history/{YYYY-MM-DD}.json` returns one calendar-day snapshot.
 - `GET /api/v1/status.json` returns freshness, effective date and supported currency status.
 
@@ -32,5 +32,6 @@ BCV Today publishes the official Banco Central de Venezuela rates for USD, EUR, 
 - Dates are ISO 8601 strings.
 - `effective_date` is the official BCV validity date.
 - `updated_at` is the UTC capture timestamp.
+- Older historical entries may omit currencies that were unavailable in the source data; currency fields are numeric when present.
 - On weekends and holidays, `effective_date` may point to the previous business day whose rate remains in effect.
 - This project is not affiliated with Banco Central de Venezuela.

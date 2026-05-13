@@ -4,7 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {%- assign t = site.data.i18n[page.lang] -%}
-    {%- assign asset_version = site.time | date: '%Y%m%d%H%M%S' -%}
+    {%- assign asset_version = site.asset_version | default: site.github.build_revision | default: '' -%}
+    {%- if asset_version == '' -%}
+      {%- assign asset_version = site.time | date: '%Y%m%d%H%M%S' -%}
+    {%- endif -%}
     {%- assign page_title = page.seo_title | default: page.title -%}
     {%- assign canonical_url = page.url | absolute_url -%}
     {%- assign page_description = page.description | default: t.site_description -%}

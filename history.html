@@ -121,4 +121,4 @@ description: Histórico diario del dólar BCV, euro BCV y otras tasas oficiales 
     share_failed: "{{ t.history_share_failed }}",
   };
 </script>
-<script src="{{ '/assets/js/history.js' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}"></script>
+<script src="{{ '/assets/js/history.js' | relative_url }}?v={% if site.asset_version %}{{ site.asset_version }}{% elsif site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%Y%m%d%H%M%S' }}{% endif %}"></script>

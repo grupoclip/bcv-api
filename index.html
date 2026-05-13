@@ -137,4 +137,4 @@ faq_key: homepage
   };
   const CURRENCY_NAMES = {{ t.currencies | jsonify }};
 </script>
-<script src="{{ '/assets/js/dashboard.js' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}"></script>
+<script src="{{ '/assets/js/dashboard.js' | relative_url }}?v={% if site.asset_version %}{{ site.asset_version }}{% elsif site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%Y%m%d%H%M%S' }}{% endif %}"></script>

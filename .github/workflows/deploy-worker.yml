@@ -12,9 +12,6 @@ on:
 permissions:
   contents: read
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -23,7 +20,13 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Deploy Cloudflare Worker
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CF_WORKERS_API_TOKEN }}
-          command: deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_WORKERS_API_TOKEN }}
+        run: |
+          if [ -z "${CLOUDFLARE_API_TOKEN}" ]; then
+            echo "Missing CF_WORKERS_API_TOKEN secret."
+            echo "Create a Cloudflare API token with Account Workers Scripts:Edit, Zone Workers Routes:Edit, and Zone:Read."
+            exit 1
+          fi
+
+          npx --yes wrangler@4 deploy --config wrangler.toml

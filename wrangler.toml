@@ -1,6 +1,7 @@
 name = "bcv-today-agent-markdown"
 main = "workers/markdown-for-agents.js"
 compatibility_date = "2026-05-13"
+account_id = "d0158136a182d911d74096e2aa11332d"
 workers_dev = false
 
 routes = [

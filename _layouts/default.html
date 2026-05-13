@@ -381,6 +381,30 @@
         } catch (e) {}
       })();
     </script>
+    <script>
+      (function () {
+        if (!window.trustedTypes) {
+          window.BCVTrustedHTML = function (html) {
+            return html;
+          };
+          return;
+        }
+        try {
+          var policy = window.trustedTypes.createPolicy("bcv-today", {
+            createHTML: function (html) {
+              return String(html);
+            },
+          });
+          window.BCVTrustedHTML = function (html) {
+            return policy.createHTML(html);
+          };
+        } catch (e) {
+          window.BCVTrustedHTML = function (html) {
+            return html;
+          };
+        }
+      })();
+    </script>
   </head>
   <body>
     <header class="site-header">

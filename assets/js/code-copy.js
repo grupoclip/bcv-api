@@ -1,6 +1,8 @@
 (function () {
   const copiedText = document.documentElement.lang === "en" ? "Copied" : "Copiado";
   const copyText = document.documentElement.lang === "en" ? "Copy" : "Copiar";
+  const trustedHTML = (html) =>
+    window.BCVTrustedHTML ? window.BCVTrustedHTML(html) : html;
 
   async function copyToClipboard(text) {
     if (navigator.clipboard && window.isSecureContext) {
@@ -34,14 +36,15 @@
     button.className = "copy-code-button";
     button.setAttribute("aria-label", copyText);
     button.setAttribute("aria-live", "polite");
-    button.innerHTML =
+    button.innerHTML = trustedHTML(
       '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">' +
       '<rect x="9" y="9" width="11" height="11" rx="2" />' +
       '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />' +
       "</svg>" +
       '<span data-copy-text>' +
       copyText +
-      "</span>";
+      "</span>"
+    );
     const label = button.querySelector("[data-copy-text]");
 
     button.addEventListener("click", async () => {

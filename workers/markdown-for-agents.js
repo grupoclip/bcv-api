@@ -6,6 +6,8 @@ const AGENT_LINK_HEADER = [
   '</.well-known/agent-card.json>; rel="describedby"; type="application/json"',
   '</.well-known/agent-skills/index.json>; rel="describedby"; type="application/json"',
 ].join(", ");
+const TRUSTED_TYPES_CSP =
+  "require-trusted-types-for 'script'; trusted-types bcv-today";
 
 function wantsMarkdown(request) {
   const accept = request.headers.get("Accept") || "";
@@ -15,6 +17,21 @@ function wantsMarkdown(request) {
 function isHtml(response) {
   const contentType = response.headers.get("Content-Type") || "";
   return contentType.toLowerCase().includes("text/html");
+}
+
+function withSecurityHeaders(response, url) {
+  const headers = new Headers(response.headers);
+  if (isHtml(response)) {
+    headers.set("Content-Security-Policy", TRUSTED_TYPES_CSP);
+  }
+  if (url.pathname === "/" && !headers.has("Link")) {
+    headers.set("Link", AGENT_LINK_HEADER);
+  }
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
 }
 
 function estimateTokens(text) {
@@ -119,6 +136,7 @@ async function markdownResponse(request, originResponse) {
   if (url.pathname === "/") {
     headers.set("Link", AGENT_LINK_HEADER);
   }
+  headers.delete("Content-Security-Policy");
 
   return new Response(markdown, {
     status: originResponse.status,
@@ -149,14 +167,8 @@ export default {
       return response;
     }
 
-    if (url.pathname === "/" && !originResponse.headers.has("Link")) {
-      const headers = new Headers(originResponse.headers);
-      headers.set("Link", AGENT_LINK_HEADER);
-      return new Response(originResponse.body, {
-        status: originResponse.status,
-        statusText: originResponse.statusText,
-        headers,
-      });
+    if (isHtml(originResponse) || url.pathname === "/") {
+      return withSecurityHeaders(originResponse, url);
     }
 
     return originResponse;

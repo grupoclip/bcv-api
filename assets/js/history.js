@@ -13,6 +13,8 @@
     VES: "Bs",
   };
   const symbolFor = (c) => CURRENCY_SYMBOLS[c] || c;
+  const trustedHTML = (html) =>
+    window.BCVTrustedHTML ? window.BCVTrustedHTML(html) : html;
 
   const fmtRate = (n) =>
     new Intl.NumberFormat(LOCALE, {
@@ -57,7 +59,7 @@
   }
 
   function fillSelect(sel, selected) {
-    sel.innerHTML = "";
+    sel.textContent = "";
     for (const c of FOREIGN_CODES) {
       const opt = document.createElement("option");
       opt.value = c;
@@ -273,7 +275,7 @@
     }
     stats.hidden = false;
 
-    document.getElementById("chart").innerHTML = chartSvg(recent);
+    document.getElementById("chart").innerHTML = trustedHTML(chartSvg(recent));
     chartCard.hidden = false;
     syncRangeButtons(range);
     updateShareLink(code, range);
@@ -285,7 +287,7 @@
     function renderTablePage() {
       const start = (tablePage - 1) * PAGE_SIZE;
       const pageRows = reversed.slice(start, start + PAGE_SIZE);
-      rows.innerHTML = "";
+      rows.textContent = "";
       for (let i = 0; i < pageRows.length; i++) {
         const d = pageRows[i];
         const next = reversed[start + i + 1];
@@ -297,7 +299,7 @@
           changeCell = fmtPct(ch);
         }
         const tr = document.createElement("tr");
-        tr.innerHTML =
+        tr.innerHTML = trustedHTML(
           "<td>" +
           fmtDate(d.date) +
           "</td><td>" +
@@ -306,7 +308,8 @@
           cls +
           '">' +
           changeCell +
-          "</td>";
+          "</td>"
+        );
         rows.appendChild(tr);
       }
 

@@ -10,6 +10,8 @@
     VES: "Bs",
   };
   const symbolFor = (c) => CURRENCY_SYMBOLS[c] || c;
+  const trustedHTML = (html) =>
+    window.BCVTrustedHTML ? window.BCVTrustedHTML(html) : html;
 
   const fmtRate = (n) =>
     new Intl.NumberFormat(LOCALE, {
@@ -93,7 +95,7 @@
 
   function renderCards(data, history) {
     const grid = document.getElementById("grid");
-    grid.innerHTML = "";
+    grid.textContent = "";
     for (const code of FOREIGN_CODES) {
       if (typeof data[code] !== "number") continue;
       const series = lastValuesFor(history, code, SPARK_WINDOW);
@@ -119,7 +121,7 @@
       const card = document.createElement("a");
       card.className = "card";
       card.href = href;
-      card.innerHTML =
+      card.innerHTML = trustedHTML(
         '<div class="card-head">' +
         '<div class="curr-icon" data-code="' +
         code +
@@ -140,7 +142,8 @@
         '<span class="unit">Bs.</span></div>' +
         '<div class="card-foot">' +
         footHtml +
-        "</div>";
+        "</div>"
+      );
       grid.appendChild(card);
     }
   }
@@ -156,7 +159,7 @@
 
     const options = ["VES"].concat(FOREIGN_CODES);
     function fillSelect(sel, selected) {
-      sel.innerHTML = "";
+      sel.textContent = "";
       for (const c of options) {
         const opt = document.createElement("option");
         opt.value = c;
@@ -227,7 +230,7 @@
         fetchJson(HISTORY_URL).catch(() => []),
       ]);
       const effective = rate.effective_date || rate.date;
-      meta.innerHTML =
+      meta.innerHTML = trustedHTML(
         "<span>" +
         STRINGS.effective +
         ": <strong>" +
@@ -239,12 +242,13 @@
         fmtDateTime(rate.updated_at) +
         "</strong> " +
         STRINGS.zone +
-        "</span>";
+        "</span>"
+      );
 
       const status = document.getElementById("api-status");
       if (status) {
         const complete = FOREIGN_CODES.every((code) => typeof rate[code] === "number");
-        status.innerHTML =
+        status.innerHTML = trustedHTML(
           '<span class="status-pill ' +
           (complete ? "ok" : "partial") +
           '">' +
@@ -264,14 +268,18 @@
           API_PAGE_URL +
           '">' +
           STRINGS.apiLabel +
-          "</a>";
+          "</a>"
+        );
       }
 
       renderCards(rate, history);
       setupCalculator(rate);
     } catch (err) {
-      grid.innerHTML =
-        '<div class="error">' + STRINGS.error + " " + err.message + "</div>";
+      grid.textContent = "";
+      const error = document.createElement("div");
+      error.className = "error";
+      error.textContent = STRINGS.error + " " + err.message;
+      grid.appendChild(error);
     }
   }
 

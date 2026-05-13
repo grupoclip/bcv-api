@@ -280,15 +280,7 @@
         }
       }
     </style>
-    <link
-      rel="preload"
-      href="{{ '/assets/css/style.css' | relative_url }}?v={{ asset_version }}"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript>
-      <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v={{ asset_version }}" />
-    </noscript>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v={{ asset_version }}" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",

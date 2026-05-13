@@ -50,7 +50,7 @@
     button.addEventListener("click", async () => {
       const original = label.textContent;
       try {
-        await copyToClipboard(code.innerText.trimEnd());
+        await copyToClipboard(code.textContent.trimEnd());
         label.textContent = copiedText;
         button.setAttribute("aria-label", copiedText);
         button.classList.add("is-copied");

@@ -180,49 +180,32 @@ jobs:
           fi
 
           phase="http_config_settings"
-          api_base="https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/rulesets"
-          response="$(mktemp)"
+          entrypoint_url="https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/rulesets/phases/${phase}/entrypoint"
           payload="$(mktemp)"
+          response="$(mktemp)"
+
+          jq -n \
+            --arg description "${RULE_DESCRIPTION}" \
+            --arg expression "${RULE_EXPRESSION}" \
+            '{
+              rules: [{
+                expression: $expression,
+                action: "set_config",
+                action_parameters: {
+                  content_converter: true
+                },
+                description: $description
+              }]
+            }' > "${payload}"
 
           status="$(curl --show-error --silent \
             --output "${response}" \
             --write-out "%{http_code}" \
+            --request PUT \
+            --url "${entrypoint_url}" \
             -H "Authorization: Bearer ${CF_RULES_API_TOKEN}" \
             -H "Content-Type: application/json" \
-            "${api_base}/phases/${phase}/entrypoint")"
-
-          rule="$(jq -n \
-            --arg ref "${RULE_REF}" \
-            --arg description "${RULE_DESCRIPTION}" \
-            --arg expression "${RULE_EXPRESSION}" \
-            '{
-              ref: $ref,
-              description: $description,
-              expression: $expression,
-              action: "set_config",
-              action_parameters: {
-                content_converter: true
-              },
-              enabled: true
-            }')"
-
-          if [ "${status}" = "404" ]; then
-            jq -n \
-              --argjson rule "${rule}" \
-              '{
-                name: "BCV Today configuration settings",
-                kind: "zone",
-                phase: "http_config_settings",
-                rules: [$rule]
-              }' > "${payload}"
-
-            curl --fail --show-error --silent \
-              -X POST "${api_base}" \
-              -H "Authorization: Bearer ${CF_RULES_API_TOKEN}" \
-              -H "Content-Type: application/json" \
-              --data @"${payload}"
-            exit 0
-          fi
+            --data @"${payload}")"
 
           if [ "${status}" = "401" ] || [ "${status}" = "403" ]; then
             cat "${response}"
@@ -231,32 +214,12 @@ jobs:
             exit 1
           fi
 
-          if [ "${status}" != "200" ]; then
+          if [ "${status}" -lt 200 ] || [ "${status}" -ge 300 ]; then
             cat "${response}"
             exit 1
           fi
 
-          ruleset_id="$(jq -r '.result.id' "${response}")"
-          jq \
-            --arg ref "${RULE_REF}" \
-            --arg description "${RULE_DESCRIPTION}" \
-            --argjson rule "${rule}" \
-            '.result as $ruleset |
-              {
-                name: $ruleset.name,
-                description: ($ruleset.description // ""),
-                kind: $ruleset.kind,
-                phase: $ruleset.phase,
-                rules: ((($ruleset.rules // [])
-                  | map(select(.ref != $ref and .description != $description)))
-                  + [$rule])
-              }' "${response}" > "${payload}"
-
-          curl --fail --show-error --silent \
-            -X PUT "${api_base}/${ruleset_id}" \
-            -H "Authorization: Bearer ${CF_RULES_API_TOKEN}" \
-            -H "Content-Type: application/json" \
-            --data @"${payload}"
+          cat "${response}"
 
       - name: Purge Cloudflare cache
         env:

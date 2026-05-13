@@ -1,0 +1,8 @@
+name = "bcv-today-agent-markdown"
+main = "workers/markdown-for-agents.js"
+compatibility_date = "2026-05-13"
+workers_dev = false
+
+routes = [
+  { pattern = "bcv.today/*", zone_name = "bcv.today" }
+]

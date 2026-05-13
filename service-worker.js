@@ -10,6 +10,7 @@ const STATIC_URLS = [
   "/assets/icon-512.png",
   "/assets/css/style.css",
   "/assets/js/share-link.js",
+  "/assets/js/webmcp.js",
   "/assets/js/code-copy.js",
   "/assets/js/dashboard.js",
   "/assets/js/history.js",

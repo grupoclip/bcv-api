@@ -1,4 +1,4 @@
-const CACHE_VERSION = "bcv-today-v3";
+const CACHE_VERSION = "bcv-today-v4";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const API_CACHE = `${CACHE_VERSION}-api`;
 
@@ -9,9 +9,6 @@ const STATIC_URLS = [
   "/assets/icon-192.png",
   "/assets/icon-512.png",
   "/assets/css/style.css",
-  "/assets/js/share-link.js",
-  "/assets/js/webmcp.js",
-  "/assets/js/code-copy.js",
   "/assets/js/dashboard.js",
   "/assets/js/history.js",
   "/service-worker.js",

@@ -221,15 +221,25 @@
     return res.json();
   }
 
-  async function load() {
-    const grid = document.getElementById("grid");
+  function scheduleBackground(fn) {
+    const run = () => {
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(fn, { timeout: 2000 });
+      } else {
+        window.setTimeout(fn, 0);
+      }
+    };
+    if (document.readyState === "complete") {
+      run();
+    } else {
+      window.addEventListener("load", run, { once: true });
+    }
+  }
+
+  function renderMetaAndStatus(rate) {
     const meta = document.getElementById("meta");
-    try {
-      const [rate, history] = await Promise.all([
-        fetchJson(RATE_URL),
-        fetchJson(HISTORY_URL).catch(() => []),
-      ]);
-      const effective = rate.effective_date || rate.date;
+    const effective = rate.effective_date || rate.date;
+    if (meta) {
       meta.innerHTML = trustedHTML(
         "<span>" +
         STRINGS.effective +
@@ -244,43 +254,69 @@
         STRINGS.zone +
         "</span>"
       );
-
-      const status = document.getElementById("api-status");
-      if (status) {
-        const complete = FOREIGN_CODES.every((code) => typeof rate[code] === "number");
-        status.innerHTML = trustedHTML(
-          '<span class="status-pill ' +
-          (complete ? "ok" : "partial") +
-          '">' +
-          (complete ? STRINGS.statusOk : STRINGS.statusPartial) +
-          "</span>" +
-          "<span>" +
-          STRINGS.effective +
-          " <strong>" +
-          fmtDate(effective) +
-          "</strong></span>" +
-          "<span>" +
-          STRINGS.scraped +
-          " <strong>" +
-          fmtDateTime(rate.updated_at) +
-          "</strong></span>" +
-          '<a href="' +
-          API_PAGE_URL +
-          '">' +
-          STRINGS.apiLabel +
-          "</a>"
-        );
-      }
-
-      renderCards(rate, history);
-      setupCalculator(rate);
-    } catch (err) {
-      grid.textContent = "";
-      const error = document.createElement("div");
-      error.className = "error";
-      error.textContent = STRINGS.error + " " + err.message;
-      grid.appendChild(error);
     }
+
+    const status = document.getElementById("api-status");
+    if (status) {
+      const complete = FOREIGN_CODES.every((code) => typeof rate[code] === "number");
+      status.innerHTML = trustedHTML(
+        '<span class="status-pill ' +
+        (complete ? "ok" : "partial") +
+        '">' +
+        (complete ? STRINGS.statusOk : STRINGS.statusPartial) +
+        "</span>" +
+        "<span>" +
+        STRINGS.effective +
+        " <strong>" +
+        fmtDate(effective) +
+        "</strong></span>" +
+        "<span>" +
+        STRINGS.scraped +
+        " <strong>" +
+        fmtDateTime(rate.updated_at) +
+        "</strong></span>" +
+        '<a href="' +
+        API_PAGE_URL +
+        '">' +
+        STRINGS.apiLabel +
+        "</a>"
+      );
+    }
+  }
+
+  function showError(err) {
+    const grid = document.getElementById("grid");
+    grid.textContent = "";
+    const error = document.createElement("div");
+    error.className = "error";
+    error.textContent = STRINGS.error + " " + err.message;
+    grid.appendChild(error);
+  }
+
+  async function refreshDashboard(showErrors) {
+    try {
+      const rate = await fetchJson(RATE_URL);
+      renderMetaAndStatus(rate);
+      const history = await fetchJson(HISTORY_URL).catch(() => []);
+      renderCards(rate, history);
+      return rate;
+    } catch (err) {
+      if (showErrors) showError(err);
+      return null;
+    }
+  }
+
+  function load() {
+    const initialRate =
+      typeof INITIAL_RATE === "object" && INITIAL_RATE ? INITIAL_RATE : null;
+    if (initialRate) {
+      setupCalculator(initialRate);
+      scheduleBackground(() => refreshDashboard(false));
+      return;
+    }
+    refreshDashboard(true).then((rate) => {
+      if (rate) setupCalculator(rate);
+    });
   }
 
   load();

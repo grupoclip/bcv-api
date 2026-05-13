@@ -121,6 +121,7 @@ faq_key: homepage
   const HISTORY_URL = "{{ history_url }}";
   const HISTORY_PAGE_URL = "{{ history_page_url }}";
   const API_PAGE_URL = "{{ api_url }}";
+  const INITIAL_RATE = {{ rate | jsonify }};
   const STRINGS = {
     error: "{{ t.error_loading }}",
     date: "{{ t.date_label }}",
@@ -137,4 +138,4 @@ faq_key: homepage
   };
   const CURRENCY_NAMES = {{ t.currencies | jsonify }};
 </script>
-<script src="{{ '/assets/js/dashboard.js' | relative_url }}?v={% if site.asset_version %}{{ site.asset_version }}{% elsif site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%Y%m%d%H%M%S' }}{% endif %}"></script>
+<script src="{{ '/assets/js/dashboard.js' | relative_url }}?v={% if site.asset_version %}{{ site.asset_version }}{% elsif site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%Y%m%d%H%M%S' }}{% endif %}" defer></script>

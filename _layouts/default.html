@@ -507,10 +507,24 @@
         });
       })();
     </script>
-    <script src="{{ '/assets/js/share-link.js' | relative_url }}?v={{ asset_version }}"></script>
-    <script src="{{ '/assets/js/webmcp.js' | relative_url }}?v={{ asset_version }}"></script>
+    {%- assign needs_share_link = false -%}
+    {%- if page.layout == 'currency' or page.url == '/history/' or page.url == '/en/history/' -%}
+      {%- assign needs_share_link = true -%}
+    {%- endif -%}
+    {%- if needs_share_link -%}
+      <script src="{{ '/assets/js/share-link.js' | relative_url }}?v={{ asset_version }}" defer></script>
+    {%- endif -%}
+    <script>
+      (function () {
+        if (!navigator.modelContext) return;
+        var script = document.createElement("script");
+        script.src = "{{ '/assets/js/webmcp.js' | relative_url }}?v={{ asset_version }}";
+        script.defer = true;
+        document.head.appendChild(script);
+      })();
+    </script>
     {%- if page.copy_code -%}
-      <script src="{{ '/assets/js/code-copy.js' | relative_url }}?v={{ asset_version }}"></script>
+      <script src="{{ '/assets/js/code-copy.js' | relative_url }}?v={{ asset_version }}" defer></script>
     {%- endif -%}
   </body>
 </html>

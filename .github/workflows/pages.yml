@@ -59,6 +59,104 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v5
 
+      - name: Configure Cloudflare agent discovery Link headers
+        env:
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          RULE_REF: bcv-agent-discovery-link-headers
+          RULE_DESCRIPTION: BCV Today agent discovery Link headers
+          RULE_EXPRESSION: '(http.host eq "bcv.today" and http.request.uri.path eq "/")'
+          LINK_HEADER: >-
+            </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json",
+            </openapi.json>; rel="service-desc"; type="application/vnd.oai.openapi+json",
+            </api/>; rel="service-doc"; type="text/html",
+            </llms.txt>; rel="describedby"; type="text/plain",
+            </.well-known/agent-card.json>; rel="describedby"; type="application/json",
+            </.well-known/agent-skills/index.json>; rel="describedby"; type="application/json"
+        run: |
+          if [ -z "${CF_ZONE_ID}" ] || [ -z "${CF_API_TOKEN}" ]; then
+            echo "Cloudflare secrets are not configured; skipping Link header rule."
+            exit 0
+          fi
+
+          phase="http_response_headers_transform"
+          api_base="https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/rulesets"
+          response="$(mktemp)"
+          payload="$(mktemp)"
+
+          status="$(curl --show-error --silent \
+            --output "${response}" \
+            --write-out "%{http_code}" \
+            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            "${api_base}/phases/${phase}/entrypoint")"
+
+          rule="$(jq -n \
+            --arg ref "${RULE_REF}" \
+            --arg description "${RULE_DESCRIPTION}" \
+            --arg expression "${RULE_EXPRESSION}" \
+            --arg link "${LINK_HEADER}" \
+            '{
+              ref: $ref,
+              description: $description,
+              expression: $expression,
+              action: "rewrite",
+              action_parameters: {
+                headers: {
+                  Link: {
+                    operation: "set",
+                    value: $link
+                  }
+                }
+              },
+              enabled: true
+            }')"
+
+          if [ "${status}" = "404" ]; then
+            jq -n \
+              --argjson rule "${rule}" \
+              '{
+                name: "BCV Today response header transforms",
+                kind: "zone",
+                phase: "http_response_headers_transform",
+                rules: [$rule]
+              }' > "${payload}"
+
+            curl --fail --show-error --silent \
+              -X POST "${api_base}" \
+              -H "Authorization: Bearer ${CF_API_TOKEN}" \
+              -H "Content-Type: application/json" \
+              --data @"${payload}"
+            exit 0
+          fi
+
+          if [ "${status}" != "200" ]; then
+            cat "${response}"
+            exit 1
+          fi
+
+          ruleset_id="$(jq -r '.result.id' "${response}")"
+          jq \
+            --arg ref "${RULE_REF}" \
+            --arg description "${RULE_DESCRIPTION}" \
+            --argjson rule "${rule}" \
+            '.result as $ruleset |
+              {
+                name: $ruleset.name,
+                description: ($ruleset.description // ""),
+                kind: $ruleset.kind,
+                phase: $ruleset.phase,
+                rules: ((($ruleset.rules // [])
+                  | map(select(.ref != $ref and .description != $description)))
+                  + [$rule])
+              }' "${response}" > "${payload}"
+
+          curl --fail --show-error --silent \
+            -X PUT "${api_base}/${ruleset_id}" \
+            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data @"${payload}"
+
       - name: Purge Cloudflare cache
         env:
           CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}

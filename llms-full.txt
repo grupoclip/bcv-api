@@ -92,6 +92,8 @@ Returns the publication status, latest generated timestamp, effective date and s
 
 ## Usage guidance
 
+No authentication is required. Do not attempt OAuth/OIDC discovery or token exchange; all API endpoints are public static JSON.
+
 Prefer `api/v1/status.json` before long-running integrations to confirm freshness. Prefer `api/v1/rate.json` for current conversions. Prefer `api/v1/history.json` for charting and recent time-series analysis. Use dated history files when reproducibility for a specific calendar date matters.
 
 ## Disclaimer

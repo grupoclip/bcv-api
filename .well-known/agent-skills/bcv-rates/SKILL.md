@@ -18,6 +18,7 @@ Use this skill when a user asks for official Banco Central de Venezuela exchange
 
 ## Usage Rules
 
+- No authentication is required. Do not look for OAuth/OIDC discovery metadata or request tokens.
 - Treat values as official BCV-published rates mirrored by an unofficial project.
 - Prefer `effective_date` when explaining when a rate applies.
 - Use `updated_at` only to describe when BCV Today captured or published the data.

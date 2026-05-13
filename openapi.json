@@ -3,7 +3,7 @@
   "info": {
     "title": "BCV Today API",
     "version": "1.0.0",
-    "description": "Read-only JSON API for official Banco Central de Venezuela exchange rates served as static files.",
+    "description": "Public unauthenticated read-only JSON API for official Banco Central de Venezuela exchange rates served as static files. No OAuth, OIDC, API key, bearer token, cookie, or other authentication is required.",
     "license": {
       "name": "MIT",
       "url": "https://github.com/grupoclip/bcv-api/blob/main/LICENSE"
@@ -14,11 +14,13 @@
       "url": "https://bcv.today"
     }
   ],
+  "security": [],
   "paths": {
     "/api/v1/rate.json": {
       "get": {
         "operationId": "getLatestRate",
         "summary": "Get latest BCV exchange rates",
+        "security": [],
         "responses": {
           "200": {
             "description": "Latest current rate entry",
@@ -37,6 +39,7 @@
       "get": {
         "operationId": "getHistoryIndex",
         "summary": "Get recent BCV exchange-rate history",
+        "security": [],
         "responses": {
           "200": {
             "description": "Up to the latest 365 daily entries",
@@ -58,6 +61,7 @@
       "get": {
         "operationId": "getHistoryByDate",
         "summary": "Get one dated BCV exchange-rate snapshot",
+        "security": [],
         "parameters": [
           {
             "name": "date",
@@ -92,6 +96,7 @@
       "get": {
         "operationId": "getApiStatus",
         "summary": "Get API freshness and currency availability",
+        "security": [],
         "responses": {
           "200": {
             "description": "API status document",
@@ -108,6 +113,7 @@
     }
   },
   "components": {
+    "securitySchemes": {},
     "schemas": {
       "Rate": {
         "type": "object",

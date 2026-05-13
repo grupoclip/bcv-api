@@ -1,6 +1,6 @@
 {
   "name": "BCV Today Data Agent",
-  "description": "Machine-readable discovery card for the BCV Today public exchange-rate data service.",
+  "description": "Machine-readable discovery card for the BCV Today public unauthenticated exchange-rate data service. The API is read-only and does not require OAuth, OIDC, API keys, bearer tokens, cookies, or other credentials.",
   "version": "1.0.0",
   "url": "https://bcv.today",
   "documentationUrl": "https://bcv.today/api/",
@@ -45,5 +45,10 @@
     }
   ],
   "securitySchemes": {},
-  "security": []
+  "security": [],
+  "authentication": {
+    "required": false,
+    "type": "none",
+    "description": "No authentication is required. Do not attempt OAuth/OIDC discovery or token exchange for this API."
+  }
 }

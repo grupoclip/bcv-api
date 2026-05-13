@@ -28,6 +28,12 @@
           "title": "BCV Today API status"
         }
       ],
+      "security": [
+        {
+          "title": "No authentication required",
+          "description": "BCV Today is a public read-only static JSON API. OAuth, OIDC, API keys, bearer tokens, cookies and other credentials are not used."
+        }
+      ],
       "describedby": [
         {
           "href": "https://bcv.today/llms.txt",

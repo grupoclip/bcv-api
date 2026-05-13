@@ -129,11 +129,24 @@ async function markdownResponse(request, originResponse) {
 
 export default {
   async fetch(request) {
-    const originResponse = await fetch(request);
     const url = new URL(request.url);
+    const markdownRequest = wantsMarkdown(request);
+    const originRequest =
+      markdownRequest && request.method === "HEAD"
+        ? new Request(request, { method: "GET" })
+        : request;
+    const originResponse = await fetch(originRequest);
 
-    if (wantsMarkdown(request) && isHtml(originResponse)) {
-      return markdownResponse(request, originResponse);
+    if (markdownRequest && isHtml(originResponse)) {
+      const response = await markdownResponse(request, originResponse);
+      if (request.method === "HEAD") {
+        return new Response(null, {
+          status: response.status,
+          statusText: response.statusText,
+          headers: response.headers,
+        });
+      }
+      return response;
     }
 
     if (url.pathname === "/" && !originResponse.headers.has("Link")) {

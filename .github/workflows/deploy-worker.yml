@@ -24,6 +24,7 @@ jobs:
       - name: Deploy Cloudflare Worker
         env:
           CF_WORKERS_API_TOKEN: ${{ secrets.CF_WORKERS_API_TOKEN }}
+          WRANGLER_SEND_METRICS: "false"
         run: |
           if [ -z "${CF_WORKERS_API_TOKEN}" ]; then
             echo "Missing CF_WORKERS_API_TOKEN secret."
@@ -32,4 +33,4 @@ jobs:
           fi
 
           export CLOUDFLARE_API_TOKEN="${CF_WORKERS_API_TOKEN}"
-          npx --yes wrangler@4 deploy --config wrangler.toml --send-metrics=false
+          npx --yes wrangler@4 deploy --config wrangler.toml

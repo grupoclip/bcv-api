@@ -797,7 +797,6 @@ a.card:hover {
 }
 
 .button-link,
-.share-links a,
 .history-pagination button,
 .copy-code-button {
     gap: 7px;
@@ -1137,6 +1136,7 @@ a.card:hover {
 .button-link {
     display: inline-flex;
     align-items: center;
+    gap: 8px;
     min-height: 44px;
     padding: 8px 14px;
     border: 1px solid var(--border);
@@ -1149,6 +1149,12 @@ a.card:hover {
     box-shadow: var(--inner-light);
     cursor: pointer;
     font-family: inherit;
+}
+
+.share-links .ui-icon,
+.button-link .ui-icon {
+    width: 1.1em;
+    height: 1.1em;
 }
 
 .landing-links a:hover,

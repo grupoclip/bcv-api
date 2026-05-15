@@ -28,8 +28,6 @@ jekyll-minifier:
   compress_json: false
   compress_css: true
   compress_javascript: true
-  uglifier_args:
-    harmony: true
 
 defaults:
   - scope:

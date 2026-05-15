@@ -11,8 +11,11 @@
     {%- assign page_title = page.seo_title | default: page.title -%}
     {%- assign canonical_url = page.url | absolute_url -%}
     {%- assign page_description = page.description | default: t.site_description -%}
-    <title>{% if page.title %}{{ page.title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+    <title>{% if page_title %}{{ page_title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
     <meta name="description" content="{{ page_description }}"/>
+    {%- if page.keywords -%}
+    <meta name="keywords" content="{{ page.keywords | join: ', ' }}"/>
+    {%- endif -%}
     <meta name="theme-color" content="#101010" media="(prefers-color-scheme: dark)"/>
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/>
     <meta name="application-name" content="{{ site.title }}"/>
@@ -333,112 +336,94 @@
     </style>
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v={{ asset_version }}"/>
     <script type="application/ld+json">
+        {%- assign schema_lang = 'es-VE' -%}
+        {%- assign schema_search_url = '/history/?c={search_term_string}' -%}
+        {%- if page.lang == 'en' -%}
+        {%- assign schema_lang = 'en-US' -%}
+        {%- assign schema_search_url = '/en/history/?c={search_term_string}' -%}
+        {%- endif -%}
         {
             "@context": "https://schema.org",
             "@graph": [
                 {
                     "@type": "WebSite",
                     "@id": "{{ site.url }}{{ site.baseurl }}/#website",
-                    "name": {
-                {
-                    site.title
-                    |
-                    jsonify
-                }
-            },
-                "url"
-                :
-                "{{ site.url }}{{ site.baseurl }}/",
-                "description"
-                :
-                {
-                {
-                    site.description
-                    |
-                    jsonify
-                }
-            },
-                "inLanguage"
-                :
-                [
-                    "es-VE",
-                    "en-US"
-                ],
-                "publisher"
-                :
-                {
-                    "@type": "Organization",
-                    "name": {
-                {
-                    site.title
-                    |
-                    jsonify
-                }
-            },
-                "url"
-                :
-                "{{ site.url }}{{ site.baseurl }}/"
-                }
+                    "name": {{ site.title | jsonify }},
+                    "alternateName": ["BCVHoy", "BCV hoy"],
+                    "url": "{{ site.url }}{{ site.baseurl }}/",
+                    "description": {{ site.description | jsonify }},
+                    "inLanguage": ["es-VE", "en-US"],
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": {{ site.title | jsonify }},
+                        "url": "{{ site.url }}{{ site.baseurl }}/"
+                    },
+                    "potentialAction": {
+                        "@type": "SearchAction",
+                        "target": "{{ site.url }}{{ site.baseurl }}{{ schema_search_url }}",
+                        "query-input": "required name=search_term_string"
+                    }
                 },
                 {
-                "@type": "WebPage",
-                "@id": "{{ canonical_url }}#webpage",
-                "url": "{{ canonical_url }}",
-                "name": {% if page_title %}{{page_title | jsonify}}{% else %}{{site.title | jsonify}}{% endif %},
-                "description": {{page_description | jsonify}},
-                "isPartOf": {"@id": "{{ site.url }}{{ site.baseurl }}/#website"},
-                "inLanguage": "{% if page.lang == 'en' %}en-US{% else %}es-VE{% endif %}"
+                    "@type": "WebPage",
+                    "@id": "{{ canonical_url }}#webpage",
+                    "url": "{{ canonical_url }}",
+                    "name": {% if page_title %}{{ page_title | jsonify }}{% else %}{{ site.title | jsonify }}{% endif %},
+                    "description": {{ page_description | jsonify }},
+                    "isPartOf": {"@id": "{{ site.url }}{{ site.baseurl }}/#website"},
+                    "inLanguage": "{{ schema_lang }}"{% if page.keywords %},
+                    "keywords": {{ page.keywords | jsonify }}{% endif %}
                 }
                 {%- if page.faq_key and site.data.faq[page.lang][page.faq_key] -%}
                 ,
                 {
-                "@type": "FAQPage",
-                "@id": "{{ canonical_url }}#faq",
-                "mainEntity": [
-                {%- assign faq_items = site.data.faq[page.lang][page.faq_key].items -%}
-                {%- for item in faq_items -%}
-                {
-                "@type": "Question",
-                "name": {{item.question | jsonify}},
-                "acceptedAnswer": {
-                "@type": "Answer",
-                "text": {{item.answer | jsonify}}
-                }
-                }{% unless forloop.last %},{% endunless %}
-                {%- endfor -%}
-                ]
+                    "@type": "FAQPage",
+                    "@id": "{{ canonical_url }}#faq",
+                    "mainEntity": [
+                        {%- assign faq_items = site.data.faq[page.lang][page.faq_key].items -%}
+                        {%- for item in faq_items -%}
+                        {
+                            "@type": "Question",
+                            "name": {{ item.question | jsonify }},
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": {{ item.answer | jsonify }}
+                            }
+                        }{% unless forloop.last %},{% endunless %}
+                        {%- endfor -%}
+                    ]
                 }
                 {%- endif -%}
                 {%- if page.url == '/api/' or page.url == '/en/api/' or page.url == '/' or page.url == '/en/' -%}
                 ,
                 {
-                "@type": "Dataset",
-                "@id": "{{ site.url }}{{ site.baseurl }}/api/#dataset",
-                "name": "Banco Central de Venezuela exchange rates API",
-                "description": {{site.description | jsonify}},
-                "url": "{{ site.url }}{{ site.baseurl }}/api/",
-                "license": "https://github.com/{{ site.repository }}/blob/main/LICENSE",
-                "creator": {
-                "@type": "Organization",
-                "name": "Banco Central de Venezuela",
-                "url": "https://www.bcv.org.ve/"
-                },
-                "distribution": [
-                {
-                "@type": "DataDownload",
-                "encodingFormat": "application/json",
-                "contentUrl": "{{ site.url }}{{ site.baseurl }}/api/v1/rate.json",
-                "name": "Latest BCV exchange rate"
-                },
-                {
-                "@type": "DataDownload",
-                "encodingFormat": "application/json",
-                "contentUrl": "{{ site.url }}{{ site.baseurl }}/api/v1/history.json",
-                "name": "BCV exchange rate history"
-                }
-                ],
-                "temporalCoverage": "2026/..",
-                "keywords": ["BCV", "Banco Central de Venezuela", "dolar BCV", "exchange rates", "API"]
+                    "@type": "Dataset",
+                    "@id": "{{ site.url }}{{ site.baseurl }}/api/#dataset",
+                    "name": "Banco Central de Venezuela exchange rates API",
+                    "description": {{ site.description | jsonify }},
+                    "url": "{{ site.url }}{{ site.baseurl }}/api/",
+                    "license": "https://github.com/{{ site.repository }}/blob/main/LICENSE",
+                    "creator": {
+                        "@type": "Organization",
+                        "name": "Banco Central de Venezuela",
+                        "url": "https://www.bcv.org.ve/"
+                    },
+                    "distribution": [
+                        {
+                            "@type": "DataDownload",
+                            "encodingFormat": "application/json",
+                            "contentUrl": "{{ site.url }}{{ site.baseurl }}/api/v1/rate.json",
+                            "name": "Latest BCV exchange rate"
+                        },
+                        {
+                            "@type": "DataDownload",
+                            "encodingFormat": "application/json",
+                            "contentUrl": "{{ site.url }}{{ site.baseurl }}/api/v1/history.json",
+                            "name": "BCV exchange rate history"
+                        }
+                    ],
+                    "temporalCoverage": "2026/..",
+                    "keywords": ["BCV", "Banco Central de Venezuela", "dolar BCV", "dolar bcv hoy", "bcv dollar today", "exchange rates", "API"]
                 }
                 {%- endif -%}
             ]

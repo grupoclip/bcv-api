@@ -10,6 +10,8 @@ es:
         answer: "No. La API JSON de BCV Today es pública, de solo lectura y no requiere clave de acceso."
       - question: "¿Qué significa Fecha Valor?"
         answer: "Fecha Valor es la fecha de vigencia oficial indicada por el BCV. En fines de semana o feriados puede mantenerse la tasa del día hábil anterior."
+      - question: "¿Dólar BCV hoy es lo mismo que Dolartoday BCV?"
+        answer: "No. Dólar BCV hoy se refiere a la tasa oficial USD/VES publicada por el Banco Central de Venezuela. Dolartoday BCV suele ser una búsqueda comparativa, pero esta página muestra únicamente el precio oficial del BCV."
       - question: "¿Este sitio es oficial del BCV?"
         answer: "No. BCV Today es un proyecto no oficial que toma los datos publicados por el Banco Central de Venezuela y los organiza como sitio web y API estática."
   currency:
@@ -34,6 +36,8 @@ en:
         answer: "No. BCV Today's JSON API is public, read-only and does not require an access key."
       - question: "What does effective date mean?"
         answer: "The effective date is the official validity date indicated by BCV. On weekends or holidays, the previous business day's rate may remain in effect."
+      - question: "Is BCV dollar today the same as Dolartoday BCV?"
+        answer: "No. BCV dollar today refers to the official USD/VES rate published by Banco Central de Venezuela. Dolartoday BCV is often used as a comparison search, but this page only shows the official BCV rate."
       - question: "Is this an official BCV website?"
         answer: "No. BCV Today is an unofficial project that reads public data published by Banco Central de Venezuela and organizes it as a website and static API."
   currency:

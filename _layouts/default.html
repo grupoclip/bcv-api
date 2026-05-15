@@ -334,7 +334,7 @@
             }
         }
     </style>
-    <link href="{{ '/assets/css/style.css' | relative_url }}" rel="stylesheet"/>
+    <link href="{{ '/assets/css/style.css' | relative_url }}?v={{ site.github.build_revision }}" rel="stylesheet"/>
     {%- assign schema_lang = 'es-VE' -%}
     {%- assign schema_home_url = site.url | append: site.baseurl | append: '/' -%}
     {%- assign schema_search_path = '/history/?c={search_term_string}' -%}
@@ -625,7 +625,7 @@
 </script>
 <script>
     (function () {
-        var href = "{{ '/assets/css/style.css' | relative_url }}";
+        var href = "{{ '/assets/css/style.css' | relative_url }}?v={{ site.github.build_revision }}";
 
         function loadFullStyles() {
             var link = document.createElement("link");
@@ -655,7 +655,7 @@
 {%- assign needs_share_link = true -%}
 {%- endif -%}
 {%- if needs_share_link -%}
-<script defer src="{{ '/assets/js/share-link.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/share-link.js' | relative_url }}?v={{ site.github.build_revision }}"></script>
 {%- endif -%}
 <script>
     (function () {

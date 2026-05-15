@@ -241,25 +241,7 @@
     }
 
     function renderMetaAndStatus(rate) {
-        const meta = document.getElementById("meta");
         const effective = rate.effective_date || rate.date;
-        if (meta) {
-            meta.innerHTML = trustedHTML(
-                "<span>" +
-                STRINGS.effective +
-                ": <strong>" +
-                fmtDate(effective) +
-                "</strong></span>" +
-                "<span>" +
-                STRINGS.scraped +
-                ": <strong>" +
-                fmtDateTime(rate.updated_at) +
-                "</strong> " +
-                STRINGS.zone +
-                "</span>"
-            );
-        }
-
         const status = document.getElementById("api-status");
         if (status) {
             const complete = FOREIGN_CODES.every((code) => typeof rate[code] === "number");

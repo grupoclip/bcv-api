@@ -25,7 +25,7 @@ plugins:
 # Local `jekyll serve` is unaffected.
 jekyll-minifier:
   compress_html: true
-  compress_json: false
+  compress_json: true
   compress_css: true
   compress_javascript: true
 

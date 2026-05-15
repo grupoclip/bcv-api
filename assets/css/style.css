@@ -791,7 +791,13 @@ a.card:hover {
     stroke-linejoin: round;
 }
 
+.ui-icon.brand-icon {
+    fill: currentColor;
+    stroke: none;
+}
+
 .button-link,
+.share-links a,
 .history-pagination button,
 .copy-code-button {
     gap: 7px;

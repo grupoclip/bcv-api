@@ -149,13 +149,28 @@ faq_key: homepage
 <h2>Share and save this reference</h2>
 <div aria-label="Share BCV Today" class="share-links">
     <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" rel="nofollow noopener"
-       target="_blank">Share on Facebook</a>
+       target="_blank">
+        <svg aria-hidden="true" class="ui-icon brand-icon" viewBox="0 0 24 24">
+            <path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.7c0-.9.3-1.6 1.6-1.6h1.7V4.2C16.5 4.1 15.5 4 14.4 4c-2.4 0-4 1.5-4 4.2v2.6H7.5V14h2.8v8z"/>
+        </svg>
+        <span>Share on Facebook</span>
+    </a>
     <a href="https://twitter.com/intent/tweet?url={{ page.url | absolute_url }}&text=BCV%20dollar%20today"
-       rel="nofollow noopener" target="_blank">Share on X</a>
+       rel="nofollow noopener" target="_blank">
+        <svg aria-hidden="true" class="ui-icon brand-icon" viewBox="0 0 24 24">
+            <path d="M17.5 3h3.1l-6.8 7.8L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.3-8.3L2 3h6.4l4.4 5.8z"/>
+        </svg>
+        <span>Share on X</span>
+    </a>
     <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url }}" rel="nofollow noopener"
-       target="_blank">Share on LinkedIn</a>
+       target="_blank">
+        <svg aria-hidden="true" class="ui-icon brand-icon" viewBox="0 0 24 24">
+            <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.1c.5-1 1.8-2 3.8-2 4.1 0 4.8 2.7 4.8 6.1V21h-4v-5.4c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21h-4z"/>
+        </svg>
+        <span>Share on LinkedIn</span>
+    </a>
     <button
-            class="button-link secondary"
+            class="button-link"
             data-share-button
             data-share-copied="{{ t.history_share_copied }}"
             data-share-failed="{{ t.history_share_failed }}"
@@ -164,6 +179,11 @@ faq_key: homepage
             data-share-url="{{ page.url | absolute_url }}"
             type="button"
     >
+        <svg aria-hidden="true" class="ui-icon" viewBox="0 0 24 24">
+            <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/>
+            <path d="M16 6l-4-4-4 4"/>
+            <path d="M12 2v14"/>
+        </svg>
         <span data-share-text>{{ t.history_share }}</span>
     </button>
 </div>

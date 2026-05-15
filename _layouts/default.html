@@ -661,13 +661,13 @@
     (function () {
         if (!navigator.modelContext) return;
         var script = document.createElement("script");
-        script.src = "{{ '/assets/js/webmcp.js' | relative_url }}";
+        script.src = "{{ '/assets/js/webmcp.js' | relative_url }}?v={{ site.github.build_revision }}";
         script.defer = true;
         document.head.appendChild(script);
     })();
 </script>
 {%- if page.copy_code -%}
-<script defer src="{{ '/assets/js/code-copy.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/code-copy.js' | relative_url }}?v={{ site.github.build_revision }}"></script>
 {%- endif -%}
 </body>
 </html>

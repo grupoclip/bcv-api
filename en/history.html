@@ -136,4 +136,4 @@ description: "Daily BCV dollar history, euro history and other official Banco Ce
     share_failed: "{{ t.history_share_failed }}",
   };
 </script>
-<script defer src="{{ '/assets/js/history.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/history.js' | relative_url }}?v={{ site.github.build_revision }}"></script>

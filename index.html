@@ -227,4 +227,4 @@ faq_key: homepage
   };
   const CURRENCY_NAMES = {{ t.currencies | jsonify }};
 </script>
-<script defer src="{{ '/assets/js/dashboard.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/dashboard.js' | relative_url }}?v={{ site.github.build_revision }}"></script>

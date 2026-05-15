@@ -22,7 +22,7 @@ es:
   status_partial: "API parcial"
   status_source: "Fuente BCV"
   status_history: "Histórico diario"
-  index_title: "Tasas oficiales"
+  index_title: "Dólar BCV hoy y tasas oficiales"
   index_lede_html: >-
     Datos publicados por el
     <a href="https://www.bcv.org.ve/" target="_blank" rel="noopener">Banco Central de Venezuela</a>.
@@ -86,7 +86,7 @@ en:
   status_partial: "Partial API"
   status_source: "BCV source"
   status_history: "Daily history"
-  index_title: "Official rates"
+  index_title: "BCV dollar today and official rates"
   index_lede_html: >-
     Published by the
     <a href="https://www.bcv.org.ve/" target="_blank" rel="noopener">Banco Central de Venezuela</a>.

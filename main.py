@@ -17,7 +17,9 @@ HISTORY_DIR = os.path.join(API_V1_DIR, "history")
 HISTORY_INDEX = os.path.join(API_V1_DIR, "history.json")
 STATUS_PATH = os.path.join(API_V1_DIR, "status.json")
 DATA_RATE = os.path.join(DATA_DIR, "rate.json")
+DATA_RECENT_USD = os.path.join(DATA_DIR, "recent_usd.json")
 HISTORY_INDEX_LIMIT = 1830
+RECENT_USD_LIMIT = 7
 VENEZUELA_TZ = ZoneInfo("America/Caracas")
 
 CURRENCIES = {
@@ -184,6 +186,28 @@ def rebuild_history_index():
         f.write("\n")
 
 
+def rebuild_recent_usd_data():
+    paths = sorted(glob.glob(os.path.join(HISTORY_DIR, "*.json")))
+    history = []
+    previous_usd = None
+    for path in paths:
+        with open(path, encoding="utf-8") as f:
+            data = normalize_rate_payload(json.load(f))
+        usd = data.get("USD")
+        if not isinstance(usd, (int, float)):
+            continue
+        change_pct = None
+        if isinstance(previous_usd, (int, float)) and previous_usd != 0:
+            change_pct = ((usd - previous_usd) / previous_usd) * 100
+        history.append({
+            "date": data.get("date"),
+            "USD": usd,
+            "change_pct": change_pct,
+        })
+        previous_usd = usd
+    write_json(DATA_RECENT_USD, history[-RECENT_USD_LIMIT:])
+
+
 def build_current_rate():
     """Return the rate to advertise as 'today's current rate':
     today's calendar entry, with any missing currencies (e.g. early backfills
@@ -269,4 +293,5 @@ if __name__ == "__main__":
     # present in crawlable HTML, not only in client-rendered JSON.
     write_json(DATA_RATE, current_rate)
     rebuild_history_index()
+    rebuild_recent_usd_data()
     print(json.dumps(rates, indent=2))

@@ -13,55 +13,130 @@ layout: default
 <p class="lede">{{ page.lede }}</p>
 
 <section class="rate-hero" aria-labelledby="rate-heading">
-  <div>
-    <div class="code">{{ code }}</div>
-    <h2 id="rate-heading">{{ page.rate_label }}</h2>
-    {%- if value -%}
-      <div class="rate-hero-value">{{ value }}<span>Bs.</span></div>
-    {%- else -%}
-      <p>{{ t.loading }}</p>
-    {%- endif -%}
-  </div>
-  <dl class="rate-facts">
-    {%- if rate.effective_date -%}
-      <div>
-        <dt>{{ t.date_label }}</dt>
-        <dd>{{ rate.effective_date }}</dd>
-      </div>
-    {%- endif -%}
-    {%- if rate.updated_at -%}
-      <div>
-        <dt>{{ t.updated_label }}</dt>
-        <dd>{{ rate.updated_at | date: "%Y-%m-%d %H:%M UTC" }}</dd>
-      </div>
-    {%- endif -%}
     <div>
-      <dt>{{ page.source_label }}</dt>
-      <dd><a href="https://www.bcv.org.ve/" target="_blank" rel="noopener">bcv.org.ve</a></dd>
+        <div class="code">{{ code }}</div>
+        <h2 id="rate-heading">{{ page.rate_label }}</h2>
+        {%- if value -%}
+        <div class="rate-hero-value">{{ value }}<span>Bs.</span></div>
+        {%- else -%}
+        <p>{{ t.loading }}</p>
+        {%- endif -%}
     </div>
-  </dl>
+    <dl class="rate-facts">
+        {%- if rate.effective_date -%}
+        <div>
+            <dt>{{ t.date_label }}</dt>
+            <dd>{{ rate.effective_date }}</dd>
+        </div>
+        {%- endif -%}
+        {%- if rate.updated_at -%}
+        <div>
+            <dt>{{ t.updated_label }}</dt>
+            <dd>{{ rate.updated_at | date: "%Y-%m-%d %H:%M UTC" }}</dd>
+        </div>
+        {%- endif -%}
+        <div>
+            <dt>{{ page.source_label }}</dt>
+            <dd><a href="https://www.bcv.org.ve/" rel="noopener" target="_blank">bcv.org.ve</a></dd>
+        </div>
+    </dl>
 </section>
 
+{%- if code == 'USD' and value -%}
+{%- assign quick_amounts = '1,5,10,20,50,100' | split: ',' -%}
+{%- if page.lang == 'en' -%}
+{%- assign quick_heading = 'Quick USD to VES conversions with the BCV rate' -%}
+{%- assign quick_copy = 'Common dollar amounts converted with the official Banco Central de Venezuela USD/VES rate shown on this page.' -%}
+{%- assign amount_label = 'Dollars' -%}
+{%- assign bolivar_label = 'Bolivares at official BCV rate' -%}
+{%- assign recent_heading = 'Last 7 days of the BCV dollar' -%}
+{%- assign recent_copy = 'Recent official USD/VES values from the BCV history, useful for seeing the short-term trend.' -%}
+{%- assign change_label = 'Daily change' -%}
+{%- assign compare_heading = 'BCV dollar vs parallel dollar and Dolartoday' -%}
+{%- assign compare_copy = 'The BCV dollar is the official exchange rate published by Banco Central de Venezuela. Parallel-market references such as Dolartoday or USDT P2P can differ, but BCV Today only shows the official BCV Venezuela rate and its history.' -%}
+{%- else -%}
+{%- assign quick_heading = 'Conversiones rápidas de USD a VES con tasa BCV' -%}
+{%- assign quick_copy = 'Montos comunes en dólares convertidos con el precio oficial USD/VES del Banco Central de Venezuela mostrado en esta página.' -%}
+{%- assign amount_label = 'Dólares' -%}
+{%- assign bolivar_label = 'Bolívares a tasa BCV oficial' -%}
+{%- assign recent_heading = 'Últimos 7 días del dólar BCV' -%}
+{%- assign recent_copy = 'Valores oficiales USD/VES recientes del histórico BCV para revisar la tendencia de corto plazo.' -%}
+{%- assign change_label = 'Variación diaria' -%}
+{%- assign compare_heading = 'Dólar BCV vs dólar paralelo y Dolartoday' -%}
+{%- assign compare_copy = 'El dólar BCV es la tasa oficial publicada por el Banco Central de Venezuela. Referencias paralelas como Dolartoday o USDT P2P pueden ser distintas, pero BCV Today solo muestra la tasa oficial del BCV Venezuela y su histórico.' -%}
+{%- endif -%}
+
+<section aria-labelledby="quick-conversions-heading">
+    <h2 id="quick-conversions-heading">{{ quick_heading }}</h2>
+    <p>{{ quick_copy }}</p>
+    <div class="conversion-grid">
+        {%- for amount in quick_amounts -%}
+        {%- assign amount_num = amount | plus: 0 -%}
+        {%- assign converted = amount_num | times: value -%}
+        <div class="conversion-card">
+            <span class="conversion-label">{{ amount_label }}</span>
+            <strong>{{ amount_num }} USD</strong>
+            <span class="conversion-value">{{ converted | round: 2 }} Bs.</span>
+        </div>
+        {%- endfor -%}
+    </div>
+</section>
+
+<section aria-labelledby="recent-usd-heading">
+    <h2 id="recent-usd-heading">{{ recent_heading }}</h2>
+    <p>{{ recent_copy }}</p>
+    <table class="history-table compact-table">
+        <thead>
+        <tr>
+            <th>{{ t.history_table_date }}</th>
+            <th>{{ bolivar_label }}</th>
+            <th>{{ change_label }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {%- for entry in site.data.recent_usd reversed -%}
+        <tr>
+            <td>{{ entry.date }}</td>
+            <td>{{ entry.USD }} Bs.</td>
+            {%- if entry.change_pct == nil -%}
+            <td>—</td>
+            {%- else -%}
+            <td class="{% if entry.change_pct >= 0 %}up{% else %}down{% endif %}">
+                {{ entry.change_pct | round: 2 }}%
+            </td>
+            {%- endif -%}
+        </tr>
+        {%- endfor -%}
+        </tbody>
+    </table>
+</section>
+
+<section aria-labelledby="bcv-parallel-heading">
+    <h2 id="bcv-parallel-heading">{{ compare_heading }}</h2>
+    <p>{{ compare_copy }}</p>
+</section>
+{%- endif -%}
+
 <div class="action-row">
-  <a class="button-link" href="{{ history_page_url }}?c={{ code }}">{{ page.history_cta }}</a>
-  <a class="button-link secondary" href="{{ api_page_url }}">{{ page.api_cta }}</a>
-  <button
-    type="button"
-    class="button-link secondary"
-    data-share-button
-    data-share-url="{{ page.url | absolute_url }}"
-    data-share-label="{{ t.history_share }}"
-    data-share-copied="{{ t.history_share_copied }}"
-    data-share-failed="{{ t.history_share_failed }}"
-    data-share-title="{{ page.title }}"
-  >
-    <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" />
-      <path d="M16 6l-4-4-4 4" />
-      <path d="M12 2v14" />
-    </svg>
-    <span data-share-text>{{ t.history_share }}</span>
-  </button>
+    <a class="button-link" href="{{ history_page_url }}?c={{ code }}">{{ page.history_cta }}</a>
+    <a class="button-link secondary" href="{{ api_page_url }}">{{ page.api_cta }}</a>
+    <button
+            class="button-link secondary"
+            data-share-button
+            data-share-copied="{{ t.history_share_copied }}"
+            data-share-failed="{{ t.history_share_failed }}"
+            data-share-label="{{ t.history_share }}"
+            data-share-title="{{ page.title }}"
+            data-share-url="{{ page.url | absolute_url }}"
+            type="button"
+    >
+        <svg aria-hidden="true" class="ui-icon" viewBox="0 0 24 24">
+            <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/>
+            <path d="M16 6l-4-4-4 4"/>
+            <path d="M12 2v14"/>
+        </svg>
+        <span data-share-text>{{ t.history_share }}</span>
+    </button>
 </div>
 
 <h2>{{ page.about_heading }}</h2>
@@ -74,9 +149,9 @@ layout: default
 
 <h2>{{ page.related_heading }}</h2>
 <div class="landing-links" aria-label="{{ page.related_label }}">
-  {%- for related in page.related -%}
+    {%- for related in page.related -%}
     <a href="{{ related.url | relative_url }}">{{ related.label }}</a>
-  {%- endfor -%}
+    {%- endfor -%}
 </div>
 
 {%- assign currency_faq = site.data.faq[page.lang].currency -%}

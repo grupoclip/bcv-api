@@ -1,10 +1,17 @@
 ---
 layout: default
 title: API
+seo_title: "BCV API | Free USD/VES exchange rate JSON"
 lang: en
 permalink: /en/api/
 alt_url: /api/
-description: Reference for the JSON API serving Banco Central de Venezuela exchange rates.
+description: "Free BCV JSON API for the BCV dollar USD/VES rate, euro and official Banco Central de Venezuela exchange rates, with no API key."
+keywords:
+  - BCV API
+  - BCV exchange rate API
+  - USD VES API
+  - BCV dollar API
+  - Banco Central de Venezuela API
 copy_code: true
 ---
 

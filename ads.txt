@@ -1,0 +1,5 @@
+# Authorized Digital Sellers for bcv.today
+#
+# This site does not currently authorize any advertising sellers.
+# Add one seller per line when an ad network account is active, for example:
+# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0

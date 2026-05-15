@@ -190,64 +190,26 @@ faq_key: homepage
 {% include faq.html faq=site.data.faq.en.homepage id="faq" %}
 
 <script>
-  const LANG = "{{ page.lang }}";
+  const LANG = "en";
   const LOCALE = "en-US";
-  const RATE_URL = "{{ rate_url }}";
-  const HISTORY_URL = "{{ history_url }}";
-  const HISTORY_PAGE_URL = "{{ history_page_url }}";
+  const RATE_URL = "/api/v1/rate.json";
+  const HISTORY_URL = "/api/v1/history.json";
+  const HISTORY_PAGE_URL = "/en/history/";
   const CURRENCY_PAGE_URLS = {
-  {%
-      -
-      for item in currency_pages - %
-  }
-  "{{ item.currency }}"
-  :
-  "{{ item.url | relative_url }}"
-  {%
-      unless
-      forloop.last %
-  }
-  ,
-  {%
-      endunless %
-  }
-  {%
-      -endfor - %
-  }
-  }
-  ;
-  const API_PAGE_URL = "{{ api_url }}";
+    USD: "/en/bcv-dollar/",
+    EUR: "/en/bcv-euro/",
+    CNY: "/en/bcv-yuan/",
+    TRY: "/en/bcv-lira/",
+    RUB: "/en/bcv-ruble/"
+  };
+  const API_PAGE_URL = "/en/api/";
   const INITIAL_RATE = {
-      USD: {
-  {
-      rate.USD | jsonify
-  }
-  },
-  EUR: {
-      {
-          rate.EUR | jsonify
-      }
-  }
-  ,
-  CNY: {
-      {
-          rate.CNY | jsonify
-      }
-  }
-  ,
-  TRY: {
-      {
-          rate.TRY | jsonify
-      }
-  }
-  ,
-  RUB: {
-      {
-          rate.RUB | jsonify
-      }
-  }
-  }
-  ;
+    USD: {{ site.data.rate.USD }},
+    EUR: {{ site.data.rate.EUR }},
+    CNY: {{ site.data.rate.CNY }},
+    TRY: {{ site.data.rate.TRY }},
+    RUB: {{ site.data.rate.RUB }}
+  };
   const STRINGS = {
     error: "{{ t.error_loading }}",
     date: "{{ t.date_label }}",

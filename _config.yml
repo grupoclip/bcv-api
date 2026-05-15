@@ -18,6 +18,19 @@ kramdown:
   syntax_highlighter_opts:
     css_class: "highlight"
 
+plugins:
+  - jekyll-minifier
+
+# Only runs when JEKYLL_ENV=production (set by the deploy workflow).
+# Local `jekyll serve` is unaffected.
+jekyll-minifier:
+  compress_html: true
+  compress_json: false
+  compress_css: true
+  compress_javascript: true
+  uglifier_args:
+    harmony: true
+
 defaults:
   - scope:
       path: ""

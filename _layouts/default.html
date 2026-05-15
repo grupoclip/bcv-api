@@ -500,7 +500,8 @@
     <div class="container">
         <a class="brand"
            href="{% if page.lang == 'en' %}{{ '/en/' | relative_url }}{% else %}{{ '/' | relative_url }}{% endif %}">
-            <img src="{{ '/assets/logo.svg' | relative_url }}?v={{ asset_version }}" alt="" width="28" height="28"/>
+            <img alt="BCV Today logo" height="28" src="{{ '/assets/logo.svg' | relative_url }}?v={{ asset_version }}"
+                 width="28"/>
             <span>{{ site.title }}</span>
         </a>
         <nav class="site-nav" aria-label="{{ t.primary_navigation }}">

@@ -50,7 +50,11 @@
     <link href="{{ '/assets/icon-192.png' | relative_url }}" rel="icon" sizes="192x192" type="image/png"/>
     <link href="{{ '/assets/icon-512.png' | relative_url }}" rel="icon" sizes="512x512" type="image/png"/>
     <link href="{{ '/assets/icon-192.png' | relative_url }}" rel="apple-touch-icon" sizes="192x192"/>
+    {%- if page.lang == 'en' -%}
+    <link href="{{ '/en/manifest.webmanifest' | relative_url }}" rel="manifest"/>
+    {%- else -%}
     <link href="{{ '/manifest.webmanifest' | relative_url }}" rel="manifest"/>
+    {%- endif -%}
     <link rel="alternate" type="text/plain" title="LLMs index" href="{{ '/llms.txt' | absolute_url }}"/>
     <link rel="alternate" type="text/plain" title="Full LLM context" href="{{ '/llms-full.txt' | absolute_url }}"/>
     <link rel="service-desc" type="application/vnd.oai.openapi+json" title="OpenAPI"

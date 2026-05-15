@@ -2,15 +2,15 @@
   "name": "BCV Today",
   "short_name": "BCV Today",
   "description": "Official Banco Central de Venezuela exchange rates, history, calculator, and static JSON API.",
-  "id": "/",
-  "start_url": "/",
+  "id": "/en/",
+  "start_url": "/en/",
   "scope": "/",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
   "background_color": "#050505",
   "theme_color": "#101010",
   "categories": ["finance", "utilities"],
-  "lang": "es-VE",
+  "lang": "en-US",
   "dir": "ltr",
   "icons": [
     {
@@ -34,9 +34,9 @@
   ],
   "shortcuts": [
     {
-      "name": "Tasas",
-      "short_name": "Tasas",
-      "url": "/",
+      "name": "Rates",
+      "short_name": "Rates",
+      "url": "/en/",
       "icons": [
         {
           "src": "/assets/icon-192.png",
@@ -46,9 +46,9 @@
       ]
     },
     {
-      "name": "Histórico",
-      "short_name": "Histórico",
-      "url": "/history/",
+      "name": "History",
+      "short_name": "History",
+      "url": "/en/history/",
       "icons": [
         {
           "src": "/assets/icon-192.png",
@@ -60,7 +60,7 @@
     {
       "name": "API",
       "short_name": "API",
-      "url": "/api/",
+      "url": "/en/api/",
       "icons": [
         {
           "src": "/assets/icon-192.png",

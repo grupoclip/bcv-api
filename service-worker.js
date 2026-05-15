@@ -1,10 +1,25 @@
-const CACHE_VERSION = "bcv-today-v4";
+const CACHE_VERSION = "bcv-today-v5";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const API_CACHE = `${CACHE_VERSION}-api`;
 
 const STATIC_URLS = [
   "/",
+  "/en/",
   "/offline/",
+  "/history/",
+  "/en/history/",
+  "/api/",
+  "/en/api/",
+  "/dolar-bcv/",
+  "/euro-bcv/",
+  "/yuan-bcv/",
+  "/lira-bcv/",
+  "/rublo-bcv/",
+  "/en/bcv-dollar/",
+  "/en/bcv-euro/",
+  "/en/bcv-yuan/",
+  "/en/bcv-lira/",
+  "/en/bcv-ruble/",
   "/favicon.ico",
   "/assets/logo.svg",
   "/assets/icon-192.png",
@@ -12,8 +27,12 @@ const STATIC_URLS = [
   "/assets/css/style.css",
   "/assets/js/dashboard.js",
   "/assets/js/history.js",
+  "/assets/js/share-link.js",
+  "/assets/js/code-copy.js",
+  "/assets/js/webmcp.js",
   "/service-worker.js",
   "/manifest.webmanifest",
+  "/en/manifest.webmanifest",
 ];
 
 const API_URLS = [

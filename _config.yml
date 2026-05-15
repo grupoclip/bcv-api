@@ -1,53 +1,52 @@
+---
 title: BCV Today
-description: >-
-  Tasas oficiales del Banco Central de Venezuela, hoy. USD, EUR, CNY, TRY y RUB
-  contra el bolívar, actualizadas a diario.
+timezone: UTC
+collections:
+  posts:
+    title: Posts
+    output: true
+  uploads:
+    title: Uploads
+    output: true
+defaults:
+- scope:
+    path: ''
+  values:
+    lang: es
+- scope:
+    path: en
+  values:
+    lang: en
+description: Tasas oficiales del Banco Central de Venezuela, hoy. USD, EUR, CNY, TRY
+  y RUB contra el bolívar, actualizadas a diario.
 url: https://bcv.today
-baseurl: ""
+baseurl: ''
 repository: grupoclip/bcv-api
-
 include:
-  - .well-known
-
+- ".well-known"
 permalink: pretty
-
 markdown: kramdown
 highlighter: rouge
 kramdown:
   syntax_highlighter: rouge
   syntax_highlighter_opts:
-    css_class: "highlight"
-
+    css_class: highlight
 plugins:
-  - jekyll-minifier
-
-# Only runs when JEKYLL_ENV=production (set by the deploy workflow).
-# Local `jekyll serve` is unaffected.
+- jekyll-minifier
 jekyll-minifier:
   compress_html: true
   compress_json: true
   compress_css: true
   compress_javascript: true
-
-defaults:
-  - scope:
-      path: ""
-    values:
-      lang: es
-  - scope:
-      path: "en"
-    values:
-      lang: en
-
 exclude:
-  - main.py
-  - requirements.txt
-  - README.md
-  - LICENSE
-  - .gitignore
-  - .gitattributes
-  - .idea
-  - vendor
-  - Gemfile
-  - Gemfile.lock
-  - "*.xlsx"
+- main.py
+- requirements.txt
+- README.md
+- LICENSE
+- ".gitignore"
+- ".gitattributes"
+- ".idea"
+- vendor
+- Gemfile
+- Gemfile.lock
+- "*.xlsx"

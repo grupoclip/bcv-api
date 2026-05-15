@@ -1,6 +1,7 @@
 ---
 name: bcv-rates
-description: Use BCV Today to retrieve official Banco Central de Venezuela exchange rates for USD, EUR, CNY, TRY, and RUB against VES.
+description: Use BCV Today to retrieve official Banco Central de Venezuela exchange
+  rates for USD, EUR, CNY, TRY, and RUB against VES.
 ---
 
 # BCV Today Rates

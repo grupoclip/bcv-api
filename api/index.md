@@ -1,16 +1,17 @@
 ---
-layout: default
 title: API
-seo_title: "BCV API | Dólar BCV USD/VES JSON gratis"
+layout: default
+seo_title: BCV API | Dólar BCV USD/VES JSON gratis
 lang: es
-alt_url: /en/api/
-description: "API BCV gratis en JSON para consultar dólar BCV USD/VES, euro y tasas oficiales del Banco Central de Venezuela, con histórico diario y sin clave de acceso."
+alt_url: "/en/api/"
+description: API BCV gratis en JSON para consultar dólar BCV USD/VES, euro y tasas
+  oficiales del Banco Central de Venezuela, con histórico diario y sin clave de acceso.
 keywords:
-  - API BCV
-  - dolar bcv API
-  - dólar BCV JSON
-  - USD VES API
-  - Banco Central de Venezuela API
+- API BCV
+- dolar bcv API
+- dólar BCV JSON
+- USD VES API
+- Banco Central de Venezuela API
 copy_code: true
 ---
 

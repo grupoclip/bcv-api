@@ -37,7 +37,7 @@ layout: default
         {%- endif -%}
         <div>
             <dt>{{ page.source_label }}</dt>
-            <dd><a href="https://www.bcv.org.ve/" rel="noopener" target="_blank">bcv.org.ve</a></dd>
+            <dd><a href="https://www.bcv.org.ve/" title="{{ t.link_bcv_title }}" rel="noopener" target="_blank">bcv.org.ve</a></dd>
         </div>
     </dl>
 </section>
@@ -118,8 +118,8 @@ layout: default
 {%- endif -%}
 
 <div class="action-row">
-    <a class="button-link" href="{{ history_page_url }}">{{ page.history_cta }}</a>
-    <a class="button-link secondary" href="{{ api_page_url }}">{{ page.api_cta }}</a>
+    <a class="button-link" href="{{ history_page_url }}" title="{{ t.link_history_title }}">{{ page.history_cta }}</a>
+    <a class="button-link secondary" href="{{ api_page_url }}" title="{{ t.link_api_title }}">{{ page.api_cta }}</a>
     <button
             class="button-link secondary"
             data-share-button
@@ -150,7 +150,7 @@ layout: default
 <h2>{{ page.related_heading }}</h2>
 <div class="landing-links" aria-label="{{ page.related_label }}">
     {%- for related in page.related -%}
-    <a href="{{ related.url | relative_url }}">{{ related.label }}</a>
+    <a href="{{ related.url | relative_url }}" title="{{ t.card_open_title }} {{ related.label }}">{{ related.label }}</a>
     {%- endfor -%}
 </div>
 

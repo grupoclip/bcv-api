@@ -39,7 +39,7 @@ faq_key: homepage
   {%- if rate.updated_at -%}
     <span>{{ t.captured_label }} <strong>{{ rate.updated_at | date: "%Y-%m-%d %H:%M UTC" }}</strong></span>
   {%- endif -%}
-  <a href="{{ api_url }}">{{ t.nav_api }}</a>
+  <a href="{{ api_url }}" title="{{ t.link_api_title }}">{{ t.nav_api }}</a>
 </div>
 
 <div class="grid" id="grid">
@@ -48,7 +48,7 @@ faq_key: homepage
     {%- assign name = item[1] -%}
     {%- if code != 'VES' and rate[code] -%}
     {%- assign currency_page = currency_pages | where: 'currency', code | first -%}
-    <a class="card" href="{{ currency_page.url | relative_url }}">
+    <a class="card" href="{{ currency_page.url | relative_url }}" title="{{ t.card_open_title }} {{ name }}">
         <div class="card-head">
           <div class="curr-icon" data-code="{{ code }}">
             {%- case code -%}
@@ -103,10 +103,13 @@ faq_key: homepage
 
 <h2>BCV dollar, euro and official exchange rates</h2>
 <p>
-  BCV Today publishes the official Banco Central de Venezuela rate for the US
-  dollar, euro, Chinese yuan, Turkish lira and Russian ruble against the
-  bolivar. You can check the current value, review the daily history or consume
-  the data from a public JSON API.
+  BCV Today publishes the official
+  <a href="https://www.bcv.org.ve" title="{{ t.link_bcv_title }}" rel="noopener" target="_blank">Banco Central de Venezuela</a>
+  rate for the <a href="{{ '/en/bcv-dollar/' | relative_url }}" title="{{ t.link_dollar_title }}">US dollar</a>,
+  <a href="{{ '/en/bcv-euro/' | relative_url }}" title="{{ t.link_euro_title }}">euro</a>, Chinese yuan, Turkish lira and
+  Russian ruble against the bolivar. You can check the current value, review the
+  <a href="{{ history_page_url }}" title="{{ t.link_history_title }}">daily history</a> or consume the data from a public
+  <a href="{{ api_url }}" title="{{ t.link_api_title }}">JSON API</a>.
 </p>
 
 <p>
@@ -116,21 +119,22 @@ faq_key: homepage
 </p>
 
 <div class="landing-links" aria-label="Currency pages">
-  <a href="{{ '/en/bcv-dollar/' | relative_url }}">BCV dollar today</a>
-  <a href="{{ '/en/bcv-euro/' | relative_url }}">BCV euro today</a>
-  <a href="{{ '/en/bcv-yuan/' | relative_url }}">BCV yuan today</a>
-  <a href="{{ '/en/bcv-lira/' | relative_url }}">BCV Turkish lira today</a>
-  <a href="{{ '/en/bcv-ruble/' | relative_url }}">BCV ruble today</a>
+  <a href="{{ '/en/bcv-dollar/' | relative_url }}" title="{{ t.link_dollar_title }}">BCV dollar today</a>
+  <a href="{{ '/en/bcv-euro/' | relative_url }}" title="{{ t.link_euro_title }}">BCV euro today</a>
+  <a href="{{ '/en/bcv-yuan/' | relative_url }}" title="{{ t.link_yuan_title }}">BCV yuan today</a>
+  <a href="{{ '/en/bcv-lira/' | relative_url }}" title="{{ t.link_lira_title }}">BCV Turkish lira today</a>
+  <a href="{{ '/en/bcv-ruble/' | relative_url }}" title="{{ t.link_ruble_title }}">BCV ruble today</a>
 </div>
 
 <h2>How to use BCV Today for the official dollar rate</h2>
 <p>
     The homepage summarizes the current official Banco Central de Venezuela rates
-    and links to a dedicated page for each currency. The BCV dollar page shows the
-    official USD/VES price for today, quick conversions from dollars to bolivares,
-    recent historical values and access to the JSON API. It is useful for checking
-    payments, budgets, invoices, internal reports and accounting calculations with
-    an official reference.
+    and links to a dedicated page for each currency. The
+    <a href="{{ '/en/bcv-dollar/' | relative_url }}" title="{{ t.link_dollar_title }}">BCV dollar page</a> shows the official
+    USD/VES price for today, quick conversions from dollars to bolivares, recent
+    <a href="{{ history_page_url }}" title="{{ t.link_history_title }}">historical values</a> and access to the
+    <a href="{{ api_url }}" title="{{ t.link_api_title }}">JSON API</a>. It is useful for checking payments, budgets,
+    invoices, internal reports and accounting calculations with an official reference.
 </p>
 <p>
     The main value is the USD/VES rate: how many bolivares equal one US dollar
@@ -148,7 +152,7 @@ faq_key: homepage
 
 <h2>Share and save this reference</h2>
 <div aria-label="Share BCV Today" class="share-links">
-    <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" rel="nofollow noopener"
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" title="{{ t.share_facebook_title }}" rel="nofollow noopener"
        target="_blank">
         <svg aria-hidden="true" class="ui-icon brand-icon" viewBox="0 0 24 24">
             <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
@@ -156,14 +160,13 @@ faq_key: homepage
         <span>Share on Facebook</span>
     </a>
     <a href="https://twitter.com/intent/tweet?url={{ page.url | absolute_url }}&text=BCV%20dollar%20today"
-       rel="nofollow noopener" target="_blank">
+       title="{{ t.share_x_title }}" rel="nofollow noopener" target="_blank">
         <svg aria-hidden="true" class="ui-icon brand-icon" viewBox="0 0 24 24">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/>
         </svg>
         <span>Share on X</span>
     </a>
-    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url }}" rel="nofollow noopener"
-       target="_blank">
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url }}" title="{{ t.share_linkedin_title }}" rel="nofollow noopener" target="_blank">
         <svg aria-hidden="true" class="ui-icon brand-icon" viewBox="0 0 24 24">
             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
         </svg>
@@ -194,17 +197,19 @@ faq_key: homepage
     estimate amounts in bolivares, review received payments, prepare budgets and
     document internal operations. For companies and accounting teams, a stable
     reference helps avoid differences between spreadsheets, administrative systems
-    and financial reports. For developers, the API makes it possible to integrate
-    the current value into dashboards, bots, invoicing systems or automated
-    processes without relying on manual copies.
+    and financial reports. For developers, the <a href="{{ api_url }}" title="{{ t.link_api_title }}">API</a> makes it
+    possible to integrate the current value into dashboards, bots, invoicing systems
+    or automated processes without relying on manual copies.
 </p>
 <p>
     When comparing sources, always check the effective date and the origin of the
-    data. Banco Central de Venezuela can publish a rate for the next business day,
-    so a rate captured in the afternoon may have a later effective date. BCV Today
-    keeps that information visible so users can distinguish between the update
-    time and the day when the rate officially applies. If you need to automate the
-    same check, the data is available as static JSON files.
+    data.
+    <a href="https://www.bcv.org.ve" title="{{ t.link_bcv_title }}" rel="noopener" target="_blank">Banco Central de Venezuela</a>
+    can publish a rate for the next business day, so a rate captured in the afternoon
+    may have a later effective date. BCV Today keeps that information visible so users
+    can distinguish between the update time and the day when the rate officially applies.
+    If you need to automate the same check, the data is available as
+    <a href="{{ rate_url }}" title="{{ t.link_rate_json_title }}">static JSON files</a>.
 </p>
 
 {% include faq.html faq=site.data.faq.en.homepage id="faq" %}

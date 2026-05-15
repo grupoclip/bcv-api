@@ -39,7 +39,7 @@ faq_key: homepage
   {%- if rate.updated_at -%}
     <span>{{ t.captured_label }} <strong>{{ rate.updated_at | date: "%Y-%m-%d %H:%M UTC" }}</strong></span>
   {%- endif -%}
-  <a href="{{ api_url }}">{{ t.nav_api }}</a>
+  <a href="{{ api_url }}" title="{{ t.link_api_title }}">{{ t.nav_api }}</a>
 </div>
 
 <div class="grid" id="grid">
@@ -48,7 +48,7 @@ faq_key: homepage
     {%- assign name = item[1] -%}
     {%- if code != 'VES' and rate[code] -%}
     {%- assign currency_page = currency_pages | where: 'currency', code | first -%}
-    <a class="card" href="{{ currency_page.url | relative_url }}">
+    <a class="card" href="{{ currency_page.url | relative_url }}" title="{{ t.card_open_title }} {{ name }}">
         <div class="card-head">
           <div class="curr-icon" data-code="{{ code }}">
             {%- case code -%}
@@ -103,10 +103,13 @@ faq_key: homepage
 
 <h2>Dólar BCV hoy, euro y otras tasas oficiales</h2>
 <p>
-  BCV Today publica la tasa oficial del Banco Central de Venezuela para el dólar
-  BCV, euro, yuan chino, lira turca y rublo ruso frente al bolívar. Puedes
-  consultar el valor vigente, revisar el histórico diario o consumir los datos
-  desde una API JSON pública.
+  BCV Today publica la tasa oficial del
+  <a href="https://www.bcv.org.ve" title="{{ t.link_bcv_title }}" rel="noopener" target="_blank">Banco Central de Venezuela</a>
+  para el <a href="{{ '/dolar-bcv/' | relative_url }}" title="{{ t.link_dollar_title }}">dólar BCV</a>,
+  <a href="{{ '/euro-bcv/' | relative_url }}" title="{{ t.link_euro_title }}">euro</a>, yuan chino, lira turca y rublo ruso
+  frente al bolívar. Puedes consultar el valor vigente, revisar el
+  <a href="{{ history_page_url }}" title="{{ t.link_history_title }}">histórico diario</a> o consumir los datos desde una
+  <a href="{{ api_url }}" title="{{ t.link_api_title }}">API JSON pública</a>.
 </p>
 
 <p>
@@ -116,21 +119,22 @@ faq_key: homepage
 </p>
 
 <div class="landing-links" aria-label="Páginas por moneda">
-  <a href="{{ '/dolar-bcv/' | relative_url }}">Dólar BCV hoy</a>
-  <a href="{{ '/euro-bcv/' | relative_url }}">Euro BCV hoy</a>
-  <a href="{{ '/yuan-bcv/' | relative_url }}">Yuan BCV hoy</a>
-  <a href="{{ '/lira-bcv/' | relative_url }}">Lira turca BCV hoy</a>
-  <a href="{{ '/rublo-bcv/' | relative_url }}">Rublo BCV hoy</a>
+  <a href="{{ '/dolar-bcv/' | relative_url }}" title="{{ t.link_dollar_title }}">Dólar BCV hoy</a>
+  <a href="{{ '/euro-bcv/' | relative_url }}" title="{{ t.link_euro_title }}">Euro BCV hoy</a>
+  <a href="{{ '/yuan-bcv/' | relative_url }}" title="{{ t.link_yuan_title }}">Yuan BCV hoy</a>
+  <a href="{{ '/lira-bcv/' | relative_url }}" title="{{ t.link_lira_title }}">Lira turca BCV hoy</a>
+  <a href="{{ '/rublo-bcv/' | relative_url }}" title="{{ t.link_ruble_title }}">Rublo BCV hoy</a>
 </div>
 
 <h2>Cómo usar BCV Today para consultar el dólar oficial</h2>
 <p>
     La página principal resume las tasas oficiales vigentes del Banco Central de
     Venezuela y enlaza a una página dedicada para cada moneda. Para el dólar BCV,
-    la página de USD muestra el precio oficial del día, conversiones rápidas de
-    dólares a bolívares, los últimos valores del histórico y acceso a la API JSON.
-    Esto ayuda a verificar pagos, presupuestos, facturas, reportes internos y
-    cálculos contables con una referencia oficial.
+    la <a href="{{ '/dolar-bcv/' | relative_url }}" title="{{ t.link_dollar_title }}">página de USD</a> muestra el precio
+    oficial del día, conversiones rápidas de dólares a bolívares, los últimos valores del
+    <a href="{{ history_page_url }}" title="{{ t.link_history_title }}">histórico</a> y acceso a la
+    <a href="{{ api_url }}" title="{{ t.link_api_title }}">API JSON</a>. Esto ayuda a verificar pagos, presupuestos,
+    facturas, reportes internos y cálculos contables con una referencia oficial.
 </p>
 <p>
     El dato principal es la tasa USD/VES, es decir, cuántos bolívares equivalen a
@@ -148,7 +152,7 @@ faq_key: homepage
 
 <h2>Compartir y guardar esta referencia</h2>
 <div aria-label="Compartir BCV Today" class="share-links">
-    <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" rel="nofollow noopener"
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" title="{{ t.share_facebook_title }}" rel="nofollow noopener"
        target="_blank">
         <svg aria-hidden="true" class="ui-icon brand-icon" viewBox="0 0 24 24">
             <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
@@ -156,14 +160,13 @@ faq_key: homepage
         <span>Compartir en Facebook</span>
     </a>
     <a href="https://twitter.com/intent/tweet?url={{ page.url | absolute_url }}&text=D%C3%B3lar%20BCV%20hoy"
-       rel="nofollow noopener" target="_blank">
+       title="{{ t.share_x_title }}" rel="nofollow noopener" target="_blank">
         <svg aria-hidden="true" class="ui-icon brand-icon" viewBox="0 0 24 24">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/>
         </svg>
         <span>Compartir en X</span>
     </a>
-    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url }}" rel="nofollow noopener"
-       target="_blank">
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url }}" title="{{ t.share_linkedin_title }}" rel="nofollow noopener" target="_blank">
         <svg aria-hidden="true" class="ui-icon brand-icon" viewBox="0 0 24 24">
             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
         </svg>
@@ -195,17 +198,18 @@ faq_key: homepage
     presupuestos y documentar operaciones internas. En empresas y equipos
     contables, tener una fuente estable ayuda a evitar diferencias entre hojas de
     cálculo, sistemas administrativos y reportes financieros. Para desarrolladores,
-    la API permite integrar el valor vigente en paneles, bots, sistemas de
-    facturación o procesos automáticos sin depender de copias manuales.
+    la <a href="{{ api_url }}" title="{{ t.link_api_title }}">API</a> permite integrar el valor vigente en paneles, bots,
+    sistemas de facturación o procesos automáticos sin depender de copias manuales.
 </p>
 <p>
     Cuando compares varias fuentes, revisa siempre la fecha de vigencia y la
-    fuente del dato. El Banco Central de Venezuela puede publicar la tasa para el
-    siguiente día hábil, por lo que una tasa capturada en la tarde puede tener una
-    fecha efectiva posterior. BCV Today conserva esa información para que puedas
-    distinguir entre el momento de actualización y el día en que la tasa aplica
-    oficialmente. Si necesitas automatizar esa consulta, los mismos datos están
-    disponibles como archivos JSON estáticos.
+    fuente del dato. El
+    <a href="https://www.bcv.org.ve" title="{{ t.link_bcv_title }}" rel="noopener" target="_blank">Banco Central de Venezuela</a>
+    puede publicar la tasa para el siguiente día hábil, por lo que una tasa capturada en la
+    tarde puede tener una fecha efectiva posterior. BCV Today conserva esa información para
+    que puedas distinguir entre el momento de actualización y el día en que la tasa aplica
+    oficialmente. Si necesitas automatizar esa consulta, los mismos datos están disponibles
+    como <a href="{{ rate_url }}" title="{{ t.link_rate_json_title }}">archivos JSON estáticos</a>.
 </p>
 
 {% include faq.html faq=site.data.faq.es.homepage id="faq" %}

@@ -39,6 +39,21 @@ description: "Daily BCV dollar history, euro history and other official Banco Ce
   </button>
 </div>
 
+<h2>What the BCV history shows</h2>
+<p>
+  The history keeps one daily entry for reviewing how official rates have moved
+  against the bolivar. You can check the US dollar, euro, Chinese yuan, Turkish
+  lira and Russian ruble, compare short- or long-term changes, and use the table
+  as a reference for reports, reconciliations, budgets or conversions tied to a
+  specific date.
+</p>
+<p>
+  Rates come from data published by Banco Central de Venezuela. On days without a
+  new official publication, such as weekends or holidays, the history keeps the
+  previous business day's effective rate so each calendar date has a consistent
+  official reference.
+</p>
+
 <div class="history-controls">
   <label class="history-field">
     <span>{{ t.history_currency_label }}</span>
@@ -121,4 +136,4 @@ description: "Daily BCV dollar history, euro history and other official Banco Ce
     share_failed: "{{ t.history_share_failed }}",
   };
 </script>
-<script src="{{ '/assets/js/history.js' | relative_url }}?v={% if site.asset_version %}{{ site.asset_version }}{% elsif site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%Y%m%d%H%M%S' }}{% endif %}" defer></script>
+<script defer src="{{ '/assets/js/history.js' | relative_url }}"></script>

@@ -334,7 +334,7 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v={{ asset_version }}"/>
+    <link href="{{ '/assets/css/style.css' | relative_url }}" rel="stylesheet"/>
     {%- assign schema_lang = 'es-VE' -%}
     {%- assign schema_home_url = site.url | append: site.baseurl | append: '/' -%}
     {%- assign schema_search_path = '/history/?c={search_term_string}' -%}
@@ -506,7 +506,7 @@
     <div class="container">
         <a class="brand"
            href="{% if page.lang == 'en' %}{{ '/en/' | relative_url }}{% else %}{{ '/' | relative_url }}{% endif %}">
-            <img alt="BCV Today logo" height="28" src="{{ '/assets/logo.svg' | relative_url }}?v={{ asset_version }}"
+            <img alt="BCV Today logo" height="28" src="{{ '/assets/logo.svg' | relative_url }}"
                  width="28"/>
             <span>{{ site.title }}</span>
         </a>
@@ -625,7 +625,7 @@
 </script>
 <script>
     (function () {
-        var href = "{{ '/assets/css/style.css' | relative_url }}?v={{ asset_version }}";
+        var href = "{{ '/assets/css/style.css' | relative_url }}";
 
         function loadFullStyles() {
             var link = document.createElement("link");
@@ -650,23 +650,24 @@
     })();
 </script>
 {%- assign needs_share_link = false -%}
-{%- if page.layout == 'currency' or page.url == '/history/' or page.url == '/en/history/' -%}
+{%- if page.layout == 'currency' or page.url == '/' or page.url == '/en/' or page.url == '/history/' or page.url ==
+'/en/history/' -%}
 {%- assign needs_share_link = true -%}
 {%- endif -%}
 {%- if needs_share_link -%}
-<script src="{{ '/assets/js/share-link.js' | relative_url }}?v={{ asset_version }}" defer></script>
+<script defer src="{{ '/assets/js/share-link.js' | relative_url }}"></script>
 {%- endif -%}
 <script>
     (function () {
         if (!navigator.modelContext) return;
         var script = document.createElement("script");
-        script.src = "{{ '/assets/js/webmcp.js' | relative_url }}?v={{ asset_version }}";
+        script.src = "{{ '/assets/js/webmcp.js' | relative_url }}";
         script.defer = true;
         document.head.appendChild(script);
     })();
 </script>
 {%- if page.copy_code -%}
-<script src="{{ '/assets/js/code-copy.js' | relative_url }}?v={{ asset_version }}" defer></script>
+<script defer src="{{ '/assets/js/code-copy.js' | relative_url }}"></script>
 {%- endif -%}
 </body>
 </html>

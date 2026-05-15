@@ -22,6 +22,7 @@ es:
   status_partial: "API parcial"
   status_source: "Fuente BCV"
   status_history: "Histórico diario"
+  card_current_rate: "Tasa vigente"
   index_title: "Dólar BCV hoy y tasas oficiales"
   index_lede_html: >-
     Datos publicados por el
@@ -86,6 +87,7 @@ en:
   status_partial: "Partial API"
   status_source: "BCV source"
   status_history: "Daily history"
+  card_current_rate: "Current rate"
   index_title: "BCV dollar today and official rates"
   index_lede_html: >-
     Published by the

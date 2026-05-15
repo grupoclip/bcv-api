@@ -156,6 +156,7 @@ body::before {
     .history-table,
     .history-pagination button,
     .landing-links a,
+    .share-links a,
     .button-link,
     .conversion-card,
     .rate-hero,
@@ -1117,7 +1118,8 @@ a.card:hover {
 }
 
 /* Landing and currency pages ------------------------------------------- */
-.landing-links {
+.landing-links,
+.share-links {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -1125,6 +1127,7 @@ a.card:hover {
 }
 
 .landing-links a,
+.share-links a,
 .button-link {
     display: inline-flex;
     align-items: center;
@@ -1143,6 +1146,7 @@ a.card:hover {
 }
 
 .landing-links a:hover,
+.share-links a:hover,
 .button-link:hover {
     border-color: var(--accent);
     color: var(--accent);

@@ -26,18 +26,10 @@ faq_key: homepage
 {%- assign rate_url = '/api/v1/rate.json' | relative_url -%}
 {%- assign history_url = '/api/v1/history.json' | relative_url -%}
 {%- assign history_page_url = '/history/' | relative_url -%}
+{%- assign currency_pages = site.pages | where: 'layout', 'currency' | where: 'lang', page.lang -%}
 
 <h1>{{ t.index_title }}</h1>
 <p class="lede">{{ t.index_lede_html }}</p>
-
-<div class="meta" id="meta">
-  {%- if rate.effective_date -%}
-    <span>{{ t.effective_label }}: <strong>{{ rate.effective_date }}</strong></span>
-  {%- endif -%}
-  {%- if rate.updated_at -%}
-    <span>{{ t.captured_label }}: <strong>{{ rate.updated_at | date: "%Y-%m-%d %H:%M UTC" }}</strong></span>
-  {%- endif -%}
-</div>
 
 <div class="status-strip" id="api-status">
   <span class="status-pill ok">{{ t.status_ok }}</span>
@@ -55,7 +47,8 @@ faq_key: homepage
     {%- assign code = item[0] -%}
     {%- assign name = item[1] -%}
     {%- if code != 'VES' and rate[code] -%}
-      <a class="card" href="{{ history_page_url }}?c={{ code }}">
+    {%- assign currency_page = currency_pages | where: 'currency', code | first -%}
+    <a class="card" href="{{ currency_page.url | relative_url }}">
         <div class="card-head">
           <div class="curr-icon" data-code="{{ code }}">
             {%- case code -%}
@@ -68,7 +61,7 @@ faq_key: homepage
           </div>
         </div>
         <div class="value">{{ rate[code] }}<span class="unit">Bs.</span></div>
-        <div class="card-foot"><span class="muted">{{ t.card_view_history }}</span></div>
+        <div class="card-foot"><span class="muted">{{ t.card_current_rate }}</span></div>
       </a>
     {%- endif -%}
   {%- endfor -%}
@@ -130,6 +123,71 @@ faq_key: homepage
   <a href="{{ '/rublo-bcv/' | relative_url }}">Rublo BCV hoy</a>
 </div>
 
+<h2>Cómo usar BCV Today para consultar el dólar oficial</h2>
+<p>
+    La página principal resume las tasas oficiales vigentes del Banco Central de
+    Venezuela y enlaza a una página dedicada para cada moneda. Para el dólar BCV,
+    la página de USD muestra el precio oficial del día, conversiones rápidas de
+    dólares a bolívares, los últimos valores del histórico y acceso a la API JSON.
+    Esto ayuda a verificar pagos, presupuestos, facturas, reportes internos y
+    cálculos contables con una referencia oficial.
+</p>
+<p>
+    El dato principal es la tasa USD/VES, es decir, cuántos bolívares equivalen a
+    un dólar estadounidense según el BCV. Cuando la fecha de vigencia cae en fin
+    de semana o feriado, puede mantenerse la tasa publicada el último día hábil.
+    Por eso el sitio conserva tanto la fecha de captura como la fecha efectiva de
+    la tasa, y mantiene un histórico diario para revisar variaciones.
+</p>
+<p>
+    BCV Today no publica ni estima dólar paralelo. Si buscas Dolartoday BCV,
+    bcvhoy, bcv dolar o dólar BCV hoy, aquí encontrarás únicamente la referencia
+    oficial del Banco Central de Venezuela, junto con otras tasas oficiales como
+    euro, yuan, lira turca y rublo ruso.
+</p>
+
+<h2>Compartir y guardar esta referencia</h2>
+<div aria-label="Compartir BCV Today" class="share-links">
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" rel="nofollow noopener"
+       target="_blank">Compartir en Facebook</a>
+    <a href="https://twitter.com/intent/tweet?url={{ page.url | absolute_url }}&text=D%C3%B3lar%20BCV%20hoy"
+       rel="nofollow noopener" target="_blank">Compartir en X</a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url }}" rel="nofollow noopener"
+       target="_blank">Compartir en LinkedIn</a>
+    <button
+            class="button-link secondary"
+            data-share-button
+            data-share-copied="{{ t.history_share_copied }}"
+            data-share-failed="{{ t.history_share_failed }}"
+            data-share-label="{{ t.history_share }}"
+            data-share-title="{{ page.title }}"
+            data-share-url="{{ page.url | absolute_url }}"
+            type="button"
+    >
+        <span data-share-text>{{ t.history_share }}</span>
+    </button>
+</div>
+
+<h2>Casos de uso frecuentes</h2>
+<p>
+    La tasa oficial BCV se usa a diario para convertir precios publicados en
+    dólares, estimar montos en bolívares, revisar pagos recibidos, preparar
+    presupuestos y documentar operaciones internas. En empresas y equipos
+    contables, tener una fuente estable ayuda a evitar diferencias entre hojas de
+    cálculo, sistemas administrativos y reportes financieros. Para desarrolladores,
+    la API permite integrar el valor vigente en paneles, bots, sistemas de
+    facturación o procesos automáticos sin depender de copias manuales.
+</p>
+<p>
+    Cuando compares varias fuentes, revisa siempre la fecha de vigencia y la
+    fuente del dato. El Banco Central de Venezuela puede publicar la tasa para el
+    siguiente día hábil, por lo que una tasa capturada en la tarde puede tener una
+    fecha efectiva posterior. BCV Today conserva esa información para que puedas
+    distinguir entre el momento de actualización y el día en que la tasa aplica
+    oficialmente. Si necesitas automatizar esa consulta, los mismos datos están
+    disponibles como archivos JSON estáticos.
+</p>
+
 {% include faq.html faq=site.data.faq.es.homepage id="faq" %}
 
 <script>
@@ -138,8 +196,59 @@ faq_key: homepage
   const RATE_URL = "{{ rate_url }}";
   const HISTORY_URL = "{{ history_url }}";
   const HISTORY_PAGE_URL = "{{ history_page_url }}";
+  const CURRENCY_PAGE_URLS = {
+  {%
+      -
+      for item in currency_pages - %
+  }
+  "{{ item.currency }}"
+  :
+  "{{ item.url | relative_url }}"
+  {%
+      unless
+      forloop.last %
+  }
+  ,
+  {%
+      endunless %
+  }
+  {%
+      -endfor - %
+  }
+  }
+  ;
   const API_PAGE_URL = "{{ api_url }}";
-  const INITIAL_RATE = {{ rate | jsonify }};
+  const INITIAL_RATE = {
+      USD: {
+  {
+      rate.USD | jsonify
+  }
+  },
+  EUR: {
+      {
+          rate.EUR | jsonify
+      }
+  }
+  ,
+  CNY: {
+      {
+          rate.CNY | jsonify
+      }
+  }
+  ,
+  TRY: {
+      {
+          rate.TRY | jsonify
+      }
+  }
+  ,
+  RUB: {
+      {
+          rate.RUB | jsonify
+      }
+  }
+  }
+  ;
   const STRINGS = {
     error: "{{ t.error_loading }}",
     date: "{{ t.date_label }}",
@@ -156,4 +265,4 @@ faq_key: homepage
   };
   const CURRENCY_NAMES = {{ t.currencies | jsonify }};
 </script>
-<script src="{{ '/assets/js/dashboard.js' | relative_url }}?v={% if site.asset_version %}{{ site.asset_version }}{% elsif site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%Y%m%d%H%M%S' }}{% endif %}" defer></script>
+<script defer src="{{ '/assets/js/dashboard.js' | relative_url }}"></script>

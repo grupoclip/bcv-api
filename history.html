@@ -39,6 +39,21 @@ description: "Histórico diario del dólar BCV, euro BCV y otras tasas oficiales
   </button>
 </div>
 
+<h2>Qué muestra el histórico BCV</h2>
+<p>
+    El histórico conserva una entrada diaria para consultar cómo han cambiado las
+    tasas oficiales frente al bolívar. Puedes revisar el dólar estadounidense,
+    euro, yuan chino, lira turca y rublo ruso, comparar la variación de corto o
+    largo plazo y usar la tabla como referencia para reportes, conciliaciones,
+    presupuestos o conversiones con fecha específica.
+</p>
+<p>
+    Las tasas provienen de los datos publicados por el Banco Central de Venezuela.
+    En días sin nueva publicación oficial, como fines de semana o feriados, el
+    histórico mantiene la tasa vigente del día hábil anterior para que cada fecha
+    del calendario tenga una referencia consistente.
+</p>
+
 <div class="history-controls">
   <label class="history-field">
     <span>{{ t.history_currency_label }}</span>
@@ -121,4 +136,4 @@ description: "Histórico diario del dólar BCV, euro BCV y otras tasas oficiales
     share_failed: "{{ t.history_share_failed }}",
   };
 </script>
-<script src="{{ '/assets/js/history.js' | relative_url }}?v={% if site.asset_version %}{{ site.asset_version }}{% elsif site.github.build_revision %}{{ site.github.build_revision }}{% else %}{{ site.time | date: '%Y%m%d%H%M%S' }}{% endif %}" defer></script>
+<script defer src="{{ '/assets/js/history.js' | relative_url }}"></script>

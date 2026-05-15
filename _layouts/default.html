@@ -45,12 +45,12 @@
           content="{% if page_title %}{{ page_title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}"/>
     <meta name="twitter:description" content="{{ page_description }}"/>
     <meta name="twitter:image" content="{{ '/assets/logo.svg' | absolute_url }}"/>
-    <link rel="icon" href="{{ '/favicon.ico' | relative_url }}?v={{ asset_version }}" sizes="any"/>
-    <link rel="icon" type="image/png" sizes="192x192"
-          href="{{ '/assets/icon-192.png' | relative_url }}?v={{ asset_version }}"/>
-    <link rel="icon" type="image/svg+xml" href="{{ '/assets/logo.svg' | relative_url }}?v={{ asset_version }}"/>
-    <link rel="apple-touch-icon" href="{{ '/assets/icon-192.png' | relative_url }}?v={{ asset_version }}"/>
-    <link rel="manifest" href="{{ '/manifest.webmanifest' | relative_url }}?v={{ asset_version }}"/>
+    <link href="{{ '/favicon.ico' | relative_url }}" rel="shortcut icon"/>
+    <link href="{{ '/favicon.ico' | relative_url }}" rel="icon" sizes="32x32"/>
+    <link href="{{ '/assets/icon-192.png' | relative_url }}" rel="icon" sizes="192x192" type="image/png"/>
+    <link href="{{ '/assets/icon-512.png' | relative_url }}" rel="icon" sizes="512x512" type="image/png"/>
+    <link href="{{ '/assets/icon-192.png' | relative_url }}" rel="apple-touch-icon" sizes="192x192"/>
+    <link href="{{ '/manifest.webmanifest' | relative_url }}" rel="manifest"/>
     <link rel="alternate" type="text/plain" title="LLMs index" href="{{ '/llms.txt' | absolute_url }}"/>
     <link rel="alternate" type="text/plain" title="Full LLM context" href="{{ '/llms-full.txt' | absolute_url }}"/>
     <link rel="service-desc" type="application/vnd.oai.openapi+json" title="OpenAPI"

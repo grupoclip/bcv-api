@@ -31,6 +31,11 @@ Every page is also available as Markdown: request it with `Accept: text/markdown
 
 - [Python package `bcv`](https://pypi.org/project/bcv/): official zero-dependency Python client and `bcv` CLI (`pip install bcv`) with latest rates, rate on a date with weekend carry-forward, history and conversions
 
+## A2A agent
+
+- [BCV Today Rates Agent](https://mcp.bcv.today/a2a): Agent2Agent (A2A) JSON-RPC endpoint (protocol 1.0 and 0.3, stateless, no authentication). Send `SendMessage` (or 0.3 `message/send`) with text in Spanish or English ("convertir 100 USD a VES", "USD rate on 2026-01-04") or a DataPart such as `{"skill":"convert","amount":100,"from":"USD","to":"VES"}`; replies carry a text summary plus structured JSON. Skills: `latest-rates`, `rate-on-date`, `convert`, `history`, `status`
+- [A2A agent card](https://bcv.today/.well-known/agent-card.json): AgentCard with `supportedInterfaces`, capabilities and skills (also served at https://mcp.bcv.today/.well-known/agent-card.json)
+
 ## Data notes
 
 - Dates are ISO 8601 strings.
@@ -41,7 +46,7 @@ Every page is also available as Markdown: request it with `Accept: text/markdown
 ## Discovery
 
 - [API catalog](https://bcv.today/.well-known/api-catalog): RFC 9727 linkset with docs, status and OpenAPI
-- [Agent card](https://bcv.today/.well-known/agent-card.json): data-access capabilities for agents
+- [Agent card](https://bcv.today/.well-known/agent-card.json): A2A AgentCard of the rates agent at https://mcp.bcv.today/a2a
 - [Agent Skills](https://bcv.today/.well-known/agent-skills/index.json): skill index, including the `bcv-rates` skill
 - [auth.md](https://bcv.today/auth.md): authentication notes for agents; no registration or credentials are needed
 - [AI catalog](https://bcv.today/.well-known/ai-catalog.json): ARD / ai-catalog manifest of the API, agent card, skills and docs

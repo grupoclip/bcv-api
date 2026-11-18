@@ -1,6 +1,6 @@
 name: Deploy MCP server
 
-# Deploys the stateless MCP Worker in mcp/ to the mcp.bcv.today custom domain.
+# Deploys the stateless MCP + A2A Worker in mcp/ to the mcp.bcv.today custom domain.
 # The Worker must never be routed on bcv.today/* (see mcp/wrangler.toml).
 on:
   push:
@@ -8,6 +8,8 @@ on:
     paths:
       - "mcp/**"
       - ".well-known/mcp/server-card.json"
+      # The A2A agent card is bundled into the Worker (single source of truth).
+      - ".well-known/agent-card.json"
       - ".github/workflows/deploy-mcp.yml"
   workflow_dispatch:
 
@@ -75,3 +77,14 @@ jobs:
             sleep 10
           done
           echo "::warning::MCP endpoint did not answer initialize yet (custom domain/certificate may still be provisioning)."
+
+      - name: Smoke test A2A
+        run: |
+          for i in 1 2 3 4 5 6; do
+            body=$(curl -fsS -X POST https://mcp.bcv.today/a2a \
+              -H 'Content-Type: application/json' -H 'A2A-Version: 1.0' \
+              -d '{"jsonrpc":"2.0","id":1,"method":"SendMessage","params":{"message":{"role":"ROLE_USER","messageId":"ci","parts":[{"text":"status"}]}}}') \
+              && echo "$body" | grep -q 'TASK_STATE_COMPLETED' && { echo "A2A endpoint OK"; exit 0; }
+            sleep 10
+          done
+          echo "::warning::A2A endpoint did not answer SendMessage yet."

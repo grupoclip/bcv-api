@@ -1,54 +1,94 @@
 {
-  "name": "BCV Today Data Agent",
-  "description": "Machine-readable discovery card for the BCV Today public unauthenticated exchange-rate data service. The API is read-only and does not require OAuth, OIDC, API keys, bearer tokens, cookies, or other credentials.",
-  "version": "1.0.0",
-  "url": "https://bcv.today",
-  "documentationUrl": "https://bcv.today/api/",
+  "name": "BCV Today Rates Agent",
+  "description": "Deterministic A2A agent (no LLM) for the official Banco Central de Venezuela (BCV) exchange rates of USD, EUR, CNY, TRY and RUB against the bolivar (VES): latest rates, the rate in effect on a date, conversions, history and data freshness. Understands short requests in Spanish and English, or a structured DataPart such as {\"skill\":\"convert\",\"amount\":100,\"from\":\"USD\",\"to\":\"VES\"}, and answers with a text summary plus the structured JSON. Free, public, read-only and stateless: no authentication is required (no OAuth, OIDC, API keys, bearer tokens or cookies), so do not attempt OAuth/OIDC discovery or token exchange. Unofficial project, not affiliated with the bank.",
+  "supportedInterfaces": [
+    {
+      "url": "https://mcp.bcv.today/a2a",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    },
+    {
+      "url": "https://mcp.bcv.today/a2a",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "0.3"
+    }
+  ],
   "provider": {
     "organization": "BCV Today",
     "url": "https://bcv.today"
   },
+  "version": "1.0.0",
+  "documentationUrl": "https://bcv.today/en/api/#a2a-agent",
+  "iconUrl": "https://bcv.today/assets/icon-192.png",
   "capabilities": {
     "streaming": false,
     "pushNotifications": false,
-    "stateTransitionHistory": false
+    "extendedAgentCard": false
   },
+  "securitySchemes": {},
+  "securityRequirements": [],
   "defaultInputModes": ["text/plain", "application/json"],
-  "defaultOutputModes": ["application/json", "text/plain"],
+  "defaultOutputModes": ["text/plain", "application/json"],
   "skills": [
     {
-      "id": "get-latest-bcv-rates",
-      "name": "Get latest BCV exchange rates",
-      "description": "Fetch current official BCV rates for USD, EUR, CNY, TRY and RUB against the Venezuelan bolivar.",
-      "tags": ["exchange-rates", "venezuela", "bcv", "api"],
+      "id": "latest-rates",
+      "name": "Latest official BCV rates",
+      "description": "Official BCV rates currently in effect for USD, EUR, CNY, TRY and RUB in bolivars (VES) per unit, with the effective date (fecha valor) and capture time. Structured input: {\"skill\":\"latest-rates\",\"currency\":\"USD\"} (currency optional).",
+      "tags": ["exchange-rates", "venezuela", "bcv", "bolivar", "latest"],
       "examples": [
-        "Get the latest BCV dollar rate",
-        "Fetch current USD/VES and EUR/VES official rates"
+        "¿Cuál es la tasa del dólar BCV hoy?",
+        "tasa oficial del euro",
+        "What is the official BCV dollar rate today?",
+        "latest BCV rates"
       ]
     },
     {
-      "id": "get-bcv-rate-history",
-      "name": "Get BCV exchange-rate history",
-      "description": "Fetch recent daily history or a specific dated snapshot from the static JSON API.",
-      "tags": ["history", "time-series", "exchange-rates"],
+      "id": "rate-on-date",
+      "name": "BCV rate on a date",
+      "description": "Official BCV rate(s) in effect on a calendar day from 2021-08-02. Weekends and holidays carry forward the last published rate and the answer says so. Structured input: {\"skill\":\"rate-on-date\",\"date\":\"2026-01-04\",\"currency\":\"USD\"} (currency optional).",
+      "tags": ["exchange-rates", "bcv", "historical", "date"],
       "examples": [
-        "Get BCV history for 2026-05-11",
-        "Fetch the recent USD/VES history"
+        "tasa del 2026-01-04",
+        "¿cuál fue el dólar BCV el 2 de enero de 2026?",
+        "USD rate on 2026-01-04",
+        "EUR rate on January 2, 2026"
+      ]
+    },
+    {
+      "id": "convert",
+      "name": "Convert at the BCV rate",
+      "description": "Converts an amount between VES, USD, EUR, CNY, TRY and RUB at the official BCV rate currently in effect, or the rate in effect on a given date. Structured input: {\"skill\":\"convert\",\"amount\":100,\"from\":\"USD\",\"to\":\"VES\",\"date\":\"2026-01-02\"} (date optional).",
+      "tags": ["conversion", "calculator", "exchange-rates", "bcv", "bolivar"],
+      "examples": [
+        "convertir 100 USD a VES",
+        "100 dólares en bolívares",
+        "convert 50000 VES to EUR",
+        "how much is 20 euros in bolivars on 2026-01-02?"
+      ]
+    },
+    {
+      "id": "history",
+      "name": "BCV rate history",
+      "description": "Daily official BCV series for one currency over the last N days (default 30, max 1830) or a date range, with first, last, min, max and percentage change. Structured input: {\"skill\":\"history\",\"currency\":\"USD\",\"days\":7} or {\"skill\":\"history\",\"currency\":\"EUR\",\"from\":\"2026-01-01\",\"to\":\"2026-01-31\"}.",
+      "tags": ["history", "time-series", "exchange-rates", "bcv"],
+      "examples": [
+        "historial del dólar últimos 7 días",
+        "historial del euro desde 2026-01-01 hasta 2026-01-31",
+        "USD history for the last 30 days",
+        "EUR trend over the past 2 weeks"
+      ]
+    },
+    {
+      "id": "status",
+      "name": "Data freshness",
+      "description": "Freshness of the published BCV data: status, last capture time, effective date, age in hours, whether it looks stale, and supported currencies. Structured input: {\"skill\":\"status\"}.",
+      "tags": ["status", "freshness", "health"],
+      "examples": [
+        "estado de los datos",
+        "¿cuándo se actualizó la tasa?",
+        "status",
+        "when was the rate last updated?"
       ]
     }
-  ],
-  "interfaces": [
-    {
-      "url": "https://bcv.today/openapi.json",
-      "protocolBinding": "OpenAPI",
-      "protocolVersion": "3.1.0"
-    }
-  ],
-  "securitySchemes": {},
-  "security": [],
-  "authentication": {
-    "required": false,
-    "type": "none",
-    "description": "No authentication is required. Do not attempt OAuth/OIDC discovery or token exchange for this API."
-  }
+  ]
 }

@@ -1,11 +1,14 @@
-// BCV Today remote MCP server — Cloudflare Worker on the mcp.bcv.today custom domain.
+// BCV Today remote MCP server and A2A agent — Cloudflare Worker on the
+// mcp.bcv.today custom domain.
 //
 // Stateless Streamable HTTP: every POST /mcp builds a fresh McpServer and a
 // WebStandardStreamableHTTPServerTransport with no session id and JSON
 // responses, so there is no Durable Object, no session storage and no
-// long-lived SSE stream (Free-plan friendly).
+// long-lived SSE stream (Free-plan friendly). POST /a2a is the A2A
+// (Agent2Agent) JSON-RPC endpoint, also stateless (see a2a/handler.ts).
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 import serverCard from "../../.well-known/mcp/server-card.json";
+import { AGENT_CARD_V1, compatAgentCard, handleA2A, wantsV1 } from "./a2a/handler.js";
 import { DataClient } from "./data.js";
 import { SERVER_VERSION, buildServer } from "./server.js";
 
@@ -19,8 +22,8 @@ const CORS_HEADERS: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   "Access-Control-Allow-Headers":
-    "Content-Type, Accept, Authorization, Mcp-Session-Id, Mcp-Protocol-Version, Last-Event-ID",
-  "Access-Control-Expose-Headers": "Mcp-Session-Id, Mcp-Protocol-Version, ETag",
+    "Content-Type, Accept, Authorization, Mcp-Session-Id, Mcp-Protocol-Version, Last-Event-ID, A2A-Version, A2A-Extensions, X-A2A-Extensions",
+  "Access-Control-Expose-Headers": "Mcp-Session-Id, Mcp-Protocol-Version, ETag, A2A-Version",
   "Access-Control-Max-Age": "86400",
 };
 
@@ -43,7 +46,7 @@ const HOME_HTML = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BCV Today MCP server</title>
+<title>BCV Today MCP server and A2A agent</title>
 <style>
 :root{color-scheme:light dark;--bg:#fff;--fg:#1a1a1a;--muted:#5c5c5c;--code:#f2f2f2}
 @media (prefers-color-scheme:dark){:root{--bg:#121212;--fg:#ececec;--muted:#a8a8a8;--code:#222}}
@@ -68,6 +71,11 @@ Free, public, read-only, no authentication.</p>
 }</pre>
 <p>Tools: <code>get_latest_rates</code>, <code>get_rate_by_date</code>, <code>get_history</code>,
 <code>convert</code>, <code>get_status</code>.</p>
+<h2>A2A agent</h2>
+<p><a href="https://a2a-protocol.org">Agent2Agent (A2A)</a> endpoint (JSON-RPC, A2A 1.0 and 0.3):
+<code>https://mcp.bcv.today/a2a</code> · <a href="/.well-known/agent-card.json">agent card</a>.
+Ask in Spanish or English (“convertir 100 USD a VES”, “USD rate on 2026-01-04”) or send a DataPart
+such as <code>{"skill":"convert","amount":100,"from":"USD","to":"VES"}</code>.</p>
 <p>Docs: <a href="https://bcv.today/en/api/#mcp-server">bcv.today/en/api</a> ·
 <a href="https://bcv.today/api/#servidor-mcp">bcv.today/api (español)</a> ·
 <a href="/mcp/server-card">server card</a> ·
@@ -76,6 +84,17 @@ Free, public, read-only, no authentication.</p>
 </main>
 </body>
 </html>`;
+
+function serveAgentCard(request: Request): Response {
+  const v1 = wantsV1(request);
+  return new Response(JSON.stringify(v1 ? AGENT_CARD_V1 : compatAgentCard(), null, 2), {
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
+      Vary: "A2A-Version",
+    },
+  });
+}
 
 function serveCard(): Response {
   return new Response(JSON.stringify(serverCard, null, 2), {
@@ -128,12 +147,22 @@ export default {
 
     try {
       if (path === "/mcp") return withCors(await handleMcp(request, env));
+      if (path === "/a2a") {
+        if (request.method === "GET" && (request.headers.get("Accept") ?? "").includes("text/html")) {
+          return withCors(new Response(HOME_HTML, { headers: { "Content-Type": "text/html; charset=utf-8" } }));
+        }
+        const data = new DataClient(env.DATA_ORIGIN || "https://bcv.today");
+        return withCors(await handleA2A(request, data, MAX_BODY_BYTES));
+      }
 
       if (request.method !== "GET" && request.method !== "HEAD") {
         return withCors(new Response("Method not allowed\n", { status: 405, headers: { Allow: "GET, HEAD, OPTIONS" } }));
       }
       if (path === "/mcp/server-card" || path === "/.well-known/mcp/server-card.json") {
         return withCors(serveCard());
+      }
+      if (path === "/.well-known/agent-card.json" || path === "/.well-known/agent.json" || path === "/a2a/agent-card") {
+        return withCors(serveAgentCard(request));
       }
       if (path === "/") {
         return withCors(
@@ -146,7 +175,7 @@ export default {
         return withCors(Response.json({ ok: true, version: SERVER_VERSION }));
       }
       return withCors(
-        new Response("Not found. MCP endpoint: https://mcp.bcv.today/mcp\n", {
+        new Response("Not found. MCP endpoint: https://mcp.bcv.today/mcp · A2A endpoint: https://mcp.bcv.today/a2a\n", {
           status: 404,
           headers: { "Content-Type": "text/plain; charset=utf-8" },
         }),

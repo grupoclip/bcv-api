@@ -29,7 +29,7 @@ API BCV gratuita en JSON, de solo lectura, con las tasas oficiales del Banco Cen
 | --- | --- | --- |
 | OpenAPI | `/openapi.json` | Descripción machine-readable de los endpoints. |
 | API catalog | `/.well-known/api-catalog` | Catálogo RFC-style con docs, estado y OpenAPI. |
-| Agent card | `/.well-known/agent-card.json` | Capacidades de acceso a datos para agentes. |
+| Agent card | `/.well-known/agent-card.json` | Agent card A2A del agente de tasas (`https://mcp.bcv.today/a2a`). |
 | LLM index | `/llms.txt` | Resumen corto para agentes y LLMs. |
 | LLM full context | `/llms-full.txt` | Contexto completo en Markdown/texto. |
 | MCP server card | `/.well-known/mcp/server-card.json` | Tarjeta del servidor MCP (endpoint, transporte y herramientas). |
@@ -89,6 +89,32 @@ print(client.convert(100, "USD", "VES"))
 ```
 
 Código y documentación: [python/ en GitHub](https://github.com/{{ site.repository }}/tree/main/python).
+
+## Agente A2A
+
+Agente [Agent2Agent (A2A)](https://a2a-protocol.org) para que otros agentes consulten las tasas. Es determinista (sin LLM), gratuito, sin estado y sin autenticación, y usa la misma lógica que el servidor MCP.
+
+**Endpoint (JSON-RPC 2.0, A2A 1.0 y 0.3):** `https://mcp.bcv.today/a2a`
+
+**Agent card:** [`/.well-known/agent-card.json`]({{ site.url }}{{ site.baseurl }}/.well-known/agent-card.json) (también en `https://mcp.bcv.today/.well-known/agent-card.json`)
+
+| Skill | Ejemplo en texto | DataPart |
+| --- | --- | --- |
+| `latest-rates` | «¿Cuál es la tasa del dólar BCV hoy?» | `{"skill":"latest-rates","currency":"USD"}` |
+| `rate-on-date` | «tasa del 2026-01-04» | `{"skill":"rate-on-date","date":"2026-01-04"}` |
+| `convert` | «convertir 100 USD a VES», «100 dólares en bolívares» | `{"skill":"convert","amount":100,"from":"USD","to":"VES"}` |
+| `history` | «historial del dólar últimos 7 días» | `{"skill":"history","currency":"USD","days":7}` |
+| `status` | «estado de los datos» | `{"skill":"status"}` |
+
+Entiende español e inglés. Las respuestas son una tarea completada (`TASK_STATE_COMPLETED`) con un artefacto que trae un resumen en texto y un DataPart con el JSON estructurado; si no entiende la consulta, responde con un mensaje que explica lo que sabe hacer. No hay streaming ni notificaciones push, y las tareas no se guardan (`GetTask` responde `TaskNotFound`).
+
+```bash
+curl -s https://mcp.bcv.today/a2a \
+  -H 'Content-Type: application/json' -H 'A2A-Version: 1.0' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"SendMessage","params":{"message":{"role":"ROLE_USER","messageId":"1","parts":[{"text":"convertir 100 USD a VES"}]}}}'
+```
+
+Clientes A2A 0.3 pueden usar `message/send` (sin la cabecera `A2A-Version`).
 
 ## Endpoints
 

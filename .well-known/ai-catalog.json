@@ -22,6 +22,20 @@
       ]
     },
     {
+      "identifier": "urn:air:bcv.today:a2a:rates-agent",
+      "displayName": "BCV Today Rates Agent (A2A)",
+      "type": "application/a2a-agent-card+json",
+      "url": "https://bcv.today/.well-known/agent-card.json",
+      "description": "A2A Agent Card for the BCV Today Rates Agent at https://mcp.bcv.today/a2a (A2A JSON-RPC binding, protocol 1.0 and 0.3, stateless, no authentication). Deterministic agent that answers in Spanish or English, or from a structured DataPart, with the official Banco Central de Venezuela rates: latest rates, rate on a date, conversions, history and data freshness.",
+      "tags": ["a2a", "agent-card", "exchange-rates", "venezuela", "bcv", "bolivar"],
+      "representativeQueries": [
+        "A2A agent for the official Venezuelan exchange rate",
+        "agente A2A para consultar la tasa del BCV",
+        "convertir 100 dólares a bolívares a la tasa BCV",
+        "USD to VES rate on a given date"
+      ]
+    },
+    {
       "identifier": "urn:air:bcv.today:api:bcv-rates-openapi",
       "displayName": "BCV Today exchange-rate API (OpenAPI)",
       "type": "application/vnd.oai.openapi+json",
@@ -46,18 +60,6 @@
         "precio del dólar oficial en Venezuela hoy",
         "current BCV dollar rate in bolivars",
         "tasa BCV del día en bolívares"
-      ]
-    },
-    {
-      "identifier": "urn:air:bcv.today:agent:data-agent-card",
-      "displayName": "BCV Today Data Agent card",
-      "type": "application/json",
-      "url": "https://bcv.today/.well-known/agent-card.json",
-      "description": "Agent card describing the data-access capabilities of the BCV Today API (latest rates and history). Discovery metadata only: there is no A2A endpoint; the interface is the static JSON API described by the OpenAPI document.",
-      "tags": ["agent-card", "exchange-rates", "bcv"],
-      "representativeQueries": [
-        "agent that returns the official Venezuelan exchange rate",
-        "agente para consultar la tasa del BCV"
       ]
     },
     {

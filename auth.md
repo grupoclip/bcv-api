@@ -61,7 +61,7 @@ Not required, but appreciated: send a descriptive `User-Agent` that names your a
 
 - [llms.txt](https://bcv.today/llms.txt): agent index for the site
 - [OpenAPI description](https://bcv.today/openapi.json): machine-readable description of the endpoints
-- [Agent card](https://bcv.today/.well-known/agent-card.json): data-access capabilities for agents
+- [Agent card](https://bcv.today/.well-known/agent-card.json): A2A AgentCard of the rates agent at https://mcp.bcv.today/a2a (no authentication: empty `securitySchemes` and `securityRequirements`)
 - [API catalog](https://bcv.today/.well-known/api-catalog): RFC 9727 linkset
 - [API documentation](https://bcv.today/api/) ([English](https://bcv.today/en/api/), [Markdown](https://bcv.today/api/index.md))
 - [Source code](https://github.com/grupoclip/bcv-api): report problems in the repository's issues

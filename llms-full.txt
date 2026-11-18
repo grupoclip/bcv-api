@@ -74,11 +74,12 @@ Returns the publication status, latest generated timestamp, effective date and s
 - OpenAPI: https://bcv.today/openapi.json
 - API catalog: https://bcv.today/.well-known/api-catalog
 - API catalog JSON copy: https://bcv.today/.well-known/api-catalog.json
-- Agent card: https://bcv.today/.well-known/agent-card.json
+- A2A agent card: https://bcv.today/.well-known/agent-card.json
 - Agent Skills index: https://bcv.today/.well-known/agent-skills/index.json
 - MCP server (Streamable HTTP, no auth): https://mcp.bcv.today/mcp — tools get_latest_rates, get_rate_by_date, get_history, convert, get_status
 - MCP server card: https://bcv.today/.well-known/mcp/server-card.json
 - Python client library (PyPI `bcv`, zero dependencies, `bcv` CLI): https://pypi.org/project/bcv/
+- A2A agent (JSON-RPC, A2A 1.0 and 0.3, no auth): https://mcp.bcv.today/a2a — skills latest-rates, rate-on-date, convert, history, status; text in Spanish/English or a DataPart like {"skill":"convert","amount":100,"from":"USD","to":"VES"}
 - Sitemap: https://bcv.today/sitemap.xml
 - Robots: https://bcv.today/robots.txt
 

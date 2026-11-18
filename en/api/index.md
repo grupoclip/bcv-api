@@ -30,7 +30,7 @@ A free read-only JSON BCV API for the official exchange rates published by Banco
 | --- | --- | --- |
 | OpenAPI | `/openapi.json` | Machine-readable endpoint description. |
 | API catalog | `/.well-known/api-catalog` | RFC-style catalog with docs, status and OpenAPI. |
-| Agent card | `/.well-known/agent-card.json` | Data-access capabilities for agents. |
+| Agent card | `/.well-known/agent-card.json` | A2A agent card of the rates agent (`https://mcp.bcv.today/a2a`). |
 | LLM index | `/llms.txt` | Short summary for agents and LLMs. |
 | LLM full context | `/llms-full.txt` | Full Markdown/text context. |
 | MCP server card | `/.well-known/mcp/server-card.json` | MCP server card (endpoint, transport and tools). |
@@ -90,6 +90,32 @@ print(client.convert(100, "USD", "VES"))
 ```
 
 Code and docs: [python/ on GitHub](https://github.com/{{ site.repository }}/tree/main/python).
+
+## A2A agent
+
+An [Agent2Agent (A2A)](https://a2a-protocol.org) agent so other agents can query the rates. It is deterministic (no LLM), free, stateless and needs no authentication, and it runs the same logic as the MCP server.
+
+**Endpoint (JSON-RPC 2.0, A2A 1.0 and 0.3):** `https://mcp.bcv.today/a2a`
+
+**Agent card:** [`/.well-known/agent-card.json`]({{ site.url }}{{ site.baseurl }}/.well-known/agent-card.json) (also at `https://mcp.bcv.today/.well-known/agent-card.json`)
+
+| Skill | Text example | DataPart |
+| --- | --- | --- |
+| `latest-rates` | "What is the official BCV dollar rate today?" | `{"skill":"latest-rates","currency":"USD"}` |
+| `rate-on-date` | "USD rate on 2026-01-04" | `{"skill":"rate-on-date","date":"2026-01-04"}` |
+| `convert` | "convert 50000 VES to EUR" | `{"skill":"convert","amount":100,"from":"USD","to":"VES"}` |
+| `history` | "USD history for the last 30 days" | `{"skill":"history","currency":"USD","days":30}` |
+| `status` | "when was the rate last updated?" | `{"skill":"status"}` |
+
+It understands Spanish and English. Answers are a completed task (`TASK_STATE_COMPLETED`) whose artifact holds a short text summary and a DataPart with the structured JSON; when it cannot understand a request it replies with a message listing what it can do. There is no streaming and no push notifications, and tasks are not stored (`GetTask` answers `TaskNotFound`).
+
+```bash
+curl -s https://mcp.bcv.today/a2a \
+  -H 'Content-Type: application/json' -H 'A2A-Version: 1.0' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"SendMessage","params":{"message":{"role":"ROLE_USER","messageId":"1","parts":[{"text":"USD rate on 2026-01-04"}]}}}'
+```
+
+A2A 0.3 clients can use `message/send` (without the `A2A-Version` header).
 
 ## Endpoints
 

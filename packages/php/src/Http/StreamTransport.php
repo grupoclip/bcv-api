@@ -37,16 +37,26 @@ final class StreamTransport
 
             return true;
         });
+        // fopen + stream metadata works the same on PHP 8.1 to 8.5; the
+        // $http_response_header magic variable is not reliable across versions.
+        $body = false;
+        $responseHeaders = null;
         try {
-            $body = file_get_contents($url, false, $context);
-            $responseHeaders = function_exists('http_get_last_response_headers')
-                ? http_get_last_response_headers()
-                : (get_defined_vars()['http_response_header'] ?? null); // PHP < 8.4: magic local variable
+            $handle = fopen($url, 'rb', false, $context);
+            if ($handle !== false) {
+                try {
+                    $meta = stream_get_meta_data($handle);
+                    $responseHeaders = $meta['wrapper_data'] ?? null;
+                    $body = stream_get_contents($handle);
+                } finally {
+                    fclose($handle);
+                }
+            }
         } finally {
             restore_error_handler();
         }
         if ($body === false || !is_array($responseHeaders) || $responseHeaders === []) {
-            $reason = is_string($error) ? preg_replace('/^file_get_contents\([^)]*\): /', '', $error) : 'request failed';
+            $reason = is_string($error) ? preg_replace('/^fopen\([^)]*\): /', '', $error) : 'request failed';
             throw new \RuntimeException((string) $reason);
         }
 

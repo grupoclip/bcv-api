@@ -1,4 +1,12 @@
-const CACHE_VERSION = "bcv-today-v8";
+---
+# Processed by Jekyll only to stamp the deploy version below: every deploy
+# changes this file, so browsers install the new worker and drop old caches.
+layout: null
+sitemap: false
+---
+{%- assign v = site.asset_version | default: '' -%}
+{%- if v == '' -%}{%- assign v = site.time | date: '%Y%m%d%H%M%S' -%}{%- endif -%}
+const CACHE_VERSION = "bcv-today-{{ v }}";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const API_CACHE = `${CACHE_VERSION}-api`;
 
@@ -43,8 +51,10 @@ const API_URLS = [
 self.addEventListener("install", (event) => {
   event.waitUntil(
     Promise.all([
-      caches.open(STATIC_CACHE).then((cache) => cache.addAll(STATIC_URLS)),
-      caches.open(API_CACHE).then((cache) => cache.addAll(API_URLS)),
+      // cache: "reload" skips the browser HTTP cache, so a new worker never
+      // precaches a stale copy of a file.
+      caches.open(STATIC_CACHE).then((cache) => cache.addAll(STATIC_URLS.map((u) => new Request(u, { cache: "reload" })))),
+      caches.open(API_CACHE).then((cache) => cache.addAll(API_URLS.map((u) => new Request(u, { cache: "reload" })))),
     ]).then(() => self.skipWaiting())
   );
 });
@@ -77,6 +87,7 @@ async function networkFirst(request, cacheName) {
   }
 }
 
+// Versioned assets (?v=<deploy>) never change at a given URL: serve from cache.
 async function cacheFirst(request) {
   const cached = await caches.match(request);
   if (cached) return cached;
@@ -86,6 +97,20 @@ async function cacheFirst(request) {
     cache.put(request, response.clone());
   }
   return response;
+}
+
+// Unversioned assets (manifest icons, files linked from outside the layout):
+// answer from cache right away, refresh the cached copy in the background.
+async function staleWhileRevalidate(request) {
+  const cache = await caches.open(STATIC_CACHE);
+  const cached = await cache.match(request);
+  const refresh = fetch(request)
+    .then((response) => {
+      if (response.ok) cache.put(request, response.clone());
+      return response;
+    })
+    .catch(() => cached);
+  return cached || refresh;
 }
 
 self.addEventListener("fetch", (event) => {
@@ -112,6 +137,6 @@ self.addEventListener("fetch", (event) => {
       request.destination
     )
   ) {
-    event.respondWith(cacheFirst(request));
+    event.respondWith(url.searchParams.has("v") ? cacheFirst(request) : staleWhileRevalidate(request));
   }
 });

@@ -136,4 +136,5 @@ description: Daily BCV dollar history, euro history and other official Banco Cen
     share_failed: "{{ t.history_share_failed }}",
   };
 </script>
-<script defer src="{{ '/assets/js/history.js' | relative_url }}?v={{ site.github.build_revision }}"></script>
+{%- assign v = site.asset_version | default: '' -%}{%- if v == '' -%}{%- assign v = site.time | date: '%Y%m%d%H%M%S' -%}{%- endif %}
+<script defer src="{{ '/assets/js/history.js' | relative_url }}?v={{ v }}"></script>

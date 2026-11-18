@@ -180,4 +180,5 @@ copy_code: true
   };
   const CURRENCY_NAMES = {{ t.currencies | jsonify }};
 </script>
-<script defer src="{{ '/assets/js/dashboard.js' | relative_url }}?v={{ site.github.build_revision }}"></script>
+{%- assign v = site.asset_version | default: '' -%}{%- if v == '' -%}{%- assign v = site.time | date: '%Y%m%d%H%M%S' -%}{%- endif %}
+<script defer src="{{ '/assets/js/dashboard.js' | relative_url }}?v={{ v }}"></script>

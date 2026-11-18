@@ -1,6 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import * as z from "zod";
+import { ARGS, DOC_RESOURCES, INSTRUCTIONS, READ_ONLY, SERVER_NAME, SERVER_TITLE, SERVER_WEBSITE, TOOLS } from "../../js/src/mcp/meta.js";
 import type { DataClient } from "./data.js";
 import {
   type ToolOutcome,
@@ -15,23 +16,8 @@ import {
   status,
 } from "./tools.js";
 
-export const SERVER_NAME = "bcv-today";
+export { SERVER_NAME };
 export const SERVER_VERSION = "1.0.0";
-
-const READ_ONLY = {
-  readOnlyHint: true,
-  destructiveHint: false,
-  idempotentHint: true,
-  openWorldHint: false,
-} as const;
-
-const INSTRUCTIONS = [
-  "BCV Today: official exchange rates published by Banco Central de Venezuela (BCV).",
-  "Rates are bolivars (VES) per one unit of USD, EUR, CNY, TRY or RUB.",
-  "effective_date is the official BCV validity date ('fecha valor'); updated_at is the UTC capture time.",
-  "BCV does not publish on weekends and holidays: the last published rate stays in effect, so effective_date may be earlier than the requested date.",
-  "Data is free, public and read-only. Unofficial project, not affiliated with the bank. Docs: https://bcv.today/llms.txt",
-].join(" ");
 
 /** Shared tool outcome -> MCP CallToolResult (text summary + JSON, structuredContent). */
 function toResult(r: ToolOutcome): CallToolResult {
@@ -46,16 +32,15 @@ function toResult(r: ToolOutcome): CallToolResult {
 
 export function buildServer(data: DataClient): McpServer {
   const server = new McpServer(
-    { name: SERVER_NAME, title: "BCV Today", version: SERVER_VERSION, websiteUrl: "https://bcv.today" },
+    { name: SERVER_NAME, title: SERVER_TITLE, version: SERVER_VERSION, websiteUrl: SERVER_WEBSITE },
     { instructions: INSTRUCTIONS, capabilities: { tools: { listChanged: false }, resources: { listChanged: false } } },
   );
 
   server.registerTool(
     "get_latest_rates",
     {
-      title: "Latest official BCV rates",
-      description:
-        "Official BCV exchange rates currently in effect for USD, EUR, CNY, TRY and RUB, in bolivars (VES) per unit, with effective date and capture time.",
+      title: TOOLS.get_latest_rates.title,
+      description: TOOLS.get_latest_rates.description,
       inputSchema: {},
       outputSchema: {
         rates: z.record(z.string(), z.number()).describe(UNIT),
@@ -65,7 +50,7 @@ export function buildServer(data: DataClient): McpServer {
         unit: z.string(),
         source: z.string(),
       },
-      annotations: { title: "Latest official BCV rates", ...READ_ONLY },
+      annotations: { title: TOOLS.get_latest_rates.title, ...READ_ONLY },
     },
     async () => toResult(await latestRates(data)),
   );
@@ -73,9 +58,8 @@ export function buildServer(data: DataClient): McpServer {
   server.registerTool(
     "get_rate_by_date",
     {
-      title: "BCV rate on a date",
-      description:
-        "Official BCV rate(s) in effect on a calendar day (YYYY-MM-DD, from 2021-08-02). Weekends and holidays carry forward the last published rate; the response explains it. Optionally restrict to one currency.",
+      title: TOOLS.get_rate_by_date.title,
+      description: TOOLS.get_rate_by_date.description,
       inputSchema: rateByDateInput,
       outputSchema: {
         date: z.string(),
@@ -87,7 +71,7 @@ export function buildServer(data: DataClient): McpServer {
         unit: z.string(),
         source: z.string(),
       },
-      annotations: { title: "BCV rate on a date", ...READ_ONLY },
+      annotations: { title: TOOLS.get_rate_by_date.title, ...READ_ONLY },
     },
     async (args) => toResult(await rateByDate(data, args)),
   );
@@ -95,9 +79,8 @@ export function buildServer(data: DataClient): McpServer {
   server.registerTool(
     "get_history",
     {
-      title: "BCV rate history",
-      description:
-        "Daily official BCV rate series for one currency, either the last N calendar days (days, default 30, max 1830) or a from/to date range, with min, max and percentage change.",
+      title: TOOLS.get_history.title,
+      description: TOOLS.get_history.description,
       inputSchema: historyInput,
       outputSchema: {
         currency: z.string(),
@@ -115,7 +98,7 @@ export function buildServer(data: DataClient): McpServer {
         unit: z.string(),
         source: z.string(),
       },
-      annotations: { title: "BCV rate history", ...READ_ONLY },
+      annotations: { title: TOOLS.get_history.title, ...READ_ONLY },
     },
     async (args) => toResult(await history(data, args)),
   );
@@ -123,23 +106,22 @@ export function buildServer(data: DataClient): McpServer {
   server.registerTool(
     "convert",
     {
-      title: "Convert currency at the BCV rate",
-      description:
-        "Convert an amount between VES, USD, EUR, CNY, TRY and RUB using the official BCV rate currently in effect, or the rate in effect on a given date (YYYY-MM-DD).",
+      title: TOOLS.convert.title,
+      description: TOOLS.convert.description,
       inputSchema: convertInput,
       outputSchema: {
         amount: z.number(),
         from: z.string(),
         to: z.string(),
         result: z.number(),
-        rate: z.number().describe("Units of `to` per 1 unit of `from`."),
+        rate: z.number().describe(ARGS.convertRate),
         rates_used: z.record(z.string(), z.number()).describe(UNIT),
         date: z.string(),
         effective_date: z.string(),
         note: z.string().optional(),
         source: z.string(),
       },
-      annotations: { title: "Convert currency at the BCV rate", ...READ_ONLY },
+      annotations: { title: TOOLS.convert.title, ...READ_ONLY },
     },
     async (args) => toResult(await convert(data, args)),
   );
@@ -147,9 +129,8 @@ export function buildServer(data: DataClient): McpServer {
   server.registerTool(
     "get_status",
     {
-      title: "BCV Today data freshness",
-      description:
-        "Freshness of the published BCV data: status, last capture time, effective date, age in hours and supported currencies.",
+      title: TOOLS.get_status.title,
+      description: TOOLS.get_status.description,
       inputSchema: {},
       outputSchema: {
         status: z.string(),
@@ -164,17 +145,13 @@ export function buildServer(data: DataClient): McpServer {
         timezone: z.string().optional(),
         api_version: z.string().optional(),
       },
-      annotations: { title: "BCV Today data freshness", ...READ_ONLY },
+      annotations: { title: TOOLS.get_status.title, ...READ_ONLY },
     },
     async () => toResult(await status(data)),
   );
 
   // resources -------------------------------------------------------------
-  const docs = [
-    { name: "llms-txt", path: "/llms.txt", mimeType: "text/plain", title: "BCV Today llms.txt", description: "Agent index: API endpoints, data notes and discovery documents." },
-    { name: "openapi", path: "/openapi.json", mimeType: "application/json", title: "BCV Today OpenAPI", description: "OpenAPI 3.1 description of the static JSON API." },
-  ];
-  for (const d of docs) {
+  for (const d of DOC_RESOURCES) {
     const uri = `https://bcv.today${d.path}`;
     server.registerResource(d.name, uri, { title: d.title, description: d.description, mimeType: d.mimeType }, async () => ({
       contents: [{ uri, mimeType: d.mimeType, text: await data.doc(d.path, d.mimeType) }],

@@ -1,0 +1,95 @@
+name: JavaScript library
+
+# Tests, lints, type-checks, builds and packs the `bcv-today` npm package in js/.
+# The package source (js/src) is also bundled into the MCP/A2A Worker in mcp/,
+# whose own workflow (deploy-mcp.yml) re-checks it on every change.
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "js/**"
+      - "python/tests/fixtures/**"
+      - ".github/workflows/js.yml"
+  pull_request:
+    paths:
+      - "js/**"
+      - "python/tests/fixtures/**"
+      - ".github/workflows/js.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: js-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: js
+
+jobs:
+  test:
+    name: Test (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ["18", "20", "22", "24"]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+          cache-dependency-path: js/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Unit tests (offline; build + library, CLI and stdio MCP)
+        run: npm test
+
+  lint:
+    name: Lint and typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: js/package-lock.json
+      - run: npm ci
+      - name: Biome
+        run: npm run lint
+      - name: tsc --noEmit (strict)
+        run: npm run typecheck
+
+  pack:
+    name: Build, pack and smoke-test the tarball
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: js/package-lock.json
+      - run: npm ci
+      - name: Pack
+        run: |
+          npm pack --pack-destination "$RUNNER_TEMP"
+          tar -tzf "$RUNNER_TEMP"/bcv-today-*.tgz
+      - name: Install the tarball in a fresh project (ESM, CJS, bin)
+        working-directory: ${{ runner.temp }}
+        run: |
+          mkdir smoke && cd smoke
+          npm init -y > /dev/null
+          npm install --no-audit --no-fund "$RUNNER_TEMP"/bcv-today-*.tgz
+          node --input-type=module -e "import { BCV, VERSION } from 'bcv-today'; console.log('esm', VERSION, typeof BCV)"
+          node -e "const { BCV } = require('bcv-today'); console.log('cjs', typeof BCV)"
+          npx bcv-today --version
+      - uses: actions/upload-artifact@v4
+        with:
+          name: npm-tarball
+          path: ${{ runner.temp }}/bcv-today-*.tgz
+          if-no-files-found: error

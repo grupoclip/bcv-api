@@ -112,6 +112,19 @@
       ]
     },
     {
+      "identifier": "urn:air:bcv.today:library:bcv-js",
+      "displayName": "bcv-today JavaScript/TypeScript package (npm)",
+      "type": "text/html",
+      "url": "https://www.npmjs.com/package/bcv-today",
+      "description": "Official zero-dependency JavaScript/TypeScript client for the BCV Today API (npm install bcv-today): latest official Banco Central de Venezuela rates, rate on a date with weekend carry-forward, history and exact decimal conversions between VES, USD, EUR, CNY, TRY and RUB, plus the bcv-today CLI and a local stdio MCP server. ESM and CommonJS; Node.js 18+, Deno, Bun, browsers and Cloudflare Workers.",
+      "tags": ["javascript", "typescript", "npm", "library", "cli", "exchange-rates", "venezuela", "bcv"],
+      "representativeQueries": [
+        "JavaScript library for the official BCV exchange rate",
+        "librería npm para la tasa del dólar BCV",
+        "convert USD to VES in TypeScript at the BCV rate"
+      ]
+    },
+    {
       "identifier": "urn:air:bcv.today:integration:odoo-bcv-rate",
       "displayName": "Odoo module l10n_ve_bcv_rate (Odoo Apps)",
       "type": "text/html",

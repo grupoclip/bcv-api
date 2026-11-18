@@ -24,7 +24,7 @@ A free read-only JSON BCV API for the official exchange rates published by Banco
 
 **API v1 root:** `{{ site.url }}{{ site.baseurl }}/api/v1`
 
-Other ways to use the same data (Python library, Odoo module, MCP server, A2A agent): [all integrations]({{ '/en/integrations/' | relative_url }}).
+Other ways to use the same data (Python and JavaScript libraries, Odoo module, MCP server, A2A agent): [all integrations]({{ '/en/integrations/' | relative_url }}).
 
 ## Agent discovery
 
@@ -92,6 +92,25 @@ print(client.convert(100, "USD", "VES"))
 ```
 
 Code and docs: [python/ on GitHub](https://github.com/{{ site.repository }}/tree/main/python).
+
+## JavaScript / TypeScript {#javascript}
+
+Official client on [npm](https://www.npmjs.com/package/bcv-today) (`bcv-today`): zero dependencies, TypeScript types, ESM and CommonJS, caching, exact decimal conversions (half-up rounding), weekend carry-forward, a command line (`npx bcv-today convert 100 USD VES`) and a local MCP server (`bcv-today mcp`). Runs on Node.js 18+, Deno, Bun, browsers and Cloudflare Workers. Unofficial project: not affiliated with Banco Central de Venezuela.
+
+```bash
+npm install bcv-today
+```
+
+```js
+import { BCV } from "bcv-today";
+
+const bcv = new BCV();
+console.log((await bcv.latest()).rates.USD);                  // bolivars per dollar
+console.log((await bcv.on("2026-01-04", "USD")).effectiveDate); // Sunday: "2026-01-03"
+console.log((await bcv.convert(100, "USD", "VES")).resultText); // "91664.77"
+```
+
+Code and docs: [js/ on GitHub](https://github.com/{{ site.repository }}/tree/main/js).
 
 ## Odoo module {#odoo}
 

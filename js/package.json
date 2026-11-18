@@ -1,0 +1,87 @@
+{
+  "name": "bcv-today",
+  "version": "1.0.0",
+  "description": "Official client for the BCV Today API: Banco Central de Venezuela exchange rates (USD, EUR, CNY, TRY, RUB to VES), with exact decimal conversions, a CLI and a local MCP server. Unofficial, not affiliated with the bank.",
+  "keywords": [
+    "bcv",
+    "banco central de venezuela",
+    "venezuela",
+    "exchange rate",
+    "tasa bcv",
+    "dolar bcv",
+    "bolivar",
+    "ves",
+    "usd",
+    "eur",
+    "currency",
+    "mcp"
+  ],
+  "homepage": "https://bcv.today/integraciones/",
+  "bugs": {
+    "url": "https://github.com/grupoclip/bcv-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grupoclip/bcv-api.git",
+    "directory": "js"
+  },
+  "license": "Apache-2.0",
+  "author": "BCV Today",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "bcv-today": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "test": "npm run build && node --test test/unit/*.test.mjs test/unit/*.test.cjs",
+    "test:live": "npm run build && BCV_LIVE=1 node --test test/live/*.test.mjs",
+    "prepack": "npm run build"
+  },
+  "peerDependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.0"
+  },
+  "peerDependenciesMeta": {
+    "@modelcontextprotocol/sdk": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.4",
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "@types/node": "18.19.130",
+    "tsup": "8.5.1",
+    "typescript": "5.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

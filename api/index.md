@@ -23,7 +23,7 @@ API BCV gratuita en JSON, de solo lectura, con las tasas oficiales del Banco Cen
 
 **API v1 root:** `{{ site.url }}{{ site.baseurl }}/api/v1`
 
-Otras formas de usar los mismos datos (librería Python, módulo de Odoo, servidor MCP, agente A2A): [todas las integraciones]({{ '/integraciones/' | relative_url }}).
+Otras formas de usar los mismos datos (librerías Python y JavaScript, módulo de Odoo, servidor MCP, agente A2A): [todas las integraciones]({{ '/integraciones/' | relative_url }}).
 
 ## Descubrimiento para agentes
 
@@ -91,6 +91,25 @@ print(client.convert(100, "USD", "VES"))
 ```
 
 Código y documentación: [python/ en GitHub](https://github.com/{{ site.repository }}/tree/main/python).
+
+## JavaScript / TypeScript {#javascript}
+
+Cliente oficial en [npm](https://www.npmjs.com/package/bcv-today) (`bcv-today`), sin dependencias, con tipos de TypeScript, módulos ESM y CommonJS, caché, conversiones con aritmética decimal exacta (redondeo half-up), arrastre de fines de semana, línea de comandos (`npx bcv-today convert 100 USD VES`) y un servidor MCP local (`bcv-today mcp`). Funciona en Node.js 18+, Deno, Bun, navegadores y Cloudflare Workers. Proyecto no oficial: no está afiliado al Banco Central de Venezuela.
+
+```bash
+npm install bcv-today
+```
+
+```js
+import { BCV } from "bcv-today";
+
+const bcv = new BCV();
+console.log((await bcv.latest()).rates.USD);                  // Bs. por dólar
+console.log((await bcv.on("2026-01-04", "USD")).effectiveDate); // domingo: "2026-01-03"
+console.log((await bcv.convert(100, "USD", "VES")).resultText); // "91664.77"
+```
+
+Código y documentación: [js/ en GitHub](https://github.com/{{ site.repository }}/tree/main/js).
 
 ## Módulo de Odoo {#odoo}
 

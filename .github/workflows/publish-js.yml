@@ -1,0 +1,61 @@
+name: Publish JavaScript library
+
+# Publishes js/ to https://www.npmjs.com/package/bcv-today with npm Trusted
+# Publishing (OIDC, no tokens) and a provenance attestation. Cut a release by
+# pushing a tag js-vX.Y.Z that matches "version" in js/package.json, e.g.:
+#   git tag js-v1.0.0 && git push origin js-v1.0.0
+# The package must be configured on npmjs.com with this repository, this
+# workflow file (publish-js.yml) and the environment "npm" as trusted publisher.
+on:
+  push:
+    tags:
+      - "js-v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-js
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Test and publish to npm
+    runs-on: ubuntu-latest
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/bcv-today
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: js
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false # never use caching in release builds
+      - name: Check that the tag matches the package version
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if [ "${TAG}" != "js-v${version}" ]; then
+            echo "::error::Tag ${TAG} does not match package version ${version} (expected js-v${version})."
+            exit 1
+          fi
+          echo "Releasing bcv-today ${version}"
+      # Trusted publishing needs npm >= 11.5.1 and Node >= 22.14 (this pins a known-good npm).
+      - name: Update npm
+        run: npm install -g npm@11.6.2
+      - run: npm ci
+      - name: Lint, typecheck and test
+        run: |
+          npm run lint
+          npm run typecheck
+          npm test
+      - name: Publish (Trusted Publishing, provenance)
+        run: npm publish --provenance --access public

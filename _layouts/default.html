@@ -234,47 +234,50 @@
             {% assign rates_url = '/en/' | relative_url %}
             {% assign history_url = '/en/history/' | relative_url %}
             {% assign api_url = '/en/api/' | relative_url %}
+            {% assign integrations_url = '/en/integrations/' | relative_url %}
             {% else %}
             {% assign rates_url = '/' | relative_url %}
             {% assign history_url = '/history/' | relative_url %}
             {% assign api_url = '/api/' | relative_url %}
+            {% assign integrations_url = '/integraciones/' | relative_url %}
             {% endif %}
             {% assign current = page.url | replace: 'index.html', '' %}
             <a href="{{ rates_url }}" {% if current== rates_url %} aria-current="page" {% endif %}>{{ t.nav_rates }}</a>
             <a href="{{ history_url }}" {% if current== history_url %} aria-current="page" {% endif %}>{{ t.nav_history }}</a>
+            <a href="{{ integrations_url }}" {% if current== integrations_url %} aria-current="page" {% endif %}>{{ t.footer_integrations }}</a>
             <a href="{{ api_url }}" {% if current== api_url %} aria-current="page" {% endif %}>{{ t.nav_api }}</a>
-            <a class="nav-github" href="https://github.com/{{ site.repository }}" target="_blank" rel="noopener"
-               title="{{ t.nav_github_title }}">
-                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                    <path fill="currentColor"
-                          d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.3-3.2-.1-.3-.6-1.6.1-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.4-1.5 3.4-1.2 3.4-1.2.7 1.6.2 2.9.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.7-2.8 5.7-5.5 6 .4.3.8.9.8 1.9v2.8c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/>
-                </svg>
-                <span>GitHub</span>
-                {%- if site.github_stars -%}
-                {%- assign stars = site.github_stars | plus: 0 -%}
-                {%- if stars >= 1000 -%}
-                {%- assign stars_label = stars | divided_by: 100 | divided_by: 10.0 | append: 'k' -%}
-                {%- else -%}
-                {%- assign stars_label = stars -%}
-                {%- endif %}
-                <span class="nav-github-stars">
-                    <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true">
-                        <path fill="currentColor" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/>
-                    </svg>
-                    <span aria-hidden="true">{{ stars_label }}</span>
-                    <span class="visually-hidden">({{ stars }} {{ t.github_stars }})</span>
-                </span>
-                {%- endif %}
-            </a>
         </nav>
         <div class="header-controls">
+        <a class="control nav-github" href="https://github.com/{{ site.repository }}" target="_blank" rel="noopener"
+           title="{{ t.nav_github_title }}">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                <path fill="currentColor"
+                      d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.3-3.2-.1-.3-.6-1.6.1-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.4-1.5 3.4-1.2 3.4-1.2.7 1.6.2 2.9.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.7-2.8 5.7-5.5 6 .4.3.8.9.8 1.9v2.8c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/>
+            </svg>
+            <span class="nav-github-label">GitHub</span>
+            {%- if site.github_stars -%}
+            {%- assign stars = site.github_stars | plus: 0 -%}
+            {%- if stars >= 1000 -%}
+            {%- assign stars_label = stars | divided_by: 100 | divided_by: 10.0 | append: 'k' -%}
+            {%- else -%}
+            {%- assign stars_label = stars -%}
+            {%- endif %}
+            <span class="nav-github-stars">
+                <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true">
+                    <path fill="currentColor" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/>
+                </svg>
+                <span aria-hidden="true">{{ stars_label }}</span>
+                <span class="visually-hidden">({{ stars }} {{ t.github_stars }})</span>
+            </span>
+            {%- endif %}
+        </a>
             {% if page.alt_url %}
             <a
                     class="control"
                     href="{{ page.alt_url | relative_url }}"
                     aria-label="{{ t.language_toggle_aria }}"
                     title="{{ t.language_toggle_aria }}"
-            >{{ t.language_toggle }}</a
+            ><span aria-hidden="true">{{ t.language_toggle_short }}</span><span class="visually-hidden">{{ t.language_toggle }}</span></a
             >
             {% endif %}
             <button
@@ -336,51 +339,66 @@
     {%- assign f_data_anchor = '#datos' -%}
     {%- endif -%}
     {%- assign f_repo = 'https://github.com/' | append: site.repository %}
+    {%- if page.lang == 'en' -%}
+    {%- assign f_dollar = '/en/bcv-dollar/' | relative_url -%}
+    {%- assign f_euro = '/en/bcv-euro/' | relative_url -%}
+    {%- else -%}
+    {%- assign f_dollar = '/dolar-bcv/' | relative_url -%}
+    {%- assign f_euro = '/euro-bcv/' | relative_url -%}
+    {%- endif %}
     <div class="container">
-        <div class="footer-top">
-            <a class="footer-brand" href="{{ f_home }}">
-                <img alt="" height="24" src="{{ '/assets/logo.svg' | relative_url }}" width="24"/>
-                <span>{{ site.title }}</span>
-            </a>
-            <p class="footer-tagline">{{ t.footer_tagline }}</p>
-            {%- if site.data.rate.effective_date %}
-            <span class="stamp footer-stamp">{{ t.stamp_label }} <b>{% include date.html date=site.data.rate.effective_date %}</b></span>
-            {%- endif %}
+        <div class="footer-main">
+            <div class="footer-about">
+                <a class="footer-brand" href="{{ f_home }}">
+                    <img alt="" height="24" src="{{ '/assets/logo.svg' | relative_url }}" width="24"/>
+                    <span>{{ site.title }}</span>
+                </a>
+                <p class="footer-tagline">{{ t.footer_tagline }}</p>
+                {%- if site.data.rate.effective_date %}
+                <span class="stamp footer-stamp">{{ t.stamp_label }} <b>{% include date.html date=site.data.rate.effective_date %}</b></span>
+                {%- endif %}
+            </div>
+            <nav class="footer-nav" aria-label="{{ t.footer_nav_label }}">
+                <div class="footer-col">
+                    <h2 class="footer-heading">{{ t.footer_col_rates }}</h2>
+                    <ul>
+                        <li><a href="{{ f_home }}">{{ t.footer_today }}</a></li>
+                        <li><a href="{{ f_dollar }}">{{ t.footer_dollar }}</a></li>
+                        <li><a href="{{ f_euro }}">{{ t.footer_euro }}</a></li>
+                        <li><a href="{{ f_history }}">{{ t.nav_history }}</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h2 class="footer-heading">{{ t.footer_col_dev }}</h2>
+                    <ul>
+                        <li><a href="{{ f_api }}">{{ t.nav_api }}</a></li>
+                        <li><a href="{{ f_integrations }}"{% if page.url == f_integrations %} aria-current="page"{% endif %}>{{ t.footer_integrations }}</a></li>
+                        <li><a href="{{ '/api/v1/status.json' | relative_url }}">{{ t.footer_status }}</a></li>
+                        <li><a href="{{ '/openapi.json' | relative_url }}">{{ t.footer_openapi }}</a></li>
+                        <li><a href="{{ '/llms.txt' | relative_url }}">{{ t.footer_llms }}</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h2 class="footer-heading">{{ t.footer_col_project }}</h2>
+                    <ul>
+                        <li><a href="{{ f_repo }}" target="_blank" rel="noopener">{{ t.footer_github }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
+                        <li><a href="{{ f_repo }}/issues/new/choose" target="_blank" rel="noopener">{{ t.footer_issue }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
+                        <li><a href="{{ f_license }}"{% if page.url == f_license %} aria-current="page"{% endif %}>{{ t.footer_license }}</a></li>
+                        <li><a href="https://www.bcv.org.ve/" title="{{ t.footer_bcv_title }}" target="_blank" rel="noopener">{{ t.footer_source }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
+                    </ul>
+                </div>
+            </nav>
         </div>
-        <nav class="footer-nav" aria-label="{{ t.footer_nav_label }}">
-            <div class="footer-col">
-                <h2 class="footer-heading">{{ t.footer_col_site }}</h2>
-                <ul>
-                    <li><a href="{{ f_home }}">{{ t.nav_rates }}</a></li>
-                    <li><a href="{{ f_history }}">{{ t.nav_history }}</a></li>
-                    <li><a href="{{ f_api }}">{{ t.nav_api }}</a></li>
-                    <li><a href="{{ f_integrations }}"{% if page.url == f_integrations %} aria-current="page"{% endif %}>{{ t.footer_integrations }}</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h2 class="footer-heading">{{ t.footer_col_data }}</h2>
-                <ul>
-                    <li><a href="https://www.bcv.org.ve/" title="{{ t.footer_bcv_title }}" target="_blank" rel="noopener">{{ t.footer_source }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
-                    <li><a href="{{ '/api/v1/status.json' | relative_url }}">{{ t.footer_status }}</a></li>
-                    <li><a href="{{ '/openapi.json' | relative_url }}">{{ t.footer_openapi }}</a></li>
-                    <li><a href="{{ '/llms.txt' | relative_url }}">{{ t.footer_llms }}</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h2 class="footer-heading">{{ t.footer_col_project }}</h2>
-                <ul>
-                    <li><a href="{{ f_repo }}" target="_blank" rel="noopener">{{ t.footer_github }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
-                    <li><a href="{{ f_repo }}/issues/new/choose" target="_blank" rel="noopener">{{ t.footer_issue }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
-                    <li><a href="{{ f_license }}"{% if page.url == f_license %} aria-current="page"{% endif %}>{{ t.footer_license }}</a></li>
-                </ul>
-            </div>
-        </nav>
         <div class="footer-legal">
             <p>{{ t.footer_unofficial }}</p>
             <p class="footer-licenses">
                 <a href="{{ f_license }}{{ f_code_anchor }}">{{ t.footer_code_license }}</a>
                 <span aria-hidden="true">·</span>
                 <a href="{{ f_license }}{{ f_data_anchor }}">{{ t.footer_data_license }}</a>
+                {%- if page.alt_url %}
+                <span aria-hidden="true">·</span>
+                <a href="{{ page.alt_url | relative_url }}" lang="{% if page.lang == 'en' %}es{% else %}en{% endif %}">{{ t.language_toggle }}</a>
+                {%- endif %}
             </p>
         </div>
     </div>
@@ -488,8 +506,18 @@
                         on: {
                             init: function (lens) {
                                 document.documentElement.classList.add("is-liquid");
+                                // On a theme change, retint AND re-take the page snapshot the
+                                // glass refracts; otherwise it keeps refracting the old theme
+                                // (a dark bar on a light page). Wait two frames so the new
+                                // colours are painted before capturing.
                                 var retint = function () {
-                                    if (lens && typeof lens.setTint === "function") lens.setTint(tint());
+                                    requestAnimationFrame(function () {
+                                        requestAnimationFrame(function () {
+                                            if (lens && typeof lens.setTint === "function") lens.setTint(tint());
+                                            var r = lens && lens.renderer;
+                                            if (r && typeof r.captureSnapshot === "function") r.captureSnapshot();
+                                        });
+                                    });
                                 };
                                 var meta = document.querySelector('meta[name="color-scheme"]');
                                 if (meta) new MutationObserver(retint).observe(meta, {attributes: true});

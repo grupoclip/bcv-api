@@ -325,6 +325,26 @@ html.is-liquid .site-header .container::before {
     display: block;
 }
 
+/* GitHub lives with the other controls: icon + star count, name for AT only. */
+.control.nav-github {
+    gap: 6px;
+    padding: 0 10px;
+}
+
+.nav-github-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.control.nav-github .nav-github-stars {
+    color: var(--text-2);
+}
+
 .nav-github-stars {
     display: inline-flex;
     align-items: center;
@@ -1350,26 +1370,28 @@ main img {
     margin: 0;
 }
 
-.footer-top {
+/* Identity on the left, a three-column index grouped by purpose on the
+   right, then the legal line. */
+.footer-main {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas:
-        "brand stamp"
-        "tagline stamp";
-    column-gap: 24px;
-    row-gap: 8px;
-    align-items: start;
-    padding-bottom: 24px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 32px 48px;
+    padding-bottom: 32px;
+}
+
+.footer-about {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
 }
 
 .footer-brand {
-    grid-area: brand;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    justify-self: start;
     min-height: 40px;
-    margin: -8px 0;
+    margin: -8px 0 -4px;
     color: var(--text);
     font-weight: 600;
     font-size: 0.9375rem;
@@ -1382,40 +1404,27 @@ main img {
 }
 
 .footer-tagline {
-    grid-area: tagline;
-    max-width: 32rem;
+    max-width: 22rem;
     color: var(--text-2);
-}
-
-.footer-stamp {
-    grid-area: stamp;
-    justify-self: end;
 }
 
 .footer-nav {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 24px;
-    padding: 24px 0;
-    border-top: 1px solid var(--line);
 }
 
 .footer-heading {
     margin: 0 0 8px;
-    color: var(--muted);
-    font-size: 0.75rem;
+    color: var(--text);
+    font-size: 0.8125rem;
     font-weight: 500;
-    letter-spacing: 0.02em;
 }
 
 .footer-col ul {
     margin: 0;
     padding: 0;
     list-style: none;
-}
-
-.footer-col li + li {
-    margin-top: 0;
 }
 
 .footer-col a {
@@ -1463,36 +1472,26 @@ main img {
     text-decoration-color: currentColor;
 }
 
+@media (max-width: 720px) {
+    .footer-main {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+    }
+}
+
 @media (max-width: 640px) {
     .site-footer {
         margin-top: 48px;
         padding-top: 24px;
     }
 
-    .footer-top {
-        grid-template-columns: minmax(0, 1fr);
-        grid-template-areas:
-            "brand"
-            "tagline"
-            "stamp";
-    }
-
-    .footer-stamp {
-        justify-self: start;
-        margin-top: 4px;
-    }
-
     .footer-nav {
         grid-template-columns: minmax(0, 1fr);
         gap: 0;
-        padding: 0;
     }
 
     .footer-col {
         padding: 16px 0;
-    }
-
-    .footer-col + .footer-col {
         border-top: 1px solid var(--line);
     }
 

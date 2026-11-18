@@ -40,6 +40,8 @@ jekyll-minifier:
   compress_javascript: true
   exclude:
   - assets/js/lib/*.js
+  # Modern JS (private fields, ??) that Uglifier can't parse; already minified by tsup.
+  - widget/*.js
 exclude:
 - vendor
 - Gemfile

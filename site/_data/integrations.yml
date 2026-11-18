@@ -9,4 +9,5 @@ npm_published: true
 # php_published: flip to true once
 # https://packagist.org/packages/grupoclip/bcv-today exists. While false,
 # the PHP tab and card say "coming soon" and link to the source on GitHub.
-php_published: false
+php_published: true
+ruby_published: false

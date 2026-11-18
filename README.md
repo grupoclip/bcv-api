@@ -26,6 +26,7 @@
   <a href="https://www.npmjs.com/package/bcv-today"><img alt="npm package bcv-today" src="https://img.shields.io/npm/v/bcv-today?label=npm%20bcv-today&color=cb3837"></a>
   <a href="https://www.npmjs.com/package/bcv-today"><img alt="Supported Node.js versions" src="https://img.shields.io/node/v/bcv-today"></a>
   <a href="https://socket.dev/npm/package/bcv-today"><img alt="Socket score" src="https://badge.socket.dev/npm/package/bcv-today"></a>
+  <a href="https://pkg.go.dev/github.com/grupoclip/bcv-api/packages/go"><img alt="Go reference" src="https://pkg.go.dev/badge/github.com/grupoclip/bcv-api/packages/go.svg"></a>
   <a href="https://packagist.org/packages/grupoclip/bcv-today"><img alt="Packagist package grupoclip/bcv-today" src="https://img.shields.io/packagist/v/grupoclip/bcv-today?label=Packagist&color=f28d1a"></a>
   <a href="https://apps.odoo.com/apps/modules/l10n_ve_bcv_rate"><img alt="Odoo Apps: versions 16 to 20" src="https://img.shields.io/badge/Odoo%20Apps-16%E2%80%9320-714b67"></a>
   <a href="https://bcv.today/en/api/#mcp-server"><img alt="MCP server at mcp.bcv.today" src="https://img.shields.io/badge/MCP-mcp.bcv.today-f2b33d"></a>
@@ -49,6 +50,7 @@ All of them use the same data, are free and need no API key. Overview page: [bcv
 | Python library `bcv` | Developers | [PyPI](https://pypi.org/project/bcv/) (`pip install bcv`, CLI `bcv`), [source](packages/python/) |
 | npm package `bcv-today` | JavaScript/TypeScript developers | [npm](https://www.npmjs.com/package/bcv-today) (`npm install bcv-today`, CLI `bcv-today`), [source](packages/js/) |
 | PHP package `grupoclip/bcv-today` | PHP and Laravel developers | [Packagist](https://packagist.org/packages/grupoclip/bcv-today) (`composer require grupoclip/bcv-today`), [source](packages/php/) |
+| Go module `github.com/grupoclip/bcv-api/packages/go` | Go developers | [pkg.go.dev](https://pkg.go.dev/github.com/grupoclip/bcv-api/packages/go) (`go get github.com/grupoclip/bcv-api/packages/go`, CLI `bcv`), [source](packages/go/) |
 | Web widget `<bcv-rate>` | Website owners | `<script type="module" src="https://bcv.today/widget/v1.js"></script>` + `<bcv-rate currency="USD"></bcv-rate>`, [source](packages/widget/) |
 | Telegram | Everyone | Bot [@BCVTodayBot](https://t.me/BCVTodayBot) (`/dolar`, `/convertir 100 usd`, inline mode) and channel [@bcvtoday](https://t.me/bcvtoday) with the daily rate |
 | Odoo module `l10n_ve_bcv_rate` | Odoo 16-20 users (Community and Enterprise, not Odoo Online) | [Odoo Apps](https://apps.odoo.com/apps/modules/l10n_ve_bcv_rate), [source](https://github.com/grupoclip/odoo-bcv-rate) |

@@ -136,6 +136,34 @@
       <p class="cat-links">{% if ints.php_published %}<a href="https://packagist.org/packages/grupoclip/bcv-today">Packagist</a>{% endif %}<a href="{{ php_src }}">{{ c.l_source }}</a></p>
     </li>
 
+    <li class="cat-card" data-cat="code" id="int-go">
+      <div class="cat-head">
+        <span class="cat-logo" aria-hidden="true">{% include brand-logo.html name="go" %}</span>
+        <h3>Go</h3>
+        <span class="cat-status">{{ c.st_available }}</span>
+      </div>
+      <p class="cat-meta"><code>packages/go</code> · Go 1.22+</p>
+      <p class="cat-desc">{{ c.go_desc }}</p>
+      <pre class="cat-snip"><code>go get github.com/grupoclip/bcv-api/packages/go</code></pre>
+      <p class="cat-links"><a href="https://pkg.go.dev/github.com/grupoclip/bcv-api/packages/go">pkg.go.dev</a><a href="{{ repo }}/tree/main/packages/go">{{ c.l_source }}</a></p>
+    </li>
+
+    <li class="cat-card" data-cat="code"{% unless ints.ruby_published %} data-soon="true"{% endunless %} id="int-ruby">
+      <div class="cat-head">
+        <span class="cat-logo" aria-hidden="true">{% include brand-logo.html name="ruby" %}</span>
+        <h3>Ruby</h3>
+        {%- if ints.ruby_published %}
+        <span class="cat-status">{{ c.st_available }}</span>
+        {%- else %}
+        <span class="cat-status is-soon">{{ c.st_soon }}</span>
+        {%- endif %}
+      </div>
+      <p class="cat-meta"><code>bcv</code> · Ruby 3.1+</p>
+      <p class="cat-desc">{{ c.ruby_desc }}</p>
+      <pre class="cat-snip"><code>gem install bcv</code></pre>
+      <p class="cat-links">{% if ints.ruby_published %}<a href="https://rubygems.org/gems/bcv">RubyGems</a><a href="{{ repo }}/tree/main/packages/ruby">{{ c.l_source }}</a>{% endif %}</p>
+    </li>
+
     <li class="cat-card" data-cat="ai" id="int-mcp">
       <div class="cat-head">
         <span class="cat-logo" aria-hidden="true">{% include brand-logo.html name="modelcontextprotocol" %}</span>

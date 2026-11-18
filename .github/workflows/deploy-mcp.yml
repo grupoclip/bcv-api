@@ -25,6 +25,10 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # CF_WORKERS_API_TOKEN is an environment secret of github-pages (same as the
+    # former markdown Worker's deploy), so the job must run in that environment.
+    environment:
+      name: github-pages
     defaults:
       run:
         working-directory: mcp

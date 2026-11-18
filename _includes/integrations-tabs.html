@@ -1,0 +1,245 @@
+{%- comment -%}
+  Tabbed "terminal" with one minimal, real example per integration.
+  Used by the home page and the integrations hub (single source).
+  Params: id (prefix for element ids; default "itabs").
+
+  Progressive enhancement: the markup is a stack of sections, each with its
+  own heading, and the tablist ships hidden. The inline script right after it
+  turns the stack into ARIA tabs (roving tabindex, arrows, Home/End,
+  hidden="until-found" panels, last tab kept in localStorage). Without JS
+  every panel stays readable, one after another.
+
+  Figures come from site.data.rate at build time, so the outputs shown are
+  the ones the code prints today. Copy buttons come from code-copy.js
+  (page front matter: copy_code: true).
+{%- endcomment -%}
+{%- assign t = site.data.i18n[page.lang] -%}
+{%- assign x = t.itabs -%}
+{%- assign it_id = include.id | default: 'itabs' -%}
+{%- assign rate = site.data.rate -%}
+{%- assign ints = site.data.integrations -%}
+{%- assign it_base = site.url | append: site.baseurl -%}
+{%- assign it_repo = 'https://github.com/' | append: site.repository -%}
+{%- assign odoo_apps = 'https://apps.odoo.com/apps/modules/19.0/l10n_ve_bcv_rate' -%}
+{%- assign js_src = it_repo | append: '/tree/main/js' -%}
+{%- if page.lang == 'en' -%}{%- assign api_url = '/en/api/' | relative_url -%}{%- else -%}{%- assign api_url = '/api/' | relative_url -%}{%- endif -%}
+{%- comment -%} 100 USD in VES, rounded half-up to 2 places, as the libraries print it {%- endcomment -%}
+{%- assign conv = rate.USD | times: 100 | round: 2 | append: '' | split: '.' -%}
+{%- assign conv_dec = conv[1] | default: '' | append: '00' | slice: 0, 2 -%}
+{%- assign conv_plain = conv[0] | append: '.' | append: conv_dec -%}
+<div class="itabs" id="{{ it_id }}">
+  <div class="itabs-bar">
+    <div class="itabs-list" role="tablist" aria-label="{{ x.label }}" hidden>
+      <button type="button" role="tab" id="{{ it_id }}-tab-curl" data-key="curl" aria-selected="true" tabindex="0">curl</button>
+      <button type="button" role="tab" id="{{ it_id }}-tab-python" data-key="python" aria-selected="false" tabindex="-1">Python</button>
+      <button type="button" role="tab" id="{{ it_id }}-tab-js" data-key="js" aria-selected="false" tabindex="-1">JavaScript{% unless ints.npm_published %} <span class="itabs-soon">{{ x.soon }}</span>{% endunless %}</button>
+      <button type="button" role="tab" id="{{ it_id }}-tab-odoo" data-key="odoo" aria-selected="false" tabindex="-1">Odoo</button>
+      <button type="button" role="tab" id="{{ it_id }}-tab-mcp" data-key="mcp" aria-selected="false" tabindex="-1">MCP</button>
+      <button type="button" role="tab" id="{{ it_id }}-tab-a2a" data-key="a2a" aria-selected="false" tabindex="-1">A2A</button>
+    </div>
+  </div>
+
+  <section class="itabs-panel" id="{{ it_id }}-curl" data-tab="{{ it_id }}-tab-curl">
+    <div class="itabs-inner">
+      <h3 class="itabs-title">{{ x.curl_title }}</h3>
+      <p class="itabs-label">{{ x.request }}</p>
+      <div class="highlight itabs-cmd"><pre class="highlight"><code>curl -s {{ it_base }}/api/v1/rate.json</code></pre></div>
+      <p class="itabs-label"><span>{{ x.response }}</span><span class="itabs-status"><span class="itabs-dot" aria-hidden="true"></span>200 · application/json</span></p>
+      <pre class="highlight itabs-out"><code><span class="p">{</span>
+  <span class="nt">"USD"</span><span class="p">:</span> <span class="mf">{{ rate.USD }}</span><span class="p">,</span>
+  <span class="nt">"EUR"</span><span class="p">:</span> <span class="mf">{{ rate.EUR }}</span><span class="p">,</span>
+  <span class="c">…</span>
+  <span class="nt">"effective_date"</span><span class="p">:</span> <span class="s2">"{{ rate.effective_date }}"</span>
+<span class="p">}</span></code></pre>
+      <p class="itabs-foot"><a href="{{ api_url }}">{{ x.curl_more }} <span aria-hidden="true">→</span></a><a href="{{ '/openapi.json' | relative_url }}">OpenAPI</a></p>
+    </div>
+  </section>
+
+  <section class="itabs-panel" id="{{ it_id }}-python" data-tab="{{ it_id }}-tab-python">
+    <div class="itabs-inner">
+      <h3 class="itabs-title">{{ x.py_title }}</h3>
+      <p class="itabs-label">{{ x.install }}</p>
+      <div class="highlight itabs-cmd"><pre class="highlight"><code>pip install bcv</code></pre></div>
+      <p class="itabs-label">{{ x.usage }}</p>
+      <div class="highlight itabs-code"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bcv</span> <span class="kn">import</span> <span class="n">BCV</span>
+
+<span class="n">bcv</span> <span class="o">=</span> <span class="n">BCV</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">bcv</span><span class="p">.</span><span class="n">latest</span><span class="p">()[</span><span class="s2">"USD"</span><span class="p">])</span>  <span class="c1">{{ x.py_comment }}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">bcv</span><span class="p">.</span><span class="n">convert</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">,</span> <span class="s2">"VES"</span><span class="p">).</span><span class="n">result</span><span class="p">)</span></code></pre></div>
+      <p class="itabs-label">{{ x.output }}</p>
+      <pre class="itabs-out"><code>{{ rate.USD }}
+{{ conv_plain }}</code></pre>
+      <p class="itabs-foot"><a href="{{ api_url }}{{ x.py_anchor }}">{{ x.py_more }} <span aria-hidden="true">→</span></a><a href="https://pypi.org/project/bcv/">PyPI</a></p>
+    </div>
+  </section>
+
+  <section class="itabs-panel" id="{{ it_id }}-js" data-tab="{{ it_id }}-tab-js">
+    <div class="itabs-inner">
+      <h3 class="itabs-title">{{ x.js_title }}{% unless ints.npm_published %} <span class="itabs-soon">{{ x.soon }}</span>{% endunless %}</h3>
+      <p class="itabs-label">{{ x.install }}</p>
+      {%- if ints.npm_published %}
+      <div class="highlight itabs-cmd"><pre class="highlight"><code>npm install bcv-today</code></pre></div>
+      {%- else %}
+      <p class="itabs-note">{{ x.js_soon_html | replace: '__JS_SRC__', js_src }}</p>
+      {%- endif %}
+      <p class="itabs-label">{{ x.usage }}</p>
+      <div class="highlight itabs-code"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">BCV</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"bcv-today"</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">bcv</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BCV</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">((</span><span class="k">await</span> <span class="nx">bcv</span><span class="p">.</span><span class="nx">latest</span><span class="p">()).</span><span class="nx">rates</span><span class="p">.</span><span class="nx">USD</span><span class="p">);</span>  <span class="c1">{{ x.js_comment }}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">((</span><span class="k">await</span> <span class="nx">bcv</span><span class="p">.</span><span class="nx">convert</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">,</span> <span class="s2">"VES"</span><span class="p">)).</span><span class="nx">resultText</span><span class="p">);</span></code></pre></div>
+      <p class="itabs-label">{{ x.output }}</p>
+      <pre class="itabs-out"><code>{{ rate.USD }}
+{{ conv_plain }}</code></pre>
+      <p class="itabs-foot"><a href="{{ api_url }}#javascript">{{ x.js_more }} <span aria-hidden="true">→</span></a>{% if ints.npm_published %}<a href="https://www.npmjs.com/package/bcv-today">npm</a>{% else %}<a href="{{ js_src }}">GitHub</a>{% endif %}</p>
+    </div>
+  </section>
+
+  <section class="itabs-panel" id="{{ it_id }}-odoo" data-tab="{{ it_id }}-tab-odoo">
+    <div class="itabs-inner">
+      <h3 class="itabs-title">{{ x.odoo_title }}</h3>
+      <p class="itabs-label">{{ x.install }}</p>
+      <p class="itabs-note">{{ x.odoo_install_html | replace: '__ODOO_APPS__', odoo_apps }}</p>
+      <p class="itabs-label">{{ x.setup }}</p>
+      <ol class="itabs-steps">
+        <li>{{ x.odoo_step_1_html }}</li>
+        <li>{{ x.odoo_step_2_html }}</li>
+        <li>{{ x.odoo_step_3_html }}</li>
+      </ol>
+      <p class="itabs-label">{{ x.result }}</p>
+      <p class="itabs-note">{{ x.odoo_result }}</p>
+      <p class="itabs-foot"><a href="{{ odoo_apps }}">{{ x.odoo_more }} <span aria-hidden="true">→</span></a><a href="{{ api_url }}#odoo">{{ x.guide }}</a></p>
+    </div>
+  </section>
+
+  <section class="itabs-panel" id="{{ it_id }}-mcp" data-tab="{{ it_id }}-tab-mcp">
+    <div class="itabs-inner">
+      <h3 class="itabs-title">{{ x.mcp_title }}</h3>
+      <p class="itabs-label">Claude Code</p>
+      <div class="highlight itabs-cmd"><pre class="highlight"><code>claude mcp add --transport http bcv-today https://mcp.bcv.today/mcp</code></pre></div>
+      <p class="itabs-note">{{ x.mcp_other }}</p>
+      <p class="itabs-label">{{ x.chat }}</p>
+      <dl class="itabs-chat">
+        <dt>{{ x.chat_you }}</dt>
+        <dd>{{ x.chat_q }}</dd>
+        <dt>Claude</dt>
+        <dd><code class="itabs-tool">get_latest_rates</code> {{ x.chat_a_pre }} <b>{% include num.html value=rate.USD %}</b> {{ x.chat_a_mid }} {% include date.html date=rate.effective_date %}.</dd>
+      </dl>
+      <p class="itabs-foot"><a href="{{ api_url }}{{ x.mcp_anchor }}">{{ x.mcp_more }} <span aria-hidden="true">→</span></a><a href="{{ '/.well-known/mcp/server-card.json' | relative_url }}">Server card</a></p>
+    </div>
+  </section>
+
+  <section class="itabs-panel" id="{{ it_id }}-a2a" data-tab="{{ it_id }}-tab-a2a">
+    <div class="itabs-inner">
+      <h3 class="itabs-title">{{ x.a2a_title }}</h3>
+      <p class="itabs-label">{{ x.request }}</p>
+      <div class="highlight itabs-cmd"><pre class="highlight"><code>curl -s https://mcp.bcv.today/a2a \
+  -H 'Content-Type: application/json' -H 'A2A-Version: 1.0' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"SendMessage","params":{"message":{"role":"ROLE_USER","messageId":"1","parts":[{"text":"{{ x.a2a_q }}"}]}}}'</code></pre></div>
+      <p class="itabs-label"><span>{{ x.response }}</span><span class="itabs-status"><span class="itabs-dot" aria-hidden="true"></span>200 · application/json</span></p>
+      <pre class="highlight itabs-out"><code><span class="p">{</span> <span class="nt">"result"</span><span class="p">:</span> <span class="p">{</span> <span class="nt">"task"</span><span class="p">:</span> <span class="p">{</span>
+  <span class="nt">"status"</span><span class="p">:</span> <span class="p">{</span> <span class="nt">"state"</span><span class="p">:</span> <span class="s2">"TASK_STATE_COMPLETED"</span> <span class="p">},</span>
+  <span class="nt">"artifacts"</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">"name"</span><span class="p">:</span> <span class="s2">"convert"</span><span class="p">,</span> <span class="nt">"parts"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="nt">"text"</span><span class="p">:</span> <span class="s2">"{% include num.html value=100 min=2 %} USD = {% include num.html value=conv_plain min=2 max=2 %} {{ x.a2a_text_suffix }} {{ rate.effective_date }}; …)"</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nt">"data"</span><span class="p">:</span> <span class="p">{</span> <span class="nt">"result"</span><span class="p">:</span> <span class="p">{</span> <span class="nt">"result"</span><span class="p">:</span> <span class="mf">{{ conv_plain | plus: 0 }}</span><span class="p">,</span> <span class="nt">"rate"</span><span class="p">:</span> <span class="mf">{{ rate.USD }}</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="p">]</span> <span class="p">}]</span>
+<span class="p">}</span> <span class="p">}</span> <span class="p">}</span></code></pre>
+      <p class="itabs-foot"><a href="{{ api_url }}{{ x.a2a_anchor }}">{{ x.a2a_more }} <span aria-hidden="true">→</span></a><a href="{{ '/.well-known/agent-card.json' | relative_url }}">Agent card</a></p>
+    </div>
+  </section>
+</div>
+<script>
+  (function () {
+    // Enhance the stack above into ARIA tabs. Runs inline, right after the
+    // markup, so the switch happens before the block is first painted.
+    var script = document.currentScript;
+    var root = script && script.previousElementSibling;
+    if (!root || !root.classList.contains("itabs")) return;
+    var list = root.querySelector('[role="tablist"]');
+    var tabs = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+    var panels = tabs.map(function (tab) {
+      return root.querySelector('[data-tab="' + tab.id + '"]');
+    });
+    var KEY = "bcv-integration-tab";
+
+    panels.forEach(function (panel, i) {
+      panel.setAttribute("role", "tabpanel");
+      panel.setAttribute("aria-labelledby", tabs[i].id);
+    });
+
+    // Scroll only the tablist (never the page) so the selected tab is visible.
+    function reveal(tab) {
+      var pad = 24;
+      var start = tab.offsetLeft;
+      var end = start + tab.offsetWidth;
+      if (start - pad < list.scrollLeft) {
+        list.scrollLeft = Math.max(0, start - pad);
+      } else if (end + pad > list.scrollLeft + list.clientWidth) {
+        list.scrollLeft = end + pad - list.clientWidth;
+      }
+    }
+
+    function select(tab, opts) {
+      opts = opts || {};
+      tabs.forEach(function (t, i) {
+        var on = t === tab;
+        var panel = panels[i];
+        t.setAttribute("aria-selected", on ? "true" : "false");
+        t.tabIndex = on ? 0 : -1;
+        if (on) {
+          panel.removeAttribute("hidden");
+          panel.tabIndex = 0;
+        } else {
+          // Boolean hidden where until-found is unsupported.
+          panel.hidden = "until-found";
+          panel.removeAttribute("tabindex");
+        }
+      });
+      if (opts.focus) tab.focus();
+      reveal(tab);
+      if (opts.save) {
+        try {
+          localStorage.setItem(KEY, tab.dataset.key);
+        } catch (e) {
+        }
+      }
+    }
+
+    var initial = tabs[0];
+    try {
+      var stored = localStorage.getItem(KEY);
+      tabs.forEach(function (t) {
+        if (t.dataset.key === stored) initial = t;
+      });
+    } catch (e) {
+    }
+
+    list.hidden = false;
+    root.classList.add("is-tabbed");
+    select(initial);
+
+    list.addEventListener("click", function (event) {
+      var tab = event.target.closest('[role="tab"]');
+      if (tab) select(tab, { save: true });
+    });
+
+    list.addEventListener("keydown", function (event) {
+      var i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      var next;
+      if (event.key === "ArrowRight") next = tabs[(i + 1) % tabs.length];
+      else if (event.key === "ArrowLeft") next = tabs[(i - 1 + tabs.length) % tabs.length];
+      else if (event.key === "Home") next = tabs[0];
+      else if (event.key === "End") next = tabs[tabs.length - 1];
+      if (!next) return;
+      event.preventDefault();
+      select(next, { focus: true, save: true });
+    });
+
+    // Find in page revealed a hidden panel: select its tab to match.
+    root.addEventListener("beforematch", function (event) {
+      var i = panels.indexOf(event.target);
+      if (i >= 0) select(tabs[i]);
+    });
+  })();
+</script>

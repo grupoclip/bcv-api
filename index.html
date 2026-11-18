@@ -126,27 +126,16 @@ copy_code: true
 </div>
 
 <div class="home-end">
-  <section class="dev-card" aria-labelledby="dev-card-heading">
-    <div class="dev-card-pitch">
-      <h2 id="dev-card-heading">{{ t.index_integrate_h2 }}</h2>
-      <p class="dev-card-lede">{{ t.end_api_free }}</p>
-      <p class="dev-card-body">{{ t.end_api_body }}</p>
-      <p class="dev-card-links">
-        <a class="dev-card-docs" href="{{ api_url }}">{{ t.end_api_docs }} <span aria-hidden="true">→</span></a>
-        <a class="dev-card-more" href="{{ '/integraciones/' | relative_url }}">{{ t.end_all_integrations }} <span aria-hidden="true">→</span></a>
-      </p>
+  <section class="ihome" aria-labelledby="ihome-heading">
+    <div class="ihome-head">
+      <h2 id="ihome-heading">{{ t.int_home_h2 }}</h2>
+      <p class="ihome-pitch">{{ t.int_home_pitch }}</p>
     </div>
-    <div class="dev-term" role="group" aria-label="{{ t.end_api_example }}">
-      <p class="dev-term-label"><span>{{ t.end_api_request }}</span></p>
-      <div class="highlight dev-term-cmd"><pre class="highlight"><code>curl -s {{ site.url }}{{ site.baseurl }}/api/v1/rate.json</code></pre></div>
-      <p class="dev-term-label"><span>{{ t.end_api_response }}</span><span class="dev-term-status"><span class="dev-dot" aria-hidden="true"></span>200 · application/json</span></p>
-      <pre class="highlight dev-term-json"><code><span class="p">{</span>
-  <span class="nt">"USD"</span><span class="p">:</span> <span class="mf">{{ rate.USD }}</span><span class="p">,</span>
-  <span class="nt">"EUR"</span><span class="p">:</span> <span class="mf">{{ rate.EUR }}</span><span class="p">,</span>
-  <span class="c">…</span>
-  <span class="nt">"effective_date"</span><span class="p">:</span> <span class="s2">"{{ rate.effective_date }}"</span>
-<span class="p">}</span></code></pre>
-    </div>
+    {% include integrations-tabs.html id="home-int" %}
+    <p class="ihome-links">
+      <a class="ihome-all" href="{{ '/integraciones/' | relative_url }}">{{ t.int_all }} <span aria-hidden="true">→</span></a>
+      <a href="{{ api_url }}">{{ t.int_docs }} <span aria-hidden="true">→</span></a>
+    </p>
   </section>
 
   {% include faq.html faq=site.data.faq.es.homepage id="faq" columns=2 %}

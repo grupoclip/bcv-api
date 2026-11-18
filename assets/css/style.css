@@ -1654,15 +1654,12 @@ main img {
     }
 }
 
-/* Home: developer card and FAQ ------------------------------------------ */
+/* Home: integrations block and FAQ ------------------------------------- */
 .home-end {
     margin-top: 48px;
 }
 
-.dev-card {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 24px;
+.ihome {
     padding: 24px;
     border: 1px solid var(--line);
     border-radius: 16px;
@@ -1670,120 +1667,32 @@ main img {
     box-shadow: var(--shadow-sm);
 }
 
-.dev-card h2 {
-    margin: 0 0 16px;
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.8125rem;
-    font-weight: 500;
-}
-
-.dev-card-lede {
+.ihome-head h2 {
     margin: 0 0 8px;
     font-size: 1.5rem;
-    font-weight: 500;
-    line-height: 1.25;
     letter-spacing: -0.01em;
-    text-wrap: balance;
 }
 
-.dev-card-body {
+.ihome-pitch {
+    max-width: 36rem;
+    margin: 0 0 24px;
     color: var(--text-2);
 }
 
-.dev-card-docs {
-    font-weight: 500;
-}
-
-/* The panel is always set in ink: color-scheme dark makes every
-   light-dark() token inside it resolve to its dark value. */
-.dev-term {
-    color-scheme: dark;
-    min-width: 0;
-    padding: 4px 16px 16px;
-    border-radius: 12px;
-    background: light-dark(#1f1b16, #11100e);
-    color: var(--text);
-    box-shadow: inset 0 0 0 1px var(--line);
-}
-
-.dev-term-label {
+.ihome-links {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    justify-content: space-between;
-    gap: 4px 12px;
-    margin: 12px 0 8px;
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.75rem;
+    gap: 4px 24px;
+    margin: 20px 0 0;
 }
 
-.dev-term-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+.ihome-all {
+    font-weight: 500;
 }
 
-.dev-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-}
-
-.dev-term pre {
-    margin: 0;
-    border: 0;
-    background: var(--raised);
-    font-size: 0.8125rem;
-}
-
-/* The command stays on one line and scrolls inside the panel instead of
-   breaking mid-URL. The copy button sits beside it, so the button never
-   covers the text. Scroll shadows (local backgrounds cover them at each
-   end) appear only on the side that has more to show. */
-div.highlight.dev-term-cmd {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin: 0;
-    padding-right: 6px;
-    border-radius: 12px;
-    background: var(--raised);
-}
-
-.dev-term-cmd pre {
-    flex: 1 1 auto;
-    min-width: 0;
-    padding: 12px 4px 12px 12px;
-    overflow-x: auto;
-    border-radius: 12px 0 0 12px;
-    background:
-        linear-gradient(to right, var(--raised) 40%, transparent) left / 24px 100% no-repeat local,
-        linear-gradient(to left, var(--raised) 40%, transparent) right / 24px 100% no-repeat local,
-        radial-gradient(farthest-side at 0 50%, color-mix(in srgb, var(--text) 35%, transparent), transparent) left / 10px 100% no-repeat scroll,
-        radial-gradient(farthest-side at 100% 50%, color-mix(in srgb, var(--text) 35%, transparent), transparent) right / 10px 100% no-repeat scroll,
-        var(--raised);
-    font-size: 0.75rem;
-    white-space: pre;
-    scrollbar-width: thin;
-}
-
-.dev-term-cmd pre::before {
-    content: "$ ";
-    color: var(--accent);
-}
-
-.dev-term-cmd .copy-code-button {
-    position: static;
-    flex: none;
-}
-
-.dev-term-json {
-    padding: 12px;
-    background: transparent;
-    box-shadow: inset 0 0 0 1px var(--line);
+.ihome-links a:not(.ihome-all) {
+    color: var(--text-2);
 }
 
 .home-end .faq h2 {
@@ -1797,9 +1706,7 @@ div.highlight.dev-term-cmd {
 }
 
 @media (min-width: 721px) {
-    .dev-card {
-        grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
-        gap: 32px;
+    .ihome {
         padding: 32px;
     }
 
@@ -1817,18 +1724,456 @@ div.highlight.dev-term-cmd {
     }
 }
 
+/* Integration tabs (home + hub) ---------------------------------------- */
+/* One terminal, one tab per integration. Always set in ink: color-scheme
+   dark makes every light-dark() token inside resolve to its dark value.
+   Without JS the tablist stays hidden and the panels read as a stack,
+   each under its own heading. */
+@property --fade-start {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+}
+
+@property --fade-end {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+}
+
+.itabs {
+    color-scheme: dark;
+    min-width: 0;
+    border-radius: 12px;
+    background: light-dark(#1f1b16, #11100e);
+    color: var(--text);
+    box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.itabs-bar {
+    padding: 0 8px;
+    border-bottom: 1px solid var(--line);
+}
+
+/* Tabs stay on one row and scroll inside the bar; each edge fades only
+   while there is more to scroll that way. */
+.itabs-list {
+    position: relative;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-padding-inline: 24px;
+    --fade-size: 24px;
+    mask:
+        linear-gradient(black, black) no-clip subtract,
+        linear-gradient(to right, black, transparent) 0 0 / var(--fade-start) 100% no-repeat no-clip,
+        linear-gradient(to right, transparent, black) 100% 0 / var(--fade-end) 100% no-repeat no-clip;
+    animation: itabs-fade-start linear both, itabs-fade-end linear both;
+    animation-timeline: scroll(self inline);
+    animation-range: 0 var(--fade-size), calc(100% - var(--fade-size)) 100%;
+}
+
+.itabs-list::-webkit-scrollbar {
+    display: none;
+}
+
+@keyframes itabs-fade-start {
+    to {
+        --fade-start: var(--fade-size);
+    }
+}
+
+@keyframes itabs-fade-end {
+    from {
+        --fade-end: var(--fade-size);
+    }
+}
+
+.itabs-list[hidden] {
+    display: none;
+}
+
+.itabs [role="tab"] {
+    position: relative;
+    flex: none;
+    padding: 12px;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font: 500 0.8125rem/1.4 var(--mono);
+    cursor: pointer;
+    transition: color var(--fast) var(--ease);
+}
+
+.itabs [role="tab"]:hover {
+    color: var(--text);
+}
+
+.itabs [role="tab"]:focus-visible {
+    outline-offset: -4px;
+    border-radius: 8px;
+}
+
+/* Selected: brighter label plus an underline (never color alone). The
+   underline is a border, so forced-colors mode keeps it. */
+.itabs [role="tab"][aria-selected="true"] {
+    color: var(--text);
+}
+
+.itabs [role="tab"][aria-selected="true"]::after {
+    content: "";
+    position: absolute;
+    inset: auto 12px -1px;
+    border-bottom: 2px solid var(--accent);
+}
+
+.itabs-soon {
+    margin-left: 4px;
+    padding: 0 6px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.6875rem;
+    font-weight: 400;
+}
+
+/* No padding on the panel itself: hidden="until-found" keeps the box. */
+.itabs-inner {
+    padding: 4px 16px 16px;
+}
+
+.itabs-panel + .itabs-panel .itabs-inner {
+    border-top: 1px solid var(--line);
+}
+
+.is-tabbed .itabs-panel + .itabs-panel .itabs-inner {
+    border-top: 0;
+}
+
+.itabs-panel:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: -2px;
+    border-radius: 12px;
+}
+
+.itabs-title {
+    margin: 16px 0 4px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+
+.itabs-title .itabs-soon {
+    vertical-align: 1px;
+}
+
+/* With tabs, the tab names the panel; the heading stays for screen readers. */
+.is-tabbed .itabs-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* Panels differ in height; a floor keeps the page below from jumping on
+   every tab change on wide screens. */
+@media (min-width: 721px) {
+    .is-tabbed .itabs-inner {
+        min-height: 404px;
+    }
+}
+
+.itabs-label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 12px;
+    margin: 12px 0 8px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+}
+
+.itabs-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.itabs-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+/* Code lines never wrap: each block scrolls inside the panel instead of
+   breaking mid-URL. The copy button sits beside the code, so it never
+   covers it. Scroll shadows (local backgrounds cover them at each end)
+   show only on the side with more to see. */
+.itabs div.highlight {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    margin: 0;
+    padding-right: 6px;
+    border-radius: 12px;
+    background: var(--raised);
+}
+
+.itabs div.highlight pre {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    padding: 12px 4px 12px 12px;
+    overflow-x: auto;
+    border: 0;
+    border-radius: 12px 0 0 12px;
+    background:
+        linear-gradient(to right, var(--raised) 40%, transparent) left / 24px 100% no-repeat local,
+        linear-gradient(to left, var(--raised) 40%, transparent) right / 24px 100% no-repeat local,
+        radial-gradient(farthest-side at 0 50%, color-mix(in srgb, var(--text) 35%, transparent), transparent) left / 10px 100% no-repeat scroll,
+        radial-gradient(farthest-side at 100% 50%, color-mix(in srgb, var(--text) 35%, transparent), transparent) right / 10px 100% no-repeat scroll,
+        var(--raised);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    white-space: pre;
+    scrollbar-width: thin;
+}
+
+.itabs-cmd pre::before {
+    content: "$ ";
+    color: var(--accent);
+}
+
+.itabs div.highlight .copy-code-button {
+    position: static;
+    flex: none;
+    margin-top: 7px;
+}
+
+.itabs-out {
+    margin: 0;
+    padding: 12px;
+    overflow-x: auto;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--line);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    white-space: pre;
+    scrollbar-width: thin;
+}
+
+.itabs-note {
+    margin: 0;
+    color: var(--text-2);
+    font-size: 0.875rem;
+}
+
+.itabs-note b,
+.itabs-steps b {
+    color: var(--text);
+    font-weight: 500;
+}
+
+.itabs-steps {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding: 12px 12px 12px 36px;
+    border-radius: 12px;
+    background: var(--raised);
+    color: var(--text-2);
+    font-size: 0.875rem;
+}
+
+.itabs-steps li + li {
+    margin-top: 0;
+}
+
+.itabs-steps li::marker {
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+}
+
+/* Example conversation: who speaks on the left, the message on the right. */
+.itabs-chat {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 8px 16px;
+    margin: 0;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: inset 0 0 0 1px var(--line);
+    font-size: 0.875rem;
+}
+
+.itabs-chat dt {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    line-height: 1.6rem;
+}
+
+.itabs-chat dd {
+    margin: 0;
+    color: var(--text);
+}
+
+.itabs-chat b {
+    font-family: var(--mono);
+    font-weight: 500;
+}
+
+.itabs-tool {
+    display: inline-block;
+    margin-right: 4px;
+    padding: 0 6px;
+    border-radius: 6px;
+    background: var(--raised);
+    color: var(--syn-builtin);
+    font-size: 0.75rem;
+}
+
+.itabs-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 20px;
+    margin: 16px 0 0;
+    font-size: 0.875rem;
+}
+
+.itabs-foot a {
+    color: var(--text-2);
+}
+
+.itabs-foot a:first-child {
+    color: var(--accent-ink);
+    font-weight: 500;
+}
+
 /* Integrations page ----------------------------------------------------- */
-/* One card per product, grouped by audience. Reuses .card; the only new
-   pieces are the head row, the mono meta label and the link row. */
-.int-intro {
+/* Hero with the data-flow diagram, the shared tabs, then one card per
+   product grouped by audience. */
+.int-hero-text {
     max-width: 40rem;
+}
+
+.int-intro {
+    color: var(--text-2);
+}
+
+.int-flow {
+    margin: 24px 0 0;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+}
+
+.int-flow-caption {
+    margin: 0 0 16px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+}
+
+.flow {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.flow-v {
+    display: none;
+    max-width: 420px;
+}
+
+.flow-node {
+    fill: var(--bg);
+    stroke: var(--line-strong);
+    stroke-width: 1;
+}
+
+.flow-node-main {
+    fill: var(--raised);
+    stroke: color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.flow-dot {
+    fill: var(--accent);
+}
+
+.flow-edge {
+    fill: none;
+    stroke: var(--muted);
+    stroke-width: 1.25;
+}
+
+.flow-arrowhead {
+    fill: var(--muted);
+}
+
+.flow-t {
+    fill: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.flow-t-main {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.flow-sub {
+    fill: var(--muted);
+    font-family: var(--mono);
+    font-size: 11px;
+}
+
+.flow-g {
+    fill: var(--text-2);
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.flow-items {
+    fill: var(--text);
+    font-family: var(--mono);
+    font-size: 12px;
+}
+
+.flow-items-sm {
+    font-size: 11px;
+}
+
+.int-try h2 {
+    margin-top: 48px;
+    margin-bottom: 4px;
+}
+
+.int-try-lede {
     color: var(--text-2);
 }
 
 .int-group h2 {
-    margin-top: 40px;
+    margin-top: 48px;
 }
 
+/* Cards in a row share their region heights (subgrid): header, sentence,
+   status and actions line up across the row. */
 .int-list {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -1836,24 +2181,49 @@ div.highlight.dev-term-cmd {
 }
 
 .int-card {
-    gap: 10px;
+    display: grid;
+    grid-row: span 4;
+    grid-template-rows: subgrid;
+    row-gap: 12px;
     padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
 }
 
 .int-card p {
     margin: 0;
 }
 
+.int-card > p:not(.int-status) {
+    color: var(--text-2);
+}
+
 .int-head {
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 4px 16px;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.int-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 8px;
+    border-radius: 8px;
+    background: var(--raised);
+    color: var(--text-2);
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    font-weight: 500;
 }
 
 .int-head h3 {
-    margin: 0;
+    margin: 0 0 2px;
     font-size: 1.0625rem;
 }
 
@@ -1868,73 +2238,95 @@ div.highlight.dev-term-cmd {
     font-size: 0.75rem;
 }
 
-.int-card > p:not(.int-links):not(.int-steps) {
+.int-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    align-self: end;
     color: var(--text-2);
+    font-size: 0.8125rem;
 }
 
-.int-steps {
-    font-size: 0.9375rem;
+.int-status code {
+    font-size: 0.75rem;
 }
 
-.int-card div.highlight {
-    margin: 2px 0;
+.int-dot {
+    flex: none;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
 }
 
-/* Leave room for the copy button; long commands wrap instead of scrolling. */
-.int-card div.highlight pre {
-    padding: 12px 104px 12px 16px;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
+.int-status.is-soon .int-dot {
+    background: transparent;
+    box-shadow: inset 0 0 0 1.5px var(--muted);
 }
 
-.int-links {
+.int-actions {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
-    gap: 4px 20px;
-    font-size: 0.9375rem;
+    align-items: center;
+    gap: 8px 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-size: 0.875rem;
 }
 
-.int-primary {
-    font-weight: 500;
+.int-actions .button-link {
+    height: 36px;
+    padding: 0 14px;
+    font-size: 0.875rem;
 }
 
-.int-links a:not(.int-primary) {
+.int-actions a:not(.button-link) {
     color: var(--text-2);
 }
 
 .int-outro {
-    margin-top: 40px;
-    color: var(--text-2);
-}
-
-/* Home developer card: a quiet second link next to the docs link. */
-.dev-card-links {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 4px 20px;
-    margin: 0;
-}
-
-.dev-card-more {
+    margin-top: 48px;
     color: var(--text-2);
 }
 
 @media (min-width: 721px) {
-    .int-list-pair {
+    .int-flow {
+        padding: 24px;
+    }
+
+    .int-list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* An odd card out takes the full row instead of leaving a hole. */
+    .int-list > .int-card:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
     }
 }
 
 @media (max-width: 640px) {
-    .int-card {
+    .ihome {
         padding: 16px;
     }
 
-    /* Button on its own line above the command, as on the license page. */
-    .int-card div.highlight pre {
-        padding: 44px 16px 12px;
+    .itabs-inner {
+        padding: 4px 12px 12px;
+    }
+
+    .int-flow {
+        padding: 16px;
+    }
+
+    .flow-h {
+        display: none;
+    }
+
+    .flow-v {
+        display: block;
+    }
+
+    .int-card {
+        padding: 16px;
     }
 }
 

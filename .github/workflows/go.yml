@@ -1,0 +1,62 @@
+name: Go library
+
+# Vets, format-checks and tests the Go module github.com/grupoclip/bcv-api/packages/go (packages/go/),
+# with the race detector, on the oldest supported Go (1.22) and the latest stable release.
+# The unit tests read the recorded API samples shared with the Python, JavaScript and PHP clients
+# (packages/python/tests/fixtures), so changes there re-run this workflow too.
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "packages/go/**"
+      - "packages/python/tests/fixtures/**"
+      - ".github/workflows/go.yml"
+  pull_request:
+    paths:
+      - "packages/go/**"
+      - "packages/python/tests/fixtures/**"
+      - ".github/workflows/go.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: go-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: packages/go
+
+jobs:
+  test:
+    name: Test (Go ${{ matrix.go-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        go-version: ["1.22.x", "stable"]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache: false # standard library only: nothing to download
+      - name: Use exactly this Go version (no automatic toolchain switch)
+        run: |
+          echo "GOTOOLCHAIN=local" >> "$GITHUB_ENV"
+          go version
+      - name: gofmt
+        run: |
+          unformatted=$(gofmt -l .)
+          if [ -n "${unformatted}" ]; then
+            echo "::error::Run gofmt -w on: ${unformatted}"
+            exit 1
+          fi
+      - name: go vet
+        run: go vet ./...
+      - name: go test -race (offline, shared fixtures; examples included)
+        run: go test -race -count=1 ./...
+      - name: Build the bcv command
+        run: go build -o "$RUNNER_TEMP/bcv" ./cmd/bcv && "$RUNNER_TEMP/bcv" --version

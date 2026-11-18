@@ -103,6 +103,8 @@ es:
   footer_code_license: "Código Apache 2.0"
   footer_data_license: "Datos CC BY 4.0"
   footer_external: "(abre en otra pestaña)"
+  footer_integrations: "Integraciones"
+  end_all_integrations: "Todas las integraciones"
   currencies:
     USD: "Dólar estadounidense"
     EUR: "Euro"
@@ -216,6 +218,8 @@ en:
   footer_code_license: "Code Apache 2.0"
   footer_data_license: "Data CC BY 4.0"
   footer_external: "(opens in a new tab)"
+  footer_integrations: "Integrations"
+  end_all_integrations: "All integrations"
   currencies:
     USD: "US Dollar"
     EUR: "Euro"

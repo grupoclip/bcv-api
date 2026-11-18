@@ -79,6 +79,8 @@ Returns the publication status, latest generated timestamp, effective date and s
 - MCP server (Streamable HTTP, no auth): https://mcp.bcv.today/mcp — tools get_latest_rates, get_rate_by_date, get_history, convert, get_status
 - MCP server card: https://bcv.today/.well-known/mcp/server-card.json
 - Python client library (PyPI `bcv`, zero dependencies, `bcv` CLI): https://pypi.org/project/bcv/
+- Odoo module `l10n_ve_bcv_rate` (Odoo 16.0-20.0, Community and Enterprise, not Odoo Online; daily company currency rates from this API): https://apps.odoo.com/apps/modules/19.0/l10n_ve_bcv_rate — source https://github.com/grupoclip/odoo-bcv-rate
+- Integrations overview (all products): https://bcv.today/en/integrations/ (Spanish: https://bcv.today/integraciones/)
 - A2A agent (JSON-RPC, A2A 1.0 and 0.3, no auth): https://mcp.bcv.today/a2a — skills latest-rates, rate-on-date, convert, history, status; text in Spanish/English or a DataPart like {"skill":"convert","amount":100,"from":"USD","to":"VES"}
 - Sitemap: https://bcv.today/sitemap.xml
 - Robots: https://bcv.today/robots.txt
@@ -89,6 +91,8 @@ Returns the publication status, latest generated timestamp, effective date and s
 - English homepage: https://bcv.today/en/
 - Spanish API docs: https://bcv.today/api/
 - English API docs: https://bcv.today/en/api/
+- Spanish integrations: https://bcv.today/integraciones/
+- English integrations: https://bcv.today/en/integrations/
 - Spanish history: https://bcv.today/history/
 - English history: https://bcv.today/en/history/
 - Dollar page: https://bcv.today/dolar-bcv/

@@ -10,6 +10,23 @@
 
 BCV Today is an unofficial API and bilingual website for the exchange rates published by the [Banco Central de Venezuela](https://www.bcv.org.ve/). It tracks USD, EUR, CNY, TRY, and RUB against the Venezuelan bolivar, stores daily JSON snapshots, and publishes everything through GitHub Pages.
 
+## Products
+
+All of them use the same data, are free and need no API key. Overview page: [bcv.today/en/integrations](https://bcv.today/en/integrations/) ([español](https://bcv.today/integraciones/)).
+
+| Product | For | Links |
+| --- | --- | --- |
+| Website | People | [bcv.today](https://bcv.today) ([English](https://bcv.today/en/)), [history](https://bcv.today/history/) |
+| JSON API | Developers | [Docs](https://bcv.today/en/api/) ([español](https://bcv.today/api/)), [`/api/v1/`](https://bcv.today/api/v1/rate.json), [OpenAPI](https://bcv.today/openapi.json) |
+| Python library `bcv` | Developers | [PyPI](https://pypi.org/project/bcv/) (`pip install bcv`, CLI `bcv`), [source](python/) |
+| Odoo module `l10n_ve_bcv_rate` | Odoo 16-20 users (Community and Enterprise, not Odoo Online) | [Odoo Apps](https://apps.odoo.com/apps/modules/19.0/l10n_ve_bcv_rate), [source](https://github.com/grupoclip/odoo-bcv-rate) |
+| MCP server | AI assistants | `https://mcp.bcv.today/mcp` (Streamable HTTP, no auth), [server card](https://bcv.today/.well-known/mcp/server-card.json), [setup](https://bcv.today/en/api/#mcp-server) |
+| A2A agent | AI agents | `https://mcp.bcv.today/a2a`, [agent card](https://bcv.today/.well-known/agent-card.json), [docs](https://bcv.today/en/api/#a2a-agent) |
+| WebMCP tools | In-browser agents | Five read-only tools via `navigator.modelContext` ([`assets/js/webmcp.js`](assets/js/webmcp.js)) |
+| Markdown and llms.txt | LLMs and agents | `Accept: text/markdown` or append `index.md` to any page, [llms.txt](https://bcv.today/llms.txt), [llms-full.txt](https://bcv.today/llms-full.txt), [AI catalog](https://bcv.today/.well-known/ai-catalog.json) |
+
+Code: Apache 2.0; data: CC BY 4.0 ([license](https://bcv.today/en/license/)).
+
 ## Website
 
 The public site is available at:

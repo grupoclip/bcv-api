@@ -1,0 +1,186 @@
+---
+title: BCV Today integrations
+permalink: "/en/integrations/"
+layout: default
+seo_title: Integrations | BCV rate API, Python, Odoo, MCP and A2A
+lang: en
+alt_url: "/integraciones/"
+description: Every way to use the official BCV exchange rate with BCV Today. Website,
+  JSON API, Python library, Odoo module, MCP server, A2A agent and llms.txt, free and
+  with no API keys.
+keywords:
+- BCV integrations
+- BCV rate Odoo
+- BCV rate Python
+- BCV MCP server
+- BCV dollar API
+copy_code: true
+---
+{%- assign repo = 'https://github.com/' | append: site.repository -%}
+{%- assign odoo_repo = 'https://github.com/grupoclip/odoo-bcv-rate' -%}
+{%- assign odoo_apps = 'https://apps.odoo.com/apps/modules/19.0/l10n_ve_bcv_rate' -%}
+<div class="int-page">
+<div class="page-head">
+  <div>
+    <h1>Integrations</h1>
+    <p class="lede">
+      The same official Banco Central de Venezuela rates, wherever you need them:
+      in the browser, in your code, in your ERP or in your AI assistant.
+    </p>
+  </div>
+</div>
+
+<p class="int-intro">
+  Everything comes from the same data: the rate the BCV publishes, with its value date.
+  Everything is free, read-only and needs no API key. The data is published under
+  <a href="{{ '/en/license/' | relative_url }}">CC BY 4.0</a>: if you show it, credit the source.
+</p>
+
+<section class="int-group" aria-labelledby="int-people">
+  <h2 id="int-people">For people</h2>
+  <div class="int-list int-list-pair">
+    <article class="card int-card" aria-labelledby="int-site">
+      <div class="int-head">
+        <h3 id="int-site">Website</h3>
+        <span class="int-meta">bcv.today</span>
+      </div>
+      <p>The current USD, EUR, CNY, TRY and RUB rates with a calculator, for anyone who just wants to know what the BCV dollar is worth today.</p>
+      <p class="int-links">
+        <a class="int-primary" href="{{ '/en/' | relative_url }}">See today's rates <span aria-hidden="true">→</span></a>
+      </p>
+    </article>
+
+    <article class="card int-card" aria-labelledby="int-history">
+      <div class="int-head">
+        <h3 id="int-history">History</h3>
+        <span class="int-meta">since 2021</span>
+      </div>
+      <p>The daily chart and table for each currency, to compare dates, see the change over a period or look up the rate on a given day.</p>
+      <p class="int-links">
+        <a class="int-primary" href="{{ '/en/history/' | relative_url }}">See the history <span aria-hidden="true">→</span></a>
+      </p>
+    </article>
+  </div>
+</section>
+
+<section class="int-group" aria-labelledby="int-devs">
+  <h2 id="int-devs">For developers</h2>
+  <div class="int-list">
+    <article class="card int-card" aria-labelledby="int-api">
+      <div class="int-head">
+        <h3 id="int-api">JSON API</h3>
+        <span class="int-meta">HTTP · JSON · no key</span>
+      </div>
+      <p>Static JSON files with the current rate, the daily history and the data status, for any language that can make an HTTP request.</p>
+      <div class="highlight"><pre class="highlight"><code>curl -s {{ site.url }}{{ site.baseurl }}/api/v1/rate.json</code></pre></div>
+      <p class="int-links">
+        <a class="int-primary" href="{{ '/en/api/' | relative_url }}">API reference <span aria-hidden="true">→</span></a>
+        <a href="{{ '/openapi.json' | relative_url }}">OpenAPI</a>
+        <a href="{{ '/api/v1/status.json' | relative_url }}">Status</a>
+      </p>
+    </article>
+
+    <article class="card int-card" aria-labelledby="int-python">
+      <div class="int-head">
+        <h3 id="int-python">Python library <code>bcv</code></h3>
+        <span class="int-meta">PyPI · Python 3.9+</span>
+      </div>
+      <p>A zero-dependency client with caching, <code>Decimal</code> math, weekend carry-forward and a <code>bcv</code> command, for Python scripts, notebooks and backends.</p>
+      <div class="highlight"><pre class="highlight"><code>pip install bcv</code></pre></div>
+      <p class="int-links">
+        <a class="int-primary" href="https://pypi.org/project/bcv/">View on PyPI <span aria-hidden="true">→</span></a>
+        <a href="{{ '/en/api/' | relative_url }}#python-library">Guide</a>
+        <a href="{{ repo }}/tree/main/python">Source code</a>
+      </p>
+    </article>
+
+    <article class="card int-card" aria-labelledby="int-odoo">
+      <div class="int-head">
+        <h3 id="int-odoo">Odoo module <code>l10n_ve_bcv_rate</code></h3>
+        <span class="int-meta">Odoo 16–20 · free</span>
+      </div>
+      <p>Updates every company's currency rates daily in Odoo Community and Enterprise (Odoo.sh or on-premise; not Odoo Online), for anyone invoicing in bolivars or foreign currency.</p>
+      <p class="int-steps">Copy it into your addons path, then <b>Apps</b> <span aria-hidden="true">→</span> search “BCV” <span aria-hidden="true">→</span> <b>Activate</b>.</p>
+      <p class="int-links">
+        <a class="int-primary" href="{{ odoo_apps }}">View on Odoo Apps <span aria-hidden="true">→</span></a>
+        <a href="{{ odoo_repo }}">Source code</a>
+        <a href="{{ '/en/api/' | relative_url }}#odoo">Guide</a>
+      </p>
+    </article>
+  </div>
+</section>
+
+<section class="int-group" aria-labelledby="int-agents">
+  <h2 id="int-agents">For AI agents</h2>
+  <div class="int-list">
+    <article class="card int-card" aria-labelledby="int-mcp">
+      <div class="int-head">
+        <h3 id="int-mcp">MCP server</h3>
+        <span class="int-meta">Streamable HTTP · no auth</span>
+      </div>
+      <p>Five tools for rates, dates, history and conversion, for Claude, ChatGPT, Cursor, VS Code and any Model Context Protocol client.</p>
+      <div class="highlight"><pre class="highlight"><code>claude mcp add --transport http bcv-today https://mcp.bcv.today/mcp</code></pre></div>
+      <p class="int-links">
+        <a class="int-primary" href="{{ '/en/api/' | relative_url }}#mcp-server">How to connect it <span aria-hidden="true">→</span></a>
+        <a href="{{ '/.well-known/mcp/server-card.json' | relative_url }}">Server card</a>
+      </p>
+    </article>
+
+    <article class="card int-card" aria-labelledby="int-a2a">
+      <div class="int-head">
+        <h3 id="int-a2a">A2A agent</h3>
+        <span class="int-meta">A2A 1.0 and 0.3 · no auth</span>
+      </div>
+      <p>An Agent2Agent agent that answers in Spanish or English about rates, dates and conversions, so other agents can ask it without learning the API.</p>
+      <div class="highlight"><pre class="highlight"><code>curl -s https://mcp.bcv.today/a2a -H 'Content-Type: application/json' -H 'A2A-Version: 1.0' -d '{"jsonrpc":"2.0","id":1,"method":"SendMessage","params":{"message":{"role":"ROLE_USER","messageId":"1","parts":[{"text":"convert 100 USD to VES"}]}}}'</code></pre></div>
+      <p class="int-links">
+        <a class="int-primary" href="{{ '/en/api/' | relative_url }}#a2a-agent">How to use it <span aria-hidden="true">→</span></a>
+        <a href="{{ '/.well-known/agent-card.json' | relative_url }}">Agent card</a>
+      </p>
+    </article>
+
+    <article class="card int-card" aria-labelledby="int-webmcp">
+      <div class="int-head">
+        <h3 id="int-webmcp">WebMCP in the browser</h3>
+        <span class="int-meta">navigator.modelContext</span>
+      </div>
+      <p>In browsers with WebMCP, every bcv.today page registers five read-only tools (<code>get_latest_bcv_rates</code>, <code>get_bcv_rate_by_date</code>, <code>get_bcv_rate_history</code>, <code>get_bcv_api_status</code> and <code>open_bcv_api_docs</code>) for the agent browsing with you.</p>
+      <p class="int-links">
+        <a class="int-primary" href="{{ repo }}/blob/main/assets/js/webmcp.js">See the tools <span aria-hidden="true">→</span></a>
+        <a href="https://webmachinelearning.github.io/webmcp/">WebMCP specification</a>
+      </p>
+    </article>
+
+    <article class="card int-card" aria-labelledby="int-markdown">
+      <div class="int-head">
+        <h3 id="int-markdown">Pages as Markdown</h3>
+        <span class="int-meta">Accept: text/markdown</span>
+      </div>
+      <p>Every page on the site is also served as clean Markdown, for agents and readers that don't need the HTML: ask for it with that header or append <code>index.md</code> to the URL.</p>
+      <div class="highlight"><pre class="highlight"><code>curl -s -H 'Accept: text/markdown' {{ site.url }}{{ site.baseurl }}/en/</code></pre></div>
+      <p class="int-links">
+        <a class="int-primary" href="{{ '/en/index.md' | relative_url }}">See the home page as Markdown <span aria-hidden="true">→</span></a>
+      </p>
+    </article>
+
+    <article class="card int-card" aria-labelledby="int-llms">
+      <div class="int-head">
+        <h3 id="int-llms">llms.txt</h3>
+        <span class="int-meta">plain text</span>
+      </div>
+      <p>A short index of the site and the API for language models, with a complete version in a single file and a resource catalog for agents.</p>
+      <p class="int-links">
+        <a class="int-primary" href="{{ '/llms.txt' | relative_url }}">Open llms.txt <span aria-hidden="true">→</span></a>
+        <a href="{{ '/llms-full.txt' | relative_url }}">llms-full.txt</a>
+        <a href="{{ '/.well-known/ai-catalog.json' | relative_url }}">AI catalog</a>
+      </p>
+    </article>
+  </div>
+</section>
+
+<p class="int-outro">
+  All of it is open source: <a href="{{ repo }}">bcv-api</a> (site, API, MCP, A2A and Python)
+  and <a href="{{ odoo_repo }}">odoo-bcv-rate</a> (Odoo module), on GitHub.
+  Missing an integration? <a href="{{ repo }}/issues/new/choose">Tell us</a>.
+</p>
+</div>

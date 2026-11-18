@@ -174,6 +174,16 @@ bcv on 2026-01-04 --currency USD   # domingo: usa la tasa vigente con fecha valo
 mantiene la última tasa publicada (`carried_forward=True`). Datos desde el
 2021-08-02. Licencia de los datos: CC BY 4.0, cita la fuente "BCV Today".
 
+## Related
+
+Other ways to use the same BCV Today data:
+
+- All integrations: https://bcv.today/en/integrations/ (en español: https://bcv.today/integraciones/)
+- Odoo module `l10n_ve_bcv_rate` (Odoo 16-20, daily company currency rates):
+  https://apps.odoo.com/apps/modules/19.0/l10n_ve_bcv_rate
+- MCP server for AI assistants (Streamable HTTP, no auth): `https://mcp.bcv.today/mcp`,
+  setup at https://bcv.today/en/api/#mcp-server
+
 ## Links
 
 - Website: https://bcv.today

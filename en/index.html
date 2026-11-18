@@ -131,7 +131,10 @@ copy_code: true
       <h2 id="dev-card-heading">{{ t.index_integrate_h2 }}</h2>
       <p class="dev-card-lede">{{ t.end_api_free }}</p>
       <p class="dev-card-body">{{ t.end_api_body }}</p>
-      <a class="dev-card-docs" href="{{ api_url }}">{{ t.end_api_docs }} <span aria-hidden="true">→</span></a>
+      <p class="dev-card-links">
+        <a class="dev-card-docs" href="{{ api_url }}">{{ t.end_api_docs }} <span aria-hidden="true">→</span></a>
+        <a class="dev-card-more" href="{{ '/en/integrations/' | relative_url }}">{{ t.end_all_integrations }} <span aria-hidden="true">→</span></a>
+      </p>
     </div>
     <div class="dev-term" role="group" aria-label="{{ t.end_api_example }}">
       <p class="dev-term-label"><span>{{ t.end_api_request }}</span></p>

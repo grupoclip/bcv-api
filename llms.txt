@@ -12,6 +12,7 @@ Every page is also available as Markdown: request it with `Accept: text/markdown
 - [BCV dollar (Markdown)](https://bcv.today/dolar-bcv/index.md): USD/VES rate, quick conversions and the last 7 days
 - [History (Markdown)](https://bcv.today/history/index.md): how the daily history is built
 - [API documentation (Markdown)](https://bcv.today/api/index.md): endpoints, schema and examples
+- [Integrations (Markdown)](https://bcv.today/en/integrations/index.md): every BCV Today product with links and setup snippets
 
 ## API
 
@@ -27,9 +28,11 @@ Every page is also available as Markdown: request it with `Accept: text/markdown
 - [BCV Today MCP server](https://mcp.bcv.today/mcp): remote Model Context Protocol endpoint (Streamable HTTP, stateless, no authentication) with the tools `get_latest_rates`, `get_rate_by_date`, `get_history`, `convert` and `get_status`
 - [MCP server card](https://bcv.today/.well-known/mcp/server-card.json): SEP-2127 server card with the endpoint, transport and tool list
 
-## Client libraries
+## Client libraries and integrations
 
+- [Integrations](https://bcv.today/en/integrations/): every BCV Today product in one page (website, JSON API, Python library, Odoo module, MCP server, A2A agent, WebMCP, Markdown, llms.txt); Spanish version at https://bcv.today/integraciones/
 - [Python package `bcv`](https://pypi.org/project/bcv/): official zero-dependency Python client and `bcv` CLI (`pip install bcv`) with latest rates, rate on a date with weekend carry-forward, history and conversions
+- [Odoo module `l10n_ve_bcv_rate`](https://apps.odoo.com/apps/modules/19.0/l10n_ve_bcv_rate): free Odoo 16.0-20.0 module (Community and Enterprise, Odoo.sh or on-premise; not Odoo Online) that updates each company's currency rates daily with the official BCV rate from this API; source at https://github.com/grupoclip/odoo-bcv-rate (branches 16.0 to 20.0)
 
 ## A2A agent
 

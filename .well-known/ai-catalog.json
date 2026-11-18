@@ -97,6 +97,32 @@
         "skill to fetch BCV exchange rates",
         "consultar el historial de la tasa BCV por fecha"
       ]
+    },
+    {
+      "identifier": "urn:air:bcv.today:library:bcv-python",
+      "displayName": "bcv Python package (PyPI)",
+      "type": "text/html",
+      "url": "https://pypi.org/project/bcv/",
+      "description": "Official zero-dependency Python client and bcv command-line tool for the BCV Today API (pip install bcv): latest official Banco Central de Venezuela rates, rate on a date with weekend carry-forward, history and Decimal conversions between VES, USD, EUR, CNY, TRY and RUB. Python 3.9+.",
+      "tags": ["python", "pypi", "library", "cli", "exchange-rates", "venezuela", "bcv"],
+      "representativeQueries": [
+        "Python library for the official BCV exchange rate",
+        "librería Python para la tasa del dólar BCV",
+        "convert USD to VES in Python at the BCV rate"
+      ]
+    },
+    {
+      "identifier": "urn:air:bcv.today:integration:odoo-bcv-rate",
+      "displayName": "Odoo module l10n_ve_bcv_rate (Odoo Apps)",
+      "type": "text/html",
+      "url": "https://apps.odoo.com/apps/modules/19.0/l10n_ve_bcv_rate",
+      "description": "Free Odoo module that updates each company's currency rates daily with the official Banco Central de Venezuela rate (USD, EUR, CNY, TRY, RUB) from the BCV Today API, dated with the BCV value date, with a history backfill wizard. Odoo 16.0 to 20.0, Community and Enterprise, Odoo.sh or on-premise; not available on Odoo Online. Source: https://github.com/grupoclip/odoo-bcv-rate.",
+      "tags": ["odoo", "erp", "accounting", "exchange-rates", "venezuela", "bcv"],
+      "representativeQueries": [
+        "Odoo module for the official BCV exchange rate",
+        "módulo de Odoo para actualizar la tasa BCV automáticamente",
+        "tasa del dólar BCV en Odoo 19"
+      ]
     }
   ]
 }

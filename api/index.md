@@ -23,6 +23,8 @@ API BCV gratuita en JSON, de solo lectura, con las tasas oficiales del Banco Cen
 
 **API v1 root:** `{{ site.url }}{{ site.baseurl }}/api/v1`
 
+Otras formas de usar los mismos datos (librería Python, módulo de Odoo, servidor MCP, agente A2A): [todas las integraciones]({{ '/integraciones/' | relative_url }}).
+
 ## Descubrimiento para agentes
 
 | Recurso | URL | Uso |
@@ -89,6 +91,16 @@ print(client.convert(100, "USD", "VES"))
 ```
 
 Código y documentación: [python/ en GitHub](https://github.com/{{ site.repository }}/tree/main/python).
+
+## Módulo de Odoo {#odoo}
+
+Módulo [`l10n_ve_bcv_rate`](https://apps.odoo.com/apps/modules/19.0/l10n_ve_bcv_rate), gratuito, que actualiza a diario las tasas de cada compañía en Odoo con la tasa oficial del BCV leída de esta API (USD, EUR, CNY, TRY y RUB), con la fecha valor como fecha de la tasa. Funciona con compañías en bolívares o en divisas, permite cargar el histórico desde 2021-08-02 y no necesita claves ni paquetes Python adicionales.
+
+- **Versiones:** Odoo 16.0, 17.0, 18.0, 19.0 y 20.0, Community y Enterprise, en Odoo.sh o servidor propio.
+- **No disponible en Odoo Online** (SaaS), que no admite módulos de terceros.
+- **Instalación:** copia `l10n_ve_bcv_rate/` (de la rama de tu versión) en tu ruta de addons, actualiza la lista de aplicaciones e instálalo desde *Apps*; luego actívalo en *Ajustes › Contabilidad › Monedas*.
+
+Descarga: [Odoo Apps](https://apps.odoo.com/apps/modules/19.0/l10n_ve_bcv_rate) · Código: [grupoclip/odoo-bcv-rate en GitHub](https://github.com/grupoclip/odoo-bcv-rate) (ramas `16.0` a `20.0`).
 
 ## Agente A2A
 

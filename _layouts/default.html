@@ -322,6 +322,7 @@
     {%- assign f_home = '/en/' | relative_url -%}
     {%- assign f_history = '/en/history/' | relative_url -%}
     {%- assign f_api = '/en/api/' | relative_url -%}
+    {%- assign f_integrations = '/en/integrations/' | relative_url -%}
     {%- assign f_license = '/en/license/' | relative_url -%}
     {%- assign f_code_anchor = '#code' -%}
     {%- assign f_data_anchor = '#data' -%}
@@ -329,6 +330,7 @@
     {%- assign f_home = '/' | relative_url -%}
     {%- assign f_history = '/history/' | relative_url -%}
     {%- assign f_api = '/api/' | relative_url -%}
+    {%- assign f_integrations = '/integraciones/' | relative_url -%}
     {%- assign f_license = '/licencia/' | relative_url -%}
     {%- assign f_code_anchor = '#codigo' -%}
     {%- assign f_data_anchor = '#datos' -%}
@@ -352,6 +354,7 @@
                     <li><a href="{{ f_home }}">{{ t.nav_rates }}</a></li>
                     <li><a href="{{ f_history }}">{{ t.nav_history }}</a></li>
                     <li><a href="{{ f_api }}">{{ t.nav_api }}</a></li>
+                    <li><a href="{{ f_integrations }}"{% if page.url == f_integrations %} aria-current="page"{% endif %}>{{ t.footer_integrations }}</a></li>
                 </ul>
             </div>
             <div class="footer-col">

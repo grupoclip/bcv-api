@@ -1,14 +1,32 @@
+import base64
 import glob
+import hashlib
 import json
 import os
+import secrets
+import time
 from datetime import date, datetime, timedelta, timezone
+from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
 import requests
 import urllib3
 from bs4 import BeautifulSoup
 
+try:  # Web Bot Auth signing is optional: without cryptography, send unsigned requests.
+    from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+    from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat, load_pem_private_key
+except ImportError:  # pragma: no cover
+    Ed25519PrivateKey = None
+
 urllib3.disable_warnings()
+
+# Web Bot Auth: requests to BCV are signed with the key whose public half is
+# published at https://bcv.today/.well-known/http-message-signatures-directory.
+SIGNATURE_AGENT = "https://bcv.today"
+WEB_BOT_AUTH_TTL = 60  # seconds a request signature stays valid
+# The default requests User-Agent, plus the bot name and a contact URL.
+USER_AGENT = f"{requests.utils.default_user_agent()} (BCVTodayBot; +https://bcv.today/api/#web-bot-auth)"
 
 API_DIR = "api"
 API_V1_DIR = os.path.join(API_DIR, "v1")
@@ -72,9 +90,77 @@ def parse_effective_date(html):
     return None
 
 
+def jwk_thumbprint(public_key):
+    """RFC 7638 / RFC 8037 thumbprint of an Ed25519 public key (base64url)."""
+    raw = public_key.public_bytes(Encoding.Raw, PublicFormat.Raw)
+    x = b64url(raw)
+    canonical = json.dumps({"crv": "Ed25519", "kty": "OKP", "x": x}, separators=(",", ":"))
+    return b64url(hashlib.sha256(canonical.encode("ascii")).digest())
+
+
+def b64url(data):
+    return base64.urlsafe_b64encode(data).rstrip(b"=").decode("ascii")
+
+
+def load_signing_key():
+    """Ed25519 private key from WEB_BOT_AUTH_PRIVATE_KEY (PEM), or None."""
+    pem = os.environ.get("WEB_BOT_AUTH_PRIVATE_KEY", "").strip()
+    if not pem:
+        return None
+    if Ed25519PrivateKey is None:
+        print("Web Bot Auth disabled: the cryptography package is not installed")
+        return None
+    try:
+        key = load_pem_private_key(pem.encode("ascii"), password=None)
+    except (ValueError, TypeError) as exc:
+        print(f"Web Bot Auth disabled: cannot load WEB_BOT_AUTH_PRIVATE_KEY ({exc})")
+        return None
+    if not isinstance(key, Ed25519PrivateKey):
+        print("Web Bot Auth disabled: WEB_BOT_AUTH_PRIVATE_KEY is not an Ed25519 key")
+        return None
+    return key
+
+
+def web_bot_auth_headers(url, key, now=None):
+    """Signature-Agent, Signature-Input and Signature headers for a request to
+    `url` (Web Bot Auth: RFC 9421 HTTP Message Signatures as Cloudflare
+    verifies them, Signature-Agent per draft-meunier-http-message-signatures-directory-03)."""
+    authority = urlsplit(url).netloc.lower()
+    created = int(now if now is not None else time.time())
+    nonce = base64.b64encode(secrets.token_bytes(64)).decode("ascii")
+    signature_agent = f'"{SIGNATURE_AGENT}"'
+    params = (
+        '("@authority" "signature-agent")'
+        f";created={created};expires={created + WEB_BOT_AUTH_TTL}"
+        f';keyid="{jwk_thumbprint(key.public_key())}";alg="ed25519"'
+        f';nonce="{nonce}";tag="web-bot-auth"'
+    )
+    base = (
+        f'"@authority": {authority}\n'
+        f'"signature-agent": {signature_agent}\n'
+        f'"@signature-params": {params}'
+    )
+    signature = base64.b64encode(key.sign(base.encode("ascii"))).decode("ascii")
+    return {
+        "Signature-Agent": signature_agent,
+        "Signature-Input": f"sig1={params}",
+        "Signature": f"sig1=:{signature}:",
+    }
+
+
+def request_headers(url, key):
+    headers = {"User-Agent": USER_AGENT}
+    if key is not None:
+        try:
+            headers.update(web_bot_auth_headers(url, key))
+        except Exception as exc:  # never let signing break the scraper
+            print(f"Web Bot Auth disabled for this request: {exc}")
+    return headers
+
+
 def get_rates():
     url = "https://www.bcv.org.ve/"
-    req = requests.get(url, verify=False, timeout=30)
+    req = requests.get(url, headers=request_headers(url, load_signing_key()), verify=False, timeout=30)
     req.raise_for_status()
 
     html = BeautifulSoup(req.text, "html.parser")

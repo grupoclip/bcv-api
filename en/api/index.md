@@ -246,6 +246,15 @@ console.log(convert(1000, "VES", "USD", rate));
 - You can also consume the files through jsDelivr:
   `https://cdn.jsdelivr.net/gh/{{ site.repository }}/api/v1/rate.json`.
 
+## Web Bot Auth {#web-bot-auth}
+
+The data is fetched from the public page at `https://www.bcv.org.ve/` every 30 minutes, with the User-Agent `python-requests/<version> (BCVTodayBot; +https://bcv.today/api/#web-bot-auth)`.
+
+Every request is signed with [Web Bot Auth](https://developers.cloudflare.com/bots/reference/bot-verification/web-bot-auth/) (HTTP Message Signatures, RFC 9421, Ed25519) and carries the headers `Signature-Agent: "https://bcv.today"`, `Signature-Input` and `Signature`.
+
+- Key directory: [`/.well-known/http-message-signatures-directory`](/.well-known/http-message-signatures-directory)
+- `keyid`: `JkYyrLLVt1MPLEk4CLTRkklkKSqbqoWL_dyy6JRy3vc`
+
 ## Changes and support
 
 Source code and change history are available at [github.com/{{ site.repository }}](https://github.com/{{ site.repository }}).

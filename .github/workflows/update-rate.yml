@@ -38,6 +38,9 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Fetch rate
+        env:
+          # Ed25519 PEM key for Web Bot Auth request signing; unsigned if unset.
+          WEB_BOT_AUTH_PRIVATE_KEY: ${{ secrets.WEB_BOT_AUTH_PRIVATE_KEY }}
         run: python main.py
 
       - name: Commit generated data

@@ -245,6 +245,15 @@ console.log(convert(1000, "VES", "USD", rate));
 - También puedes consumir los archivos vía jsDelivr:
   `https://cdn.jsdelivr.net/gh/{{ site.repository }}/api/v1/rate.json`.
 
+## Identificación del bot {#web-bot-auth}
+
+Los datos se obtienen de la página pública de `https://www.bcv.org.ve/`, cada 30 minutos, con el User-Agent `python-requests/<versión> (BCVTodayBot; +https://bcv.today/api/#web-bot-auth)`.
+
+Cada solicitud va firmada con [Web Bot Auth](https://developers.cloudflare.com/bots/reference/bot-verification/web-bot-auth/) (HTTP Message Signatures, RFC 9421, Ed25519) e incluye los encabezados `Signature-Agent: "https://bcv.today"`, `Signature-Input` y `Signature`.
+
+- Directorio de claves: [`/.well-known/http-message-signatures-directory`](/.well-known/http-message-signatures-directory)
+- `keyid`: `JkYyrLLVt1MPLEk4CLTRkklkKSqbqoWL_dyy6JRy3vc`
+
 ## Cambios y soporte
 
 El código fuente y el historial de cambios están en [github.com/{{ site.repository }}](https://github.com/{{ site.repository }}).

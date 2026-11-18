@@ -254,6 +254,91 @@ jobs:
             enabled: true
           }')"
 
+      - name: Checkout Web Bot Auth signing files
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            scripts/sign-directory.mjs
+            .well-known/http-message-signatures-directory
+          sparse-checkout-cone-mode: false
+
+      - name: Sign Web Bot Auth key directory (Cloudflare response headers)
+        # The scraper (main.py) signs its requests with Web Bot Auth. Its key
+        # directory must be served with Content-Type
+        # application/http-message-signatures-directory+json and signed
+        # Signature / Signature-Input headers; GitHub Pages cannot set headers,
+        # so a response header transform rule adds them. The signature expires
+        # after 7 days; rate updates redeploy several times a day, refreshing it.
+        env:
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+          CF_RULES_API_TOKEN: ${{ secrets.CF_RULES_API_TOKEN }}
+          WEB_BOT_AUTH_PRIVATE_KEY: ${{ secrets.WEB_BOT_AUTH_PRIVATE_KEY }}
+        run: |
+          if [ -z "${WEB_BOT_AUTH_PRIVATE_KEY}" ]; then
+            echo "WEB_BOT_AUTH_PRIVATE_KEY is not configured; skipping key directory signature."
+            exit 0
+          fi
+          if [ -z "${CF_ZONE_ID}" ] || [ -z "${CF_RULES_API_TOKEN}" ]; then
+            echo "Cloudflare ruleset secrets are not configured; skipping key directory signature."
+            exit 0
+          fi
+
+          signed="$(node scripts/sign-directory.mjs bcv.today 7)"
+          echo "Signed key directory with keyid $(jq -r '.keyid' <<<"${signed}")."
+
+          api_base="https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/rulesets"
+
+          # upsert_rule <phase> <ruleset name> <rule json>: same helper as the
+          # Markdown step — create the phase entrypoint or replace the rule with
+          # the same ref, keeping every other rule.
+          upsert_rule() {
+            phase="$1"; ruleset_name="$2"; rule="$3"
+            ref="$(jq -r '.ref' <<<"${rule}")"
+            response="$(mktemp)"; payload="$(mktemp)"
+            status="$(curl --show-error --silent --output "${response}" --write-out "%{http_code}" \
+              -H "Authorization: Bearer ${CF_RULES_API_TOKEN}" \
+              "${api_base}/phases/${phase}/entrypoint")"
+
+            if [ "${status}" = "404" ]; then
+              jq -n --arg name "${ruleset_name}" --arg phase "${phase}" --argjson rule "${rule}" \
+                '{name: $name, kind: "zone", phase: $phase, rules: [$rule]}' > "${payload}"
+              curl --fail --show-error --silent -X POST "${api_base}" \
+                -H "Authorization: Bearer ${CF_RULES_API_TOKEN}" -H "Content-Type: application/json" \
+                --data @"${payload}" > /dev/null
+              echo "Created ${phase} ruleset with ${ref}."
+              return
+            fi
+
+            if [ "${status}" != "200" ]; then
+              cat "${response}"; echo
+              echo "Cloudflare refused CF_RULES_API_TOKEN for ${phase} (HTTP ${status})."
+              echo "It needs Zone:Read and Zone Rulesets:Edit (Transform Rules) for this zone."
+              exit 1
+            fi
+
+            ruleset_id="$(jq -r '.result.id' "${response}")"
+            jq --arg ref "${ref}" --argjson rule "${rule}" \
+              '.result as $r | {name: $r.name, description: ($r.description // ""), kind: $r.kind, phase: $r.phase,
+                rules: ((($r.rules // []) | map(select(.ref != $ref))) + [$rule])}' "${response}" > "${payload}"
+            curl --fail --show-error --silent -X PUT "${api_base}/${ruleset_id}" \
+              -H "Authorization: Bearer ${CF_RULES_API_TOKEN}" -H "Content-Type: application/json" \
+              --data @"${payload}" > /dev/null
+            echo "Updated ${phase} ruleset with ${ref}."
+          }
+
+          upsert_rule http_response_headers_transform "BCV Today response header transforms" "$(jq -n --argjson signed "${signed}" '{
+            ref: "bcv-web-bot-auth-directory",
+            description: "BCV Today Web Bot Auth key directory (content type and signature)",
+            expression: "(http.host eq \"bcv.today\" and raw.http.request.uri.path eq \"/.well-known/http-message-signatures-directory\")",
+            action: "rewrite",
+            action_parameters: {headers: {
+              "Content-Type": {operation: "set", value: "application/http-message-signatures-directory+json"},
+              "Signature": {operation: "set", value: $signed.signature},
+              "Signature-Input": {operation: "set", value: $signed.signature_input}
+            }},
+            enabled: true
+          }')"
+
       - name: Purge Cloudflare cache
         env:
           CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}

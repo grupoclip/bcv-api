@@ -4,4 +4,4 @@
 # npm_published: flip to true once https://registry.npmjs.org/bcv-today
 # returns 200. While false, the JavaScript tab and card say "coming soon"
 # and link to the source on GitHub instead of npm.
-npm_published: false
+npm_published: true

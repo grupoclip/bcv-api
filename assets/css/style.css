@@ -1939,6 +1939,139 @@ div.highlight.dev-term-cmd {
     }
 }
 
+/* 404 page ---------------------------------------------------------------
+   The logo's ridge is the rate chart and its dot is today's value; here the
+   line drops and ends in an empty dot: there is no value at this address. */
+.nf {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 0.8fr);
+    align-items: center;
+    gap: 32px;
+    padding: 24px 0 8px;
+}
+
+.nf-code {
+    margin: 0 0 16px;
+}
+
+.nf h1 {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    letter-spacing: -0.02em;
+}
+
+.nf .lede {
+    margin-bottom: 24px;
+}
+
+.nf-path {
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: var(--raised);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.9em;
+    overflow-wrap: anywhere;
+}
+
+.nf-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 24px;
+}
+
+.nf-en {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9375rem;
+}
+
+.nf-figure {
+    margin: 0;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--surface);
+}
+
+.nf-chart {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+.nf-grid path {
+    stroke: var(--line);
+    stroke-width: 1;
+}
+
+.nf-area {
+    fill: var(--accent-soft);
+}
+
+.nf-line {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 3;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+.nf-drop {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 2 7;
+    opacity: 0.7;
+}
+
+.nf-dot {
+    fill: var(--surface);
+    stroke: var(--accent);
+    stroke-width: 3;
+}
+
+.nf-rate {
+    margin-top: 40px;
+}
+
+.nf-card {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 24px;
+    padding: 20px 24px;
+}
+
+.nf-rate-label {
+    flex-basis: 100%;
+    color: var(--text-2);
+    font-size: 0.9375rem;
+}
+
+.nf-rate-value {
+    font-family: var(--mono);
+    font-size: clamp(1.75rem, 5vw, 2.25rem);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+}
+
+@media (max-width: 720px) {
+    .nf {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .nf-figure {
+        max-width: 360px;
+    }
+}
+
 /* Small screens --------------------------------------------------------- */
 @media (max-width: 720px) {
     .grid {

@@ -1,0 +1,94 @@
+name: Publish Go library
+
+# Releases the Go module github.com/grupoclip/bcv-api/packages/go (packages/go/).
+#
+# Go modules are published by their git tags: there is no registry upload. For a module in a subdirectory of a
+# repository the tag carries the directory as a prefix, so version v1.2.3 of this module is the tag
+# "packages/go/v1.2.3". Once that tag is on GitHub, anyone can `go get` it; this workflow tests the tagged code and
+# then asks the public module proxy (proxy.golang.org) for the new version, which makes the proxy fetch and cache
+# it and lets pkg.go.dev index it (https://pkg.go.dev/github.com/grupoclip/bcv-api/packages/go).
+#
+# Cut a release:
+#   1. Bump `Version` in packages/go/version.go and add a "## [X.Y.Z]" entry to packages/go/CHANGELOG.md.
+#   2. Merge to main, then tag that commit and push the tag:
+#        git tag packages/go/vX.Y.Z && git push origin packages/go/vX.Y.Z
+#   3. This workflow checks that the tag matches `Version` and the changelog, runs vet and the tests, and requests
+#      the version from proxy.golang.org. Users install with:
+#        go get github.com/grupoclip/bcv-api/packages/go@vX.Y.Z
+#        go install github.com/grupoclip/bcv-api/packages/go/cmd/bcv@vX.Y.Z
+#
+# A published version is immutable (the checksum database records it forever): never move or reuse a tag; fix
+# mistakes with a new patch version, or add a `retract` directive to go.mod in a later version.
+# A major version 2 or later would need the module path .../packages/go/v2 (see https://go.dev/doc/modules/major-version).
+on:
+  push:
+    tags:
+      - "packages/go/v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-go
+  cancel-in-progress: false
+
+env:
+  MODULE: github.com/grupoclip/bcv-api/packages/go
+
+jobs:
+  publish:
+    name: Test and announce to the Go module proxy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/go
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v6
+        with:
+          go-version: stable
+          cache: false # never use caching in release builds
+      - name: Check that the tag matches the module version and the changelog
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="${TAG#packages/go/}"
+          if ! printf '%s' "${version}" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Tag ${TAG} is not packages/go/vX.Y.Z."
+            exit 1
+          fi
+          if ! grep -q "^const Version = \"${version#v}\"$" version.go; then
+            echo "::error::Tag ${TAG} does not match const Version in packages/go/version.go."
+            exit 1
+          fi
+          if ! grep -q "^## \[${version#v}\]" CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no entry for ${version#v}."
+            exit 1
+          fi
+          echo "VERSION=${version}" >> "$GITHUB_ENV"
+          echo "Releasing ${MODULE}@${version}"
+      - name: gofmt, vet and test
+        run: |
+          test -z "$(gofmt -l .)"
+          go vet ./...
+          go test -race -count=1 ./...
+      - name: Request the version from proxy.golang.org (so pkg.go.dev indexes it)
+        run: |
+          url="https://proxy.golang.org/${MODULE}/@v/${VERSION}.info"
+          for attempt in 1 2 3 4 5 6; do
+            if curl -fsS "${url}"; then
+              echo
+              break
+            fi
+            if [ "${attempt}" = 6 ]; then
+              echo "::error::proxy.golang.org did not serve ${MODULE}@${VERSION}."
+              exit 1
+            fi
+            echo "Attempt ${attempt} failed; retrying in $((attempt * 10)) s"
+            sleep $((attempt * 10))
+          done
+      - name: Resolve the version through the proxy and the checksum database
+        working-directory: ${{ runner.temp }}
+        run: GOPROXY=https://proxy.golang.org GO111MODULE=on go list -m "${MODULE}@${VERSION}"

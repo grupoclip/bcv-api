@@ -1,4 +1,17 @@
-# BCV Today
+<p align="center">
+  <a href="https://bcv.today"><img src="site/assets/logo.svg" width="72" height="72" alt="BCV Today logo"></a>
+</p>
+
+<h1 align="center">BCV Today</h1>
+
+<p align="center">
+  <a href="https://bcv.today">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset=".github/readme/home-dark.png">
+      <img src=".github/readme/home-light.png" width="860" alt="bcv.today home page: today's official BCV dollar rate (916.6477 Bs.) over the rate chart, with EUR, CNY, TRY and RUB cards below">
+    </picture>
+  </a>
+</p>
 
 [![Website](https://img.shields.io/badge/site-bcv.today-ffd166)](https://bcv.today)
 [![API v1](https://img.shields.io/badge/API-v1-187a3b)](https://bcv.today/api/)
@@ -35,6 +48,38 @@ Code: Apache 2.0; data: CC BY 4.0 ([license](https://bcv.today/en/license/)).
 The public site is available at:
 
 > https://bcv.today
+
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <a href="https://bcv.today/history/">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset=".github/readme/history-dark.png">
+          <img src=".github/readme/history-light.png" alt="History page: USD rate chart for the last 30 days with current value and 1-day and 30-day change">
+        </picture>
+      </a>
+      <p align="center"><b>History</b> · chart and table since 2021</p>
+    </td>
+    <td width="33%" valign="top">
+      <a href="https://bcv.today/integraciones/">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset=".github/readme/integrations-dark.png">
+          <img src=".github/readme/integrations-light.png" alt="Integrations page: diagram from the Banco Central de Venezuela to BCV Today and on to people, developers and AI agents">
+        </picture>
+      </a>
+      <p align="center"><b>Integrations</b> · API, libraries, Odoo, MCP</p>
+    </td>
+    <td width="33%" valign="top" align="center">
+      <a href="https://bcv.today">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset=".github/readme/mobile-dark.png">
+          <img src=".github/readme/mobile-light.png" width="180" alt="Home page on a phone: dollar rate card and the other currencies in two columns">
+        </picture>
+      </a>
+      <p align="center"><b>Mobile</b> · light and dark theme</p>
+    </td>
+  </tr>
+</table>
 
 Pages:
 

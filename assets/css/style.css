@@ -1,107 +1,80 @@
+/* Colors follow the computed color-scheme via light-dark(light, dark).
+   The scheme follows the system unless <meta name="color-scheme"> pins it
+   (set by the theme toggle in _layouts/default.html). */
 :root {
-    color-scheme: dark;
-    --bg: #07090f;
-    --panel: rgba(17, 20, 28, 0.58);
-    --panel-2: rgba(28, 33, 45, 0.52);
-    --text: #f5f7fb;
-    --muted: #b5bdca;
-    --accent: #ffd166;
-    --accent-2: #7dd3fc;
-    --accent-3: #f0abfc;
-    --focus-ring: #8bd3ff;
-    --border: rgba(255, 255, 255, 0.2);
-    --code-bg: rgba(8, 11, 18, 0.72);
-    --glass: rgba(255, 255, 255, 0.08);
-    --glass-strong: rgba(255, 255, 255, 0.14);
-    --glass-edge: rgba(255, 255, 255, 0.36);
-    --glass-shadow: 0 18px 60px rgba(0, 0, 0, 0.34);
-    --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.24),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.08);
-    --shadow: 0 14px 50px rgba(0, 0, 0, 0.28);
-    --positive: #5ee08a;
-    --negative: #ff7a7a;
+    color-scheme: light dark;
+    --bg: light-dark(#eef4fb, #07090f);
+    --panel: light-dark(rgba(255, 255, 255, 0.62), rgba(17, 20, 28, 0.58));
+    --panel-2: light-dark(rgba(255, 255, 255, 0.46), rgba(28, 33, 45, 0.52));
+    --text: light-dark(#132038, #f5f7fb);
+    --muted: light-dark(#5c6677, #b5bdca);
+    --accent: light-dark(#875f00, #ffd166);
+    --accent-2: light-dark(#0369a1, #7dd3fc);
+    --accent-3: light-dark(#a21caf, #f0abfc);
+    --focus-ring: light-dark(#005fcc, #8bd3ff);
+    --border: light-dark(rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.2));
+    --code-bg: light-dark(rgba(255, 255, 255, 0.62), rgba(8, 11, 18, 0.72));
+    --glass: light-dark(rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0.08));
+    --glass-strong: light-dark(rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.14));
+    --glass-edge: light-dark(rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.36));
+    --glass-shadow: 0 18px 60px light-dark(rgba(62, 79, 112, 0.18), rgba(0, 0, 0, 0.34));
+    --inner-light: inset 0 1px 0 light-dark(rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.24)),
+    inset 0 -1px 0 light-dark(rgba(31, 41, 55, 0.08), rgba(255, 255, 255, 0.08));
+    --shadow: 0 14px 50px light-dark(rgba(62, 79, 112, 0.16), rgba(0, 0, 0, 0.28));
+    --positive: light-dark(#187a3b, #5ee08a);
+    --negative: light-dark(#c83a3a, #ff7a7a);
 
     /* Syntax highlight tokens */
-    --syn-comment: #858585;
-    --syn-keyword: #ff8fa3;
-    --syn-string: #b9eea0;
-    --syn-number: #ffd166;
-    --syn-name: #eeeeee;
-    --syn-builtin: #88d0ff;
-    --syn-operator: #c7c7c7;
-    --syn-punct: #c7c7c7;
-    --syn-tag: #ff8fa3;
+    --syn-comment: light-dark(#7e8aa3, #858585);
+    --syn-keyword: light-dark(#c4146e, #ff8fa3);
+    --syn-string: light-dark(#2f7d32, #b9eea0);
+    --syn-number: light-dark(#a35a00, #ffd166);
+    --syn-name: light-dark(#16213e, #eeeeee);
+    --syn-builtin: light-dark(#1a73a7, #88d0ff);
+    --syn-operator: light-dark(#4a5670, #c7c7c7);
+    --syn-punct: light-dark(#4a5670, #c7c7c7);
+    --syn-tag: light-dark(#c4146e, #ff8fa3);
 }
 
-:root[data-theme="light"],
-:root.is-light {
+:root:has(> head > meta[name="color-scheme"][content="light"]) {
     color-scheme: light;
-    --bg: #eef4fb;
-    --panel: rgba(255, 255, 255, 0.62);
-    --panel-2: rgba(255, 255, 255, 0.46);
-    --text: #132038;
-    --muted: #5c6677;
-    --accent: #875f00;
-    --accent-2: #0369a1;
-    --accent-3: #a21caf;
-    --focus-ring: #005fcc;
-    --border: rgba(255, 255, 255, 0.58);
-    --code-bg: rgba(255, 255, 255, 0.62);
-    --glass: rgba(255, 255, 255, 0.46);
-    --glass-strong: rgba(255, 255, 255, 0.68);
-    --glass-edge: rgba(255, 255, 255, 0.86);
-    --glass-shadow: 0 18px 50px rgba(62, 79, 112, 0.18);
-    --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.86),
-    inset 0 -1px 0 rgba(31, 41, 55, 0.08);
-    --shadow: 0 16px 40px rgba(62, 79, 112, 0.16);
-    --positive: #187a3b;
-    --negative: #c83a3a;
-
-    --syn-comment: #7e8aa3;
-    --syn-keyword: #c4146e;
-    --syn-string: #2f7d32;
-    --syn-number: #a35a00;
-    --syn-name: #16213e;
-    --syn-builtin: #1a73a7;
-    --syn-operator: #4a5670;
-    --syn-punct: #4a5670;
-    --syn-tag: #c4146e;
 }
 
-@media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) {
-        color-scheme: light;
-        --bg: #eef4fb;
-        --panel: rgba(255, 255, 255, 0.62);
-        --panel-2: rgba(255, 255, 255, 0.46);
-        --text: #132038;
-        --muted: #5c6677;
-        --accent: #875f00;
-        --accent-2: #0369a1;
-        --accent-3: #a21caf;
-        --focus-ring: #005fcc;
-        --border: rgba(255, 255, 255, 0.58);
-        --code-bg: rgba(255, 255, 255, 0.62);
-        --glass: rgba(255, 255, 255, 0.46);
-        --glass-strong: rgba(255, 255, 255, 0.68);
-        --glass-edge: rgba(255, 255, 255, 0.86);
-        --glass-shadow: 0 18px 50px rgba(62, 79, 112, 0.18);
-        --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.86),
-        inset 0 -1px 0 rgba(31, 41, 55, 0.08);
-        --shadow: 0 16px 40px rgba(62, 79, 112, 0.16);
-        --positive: #187a3b;
-        --negative: #c83a3a;
+:root:has(> head > meta[name="color-scheme"][content="dark"]) {
+    color-scheme: dark;
+}
 
-        --syn-comment: #7e8aa3;
-        --syn-keyword: #c4146e;
-        --syn-string: #2f7d32;
-        --syn-number: #a35a00;
-        --syn-name: #16213e;
-        --syn-builtin: #1a73a7;
-        --syn-operator: #4a5670;
-        --syn-punct: #4a5670;
-        --syn-tag: #c4146e;
-    }
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link {
+    position: absolute;
+    inset-block-start: 8px;
+    inset-inline-start: 8px;
+    z-index: 100;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: var(--text);
+    color: var(--bg);
+    font-weight: 700;
+    transform: translateY(-200%);
+}
+
+.skip-link:focus-visible {
+    transform: none;
+}
+
+main:focus {
+    outline: none;
 }
 
 * {
@@ -124,7 +97,6 @@ body {
     linear-gradient(225deg, rgba(125, 211, 252, 0.14), transparent 38%),
     linear-gradient(315deg, rgba(240, 171, 252, 0.12), transparent 42%),
     var(--bg);
-    background-attachment: fixed;
     position: relative;
 }
 
@@ -297,31 +269,29 @@ main a,
     width: 44px;
 }
 
-.theme-toggle .icon-sun,
-.theme-toggle .icon-moon {
+/* Show only the option for the rendered scheme: moon when dark, sun when light.
+   Hidden options are display:none, so they also leave the accessibility tree. */
+.theme-toggle .theme-option {
     display: none;
+    align-items: center;
+    justify-content: center;
 }
 
-:root:not([data-theme]) .theme-toggle .icon-moon {
-    display: block;
-}
-
-@media (prefers-color-scheme: light) {
-    :root:not([data-theme]) .theme-toggle .icon-moon {
-        display: none;
-    }
-
-    :root:not([data-theme]) .theme-toggle .icon-sun {
-        display: block;
+@media (prefers-color-scheme: dark) {
+    :root:not(:has(> head > meta[name="color-scheme"][content="light"])) .theme-option-dark {
+        display: inline-flex;
     }
 }
 
-:root[data-theme="dark"] .theme-toggle .icon-moon {
-    display: block;
+@media not (prefers-color-scheme: dark) {
+    :root:not(:has(> head > meta[name="color-scheme"][content="dark"])) .theme-option-light {
+        display: inline-flex;
+    }
 }
 
-:root[data-theme="light"] .theme-toggle .icon-sun {
-    display: block;
+:root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-option-dark,
+:root:has(> head > meta[name="color-scheme"][content="light"]) .theme-option-light {
+    display: inline-flex;
 }
 
 /* Main content ---------------------------------------------------------- */
@@ -1083,6 +1053,19 @@ a.card:hover {
     background: transparent;
 }
 
+/* Scrollable, keyboard-focusable region around data tables. */
+.table-wrapper {
+    overflow: auto;
+    max-inline-size: 100%;
+    margin: 16px 0 24px;
+    border-radius: 22px;
+}
+
+.table-wrapper > .history-table,
+.table-wrapper > .compact-table {
+    margin: 0;
+}
+
 .history-table tbody tr:hover td {
     background: rgba(255, 255, 255, 0.06);
 }
@@ -1372,5 +1355,20 @@ a.card:hover {
 
     .rate-hero-value {
         font-size: 1.8rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+
+    .control:hover {
+        transform: none;
     }
 }

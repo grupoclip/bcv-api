@@ -1,26 +1,23 @@
 (function () {
-  const copiedText = document.documentElement.lang === "en" ? "Copied" : "Copiado";
-  const copyText = document.documentElement.lang === "en" ? "Copy" : "Copiar";
-  const trustedHTML = (html) =>
-    window.BCVTrustedHTML ? window.BCVTrustedHTML(html) : html;
+  const isEn = document.documentElement.lang === "en";
+  const copyText = isEn ? "Copy" : "Copiar";
+  const copiedText = isEn ? "Copied" : "Copiado";
+  const failedText = isEn ? "Copy failed" : "No se pudo copiar";
+  const SVG_NS = "http://www.w3.org/2000/svg";
 
-  async function copyToClipboard(text) {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(text);
-      return;
+  function copyIcon() {
+    const svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("class", "ui-icon");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("aria-hidden", "true");
+    const rect = document.createElementNS(SVG_NS, "rect");
+    for (const [k, v] of [["x", "9"], ["y", "9"], ["width", "11"], ["height", "11"], ["rx", "2"]]) {
+      rect.setAttribute(k, v);
     }
-
-    const area = document.createElement("textarea");
-    area.value = text;
-    area.setAttribute("readonly", "");
-    area.setAttribute("aria-hidden", "true");
-    area.tabIndex = -1;
-    area.style.position = "fixed";
-    area.style.left = "-9999px";
-    document.body.appendChild(area);
-    area.select();
-    document.execCommand("copy");
-    area.remove();
+    const path = document.createElementNS(SVG_NS, "path");
+    path.setAttribute("d", "M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1");
+    svg.append(rect, path);
+    return svg;
   }
 
   function enhance(block) {
@@ -31,42 +28,45 @@
     block.dataset.copyReady = "true";
     block.classList.add("copy-code-block");
 
+    // Visible text names the button; no aria-label needed.
     const button = document.createElement("button");
     button.type = "button";
     button.className = "copy-code-button";
-    button.setAttribute("aria-label", copyText);
-    button.setAttribute("aria-live", "polite");
-    button.innerHTML = trustedHTML(
-      '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">' +
-      '<rect x="9" y="9" width="11" height="11" rx="2" />' +
-      '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />' +
-      "</svg>" +
-      '<span data-copy-text>' +
-      copyText +
-      "</span>"
-    );
-    const label = button.querySelector("[data-copy-text]");
+    const label = document.createElement("span");
+    label.dataset.copyText = "";
+    label.textContent = copyText;
+    button.append(copyIcon(), label);
 
+    // Live region lives outside the button: children of a button are
+    // presentational, so announcements inside it are unreliable.
+    const status = document.createElement("span");
+    status.className = "visually-hidden";
+    status.setAttribute("role", "status");
+
+    let timer;
     button.addEventListener("click", async () => {
-      const original = label.textContent;
+      window.clearTimeout(timer);
+      let ok = true;
       try {
-        await copyToClipboard(code.textContent.trimEnd());
-        label.textContent = copiedText;
-        button.setAttribute("aria-label", copiedText);
-        button.classList.add("is-copied");
+        await navigator.clipboard.writeText(code.textContent.trimEnd());
       } catch (error) {
-        label.textContent = copyText;
-        button.setAttribute("aria-label", copyText);
+        ok = false;
       }
+      const message = ok ? copiedText : failedText;
+      label.textContent = message;
+      button.classList.toggle("is-copied", ok);
+      // Clear, then set after a tick so repeated copies are announced again.
+      status.textContent = "";
+      window.setTimeout(() => (status.textContent = message), 50);
 
-      window.setTimeout(() => {
-        label.textContent = original;
-        button.setAttribute("aria-label", copyText);
+      timer = window.setTimeout(() => {
+        label.textContent = copyText;
         button.classList.remove("is-copied");
+        status.textContent = "";
       }, 1400);
     });
 
-    block.appendChild(button);
+    block.append(button, status);
   }
 
   document.querySelectorAll("div.highlight").forEach(enhance);

@@ -10,8 +10,15 @@
         VES: "Bs",
     };
     const symbolFor = (c) => CURRENCY_SYMBOLS[c] || c;
-    const trustedHTML = (html) =>
-        window.BCVTrustedHTML ? window.BCVTrustedHTML(html) : html;
+    const SVG_NS = "http://www.w3.org/2000/svg";
+
+    // Build markup with DOM APIs, never by parsing HTML strings.
+    function el(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text != null) node.textContent = text;
+        return node;
+    }
 
     const fmtRate = (n) =>
         new Intl.NumberFormat(LOCALE, {
@@ -46,12 +53,12 @@
         url + (url.includes("?") ? "&" : "?") + "t=" + Date.now();
 
     function sparklineSvg(values) {
-        if (!values || values.length < 2) return "";
+        if (!values || values.length < 2) return null;
         const w = 100;
         const h = 28;
         const pad = 2;
-        const min = Math.min.apply(null, values);
-        const max = Math.max.apply(null, values);
+        const min = Math.min(...values);
+        const max = Math.max(...values);
         const range = max - min || 1;
         const dx = (w - pad * 2) / (values.length - 1);
         const points = values
@@ -61,17 +68,23 @@
                 return x.toFixed(2) + "," + y.toFixed(2);
             })
             .join(" ");
-        return (
-            '<svg class="spark" viewBox="0 0 ' +
-            w +
-            " " +
-            h +
-            '" preserveAspectRatio="none" aria-hidden="true">' +
-            '<polyline points="' +
-            points +
-            '" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>' +
-            "</svg>"
-        );
+        const svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("class", "spark");
+        svg.setAttribute("viewBox", "0 0 " + w + " " + h);
+        svg.setAttribute("preserveAspectRatio", "none");
+        svg.setAttribute("aria-hidden", "true");
+        const line = document.createElementNS(SVG_NS, "polyline");
+        const attrs = {
+            points,
+            fill: "none",
+            stroke: "currentColor",
+            "stroke-width": "1.5",
+            "stroke-linejoin": "round",
+            "stroke-linecap": "round",
+        };
+        for (const name in attrs) line.setAttribute(name, attrs[name]);
+        svg.append(line);
+        return svg;
     }
 
     function todayCaracas() {
@@ -99,53 +112,34 @@
         for (const code of FOREIGN_CODES) {
             if (typeof data[code] !== "number") continue;
             const series = lastValuesFor(history, code, SPARK_WINDOW);
-            let footHtml = '<span class="muted">' + STRINGS.no_history + "</span>";
+            const foot = el("div", "card-foot");
             if (series.length >= 2) {
                 const first = series[0];
                 const last = series[series.length - 1];
                 const change = ((last - first) / first) * 100;
-                const dir = change >= 0 ? "up" : "down";
-                footHtml =
-                    sparklineSvg(series) +
-                    '<span class="change ' +
-                    dir +
-                    '" title="' +
-                    STRINGS.variation +
-                    " (" +
-                    series.length +
-                    'd)">' +
-                    fmtPct(change) +
-                    "</span>";
+                const changeEl = el("span", "change " + (change >= 0 ? "up" : "down"), fmtPct(change));
+                changeEl.title = STRINGS.variation + " (" + series.length + "d)";
+                foot.append(sparklineSvg(series), changeEl);
+            } else {
+                foot.append(el("span", "muted", STRINGS.no_history));
             }
             const href =
                 (window.CURRENCY_PAGE_URLS && window.CURRENCY_PAGE_URLS[code]) ||
                 HISTORY_PAGE_URL;
-            const card = document.createElement("a");
-            card.className = "card";
+            const card = el("a", "card");
             card.href = href;
-            card.innerHTML = trustedHTML(
-                '<div class="card-head">' +
-                '<div class="curr-icon" data-code="' +
-                code +
-                '">' +
-                symbolFor(code) +
-                "</div>" +
-                '<div class="card-title">' +
-                '<div class="code">' +
-                code +
-                "</div>" +
-                '<div class="name">' +
-                CURRENCY_NAMES[code] +
-                "</div>" +
-                "</div>" +
-                "</div>" +
-                '<div class="value">' +
-                fmtRate(data[code]) +
-                '<span class="unit">Bs.</span></div>' +
-                '<div class="card-foot">' +
-                footHtml +
-                "</div>"
-            );
+
+            const icon = el("div", "curr-icon", symbolFor(code));
+            icon.dataset.code = code;
+            const title = el("div", "card-title");
+            title.append(el("div", "code", code), el("div", "name", CURRENCY_NAMES[code]));
+            const head = el("div", "card-head");
+            head.append(icon, title);
+
+            const value = el("div", "value", fmtRate(data[code]));
+            value.append(el("span", "unit", "Bs."));
+
+            card.append(head, value, foot);
             grid.appendChild(card);
         }
     }
@@ -245,27 +239,19 @@
         const status = document.getElementById("api-status");
         if (status) {
             const complete = FOREIGN_CODES.every((code) => typeof rate[code] === "number");
-            status.innerHTML = trustedHTML(
-                '<span class="status-pill ' +
-                (complete ? "ok" : "partial") +
-                '">' +
-                (complete ? STRINGS.statusOk : STRINGS.statusPartial) +
-                "</span>" +
-                "<span>" +
-                STRINGS.effective +
-                " <strong>" +
-                fmtDate(effective) +
-                "</strong></span>" +
-                "<span>" +
-                STRINGS.scraped +
-                " <strong>" +
-                fmtDateTime(rate.updated_at) +
-                "</strong></span>" +
-                '<a href="' +
-                API_PAGE_URL +
-                '">' +
-                STRINGS.apiLabel +
-                "</a>"
+            const labelled = (label, valueText) => {
+                const span = el("span", null, label + " ");
+                span.append(el("strong", null, valueText));
+                return span;
+            };
+            const link = el("a", null, STRINGS.apiLabel);
+            link.href = API_PAGE_URL;
+            status.replaceChildren(
+                el("span", "status-pill " + (complete ? "ok" : "partial"),
+                    complete ? STRINGS.statusOk : STRINGS.statusPartial),
+                labelled(STRINGS.effective, fmtDate(effective)),
+                labelled(STRINGS.scraped, fmtDateTime(rate.updated_at)),
+                link
             );
         }
     }

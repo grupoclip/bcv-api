@@ -3,6 +3,17 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"/>
+    <script>
+        // Apply a stored light/dark override before first paint (no flash).
+        try {
+            var storedTheme = localStorage.getItem("theme");
+            if (storedTheme === "light" || storedTheme === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = storedTheme;
+            }
+        } catch (e) {
+        }
+    </script>
     {%- assign t = site.data.i18n[page.lang] -%}
     {%- assign asset_version = site.asset_version | default: site.github.build_revision | default: '' -%}
     {%- if asset_version == '' -%}
@@ -19,7 +30,7 @@
     <meta name="theme-color" content="#101010" media="(prefers-color-scheme: dark)"/>
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/>
     <meta name="application-name" content="{{ site.title }}"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-title" content="{{ site.title }}"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
     <link rel="canonical" href="{{ canonical_url }}"/>
@@ -71,61 +82,49 @@
     <link rel="describedby" type="application/json" title="Agent Skills"
           href="{{ '/.well-known/agent-skills/index.json' | absolute_url }}"/>
     <style>
+        /* Colors follow the computed color-scheme via light-dark(light, dark).
+           The scheme follows the system unless <meta name="color-scheme"> pins it. */
         :root {
-            color-scheme: dark;
-            --bg: #07090f;
-            --panel: rgba(17, 20, 28, 0.58);
-            --panel-2: rgba(28, 33, 45, 0.52);
-            --text: #f5f7fb;
-            --muted: #b5bdca;
-            --accent: #ffd166;
-            --focus-ring: #8bd3ff;
-            --border: rgba(255, 255, 255, 0.2);
-            --code-bg: rgba(8, 11, 18, 0.72);
-            --glass-strong: rgba(255, 255, 255, 0.14);
-            --glass-shadow: 0 18px 60px rgba(0, 0, 0, 0.34);
-            --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.24),
-            inset 0 -1px 0 rgba(255, 255, 255, 0.08);
-            --shadow: 0 14px 50px rgba(0, 0, 0, 0.28);
+            color-scheme: light dark;
+            --bg: light-dark(#eef4fb, #07090f);
+            --panel: light-dark(rgba(255, 255, 255, 0.62), rgba(17, 20, 28, 0.58));
+            --panel-2: light-dark(rgba(255, 255, 255, 0.46), rgba(28, 33, 45, 0.52));
+            --text: light-dark(#132038, #f5f7fb);
+            --muted: light-dark(#5c6677, #b5bdca);
+            --accent: light-dark(#875f00, #ffd166);
+            --focus-ring: light-dark(#005fcc, #8bd3ff);
+            --border: light-dark(rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.2));
+            --code-bg: light-dark(rgba(255, 255, 255, 0.62), rgba(8, 11, 18, 0.72));
+            --glass-strong: light-dark(rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.14));
+            --glass-shadow: 0 18px 60px light-dark(rgba(62, 79, 112, 0.18), rgba(0, 0, 0, 0.34));
+            --inner-light: inset 0 1px 0 light-dark(rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.24)),
+            inset 0 -1px 0 light-dark(rgba(31, 41, 55, 0.08), rgba(255, 255, 255, 0.08));
+            --shadow: 0 14px 50px light-dark(rgba(62, 79, 112, 0.16), rgba(0, 0, 0, 0.28));
         }
 
-        :root[data-theme="light"],
-        :root.is-light {
+        :root:has(> head > meta[name="color-scheme"][content="light"]) {
             color-scheme: light;
-            --bg: #eef4fb;
-            --panel: rgba(255, 255, 255, 0.62);
-            --panel-2: rgba(255, 255, 255, 0.46);
-            --text: #132038;
-            --muted: #5c6677;
-            --accent: #875f00;
-            --focus-ring: #005fcc;
-            --border: rgba(255, 255, 255, 0.58);
-            --code-bg: rgba(255, 255, 255, 0.62);
-            --glass-strong: rgba(255, 255, 255, 0.68);
-            --glass-shadow: 0 18px 50px rgba(62, 79, 112, 0.18);
-            --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.86),
-            inset 0 -1px 0 rgba(31, 41, 55, 0.08);
-            --shadow: 0 16px 40px rgba(62, 79, 112, 0.16);
         }
 
-        @media (prefers-color-scheme: light) {
-            :root:not([data-theme="dark"]) {
-                color-scheme: light;
-                --bg: #eef4fb;
-                --panel: rgba(255, 255, 255, 0.62);
-                --panel-2: rgba(255, 255, 255, 0.46);
-                --text: #132038;
-                --muted: #5c6677;
-                --accent: #875f00;
-                --focus-ring: #005fcc;
-                --border: rgba(255, 255, 255, 0.58);
-                --code-bg: rgba(255, 255, 255, 0.62);
-                --glass-strong: rgba(255, 255, 255, 0.68);
-                --glass-shadow: 0 18px 50px rgba(62, 79, 112, 0.18);
-                --inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.86),
-                inset 0 -1px 0 rgba(31, 41, 55, 0.08);
-                --shadow: 0 16px 40px rgba(62, 79, 112, 0.16);
-            }
+        :root:has(> head > meta[name="color-scheme"][content="dark"]) {
+            color-scheme: dark;
+        }
+
+        .skip-link {
+            position: absolute;
+            inset-block-start: 8px;
+            inset-inline-start: 8px;
+            z-index: 100;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: var(--text);
+            color: var(--bg);
+            font-weight: 700;
+            transform: translateY(-200%);
+        }
+
+        .skip-link:focus-visible {
+            transform: none;
         }
 
         * {
@@ -147,7 +146,6 @@
             linear-gradient(225deg, rgba(125, 211, 252, 0.14), transparent 38%),
             linear-gradient(315deg, rgba(240, 171, 252, 0.12), transparent 42%),
             var(--bg);
-            background-attachment: fixed;
         }
 
         .container {
@@ -343,7 +341,7 @@
             }
         }
     </style>
-    <link href="{{ '/assets/css/style.css' | relative_url }}?v={{ site.github.build_revision }}" rel="stylesheet"/>
+    <link href="{{ '/assets/css/style.css' | relative_url }}?v={{ asset_version }}" rel="stylesheet"/>
     {%- assign schema_lang = 'es-VE' -%}
     {%- assign schema_home_url = site.url | append: site.baseurl | append: '/' -%}
     {%- assign schema_search_path = '/history/?c={search_term_string}' -%}
@@ -473,44 +471,9 @@
         }
     </script>
     {%- endif -%}
-    <script>
-        // Set theme before paint to avoid flash.
-        (function () {
-            try {
-                var t = localStorage.getItem("theme");
-                if (t === "light" || t === "dark") {
-                    document.documentElement.dataset.theme = t;
-                }
-            } catch (e) {
-            }
-        })();
-    </script>
-    <script>
-        (function () {
-            if (!window.trustedTypes) {
-                window.BCVTrustedHTML = function (html) {
-                    return html;
-                };
-                return;
-            }
-            try {
-                var policy = window.trustedTypes.createPolicy("bcv-today", {
-                    createHTML: function (html) {
-                        return String(html);
-                    },
-                });
-                window.BCVTrustedHTML = function (html) {
-                    return policy.createHTML(html);
-                };
-            } catch (e) {
-                window.BCVTrustedHTML = function (html) {
-                    return html;
-                };
-            }
-        })();
-    </script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">{{ t.skip_to_content }}</a>
 <header class="site-header">
     <div class="container">
         <a class="brand"
@@ -530,10 +493,9 @@
             {% assign api_url = '/api/' | relative_url %}
             {% endif %}
             {% assign current = page.url | replace: 'index.html', '' %}
-            <a href="{{ rates_url }}" title="{{ t.nav_rates_title }}" {% if current== rates_url %} aria-current="page" {% endif %}>{{ t.nav_rates }}</a>
-            <a href="{{ history_url }}" title="{{ t.nav_history_title }}" {% if current== history_url %} aria-current="page" {% endif %}>{{ t.nav_history
-                }}</a>
-            <a href="{{ api_url }}" title="{{ t.nav_api_title }}" {% if current== api_url %} aria-current="page" {% endif %}>{{ t.nav_api }}</a>
+            <a href="{{ rates_url }}" {% if current== rates_url %} aria-current="page" {% endif %}>{{ t.nav_rates }}</a>
+            <a href="{{ history_url }}" {% if current== history_url %} aria-current="page" {% endif %}>{{ t.nav_history }}</a>
+            <a href="{{ api_url }}" {% if current== api_url %} aria-current="page" {% endif %}>{{ t.nav_api }}</a>
             <a class="nav-github" href="https://github.com/{{ site.repository }}" target="_blank" rel="noopener"
                aria-label="GitHub" title="{{ t.nav_github_title }}">
                 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
@@ -557,10 +519,11 @@
                     id="theme-toggle"
                     class="control theme-toggle"
                     type="button"
-                    aria-label="{{ t.theme_toggle }}"
-                    aria-pressed="false"
                     title="{{ t.theme_toggle }}"
             >
+                <!-- Only the option matching the rendered scheme is displayed (CSS),
+                     so the accessible name stays current without JS. -->
+                <span class="theme-option theme-option-light">
                 <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
                     <circle cx="12" cy="12" r="4" fill="currentColor"/>
                     <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -574,18 +537,23 @@
                         <path d="M17.7 6.3l2.1-2.1"/>
                     </g>
                 </svg>
+                <span class="visually-hidden">{{ t.theme_to_dark }}</span>
+                </span>
+                <span class="theme-option theme-option-dark">
                 <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
                     <path
                             d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"
                             fill="currentColor"
                     />
                 </svg>
+                <span class="visually-hidden">{{ t.theme_to_light }}</span>
+                </span>
             </button>
         </div>
     </div>
 </header>
 
-<main id="main-content" class="container">{{ content }}</main>
+<main id="main-content" class="container" tabindex="-1">{{ content }}</main>
 
 <footer class="site-footer">
     <div class="container">
@@ -597,30 +565,55 @@
 <script>
     (function () {
         var btn = document.getElementById("theme-toggle");
-        if (!btn) return;
-        var root = document.documentElement;
+        var meta = document.querySelector('meta[name="color-scheme"]');
+        if (!btn || !meta) return;
+        var KEY = "theme";
+        var COLORS = {dark: "#101010", light: "#ffffff"};
+        var systemDark = matchMedia("(prefers-color-scheme: dark)");
+        var themeColors = document.querySelectorAll('meta[name="theme-color"]');
 
-        function current() {
-            if (root.dataset.theme) return root.dataset.theme;
-            return matchMedia("(prefers-color-scheme: dark)").matches
-                ? "dark"
-                : "light";
-        }
-
-        function syncState() {
-            btn.setAttribute("aria-pressed", current() === "dark" ? "true" : "false");
-            btn.setAttribute("title", btn.getAttribute("aria-label"));
-        }
-
-        syncState();
-        btn.addEventListener("click", function () {
-            var next = current() === "dark" ? "light" : "dark";
-            root.dataset.theme = next;
+        function readStored() {
             try {
-                localStorage.setItem("theme", next);
+                var v = localStorage.getItem(KEY);
+                return v === "light" || v === "dark" ? v : null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function systemScheme() {
+            return systemDark.matches ? "dark" : "light";
+        }
+
+        // override: "light" | "dark" | null (follow the system).
+        function apply(override) {
+            meta.content = override || "light dark";
+            themeColors.forEach(function (m) {
+                var scheme = override || (m.media.indexOf("dark") >= 0 ? "dark" : "light");
+                m.content = COLORS[scheme];
+            });
+        }
+
+        apply(readStored());
+
+        btn.addEventListener("click", function () {
+            var rendered = meta.content === "light" || meta.content === "dark"
+                ? meta.content
+                : systemScheme();
+            var target = rendered === "dark" ? "light" : "dark";
+            // Choosing the system scheme again means "undo my override".
+            var override = target === systemScheme() ? null : target;
+            try {
+                if (override) localStorage.setItem(KEY, override);
+                else localStorage.removeItem(KEY);
             } catch (e) {
             }
-            syncState();
+            apply(override);
+        });
+
+        // Keep other open tabs in sync.
+        window.addEventListener("storage", function (e) {
+            if (e.key === KEY || e.key === null) apply(readStored());
         });
     })();
 </script>
@@ -632,51 +625,25 @@
         });
     })();
 </script>
-<script>
-    (function () {
-        var href = "{{ '/assets/css/style.css' | relative_url }}?v={{ site.github.build_revision }}";
-
-        function loadFullStyles() {
-            var link = document.createElement("link");
-            link.rel = "stylesheet";
-            link.href = href;
-            document.head.appendChild(link);
-        }
-
-        function schedule() {
-            if ("requestIdleCallback" in window) {
-                requestIdleCallback(loadFullStyles, {timeout: 2500});
-            } else {
-                setTimeout(loadFullStyles, 1200);
-            }
-        }
-
-        if (document.readyState === "complete") {
-            schedule();
-        } else {
-            window.addEventListener("load", schedule, {once: true});
-        }
-    })();
-</script>
 {%- assign needs_share_link = false -%}
 {%- if page.layout == 'currency' or page.url == '/' or page.url == '/en/' or page.url == '/history/' or page.url ==
 '/en/history/' -%}
 {%- assign needs_share_link = true -%}
 {%- endif -%}
 {%- if needs_share_link -%}
-<script defer src="{{ '/assets/js/share-link.js' | relative_url }}?v={{ site.github.build_revision }}"></script>
+<script defer src="{{ '/assets/js/share-link.js' | relative_url }}?v={{ asset_version }}"></script>
 {%- endif -%}
 <script>
     (function () {
         if (!navigator.modelContext) return;
         var script = document.createElement("script");
-        script.src = "{{ '/assets/js/webmcp.js' | relative_url }}?v={{ site.github.build_revision }}";
+        script.src = "{{ '/assets/js/webmcp.js' | relative_url }}?v={{ asset_version }}";
         script.defer = true;
         document.head.appendChild(script);
     })();
 </script>
 {%- if page.copy_code -%}
-<script defer src="{{ '/assets/js/code-copy.js' | relative_url }}?v={{ site.github.build_revision }}"></script>
+<script defer src="{{ '/assets/js/code-copy.js' | relative_url }}?v={{ asset_version }}"></script>
 {%- endif -%}
 </body>
 </html>

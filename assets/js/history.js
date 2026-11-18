@@ -13,8 +13,22 @@
     VES: "Bs",
   };
   const symbolFor = (c) => CURRENCY_SYMBOLS[c] || c;
-  const trustedHTML = (html) =>
-    window.BCVTrustedHTML ? window.BCVTrustedHTML(html) : html;
+  const SVG_NS = "http://www.w3.org/2000/svg";
+
+  // Build SVG and rows with DOM APIs, never by parsing HTML strings.
+  function svgEl(tag, attrs, text) {
+    const el = document.createElementNS(SVG_NS, tag);
+    for (const name in attrs) el.setAttribute(name, attrs[name]);
+    if (text != null) el.textContent = text;
+    return el;
+  }
+
+  function cell(text, className) {
+    const td = document.createElement("td");
+    td.textContent = text;
+    if (className) td.className = className;
+    return td;
+  }
 
   const fmtRate = (n) =>
     new Intl.NumberFormat(LOCALE, {
@@ -70,7 +84,7 @@
   }
 
   function chartSvg(series) {
-    if (!series.length) return "";
+    if (!series.length) return null;
     const w = 720;
     const h = 240;
     const padL = 48;
@@ -80,102 +94,72 @@
     const innerW = w - padL - padR;
     const innerH = h - padT - padB;
     const values = series.map((d) => d.value);
-    const min = Math.min.apply(null, values);
-    const max = Math.max.apply(null, values);
+    const min = Math.min(...values);
+    const max = Math.max(...values);
     const range = max - min || 1;
     const dx = series.length > 1 ? innerW / (series.length - 1) : 0;
     const x = (i) => padL + i * dx;
     const y = (v) => padT + innerH - ((v - min) / range) * innerH;
+    const first = series[0];
+    const last = series[series.length - 1];
 
     const linePts = series
       .map((d, i) => x(i).toFixed(2) + "," + y(d.value).toFixed(2))
       .join(" ");
+    const baseline = (padT + innerH).toFixed(2);
     const areaPts =
-      x(0).toFixed(2) +
-      "," +
-      (padT + innerH).toFixed(2) +
-      " " +
-      linePts +
-      " " +
-      x(series.length - 1).toFixed(2) +
-      "," +
-      (padT + innerH).toFixed(2);
+      x(0).toFixed(2) + "," + baseline + " " +
+      linePts + " " +
+      x(series.length - 1).toFixed(2) + "," + baseline;
+
+    const svg = svgEl("svg", {
+      class: "chart",
+      viewBox: "0 0 " + w + " " + h,
+      preserveAspectRatio: "xMidYMid meet",
+      role: "img",
+      "aria-label":
+        fmtDate(first.date) + " – " + fmtDate(last.date) + ": " +
+        fmtRate(first.value) + " → " + fmtRate(last.value) + " Bs.",
+    });
 
     const ticks = 4;
-    const yTicks = [];
     for (let i = 0; i <= ticks; i++) {
       const v = min + (range * i) / ticks;
       const yy = y(v);
-      yTicks.push(
-        '<line x1="' +
-          padL +
-          '" x2="' +
-          (w - padR) +
-          '" y1="' +
-          yy +
-          '" y2="' +
-          yy +
-          '" class="grid"/>' +
-          '<text x="' +
-          (padL - 8) +
-          '" y="' +
-          (yy + 4) +
-          '" text-anchor="end" class="axis">' +
-          fmtAxisRate(v) +
-          "</text>"
+      svg.append(
+        svgEl("line", { x1: padL, x2: w - padR, y1: yy, y2: yy, class: "grid" }),
+        svgEl(
+          "text",
+          { x: padL - 8, y: yy + 4, "text-anchor": "end", class: "axis" },
+          fmtAxisRate(v)
+        )
       );
     }
 
-    const labelFirst =
-      '<text x="' +
-      x(0) +
-      '" y="' +
-      (h - padB + 18) +
-      '" text-anchor="start" class="axis">' +
-      fmtDate(series[0].date) +
-      "</text>";
-    const labelLast =
-      '<text x="' +
-      x(series.length - 1) +
-      '" y="' +
-      (h - padB + 18) +
-      '" text-anchor="end" class="axis">' +
-      fmtDate(series[series.length - 1].date) +
-      "</text>";
-
-    const dots = series
-      .map(
-        (d, i) =>
-          '<circle cx="' +
-          x(i) +
-          '" cy="' +
-          y(d.value) +
-          '" r="2.5" class="dot"><title>' +
-          fmtDate(d.date) +
-          ": " +
-          fmtRate(d.value) +
-          "</title></circle>"
-      )
-      .join("");
-
-    return (
-      '<svg class="chart" viewBox="0 0 ' +
-      w +
-      " " +
-      h +
-      '" preserveAspectRatio="xMidYMid meet" role="img">' +
-      yTicks.join("") +
-      '<polygon points="' +
-      areaPts +
-      '" class="area"/>' +
-      '<polyline points="' +
-      linePts +
-      '" class="line" fill="none"/>' +
-      dots +
-      labelFirst +
-      labelLast +
-      "</svg>"
+    svg.append(
+      svgEl("polygon", { points: areaPts, class: "area" }),
+      svgEl("polyline", { points: linePts, class: "line", fill: "none" })
     );
+
+    series.forEach((d, i) => {
+      const dot = svgEl("circle", { cx: x(i), cy: y(d.value), r: 2.5, class: "dot" });
+      dot.append(svgEl("title", {}, fmtDate(d.date) + ": " + fmtRate(d.value)));
+      svg.append(dot);
+    });
+
+    svg.append(
+      svgEl(
+        "text",
+        { x: x(0), y: h - padB + 18, "text-anchor": "start", class: "axis" },
+        fmtDate(first.date)
+      ),
+      svgEl(
+        "text",
+        { x: x(series.length - 1), y: h - padB + 18, "text-anchor": "end", class: "axis" },
+        fmtDate(last.date)
+      )
+    );
+    return svg;
   }
 
   function todayCaracas() {
@@ -275,12 +259,13 @@
     }
     stats.hidden = false;
 
-    document.getElementById("chart").innerHTML = trustedHTML(chartSvg(recent));
+    const chartSvgEl = chartSvg(recent);
+    document.getElementById("chart").replaceChildren(...(chartSvgEl ? [chartSvgEl] : []));
     chartCard.hidden = false;
     syncRangeButtons(range);
     updateShareLink(code, range);
 
-    const reversed = series.slice().reverse();
+    const reversed = series.toReversed();
     const totalPages = Math.max(1, Math.ceil(reversed.length / PAGE_SIZE));
     tablePage = Math.min(Math.max(1, tablePage), totalPages);
 
@@ -299,17 +284,7 @@
           changeCell = fmtPct(ch);
         }
         const tr = document.createElement("tr");
-        tr.innerHTML = trustedHTML(
-          "<td>" +
-          fmtDate(d.date) +
-          "</td><td>" +
-          fmtRate(d.value) +
-          '</td><td class="' +
-          cls +
-          '">' +
-          changeCell +
-          "</td>"
-        );
+        tr.append(cell(fmtDate(d.date)), cell(fmtRate(d.value)), cell(changeCell, cls));
         rows.appendChild(tr);
       }
 

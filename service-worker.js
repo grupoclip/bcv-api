@@ -1,4 +1,4 @@
-const CACHE_VERSION = "bcv-today-v5";
+const CACHE_VERSION = "bcv-today-v6";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const API_CACHE = `${CACHE_VERSION}-api`;
 

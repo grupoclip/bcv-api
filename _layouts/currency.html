@@ -85,7 +85,9 @@ layout: default
 <section aria-labelledby="recent-usd-heading">
     <h2 id="recent-usd-heading">{{ recent_heading }}</h2>
     <p>{{ recent_copy }}</p>
+    <div class="table-wrapper" tabindex="0" role="region" aria-labelledby="recent-usd-heading">
     <table class="history-table compact-table">
+        <caption class="visually-hidden">{{ recent_heading }}</caption>
         <thead>
         <tr>
             <th>{{ t.history_table_date }}</th>
@@ -109,6 +111,7 @@ layout: default
         {%- endfor -%}
         </tbody>
     </table>
+    </div>
 </section>
 
 <section aria-labelledby="bcv-parallel-heading">

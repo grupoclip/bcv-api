@@ -91,11 +91,13 @@ description: Histórico diario del dólar BCV, euro BCV y otras tasas oficiales 
 
 <div id="history-message" class="error" role="status" aria-live="polite" hidden></div>
 
-<div class="chart-card" id="chart-card" aria-live="polite" hidden>
+<div class="chart-card" id="chart-card" hidden>
   <div id="chart"></div>
 </div>
 
-<table class="history-table" id="history-table" aria-live="polite" hidden>
+<div class="table-wrapper" id="history-table" tabindex="0" role="region" aria-labelledby="history-table-caption" hidden>
+<table class="history-table">
+  <caption id="history-table-caption" class="visually-hidden">{{ t.history_table_caption }}</caption>
   <thead>
     <tr>
       <th>{{ t.history_table_date }}</th>
@@ -105,6 +107,7 @@ description: Histórico diario del dólar BCV, euro BCV y otras tasas oficiales 
   </thead>
   <tbody id="history-rows"></tbody>
 </table>
+</div>
 <div class="history-pagination" id="history-pagination" hidden>
   <button type="button" id="history-prev">
     <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">

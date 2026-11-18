@@ -4,6 +4,14 @@ All notable changes to the `bcv-today` npm package. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the package uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.0.1] - 2026-11-18
+
+### Changed
+
+- First release published from GitHub Actions with npm Trusted Publishing, so the
+  package now carries a signed provenance attestation linking it to
+  https://github.com/grupoclip/bcv-api. No code changes.
+
 ## [1.0.0] - 2026-11-18
 
 ### Added

@@ -1,5 +1,4 @@
-// MCP server metadata shared by the remote Worker (mcp/src/server.ts) and the
-// local stdio server (`bcv-today mcp`): server identity, instructions, tool
+// MCP server metadata of the remote Worker (mcp/src/server.ts): server identity, instructions, tool
 // names/titles/descriptions, argument descriptions and the documentation
 // resources. Plain data, no dependencies.
 

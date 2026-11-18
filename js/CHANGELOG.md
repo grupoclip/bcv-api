@@ -4,6 +4,14 @@ All notable changes to the `bcv-today` npm package. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the package uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.0.2] - 2026-11-18
+
+### Removed
+
+- The `bcv-today mcp` local stdio MCP server and the optional peer dependency
+  `@modelcontextprotocol/sdk`. The package now declares no dependencies of any
+  kind. AI assistants should use the remote server https://mcp.bcv.today/mcp.
+
 ## [1.0.1] - 2026-11-18
 
 ### Changed

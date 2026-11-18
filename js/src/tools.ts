@@ -1,8 +1,7 @@
 // Protocol-agnostic implementation of the five BCV Today tools.
 //
-// The remote MCP server and the A2A agent (mcp/src, Cloudflare Worker) and the
-// local stdio MCP server (`bcv-today mcp`, src/mcp/stdio.ts) all call these
-// functions, so every protocol returns the same numbers, notes and validation
+// The remote MCP server and the A2A agent (mcp/src, Cloudflare Worker) call
+// these functions, so both protocols returns the same numbers, notes and validation
 // messages. Each function returns a ToolOutcome: an English one-line summary
 // plus the structured (snake_case, JSON-ready) result, or a user-facing error.
 //

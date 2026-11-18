@@ -1,8 +1,7 @@
 // Business rules of BCV Today, shared by every consumer:
 //
 //   * the npm client (src/client.ts) and CLI,
-//   * the remote MCP + A2A Cloudflare Worker (mcp/ imports this file),
-//   * the local stdio MCP server (src/mcp/stdio.ts).
+//   * the remote MCP + A2A Cloudflare Worker (mcp/ imports this file).
 //
 // Pure functions only: no I/O, no globals besides Date. They mirror the Python
 // library (python/bcv/_core.py): same date validation, carry-forward semantics,

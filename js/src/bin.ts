@@ -3,7 +3,6 @@ import { EXIT_OK, EXIT_UPSTREAM, main } from "./cli.js";
 
 main().then(
   (code) => {
-    // `bcv-today mcp` keeps running on stdio until the client disconnects.
     if (code !== EXIT_OK) process.exitCode = code;
   },
   (err: unknown) => {

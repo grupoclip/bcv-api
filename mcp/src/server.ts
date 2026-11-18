@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import * as z from "zod";
-import { ARGS, DOC_RESOURCES, INSTRUCTIONS, READ_ONLY, SERVER_NAME, SERVER_TITLE, SERVER_WEBSITE, TOOLS } from "../../js/src/mcp/meta.js";
+import { ARGS, DOC_RESOURCES, INSTRUCTIONS, READ_ONLY, SERVER_NAME, SERVER_TITLE, SERVER_WEBSITE, TOOLS } from "./meta.js";
 import type { DataClient } from "./data.js";
 import {
   type ToolOutcome,

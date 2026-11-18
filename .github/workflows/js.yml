@@ -45,7 +45,7 @@ jobs:
           cache-dependency-path: js/package-lock.json
       - name: Install
         run: npm ci
-      - name: Unit tests (offline; build + library, CLI and stdio MCP)
+      - name: Unit tests (offline; build + library and CLI)
         run: npm test
 
   lint:

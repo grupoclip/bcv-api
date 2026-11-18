@@ -94,7 +94,7 @@ Código y documentación: [python/ en GitHub](https://github.com/{{ site.reposit
 
 ## JavaScript / TypeScript {#javascript}
 
-Cliente oficial en [npm](https://www.npmjs.com/package/bcv-today) (`bcv-today`), sin dependencias, con tipos de TypeScript, módulos ESM y CommonJS, caché, conversiones con aritmética decimal exacta (redondeo half-up), arrastre de fines de semana, línea de comandos (`npx bcv-today convert 100 USD VES`) y un servidor MCP local (`bcv-today mcp`). Funciona en Node.js 18+, Deno, Bun, navegadores y Cloudflare Workers. Proyecto no oficial: no está afiliado al Banco Central de Venezuela.
+Cliente oficial en [npm](https://www.npmjs.com/package/bcv-today) (`bcv-today`), sin dependencias, con tipos de TypeScript, módulos ESM y CommonJS, caché, conversiones con aritmética decimal exacta (redondeo half-up), arrastre de fines de semana, y línea de comandos (`npx bcv-today convert 100 USD VES`). Funciona en Node.js 18+, Deno, Bun, navegadores y Cloudflare Workers. Proyecto no oficial: no está afiliado al Banco Central de Venezuela.
 
 ```bash
 npm install bcv-today

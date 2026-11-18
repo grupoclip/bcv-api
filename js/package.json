@@ -1,7 +1,7 @@
 {
   "name": "bcv-today",
-  "version": "1.0.1",
-  "description": "Official client for the BCV Today API: Banco Central de Venezuela exchange rates (USD, EUR, CNY, TRY, RUB to VES), with exact decimal conversions, a CLI and a local MCP server. Unofficial, not affiliated with the bank.",
+  "version": "1.0.2",
+  "description": "Official client for the BCV Today API: Banco Central de Venezuela exchange rates (USD, EUR, CNY, TRY, RUB to VES), with exact decimal conversions and a CLI. Unofficial, not affiliated with the bank.",
   "keywords": [
     "bcv",
     "banco central de venezuela",
@@ -13,8 +13,7 @@
     "ves",
     "usd",
     "eur",
-    "currency",
-    "mcp"
+    "currency"
   ],
   "homepage": "https://bcv.today/integraciones/",
   "bugs": {
@@ -66,17 +65,8 @@
     "test:live": "npm run build && BCV_LIVE=1 node --test test/live/*.test.mjs",
     "prepack": "npm run build"
   },
-  "peerDependencies": {
-    "@modelcontextprotocol/sdk": "^1.32.0"
-  },
-  "peerDependenciesMeta": {
-    "@modelcontextprotocol/sdk": {
-      "optional": true
-    }
-  },
   "devDependencies": {
     "@biomejs/biome": "2.6.4",
-    "@modelcontextprotocol/sdk": "1.32.2",
     "@types/node": "18.19.130",
     "tsup": "8.5.1",
     "typescript": "5.9.3"

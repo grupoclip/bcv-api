@@ -11,7 +11,7 @@ Banco Central de Venezuela (BCV) for USD, EUR, CNY, TRY and RUB against the boli
 - ESM and CommonJS builds with TypeScript types.
 - Exact decimal conversions (no floating-point drift), rounded half-up.
 - Weekend and holiday carry-forward, the same rules as the BCV Today MCP server, A2A agent and Python library.
-- In-memory cache, typed errors, a `bcv-today` command and a local MCP server (`bcv-today mcp`).
+- In-memory cache, typed errors and a `bcv-today` command.
 
 ```bash
 npm install bcv-today
@@ -106,24 +106,10 @@ npx bcv-today convert 100 USD VES --json   # machine-readable
 Options: `--json`, `--base-url URL`, `--timeout SECONDS`, `--version`, `--help`.
 Exit codes: `0` ok, `1` no data for the request, `2` invalid arguments, `3` network or API error.
 
-## Local MCP server
+## MCP
 
-`bcv-today mcp` runs a Model Context Protocol server over stdio with the same five tools as the remote server
-`https://mcp.bcv.today/mcp` (`get_latest_rates`, `get_rate_by_date`, `get_history`, `convert`, `get_status`), built
-from the same code. It needs the optional peer dependency `@modelcontextprotocol/sdk`, loaded only by this subcommand:
-
-```json
-{
-  "mcpServers": {
-    "bcv-today": {
-      "command": "npx",
-      "args": ["-y", "-p", "bcv-today", "-p", "@modelcontextprotocol/sdk", "bcv-today", "mcp"]
-    }
-  }
-}
-```
-
-Most clients can also connect directly to the remote server: `https://mcp.bcv.today/mcp`.
+For AI assistants, connect to the remote BCV Today MCP server instead: `https://mcp.bcv.today/mcp`
+(Streamable HTTP, no authentication, nothing to install).
 
 ## En español
 

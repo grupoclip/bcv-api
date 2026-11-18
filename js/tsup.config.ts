@@ -12,16 +12,13 @@ export default defineConfig([
     clean: true,
     treeshake: true,
   },
-  // The CLI (ESM, Node >= 18). The optional MCP SDK stays external and is only
-  // imported by `bcv-today mcp`, from a lazily loaded chunk.
+  // The CLI (ESM, Node >= 18), a single file with no dependencies.
   {
     entry: { cli: "src/bin.ts" },
     format: ["esm"],
     target: "node18",
     platform: "node",
-    splitting: true,
     clean: false,
     banner: { js: "#!/usr/bin/env node" },
-    external: ["@modelcontextprotocol/sdk"],
   },
 ]);

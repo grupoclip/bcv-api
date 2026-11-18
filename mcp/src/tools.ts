@@ -2,11 +2,11 @@
 //
 // The tool implementations themselves (latestRates, rateByDate, history,
 // convert, status) live in the npm package source, js/src/tools.ts, and are
-// re-exported here. The MCP server (server.ts), the A2A agent (a2a/agent.ts)
-// and the package's local stdio MCP server all run that same code, so every
+// re-exported here. The MCP server (server.ts) and the A2A agent (a2a/agent.ts)
+// run that same code, so every
 // protocol returns the same numbers, notes and validation messages.
 import * as z from "zod";
-import { ARGS } from "../../js/src/mcp/meta.js";
+import { ARGS } from "./meta.js";
 import { CURRENCIES } from "../../js/src/rules.js";
 import { MAX_HISTORY_DAYS } from "../../js/src/tools.js";
 

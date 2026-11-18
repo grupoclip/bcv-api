@@ -1,4 +1,4 @@
-// Command-line interface: bcv-today latest | on | convert | history | status | mcp
+// Command-line interface: bcv-today latest | on | convert | history | status
 //
 // Exit codes (same as the Python `bcv` CLI): 0 success, 1 no data for the
 // request (date out of range, currency not available), 2 invalid arguments,
@@ -32,7 +32,6 @@ Commands:
   history <currency> [-n DAYS]        daily series (last N days, default 30, max ${MAX_HISTORY_DAYS})
           [--start DATE] [--end DATE]
   status                              data freshness
-  mcp                                 run a local MCP server over stdio (needs @modelcontextprotocol/sdk)
 
 Options:
   --json             machine-readable JSON output
@@ -65,7 +64,6 @@ const COMMANDS: Record<string, { args: string[]; options: OptionName[] }> = {
   convert: { args: ["amount", "from", "to"], options: ["date", "decimals"] },
   history: { args: ["currency"], options: ["days", "start", "end"] },
   status: { args: [], options: [] },
-  mcp: { args: [], options: [] },
 };
 
 class UsageError extends Error {}
@@ -339,11 +337,6 @@ export async function main(argv: string[] = process.argv.slice(2), io: Io = defa
       throw new UsageError(`argument --timeout: invalid float value: '${String(values.timeout)}'`);
     }
     const baseUrl = typeof values["base-url"] === "string" ? values["base-url"] : undefined;
-    if (command === "mcp") {
-      const { runStdioServer } = await import("./mcp/stdio.js");
-      await runStdioServer({ ...(baseUrl ? { baseUrl } : {}), timeoutMs: timeoutSec * 1000 });
-      return EXIT_OK;
-    }
     const bcv = client ?? new BCV({ ...(baseUrl ? { baseUrl } : {}), timeoutMs: timeoutSec * 1000 });
     let result: Rates | DayRate | History | Conversion | Status;
     let text: string;

@@ -1,8 +1,9 @@
 ---
-layout: 
+# Processed by Jekyll only to stamp the deploy version below: every deploy
+# changes this file, so browsers install the new worker and drop old caches.
+layout: null
 sitemap: false
 ---
-
 {%- assign v = site.asset_version | default: '' -%}
 {%- if v == '' -%}{%- assign v = site.time | date: '%Y%m%d%H%M%S' -%}{%- endif -%}
 const CACHE_VERSION = "bcv-today-{{ v }}";

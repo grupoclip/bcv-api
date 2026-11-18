@@ -34,6 +34,9 @@ Every page is also available as Markdown: request it with `Accept: text/markdown
 - [API catalog](https://bcv.today/.well-known/api-catalog): RFC 9727 linkset with docs, status and OpenAPI
 - [Agent card](https://bcv.today/.well-known/agent-card.json): data-access capabilities for agents
 - [Agent Skills](https://bcv.today/.well-known/agent-skills/index.json): skill index, including the `bcv-rates` skill
+- [auth.md](https://bcv.today/auth.md): authentication notes for agents; no registration or credentials are needed
+- [AI catalog](https://bcv.today/.well-known/ai-catalog.json): ARD / ai-catalog manifest of the API, agent card, skills and docs
+- [Personal Agent Protocol](https://bcv.today/.well-known/poppy.json): website-only Poppy discovery document, with no sign-in
 - [Sitemap](https://bcv.today/sitemap.xml): every page of the site
 
 ## Optional

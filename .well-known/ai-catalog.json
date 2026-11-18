@@ -1,0 +1,86 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "BCV Today",
+    "identifier": "https://bcv.today",
+    "documentationUrl": "https://bcv.today/api/",
+    "logoUrl": "https://bcv.today/assets/logo.svg"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:bcv.today:api:bcv-rates-openapi",
+      "displayName": "BCV Today exchange-rate API (OpenAPI)",
+      "type": "application/vnd.oai.openapi+json",
+      "url": "https://bcv.today/openapi.json",
+      "description": "OpenAPI 3.1 description of the free, public, read-only static JSON API with the official Banco Central de Venezuela exchange rates (USD, EUR, CNY, TRY and RUB against the bolivar): latest rate, daily history, single-day snapshots and status. No authentication.",
+      "tags": ["exchange-rates", "venezuela", "bcv", "bolivar", "openapi"],
+      "representativeQueries": [
+        "¿cuál es el dólar BCV hoy?",
+        "official USD to VES exchange rate today",
+        "tasa oficial del euro BCV",
+        "BCV exchange rate history API"
+      ]
+    },
+    {
+      "identifier": "urn:air:bcv.today:api:latest-rate",
+      "displayName": "Latest official BCV rates (JSON)",
+      "type": "application/json",
+      "url": "https://bcv.today/api/v1/rate.json",
+      "description": "Static JSON file with the BCV rates currently in effect for USD, EUR, CNY, TRY and RUB against the bolivar, with effective_date and updated_at. Changes at most once per business day.",
+      "tags": ["exchange-rates", "venezuela", "bcv", "json"],
+      "representativeQueries": [
+        "precio del dólar oficial en Venezuela hoy",
+        "current BCV dollar rate in bolivars",
+        "tasa BCV del día en bolívares"
+      ]
+    },
+    {
+      "identifier": "urn:air:bcv.today:agent:data-agent-card",
+      "displayName": "BCV Today Data Agent card",
+      "type": "application/json",
+      "url": "https://bcv.today/.well-known/agent-card.json",
+      "description": "Agent card describing the data-access capabilities of the BCV Today API (latest rates and history). Discovery metadata only: there is no A2A endpoint; the interface is the static JSON API described by the OpenAPI document.",
+      "tags": ["agent-card", "exchange-rates", "bcv"],
+      "representativeQueries": [
+        "agent that returns the official Venezuelan exchange rate",
+        "agente para consultar la tasa del BCV"
+      ]
+    },
+    {
+      "identifier": "urn:air:bcv.today:docs:llms-txt",
+      "displayName": "BCV Today llms.txt",
+      "type": "text/plain",
+      "url": "https://bcv.today/llms.txt",
+      "description": "Plain-text agent index for the site: API endpoints, data notes, Markdown versions of the pages and discovery documents.",
+      "tags": ["llms-txt", "documentation"],
+      "representativeQueries": [
+        "how do I use the BCV Today API",
+        "documentación de la API de tasas BCV"
+      ]
+    },
+    {
+      "identifier": "urn:air:bcv.today:api:api-catalog",
+      "displayName": "BCV Today API catalog (RFC 9727)",
+      "type": "application/linkset+json",
+      "url": "https://bcv.today/.well-known/api-catalog",
+      "description": "RFC 9727 API catalog linkset pointing to the OpenAPI description, API documentation, status endpoint and agent metadata.",
+      "tags": ["api-catalog", "linkset", "discovery"],
+      "representativeQueries": [
+        "BCV Today API catalog",
+        "list the APIs published by bcv.today"
+      ]
+    },
+    {
+      "identifier": "urn:air:bcv.today:skill:skills-index",
+      "displayName": "BCV Today Agent Skills index",
+      "type": "application/json",
+      "url": "https://bcv.today/.well-known/agent-skills/index.json",
+      "description": "Agent Skills index listing the bcv-rates skill, which explains how to fetch official BCV exchange rates and history from the static JSON API.",
+      "tags": ["agent-skills", "exchange-rates", "bcv"],
+      "representativeQueries": [
+        "skill to fetch BCV exchange rates",
+        "consultar el historial de la tasa BCV por fecha"
+      ]
+    }
+  ]
+}

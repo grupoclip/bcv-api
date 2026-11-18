@@ -49,6 +49,21 @@
           "href": "https://bcv.today/.well-known/agent-skills/index.json",
           "type": "application/json",
           "title": "BCV Today Agent Skills index"
+        },
+        {
+          "href": "https://bcv.today/auth.md",
+          "type": "text/markdown",
+          "title": "BCV Today auth.md (no authentication required)"
+        },
+        {
+          "href": "https://bcv.today/.well-known/ai-catalog.json",
+          "type": "application/json",
+          "title": "BCV Today AI catalog (ARD)"
+        },
+        {
+          "href": "https://bcv.today/.well-known/poppy.json",
+          "type": "application/json",
+          "title": "BCV Today Personal Agent Protocol discovery"
         }
       ]
     }

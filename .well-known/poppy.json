@@ -1,0 +1,9 @@
+{
+  "protocol_version": "0.1",
+  "organization": {
+    "name": "BCV Today",
+    "domain": "bcv.today",
+    "logo_uri": "https://bcv.today/assets/icon-512.png"
+  },
+  "web": {}
+}

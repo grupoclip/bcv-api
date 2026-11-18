@@ -1,0 +1,86 @@
+name: PHP library
+
+# Validates, lints, statically analyses and tests the `grupoclip/bcv-today` Composer package in packages/php/.
+# The unit tests read the recorded API samples shared with the Python and JavaScript clients
+# (packages/python/tests/fixtures), so changes there re-run this workflow too.
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "packages/php/**"
+      - "packages/python/tests/fixtures/**"
+      - ".github/workflows/php.yml"
+  pull_request:
+    paths:
+      - "packages/php/**"
+      - "packages/python/tests/fixtures/**"
+      - ".github/workflows/php.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: php-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: packages/php
+
+jobs:
+  test:
+    name: Test (PHP ${{ matrix.php-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ["8.1", "8.2", "8.3", "8.4"]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer:v2
+          coverage: none
+      - name: Validate composer.json
+        run: composer validate --strict
+      - name: Install (dev dependencies are pinned to exact versions; no lock file for a library)
+        run: composer install --no-interaction --no-progress --prefer-dist
+      - name: Lint (php -l)
+        run: find src config tests .phpstan -name '*.php' -print0 | xargs -0 -n1 php -l > /dev/null
+      - name: Coding standard (PSR-12)
+        run: vendor/bin/phpcs
+      - name: PHPStan (level max)
+        run: vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+      - name: PHPUnit (offline, shared fixtures)
+        run: vendor/bin/phpunit
+
+  no-curl:
+    name: Runtime without dev dependencies or ext-curl
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          extensions: :curl
+          tools: composer:v2
+          coverage: none
+      - name: Install without dev dependencies
+        run: composer install --no-dev --no-interaction --no-progress --prefer-dist
+      - name: Smoke test against the shared fixtures through a local HTTP server (PHP streams transport)
+        run: |
+          mkdir -p "$RUNNER_TEMP/www/api"
+          ln -s "$PWD/../python/tests/fixtures" "$RUNNER_TEMP/www/api/v1"
+          php -S 127.0.0.1:8765 -t "$RUNNER_TEMP/www" > /dev/null 2>&1 &
+          sleep 1
+          php -r '
+            require "vendor/autoload.php";
+            if (function_exists("curl_init")) { fwrite(STDERR, "curl should be disabled\n"); exit(1); }
+            $bcv = new BcvToday\Bcv(baseUrl: "http://127.0.0.1:8765", clock: fn () => 1795014000.0);
+            $c = $bcv->convert("100", "USD", "VES");
+            $d = $bcv->on("2026-01-04", "USD");
+            echo $c->result, " ", $d->effectiveDate, PHP_EOL;
+            exit($c->result === "91664.77" && $d->carriedForward ? 0 : 1);
+          '

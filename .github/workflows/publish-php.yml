@@ -1,0 +1,117 @@
+name: Publish PHP library
+
+# Releases packages/php/ as the Composer package `grupoclip/bcv-today` (https://packagist.org/packages/grupoclip/bcv-today).
+#
+# Packagist needs composer.json at the root of a repository, so this workflow splits packages/php/ out of this
+# monorepo (git subtree split) and pushes the result to the read-only mirror https://github.com/grupoclip/bcv-today-php:
+# the split history goes to its `main` branch and the release tag `v<version>` is created there. Packagist tracks
+# that mirror and picks the new tag up.
+#
+# Cut a release by bumping BcvToday\Version::VERSION (packages/php/src/Version.php) and CHANGELOG.md, then pushing a
+# tag php-vX.Y.Z that matches it, e.g.:
+#   git tag php-v1.0.0 && git push origin php-v1.0.0
+#
+# One-time setup (manual, not done by this workflow):
+#   1. Create the empty public repository grupoclip/bcv-today-php (no README, license or .gitignore, so the first
+#      push is a plain fast-forward). Mark it as a mirror in its description and disable issues/PRs there
+#      (issues go to grupoclip/bcv-api). Never commit to it directly: every release must fast-forward its main.
+#   2. Create a fine-grained personal access token (or a GitHub App token) with access to ONLY the repository
+#      grupoclip/bcv-today-php and the permission "Contents: Read and write". Store it in this repository as the
+#      Actions secret PHP_SPLIT_TOKEN (Settings -> Secrets and variables -> Actions), ideally scoped to the
+#      environment "packagist" used below so only this workflow can read it.
+#   3. After the first successful run, submit https://github.com/grupoclip/bcv-today-php on
+#      https://packagist.org/packages/submit (package name comes from composer.json: grupoclip/bcv-today), and
+#      enable the GitHub hook / Packagist GitHub integration so new tags are picked up automatically.
+on:
+  push:
+    tags:
+      - "php-v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-php
+  cancel-in-progress: false
+
+env:
+  SPLIT_REPOSITORY: grupoclip/bcv-today-php
+
+jobs:
+  test:
+    name: Check version and test (PHP ${{ matrix.php-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ["8.1", "8.4"]
+    defaults:
+      run:
+        working-directory: packages/php
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer:v2
+          coverage: none
+      - name: Check that the tag matches the package version and the changelog
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version=$(php -r 'require "src/Version.php"; echo BcvToday\Version::VERSION;')
+          if [ "${TAG}" != "php-v${version}" ]; then
+            echo "::error::Tag ${TAG} does not match BcvToday\\Version::VERSION ${version} (expected php-v${version})."
+            exit 1
+          fi
+          if ! grep -q "^## \[${version}\]" CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no section for ${version}."
+            exit 1
+          fi
+          echo "Releasing grupoclip/bcv-today ${version}"
+      - run: composer validate --strict
+      - run: composer install --no-interaction --no-progress --prefer-dist
+      - name: Lint, analyse and test
+        run: |
+          vendor/bin/phpcs
+          vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+          vendor/bin/phpunit
+
+  split:
+    name: Split packages/php into ${{ github.repository_owner }}/bcv-today-php
+    needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: packagist
+      url: https://packagist.org/packages/grupoclip/bcv-today
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # subtree split needs the full history
+          persist-credentials: false
+      - name: Split packages/php (composer.json becomes the repository root)
+        run: |
+          git subtree split --prefix=packages/php -b php-split
+          git log --oneline -n 3 php-split
+      - name: Push the split history to main and tag v<version>
+        env:
+          TAG: ${{ github.ref_name }}
+          PHP_SPLIT_TOKEN: ${{ secrets.PHP_SPLIT_TOKEN }}
+        run: |
+          if [ -z "${PHP_SPLIT_TOKEN}" ]; then
+            echo "::error::The secret PHP_SPLIT_TOKEN is not set (see the setup notes at the top of this workflow)."
+            exit 1
+          fi
+          version="${TAG#php-v}"
+          remote="https://x-access-token:${PHP_SPLIT_TOKEN}@github.com/${SPLIT_REPOSITORY}.git"
+          if git ls-remote --exit-code --tags "${remote}" "refs/tags/v${version}" > /dev/null; then
+            echo "::error::Tag v${version} already exists in ${SPLIT_REPOSITORY}."
+            exit 1
+          fi
+          # The split is deterministic, so a release only fast-forwards main; a rejected push means someone
+          # committed to the mirror directly and must be investigated (no --force on purpose).
+          git push "${remote}" "php-split:refs/heads/main"
+          git tag "v${version}" php-split
+          git push "${remote}" "refs/tags/v${version}"
+          echo "Pushed ${SPLIT_REPOSITORY} main and v${version}; Packagist will pick the tag up."

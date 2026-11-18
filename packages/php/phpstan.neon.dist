@@ -1,0 +1,14 @@
+parameters:
+    level: max
+    paths:
+        - src
+        - config
+        - tests
+    # Laravel is not a dependency: these minimal declarations let PHPStan check the
+    # optional integration in src/Laravel without installing the framework.
+    scanFiles:
+        - .phpstan/laravel-stubs.php
+    treatPhpDocTypesAsCertain: false
+    phpVersion:
+        min: 80100
+        max: 80599

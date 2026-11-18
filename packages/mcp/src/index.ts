@@ -11,9 +11,47 @@ import serverCard from "../../../site/.well-known/mcp/server-card.json";
 import { AGENT_CARD_V1, compatAgentCard, handleA2A, wantsV1 } from "./a2a/handler.js";
 import { DataClient } from "./data.js";
 import { SERVER_VERSION, buildServer } from "./server.js";
+import { type BotDeps, type Update, announce, handleUpdate, telegramClient } from "./telegram/bot.js";
 
 export interface Env {
   DATA_ORIGIN?: string;
+  /** Telegram bot (@BCVTodayBot). Secrets, set with `wrangler secret put`. */
+  TELEGRAM_BOT_TOKEN?: string;
+  TELEGRAM_WEBHOOK_SECRET?: string;
+  /** Public channel the daily rate is posted to, e.g. "@bcvtoday". */
+  TELEGRAM_CHANNEL?: string;
+  TELEGRAM_KV?: KVNamespace;
+}
+
+function botDeps(env: Env): BotDeps | undefined {
+  if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_KV) return undefined;
+  return {
+    data: new DataClient(env.DATA_ORIGIN || "https://bcv.today"),
+    telegram: telegramClient(env.TELEGRAM_BOT_TOKEN),
+    kv: env.TELEGRAM_KV,
+    channel: env.TELEGRAM_CHANNEL || "@bcvtoday",
+    site: env.DATA_ORIGIN || "https://bcv.today",
+  };
+}
+
+/** Telegram webhook: verifies the secret header, answers 200 at once and handles the update in the background. */
+async function handleTelegram(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  const deps = botDeps(env);
+  if (!deps || !env.TELEGRAM_WEBHOOK_SECRET) return new Response("Not found\n", { status: 404 });
+  if (request.method !== "POST") return new Response("Method not allowed\n", { status: 405, headers: { Allow: "POST" } });
+  if (request.headers.get("X-Telegram-Bot-Api-Secret-Token") !== env.TELEGRAM_WEBHOOK_SECRET) {
+    return new Response("Forbidden\n", { status: 403 });
+  }
+  const declared = Number(request.headers.get("Content-Length") ?? "0");
+  if (declared > MAX_BODY_BYTES) return new Response("Too large\n", { status: 413 });
+  let update: Update;
+  try {
+    update = (await request.json()) as Update;
+  } catch {
+    return new Response("Bad request\n", { status: 400 });
+  }
+  ctx.waitUntil(handleUpdate(deps, update).catch((err) => console.error("telegram update failed", err)));
+  return new Response("ok\n");
 }
 
 const MAX_BODY_BYTES = 64 * 1024;
@@ -137,9 +175,12 @@ async function handleMcp(request: Request, env: Env): Promise<Response> {
 }
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     const path = url.pathname.replace(/\/+$/, "") || "/";
+
+    // Telegram webhook: server-to-server, no CORS.
+    if (path === "/telegram") return handleTelegram(request, env, ctx);
 
     if (request.method === "OPTIONS") {
       return withCors(new Response(null, { status: 204 }));
@@ -184,5 +225,16 @@ export default {
       console.error("unhandled", err);
       return withCors(jsonRpcError(500, "Internal server error."));
     }
+  },
+
+  /** Cron trigger (wrangler.toml): post a newly published BCV rate to the channel and subscribers. */
+  async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    const deps = botDeps(env);
+    if (!deps) return;
+    ctx.waitUntil(
+      announce(deps)
+        .then((r) => console.log("telegram announce", JSON.stringify(r)))
+        .catch((err) => console.error("telegram announce failed", err)),
+    );
   },
 } satisfies ExportedHandler<Env>;

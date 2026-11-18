@@ -17,6 +17,19 @@ routes = [
 [vars]
 # Where the static JSON API lives. Read-only; never bcv.org.ve.
 DATA_ORIGIN = "https://bcv.today"
+# Telegram channel for the daily rate post (the bot must be an admin there).
+TELEGRAM_CHANNEL = "@bcvtoday"
+
+# Telegram bot (@BCVTodayBot): subscriptions and the last announced date.
+# Secrets (not in this file): TELEGRAM_BOT_TOKEN, TELEGRAM_WEBHOOK_SECRET.
+[[kv_namespaces]]
+binding = "TELEGRAM_KV"
+id = "2d611aa95f9f47fea44be4d821e692bd"
+
+# Checks every 10 minutes whether the BCV published a new rate (one KV read
+# when nothing changed). Posts once per effective date.
+[triggers]
+crons = ["*/10 * * * *"]
 
 [observability]
 enabled = true

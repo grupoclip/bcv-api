@@ -47,7 +47,8 @@ jobs:
       - name: Build Markdown for agents
         # index.md next to every index.html; served to `Accept: text/markdown`
         # requests by the Cloudflare rewrite rule in the deploy job.
-        run: node scripts/build-markdown.mjs _site "${{ steps.pages.outputs.base_url }}"
+        # base_url from configure-pages is http://; the site is served over https.
+        run: node scripts/build-markdown.mjs _site "https://bcv.today"
 
       - name: Remove generated build config
         run: rm -f _config.build.yml
@@ -242,12 +243,14 @@ jobs:
             enabled: true
           }')"
 
-          upsert_rule http_response_headers_transform "BCV Today response header transforms" "$(jq -n --arg expr "${page_paths}" '{
+          # Response rules see the rewritten path (…/index.md); match the original one.
+          raw_page_paths='(http.host eq "bcv.today" and ends_with(raw.http.request.uri.path, "/"))'
+          upsert_rule http_response_headers_transform "BCV Today response header transforms" "$(jq -n --arg expr "${raw_page_paths}" '{
             ref: "bcv-vary-accept",
             description: "BCV Today Vary: Accept on pages (HTML and Markdown variants)",
             expression: $expr,
             action: "rewrite",
-            action_parameters: {headers: {Vary: {operation: "set", value: "Accept"}}},
+            action_parameters: {headers: {Vary: {operation: "set", value: "Accept, Accept-Encoding"}}},
             enabled: true
           }')"
 

@@ -71,6 +71,10 @@
     {%- else -%}
     <link href="{{ '/manifest.webmanifest' | relative_url }}" rel="manifest"/>
     {%- endif -%}
+    {%- assign url_last_char = page.url | slice: -1, 1 -%}
+    {%- if url_last_char == '/' %}
+    <link rel="alternate" type="text/markdown" title="Markdown" href="{{ page.url | append: 'index.md' | absolute_url }}"/>
+    {%- endif %}
     <link rel="alternate" type="text/plain" title="LLMs index" href="{{ '/llms.txt' | absolute_url }}"/>
     <link rel="alternate" type="text/plain" title="Full LLM context" href="{{ '/llms-full.txt' | absolute_url }}"/>
     <link rel="service-desc" type="application/vnd.oai.openapi+json" title="OpenAPI"

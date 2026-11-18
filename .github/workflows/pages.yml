@@ -44,6 +44,11 @@ jobs:
         env:
           JEKYLL_ENV: production
 
+      - name: Build Markdown for agents
+        # index.md next to every index.html; served to `Accept: text/markdown`
+        # requests by the Cloudflare rewrite rule in the deploy job.
+        run: node scripts/build-markdown.mjs _site "${{ steps.pages.outputs.base_url }}"
+
       - name: Remove generated build config
         run: rm -f _config.build.yml
 
@@ -171,6 +176,80 @@ jobs:
             -H "Authorization: Bearer ${CF_RULES_API_TOKEN}" \
             -H "Content-Type: application/json" \
             --data @"${payload}"
+
+      - name: Serve Markdown to agents (Cloudflare rules, no Worker)
+        # Replaces the former Worker on bcv.today/*, which ran on every request and
+        # counted against the Workers daily limit. Two zone rules instead:
+        #   1. URL rewrite: page URL + `Accept: text/markdown` -> that page's index.md
+        #   2. Response header: `Vary: Accept` on page URLs, so caches keep both variants
+        # Runs after the Pages deploy so the .md files exist before the rewrite does.
+        env:
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+          CF_RULES_API_TOKEN: ${{ secrets.CF_RULES_API_TOKEN }}
+        run: |
+          if [ -z "${CF_ZONE_ID}" ] || [ -z "${CF_RULES_API_TOKEN}" ]; then
+            echo "Cloudflare ruleset secrets are not configured; skipping Markdown rules."
+            exit 0
+          fi
+
+          api_base="https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/rulesets"
+
+          # upsert_rule <phase> <ruleset name> <rule json>: create the phase entrypoint
+          # or replace the rule with the same ref, keeping every other rule.
+          upsert_rule() {
+            phase="$1"; ruleset_name="$2"; rule="$3"
+            ref="$(jq -r '.ref' <<<"${rule}")"
+            response="$(mktemp)"; payload="$(mktemp)"
+            status="$(curl --show-error --silent --output "${response}" --write-out "%{http_code}" \
+              -H "Authorization: Bearer ${CF_RULES_API_TOKEN}" \
+              "${api_base}/phases/${phase}/entrypoint")"
+
+            if [ "${status}" = "404" ]; then
+              jq -n --arg name "${ruleset_name}" --arg phase "${phase}" --argjson rule "${rule}" \
+                '{name: $name, kind: "zone", phase: $phase, rules: [$rule]}' > "${payload}"
+              curl --fail --show-error --silent -X POST "${api_base}" \
+                -H "Authorization: Bearer ${CF_RULES_API_TOKEN}" -H "Content-Type: application/json" \
+                --data @"${payload}" > /dev/null
+              echo "Created ${phase} ruleset with ${ref}."
+              return
+            fi
+
+            if [ "${status}" != "200" ]; then
+              cat "${response}"; echo
+              echo "Cloudflare refused CF_RULES_API_TOKEN for ${phase} (HTTP ${status})."
+              echo "It needs Zone:Read and Zone Rulesets:Edit (Transform Rules) for this zone."
+              exit 1
+            fi
+
+            ruleset_id="$(jq -r '.result.id' "${response}")"
+            jq --arg ref "${ref}" --argjson rule "${rule}" \
+              '.result as $r | {name: $r.name, description: ($r.description // ""), kind: $r.kind, phase: $r.phase,
+                rules: ((($r.rules // []) | map(select(.ref != $ref))) + [$rule])}' "${response}" > "${payload}"
+            curl --fail --show-error --silent -X PUT "${api_base}/${ruleset_id}" \
+              -H "Authorization: Bearer ${CF_RULES_API_TOKEN}" -H "Content-Type: application/json" \
+              --data @"${payload}" > /dev/null
+            echo "Updated ${phase} ruleset with ${ref}."
+          }
+
+          page_paths='(http.host eq "bcv.today" and ends_with(http.request.uri.path, "/"))'
+
+          upsert_rule http_request_transform "BCV Today request transforms" "$(jq -n --arg expr "${page_paths%)} and any(http.request.headers[\"accept\"][*] contains \"text/markdown\"))" '{
+            ref: "bcv-markdown-for-agents",
+            description: "BCV Today Markdown for agents (Accept: text/markdown -> index.md)",
+            expression: $expr,
+            action: "rewrite",
+            action_parameters: {uri: {path: {expression: "concat(http.request.uri.path, \"index.md\")"}}},
+            enabled: true
+          }')"
+
+          upsert_rule http_response_headers_transform "BCV Today response header transforms" "$(jq -n --arg expr "${page_paths}" '{
+            ref: "bcv-vary-accept",
+            description: "BCV Today Vary: Accept on pages (HTML and Markdown variants)",
+            expression: $expr,
+            action: "rewrite",
+            action_parameters: {headers: {Vary: {operation: "set", value: "Accept"}}},
+            enabled: true
+          }')"
 
       - name: Purge Cloudflare cache
         env:

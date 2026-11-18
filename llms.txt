@@ -1,37 +1,42 @@
 # BCV Today
 
-> Official Banco Central de Venezuela exchange rates made available as a static website and JSON API.
+> Official Banco Central de Venezuela exchange rates (USD, EUR, CNY, TRY and RUB against the bolívar), published as a static website and a free, read-only JSON API. Unofficial project, not affiliated with the bank.
 
-BCV Today publishes the official Banco Central de Venezuela rates for USD, EUR, CNY, TRY and RUB against the Venezuelan bolivar. The site is unofficial and uses public BCV data.
+The data comes from the rates the bank publishes on business days. No authentication is required: every endpoint is a public static JSON file served from GitHub Pages, so do not attempt OAuth/OIDC discovery or token exchange.
 
-## Agent entry points
+## Pages as Markdown
 
-- API documentation: https://bcv.today/api/
-- OpenAPI description: https://bcv.today/openapi.json
-- API catalog: https://bcv.today/.well-known/api-catalog
-- API status: https://bcv.today/api/v1/status.json
-- Agent card: https://bcv.today/.well-known/agent-card.json
-- Agent Skills: https://bcv.today/.well-known/agent-skills/index.json
-- Latest rate: https://bcv.today/api/v1/rate.json
-- History index: https://bcv.today/api/v1/history.json
-- Sitemap: https://bcv.today/sitemap.xml
-- Full agent context: https://bcv.today/llms-full.txt
+Every page is also available as Markdown: request it with `Accept: text/markdown`, or append `index.md` to its URL.
 
-## API endpoints
+- [Home (Markdown)](https://bcv.today/index.md): today's official rates and FAQ
+- [BCV dollar (Markdown)](https://bcv.today/dolar-bcv/index.md): USD/VES rate, quick conversions and the last 7 days
+- [History (Markdown)](https://bcv.today/history/index.md): how the daily history is built
+- [API documentation (Markdown)](https://bcv.today/api/index.md): endpoints, schema and examples
 
-- `GET /api/v1/rate.json` returns the latest current rate entry.
-- `GET /api/v1/history.json` returns up to the latest 1830 daily entries.
-- `GET /api/v1/history/{YYYY-MM-DD}.json` returns one calendar-day snapshot.
-- `GET /api/v1/status.json` returns freshness, effective date and supported currency status.
+## API
 
-## Notes for agents
+- [Latest rate](https://bcv.today/api/v1/rate.json): `GET /api/v1/rate.json`, the rate currently in effect
+- [History index](https://bcv.today/api/v1/history.json): `GET /api/v1/history.json`, up to the latest 1830 daily entries
+- [Rate for one day](https://bcv.today/api/v1/history/2026-01-02.json): `GET /api/v1/history/{YYYY-MM-DD}.json`, one calendar-day snapshot
+- [API status](https://bcv.today/api/v1/status.json): `GET /api/v1/status.json`, freshness, effective date and supported currencies
+- [API documentation](https://bcv.today/api/): endpoints, response schema and code examples
+- [OpenAPI description](https://bcv.today/openapi.json): machine-readable description of the endpoints
 
-- No authentication is required.
-- Do not attempt OAuth/OIDC discovery or token exchange; all API endpoints are public static JSON.
-- Responses are static JSON files served from GitHub Pages.
+## Data notes
+
 - Dates are ISO 8601 strings.
-- `effective_date` is the official BCV validity date.
-- `updated_at` is the UTC capture timestamp.
-- Older historical entries may omit currencies that were unavailable in the source data; currency fields are numeric when present.
+- `effective_date` is the official BCV validity date ("fecha valor"); `updated_at` is the UTC capture timestamp.
 - On weekends and holidays, `effective_date` may point to the previous business day whose rate remains in effect.
-- This project is not affiliated with Banco Central de Venezuela.
+- Older historical entries may omit currencies that were unavailable in the source data; currency fields are numeric when present.
+
+## Discovery
+
+- [API catalog](https://bcv.today/.well-known/api-catalog): RFC 9727 linkset with docs, status and OpenAPI
+- [Agent card](https://bcv.today/.well-known/agent-card.json): data-access capabilities for agents
+- [Agent Skills](https://bcv.today/.well-known/agent-skills/index.json): skill index, including the `bcv-rates` skill
+- [Sitemap](https://bcv.today/sitemap.xml): every page of the site
+
+## Optional
+
+- [Full agent context](https://bcv.today/llms-full.txt): the complete documentation in one plain-text file
+- [Source code](https://github.com/grupoclip/bcv-api): scraper, site and API on GitHub

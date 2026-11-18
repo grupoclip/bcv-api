@@ -665,6 +665,20 @@ a.card:hover {
     padding: 24px;
 }
 
+/* The dollar card sits over the 12-month chart: frosted glass lets the gold
+   line show through, softly, behind the main figure. Solid where unsupported. */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .grid > .card:first-child {
+        background: color-mix(in srgb, var(--surface) 62%, transparent);
+        -webkit-backdrop-filter: blur(6px) saturate(1.15);
+        backdrop-filter: blur(6px) saturate(1.15);
+    }
+
+    .grid > a.card:first-child:hover {
+        background: color-mix(in srgb, var(--raised) 72%, transparent);
+    }
+}
+
 .grid > .card:first-child .card-head {
     flex-basis: 100%;
 }

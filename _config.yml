@@ -43,6 +43,7 @@ jekyll-minifier:
 exclude:
 - main.py
 - mcp
+- python
 - scripts
 - requirements.txt
 - README.md

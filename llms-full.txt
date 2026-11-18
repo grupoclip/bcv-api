@@ -78,6 +78,7 @@ Returns the publication status, latest generated timestamp, effective date and s
 - Agent Skills index: https://bcv.today/.well-known/agent-skills/index.json
 - MCP server (Streamable HTTP, no auth): https://mcp.bcv.today/mcp — tools get_latest_rates, get_rate_by_date, get_history, convert, get_status
 - MCP server card: https://bcv.today/.well-known/mcp/server-card.json
+- Python client library (PyPI `bcv`, zero dependencies, `bcv` CLI): https://pypi.org/project/bcv/
 - Sitemap: https://bcv.today/sitemap.xml
 - Robots: https://bcv.today/robots.txt
 

@@ -1,0 +1,83 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bcv"
+dynamic = ["version"]
+description = "Official client for the BCV Today API: Banco Central de Venezuela exchange rates (USD, EUR, CNY, TRY, RUB to VES). Unofficial, not affiliated with the bank."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "BCV Today" }]
+maintainers = [{ name = "BCV Today" }]
+keywords = ["bcv", "venezuela", "exchange rate", "dolar bcv", "bolivar", "VES", "USD", "tasa bcv", "api"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Natural Language :: English",
+    "Natural Language :: Spanish",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Financial",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+pandas = ["pandas>=1.3"]
+async = ["httpx>=0.23"]
+test = ["pytest>=7"]
+
+[project.urls]
+Homepage = "https://bcv.today"
+Documentation = "https://bcv.today/api/"
+Source = "https://github.com/grupoclip/bcv-api/tree/main/python"
+Issues = "https://github.com/grupoclip/bcv-api/issues"
+Changelog = "https://github.com/grupoclip/bcv-api/blob/main/python/CHANGELOG.md"
+"Data license" = "https://bcv.today/licencia/"
+
+[project.scripts]
+bcv = "bcv.cli:run"
+
+[tool.hatch.version]
+path = "bcv/_version.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["bcv", "tests", "README.md", "CHANGELOG.md", "LICENSE", "pyproject.toml"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["bcv"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["live: hits the real https://bcv.today API (run with BCV_LIVE=1)"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "BLE", "C4", "SIM", "RUF"]
+ignore = ["UP006", "UP007", "UP035", "UP045"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S108", "S603", "RUF043"]
+
+[tool.mypy]
+strict = true
+files = ["bcv"]
+
+[[tool.mypy.overrides]]
+module = ["pandas", "pandas.*"]
+ignore_missing_imports = true

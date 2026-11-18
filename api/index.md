@@ -71,6 +71,25 @@ Otros clientes (Cursor, VS Code, Windsurf…), en su archivo de configuración M
 
 Clientes que solo hablan stdio pueden usar el puente `npx -y mcp-remote https://mcp.bcv.today/mcp`.
 
+## Librería Python
+
+Cliente oficial en [PyPI](https://pypi.org/project/bcv/), sin dependencias (Python 3.9+), con caché, `Decimal`, arrastre de fines de semana y línea de comandos (`bcv latest`, `bcv convert 100 USD VES`). Proyecto no oficial: no está afiliado al Banco Central de Venezuela.
+
+```bash
+pip install bcv
+```
+
+```python
+from bcv import BCV
+
+client = BCV()
+print(client.latest()["USD"])                  # Bs. por dólar
+print(client.on("2026-01-04", "USD"))          # domingo: usa la tasa con fecha valor 2026-01-03
+print(client.convert(100, "USD", "VES"))
+```
+
+Código y documentación: [python/ en GitHub](https://github.com/{{ site.repository }}/tree/main/python).
+
 ## Endpoints
 
 ### Tasa actual

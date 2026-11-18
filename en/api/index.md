@@ -72,6 +72,25 @@ Other clients (Cursor, VS Code, Windsurf…), in their MCP configuration file:
 
 Clients that only speak stdio can use the bridge `npx -y mcp-remote https://mcp.bcv.today/mcp`.
 
+## Python library
+
+Official client on [PyPI](https://pypi.org/project/bcv/): zero dependencies (Python 3.9+), caching, `Decimal` money math, weekend carry-forward and a command line (`bcv latest`, `bcv convert 100 USD VES`). Unofficial project: not affiliated with Banco Central de Venezuela.
+
+```bash
+pip install bcv
+```
+
+```python
+from bcv import BCV
+
+client = BCV()
+print(client.latest()["USD"])                  # bolivars per dollar
+print(client.on("2026-01-04", "USD"))          # Sunday: uses the rate effective 2026-01-03
+print(client.convert(100, "USD", "VES"))
+```
+
+Code and docs: [python/ on GitHub](https://github.com/{{ site.repository }}/tree/main/python).
+
 ## Endpoints
 
 ### Latest rate

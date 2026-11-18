@@ -1,0 +1,80 @@
+name: Python library
+
+# Tests, lint and type-checks the `bcv` package in python/.
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "python/**"
+      - ".github/workflows/python.yml"
+  pull_request:
+    paths:
+      - "python/**"
+      - ".github/workflows/python.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: python-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: python
+
+jobs:
+  test:
+    name: Test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: python/pyproject.toml
+      - name: Install
+        run: python -m pip install -e ".[pandas,async,test]"
+      - name: Unit tests (offline)
+        run: python -m pytest
+      - name: CLI smoke test without extras
+        run: |
+          python -m venv /tmp/bare
+          /tmp/bare/bin/pip install .
+          /tmp/bare/bin/bcv --version
+          /tmp/bare/bin/python -c "import bcv; print(bcv.__version__)"
+
+  lint:
+    name: Ruff and mypy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Install
+        run: python -m pip install -e ".[pandas,async]" ruff mypy pandas-stubs
+      - name: Ruff
+        run: |
+          ruff check .
+          ruff format --check .
+      - name: mypy --strict
+        run: mypy --strict
+
+  build:
+    name: Build and twine check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - run: python -m pip install build twine
+      - run: python -m build
+      - run: twine check --strict dist/*

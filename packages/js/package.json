@@ -22,7 +22,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/grupoclip/bcv-api.git",
-    "directory": "js"
+    "directory": "packages/js"
   },
   "license": "Apache-2.0",
   "author": "BCV Today",

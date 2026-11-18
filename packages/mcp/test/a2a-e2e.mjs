@@ -21,7 +21,7 @@ function check(label, cond, detail = "") {
 }
 
 // ------------------------------------------------------------- agent card
-const siteCard = JSON.parse(readFileSync(new URL("../../.well-known/agent-card.json", import.meta.url), "utf8"));
+const siteCard = JSON.parse(readFileSync(new URL("../../../site/.well-known/agent-card.json", import.meta.url), "utf8"));
 
 let validateCard;
 try {

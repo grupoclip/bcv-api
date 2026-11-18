@@ -15,7 +15,7 @@ import { readFileSync } from "node:fs";
 
 const authority = process.argv[2] || "bcv.today";
 const ttlDays = Number(process.argv[3] || 7);
-const directoryFile = process.argv[4] || ".well-known/http-message-signatures-directory";
+const directoryFile = process.argv[4] || "site/.well-known/http-message-signatures-directory";
 
 const pem = process.env.WEB_BOT_AUTH_PRIVATE_KEY;
 if (!pem) {

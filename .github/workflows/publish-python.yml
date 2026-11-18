@@ -1,8 +1,8 @@
 name: Publish Python library
 
-# Publishes python/ to https://pypi.org/project/bcv/ with PyPI Trusted Publishing
+# Publishes packages/python/ to https://pypi.org/project/bcv/ with PyPI Trusted Publishing
 # (OIDC, no API tokens). Cut a release by pushing a tag py-vX.Y.Z that matches
-# __version__ in python/bcv/_version.py, e.g.:
+# __version__ in packages/python/bcv/_version.py, e.g.:
 #   git tag py-v1.0.0 && git push origin py-v1.0.0
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: python
+        working-directory: packages/python
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
@@ -50,7 +50,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: python-dist
-          path: python/dist/
+          path: packages/python/dist/
           if-no-files-found: error
 
   publish:

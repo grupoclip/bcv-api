@@ -20,7 +20,7 @@ import {
   validateVersion,
 } from "@a2a-js/sdk/server";
 import { LegacyJsonRpcTransportHandler } from "@a2a-js/sdk/compat/v0_3/server";
-import agentCardJson from "../../../.well-known/agent-card.json";
+import agentCardJson from "../../../../site/.well-known/agent-card.json";
 import type { DataClient } from "../data.js";
 import { type Reply, respond } from "./agent.js";
 

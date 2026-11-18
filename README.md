@@ -18,11 +18,12 @@ All of them use the same data, are free and need no API key. Overview page: [bcv
 | --- | --- | --- |
 | Website | People | [bcv.today](https://bcv.today) ([English](https://bcv.today/en/)), [history](https://bcv.today/history/) |
 | JSON API | Developers | [Docs](https://bcv.today/en/api/) ([español](https://bcv.today/api/)), [`/api/v1/`](https://bcv.today/api/v1/rate.json), [OpenAPI](https://bcv.today/openapi.json) |
-| Python library `bcv` | Developers | [PyPI](https://pypi.org/project/bcv/) (`pip install bcv`, CLI `bcv`), [source](python/) |
+| Python library `bcv` | Developers | [PyPI](https://pypi.org/project/bcv/) (`pip install bcv`, CLI `bcv`), [source](packages/python/) |
+| npm package `bcv-today` | JavaScript/TypeScript developers | [npm](https://www.npmjs.com/package/bcv-today) (`npm install bcv-today`, CLI `bcv-today`), [source](packages/js/) |
 | Odoo module `l10n_ve_bcv_rate` | Odoo 16-20 users (Community and Enterprise, not Odoo Online) | [Odoo Apps](https://apps.odoo.com/apps/modules/l10n_ve_bcv_rate), [source](https://github.com/grupoclip/odoo-bcv-rate) |
 | MCP server | AI assistants | `https://mcp.bcv.today/mcp` (Streamable HTTP, no auth), [server card](https://bcv.today/.well-known/mcp/server-card.json), [setup](https://bcv.today/en/api/#mcp-server) |
 | A2A agent | AI agents | `https://mcp.bcv.today/a2a`, [agent card](https://bcv.today/.well-known/agent-card.json), [docs](https://bcv.today/en/api/#a2a-agent) |
-| WebMCP tools | In-browser agents | Five read-only tools via `navigator.modelContext` ([`assets/js/webmcp.js`](assets/js/webmcp.js)) |
+| WebMCP tools | In-browser agents | Five read-only tools via `navigator.modelContext` ([`site/assets/js/webmcp.js`](site/assets/js/webmcp.js)) |
 | Markdown and llms.txt | LLMs and agents | `Accept: text/markdown` or append `index.md` to any page, [llms.txt](https://bcv.today/llms.txt), [llms-full.txt](https://bcv.today/llms-full.txt), [AI catalog](https://bcv.today/.well-known/ai-catalog.json) |
 
 Code: Apache 2.0; data: CC BY 4.0 ([license](https://bcv.today/en/license/)).
@@ -43,7 +44,7 @@ Features:
 
 - **Static JSON API** - files are committed under `api/` and served directly by GitHub Pages.
 - **Calendar history** - weekends and holidays are filled with the latest officially effective rate.
-- **Bilingual UI** - Spanish and English strings live in `_data/i18n.yml`.
+- **Bilingual UI** - Spanish and English strings live in `site/_data/i18n.yml`.
 - **Light/dark mode** - follows `prefers-color-scheme` and stores manual selection in `localStorage`.
 - **No server runtime** - the site is built with Jekyll; dashboard data is loaded client-side from JSON files.
 
@@ -99,17 +100,17 @@ Fields:
 
 ## How The Data Works
 
-`main.py` fetches `https://www.bcv.org.ve/`, parses the published currency blocks, and reads BCV's `Fecha Valor` when available.
+`scraper/main.py` fetches `https://www.bcv.org.ve/`, parses the published currency blocks, and reads BCV's `Fecha Valor` when available.
 
 On each run it:
 
-1. Writes the canonical snapshot to `api/v1/history/<effective-date>.json`.
+1. Writes the canonical snapshot to `site/api/v1/history/<effective-date>.json`.
 2. Rebuilds calendar history from the earliest stored snapshot through today.
 3. Fills weekends, holidays, and missing dates with the latest rate whose `effective_date` is less than or equal to that day.
-4. Writes `api/v1/rate.json` as today's current rate, filling missing currencies from the latest available source when older backfills only include USD/EUR.
-5. Rebuilds `api/v1/history.json` with the latest 1830 entries.
+4. Writes `site/api/v1/rate.json` as today's current rate, filling missing currencies from the latest available source when older backfills only include USD/EUR.
+5. Rebuilds `site/api/v1/history.json` with the latest 1830 entries.
 
-BCV usually publishes on business days around 16:30 Caracas time, effective for the following business day. The workflow runs often and commits only when `api/` changes.
+BCV usually publishes on business days around 16:30 Caracas time, effective for the following business day. The workflow runs often and commits only when `site/api/` changes.
 
 ## Automation
 
@@ -118,8 +119,8 @@ Two GitHub Actions workflows keep the project updated and deployed:
 - `.github/workflows/update-rate.yml`
   - Runs every 30 minutes.
   - Can be run manually with `workflow_dispatch`.
-  - Also runs on pushes that change `main.py`, `requirements.txt`, or the workflow itself.
-  - Installs Python dependencies, runs `python main.py`, commits changed `api/` files, and triggers the Pages deploy workflow.
+  - Also runs on pushes that change `scraper/` or the workflow itself.
+  - Installs Python dependencies, runs `python scraper/main.py`, commits changed `site/api/` files, and triggers the Pages deploy workflow.
 
 - `.github/workflows/pages.yml`
   - Builds the Jekyll site with Ruby 3.3.
@@ -131,13 +132,14 @@ Two GitHub Actions workflows keep the project updated and deployed:
 Install Python dependencies and update the local JSON files:
 
 ```bash
-pip install -r requirements.txt
-python main.py
+pip install -r scraper/requirements.txt
+python scraper/main.py
 ```
 
 Preview the website locally:
 
 ```bash
+cd site
 bundle install
 bundle exec jekyll serve --baseurl ""
 ```
@@ -152,23 +154,27 @@ http://127.0.0.1:4000
 
 ```text
 .
-api/                  # Published JSON API files
-  rate.json
-  history.json
-  history/
-assets/
-  css/style.css
-  js/dashboard.js
-  js/history.js
-  logo.svg
-_data/i18n.yml        # Spanish and English UI strings
-_layouts/default.html # Shared Jekyll layout
-index.html            # Spanish dashboard
-history.html          # Spanish history page
-en/                   # English pages
-main.py               # BCV scraper and JSON writer
-requirements.txt
+├── site/                    # Jekyll website, served at https://bcv.today
+│   ├── _config.yml, Gemfile, CNAME
+│   ├── _layouts/ _includes/ # shared templates
+│   ├── _data/               # i18n strings, FAQ, integrations, latest rate (written by the scraper)
+│   ├── assets/              # CSS, JS (dashboard, history, WebMCP, liquidGL), images
+│   ├── api/v1/              # the public JSON API, generated by the scraper
+│   ├── en/                  # English pages
+│   ├── pages/               # currency pages and short aliases (each sets its own permalink)
+│   ├── .well-known/         # agent discovery: MCP/A2A cards, API catalog, skills, Web Bot Auth keys
+│   └── index.html, history.html, llms.txt, openapi.json, ...
+├── scraper/                 # main.py: BCV scraper and JSON writer (runs every 30 minutes in CI)
+├── packages/
+│   ├── python/              # PyPI package `bcv`
+│   ├── js/                  # npm package `bcv-today`
+│   └── mcp/                 # Cloudflare Worker: MCP server + A2A agent at mcp.bcv.today
+├── scripts/                 # build helpers: HTML -> Markdown, Web Bot Auth directory signing
+└── .github/workflows/       # data updates, Pages deploy, package CI and releases
 ```
+
+URLs do not follow the folder layout: `site/api/v1/rate.json` is served at `/api/v1/rate.json`, and the
+files in `site/pages/` declare their URLs with `permalink`.
 
 ## Repository Setup
 
@@ -176,8 +182,8 @@ For a fork or new deployment:
 
 1. Enable GitHub Pages with **Settings -> Pages -> Build and deployment -> GitHub Actions**.
 2. Allow workflow writes with **Settings -> Actions -> General -> Workflow permissions -> Read and write permissions**.
-3. Update `_config.yml` if the domain, base URL, or repository name changes.
-4. Update `CNAME` if using a custom domain.
+3. Update `site/_config.yml` if the domain, base URL, or repository name changes.
+4. Update `site/CNAME` if using a custom domain.
 
 ## Disclaimer
 

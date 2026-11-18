@@ -41,17 +41,6 @@ jekyll-minifier:
   exclude:
   - assets/js/lib/*.js
 exclude:
-- main.py
-- mcp
-- python
-- js
-- scripts
-- requirements.txt
-- README.md
-- LICENSE
-- ".gitignore"
-- ".gitattributes"
-- ".idea"
 - vendor
 - Gemfile
 - Gemfile.lock

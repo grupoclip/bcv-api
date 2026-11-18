@@ -1,18 +1,18 @@
 name: Deploy MCP server
 
-# Deploys the stateless MCP + A2A Worker in mcp/ to the mcp.bcv.today custom domain.
-# The Worker must never be routed on bcv.today/* (see mcp/wrangler.toml).
+# Deploys the stateless MCP + A2A Worker in packages/mcp/ to the mcp.bcv.today custom domain.
+# The Worker must never be routed on bcv.today/* (see packages/mcp/wrangler.toml).
 on:
   push:
     branches: [ main ]
     paths:
-      - "mcp/**"
+      - "packages/mcp/**"
       # The Worker imports the shared business rules from the npm package
-      # source (js/src) so both can never diverge.
-      - "js/**"
-      - ".well-known/mcp/server-card.json"
+      # source (packages/js/src) so both can never diverge.
+      - "packages/js/**"
+      - "site/.well-known/mcp/server-card.json"
       # The A2A agent card is bundled into the Worker (single source of truth).
-      - ".well-known/agent-card.json"
+      - "site/.well-known/agent-card.json"
       - ".github/workflows/deploy-mcp.yml"
   workflow_dispatch:
 
@@ -36,7 +36,7 @@ jobs:
       name: github-pages
     defaults:
       run:
-        working-directory: mcp
+        working-directory: packages/mcp
     steps:
       - name: Check Cloudflare token
         working-directory: .
@@ -56,12 +56,12 @@ jobs:
         with:
           node-version: "22"
           cache: npm
-          cache-dependency-path: mcp/package-lock.json
+          cache-dependency-path: packages/mcp/package-lock.json
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Typecheck (Worker + shared js/src)
+      - name: Typecheck (Worker + shared packages/js/src)
         run: npx tsc --noEmit
 
       - name: Deploy

@@ -1,5 +1,7 @@
 # bcv-today
 
+[![Socket Badge](https://badge.socket.dev/npm/package/bcv-today)](https://socket.dev/npm/package/bcv-today)
+
 Official JavaScript/TypeScript client for the [BCV Today API](https://bcv.today/api/): the exchange rates published by
 Banco Central de Venezuela (BCV) for USD, EUR, CNY, TRY and RUB against the bolivar (VES).
 
@@ -132,7 +134,7 @@ Las conversiones usan aritmética decimal exacta y redondeo half-up a 2 decimale
 
 - API docs: https://bcv.today/api/ · OpenAPI: https://bcv.today/openapi.json · llms.txt: https://bcv.today/llms.txt
 - Python library: https://pypi.org/project/bcv/
-- Source: https://github.com/grupoclip/bcv-api/tree/main/js · Issues: https://github.com/grupoclip/bcv-api/issues
+- Source: https://github.com/grupoclip/bcv-api/tree/main/packages/js · Issues: https://github.com/grupoclip/bcv-api/issues
 
 ## License
 

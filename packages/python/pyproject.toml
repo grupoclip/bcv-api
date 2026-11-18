@@ -41,9 +41,9 @@ test = ["pytest>=7"]
 [project.urls]
 Homepage = "https://bcv.today"
 Documentation = "https://bcv.today/api/"
-Source = "https://github.com/grupoclip/bcv-api/tree/main/python"
+Source = "https://github.com/grupoclip/bcv-api/tree/main/packages/python"
 Issues = "https://github.com/grupoclip/bcv-api/issues"
-Changelog = "https://github.com/grupoclip/bcv-api/blob/main/python/CHANGELOG.md"
+Changelog = "https://github.com/grupoclip/bcv-api/blob/main/packages/python/CHANGELOG.md"
 "Data license" = "https://bcv.today/licencia/"
 
 [project.scripts]

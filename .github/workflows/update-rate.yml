@@ -10,8 +10,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - "main.py"
-      - "requirements.txt"
+      - "scraper/**"
       - ".github/workflows/update-rate.yml"
 
 permissions:
@@ -33,23 +32,24 @@ jobs:
         with:
           python-version: "3.14"
           cache: pip
+          cache-dependency-path: scraper/requirements.txt
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r scraper/requirements.txt
 
       - name: Fetch rate
         env:
           # Ed25519 PEM key for Web Bot Auth request signing; unsigned if unset.
           WEB_BOT_AUTH_PRIVATE_KEY: ${{ secrets.WEB_BOT_AUTH_PRIVATE_KEY }}
-        run: python main.py
+        run: python scraper/main.py
 
       - name: Commit generated data
         id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add api _data/rate.json _data/recent_usd.json
-          if git diff --cached --quiet -- api _data/rate.json _data/recent_usd.json; then
+          git add site/api site/_data/rate.json site/_data/recent_usd.json
+          if git diff --cached --quiet -- site/api site/_data/rate.json site/_data/recent_usd.json; then
             echo "No changes in generated data"
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0

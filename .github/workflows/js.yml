@@ -1,19 +1,19 @@
 name: JavaScript library
 
-# Tests, lints, type-checks, builds and packs the `bcv-today` npm package in js/.
-# The package source (js/src) is also bundled into the MCP/A2A Worker in mcp/,
+# Tests, lints, type-checks, builds and packs the `bcv-today` npm package in packages/js/.
+# The package source (packages/js/src) is also bundled into the MCP/A2A Worker in packages/mcp/,
 # whose own workflow (deploy-mcp.yml) re-checks it on every change.
 on:
   push:
     branches: [ main ]
     paths:
-      - "js/**"
-      - "python/tests/fixtures/**"
+      - "packages/js/**"
+      - "packages/python/tests/fixtures/**"
       - ".github/workflows/js.yml"
   pull_request:
     paths:
-      - "js/**"
-      - "python/tests/fixtures/**"
+      - "packages/js/**"
+      - "packages/python/tests/fixtures/**"
       - ".github/workflows/js.yml"
   workflow_dispatch:
 
@@ -26,7 +26,7 @@ concurrency:
 
 defaults:
   run:
-    working-directory: js
+    working-directory: packages/js
 
 jobs:
   test:
@@ -42,7 +42,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
-          cache-dependency-path: js/package-lock.json
+          cache-dependency-path: packages/js/package-lock.json
       - name: Install
         run: npm ci
       - name: Unit tests (offline; build + library and CLI)
@@ -57,7 +57,7 @@ jobs:
         with:
           node-version: "24"
           cache: npm
-          cache-dependency-path: js/package-lock.json
+          cache-dependency-path: packages/js/package-lock.json
       - run: npm ci
       - name: Biome
         run: npm run lint
@@ -73,7 +73,7 @@ jobs:
         with:
           node-version: "24"
           cache: npm
-          cache-dependency-path: js/package-lock.json
+          cache-dependency-path: packages/js/package-lock.json
       - run: npm ci
       - name: Pack
         run: |

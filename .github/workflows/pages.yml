@@ -30,12 +30,14 @@ jobs:
           ruby-version: "3.3"
           bundler-cache: true
           cache-version: 0
+          working-directory: site
 
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v6
 
       - name: Set asset version and GitHub stars
+        working-directory: site
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -48,6 +50,7 @@ jobs:
           fi
 
       - name: Build with Jekyll
+        working-directory: site
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}" --config _config.yml,_config.build.yml
         env:
           JEKYLL_ENV: production
@@ -56,17 +59,18 @@ jobs:
         # index.md next to every index.html; served to `Accept: text/markdown`
         # requests by the Cloudflare rewrite rule in the deploy job.
         # base_url from configure-pages is http://; the site is served over https.
-        run: node scripts/build-markdown.mjs _site "https://bcv.today"
+        run: node scripts/build-markdown.mjs site/_site "https://bcv.today"
 
       - name: Remove generated build config
-        run: rm -f _config.build.yml
+        run: rm -f site/_config.build.yml
 
       - name: Preserve raw Agent Skills artifacts
-        run: cp -R .well-known/agent-skills/. _site/.well-known/agent-skills/
+        run: cp -R site/.well-known/agent-skills/. site/_site/.well-known/agent-skills/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
+          path: site/_site
           include-hidden-files: true
 
   deploy:
@@ -267,11 +271,11 @@ jobs:
         with:
           sparse-checkout: |
             scripts/sign-directory.mjs
-            .well-known/http-message-signatures-directory
+            site/.well-known/http-message-signatures-directory
           sparse-checkout-cone-mode: false
 
       - name: Sign Web Bot Auth key directory (Cloudflare response headers)
-        # The scraper (main.py) signs its requests with Web Bot Auth. Its key
+        # The scraper (scraper/main.py) signs its requests with Web Bot Auth. Its key
         # directory must be served with Content-Type
         # application/http-message-signatures-directory+json and signed
         # Signature / Signature-Input headers; GitHub Pages cannot set headers,

@@ -28,9 +28,11 @@ WEB_BOT_AUTH_TTL = 60  # seconds a request signature stays valid
 # The default requests User-Agent, plus the bot name and a contact URL.
 USER_AGENT = f"{requests.utils.default_user_agent()} (BCVTodayBot; +https://bcv.today/api/#web-bot-auth)"
 
-API_DIR = "api"
+# Generated files go into the Jekyll site (site/), next to this folder.
+SITE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "site")
+API_DIR = os.path.join(SITE_DIR, "api")
 API_V1_DIR = os.path.join(API_DIR, "v1")
-DATA_DIR = "_data"
+DATA_DIR = os.path.join(SITE_DIR, "_data")
 HISTORY_DIR = os.path.join(API_V1_DIR, "history")
 HISTORY_INDEX = os.path.join(API_V1_DIR, "history.json")
 STATUS_PATH = os.path.join(API_V1_DIR, "status.json")

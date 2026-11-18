@@ -1,8 +1,8 @@
 name: Publish JavaScript library
 
-# Publishes js/ to https://www.npmjs.com/package/bcv-today with npm Trusted
+# Publishes packages/js/ to https://www.npmjs.com/package/bcv-today with npm Trusted
 # Publishing (OIDC, no tokens) and a provenance attestation. Cut a release by
-# pushing a tag js-vX.Y.Z that matches "version" in js/package.json, e.g.:
+# pushing a tag js-vX.Y.Z that matches "version" in packages/js/package.json, e.g.:
 #   git tag js-v1.0.0 && git push origin js-v1.0.0
 # The package must be configured on npmjs.com with this repository, this
 # workflow file (publish-js.yml) and the environment "npm" as trusted publisher.
@@ -30,7 +30,7 @@ jobs:
       id-token: write
     defaults:
       run:
-        working-directory: js
+        working-directory: packages/js
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6

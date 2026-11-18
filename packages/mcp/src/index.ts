@@ -7,7 +7,7 @@
 // long-lived SSE stream (Free-plan friendly). POST /a2a is the A2A
 // (Agent2Agent) JSON-RPC endpoint, also stateless (see a2a/handler.ts).
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
-import serverCard from "../../.well-known/mcp/server-card.json";
+import serverCard from "../../../site/.well-known/mcp/server-card.json";
 import { AGENT_CARD_V1, compatAgentCard, handleA2A, wantsV1 } from "./a2a/handler.js";
 import { DataClient } from "./data.js";
 import { SERVER_VERSION, buildServer } from "./server.js";

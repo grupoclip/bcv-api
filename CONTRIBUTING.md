@@ -9,15 +9,21 @@ Pages can serve them directly.
 
 ## Development Setup
 
+The repository has four parts: `site/` (the Jekyll website and the generated
+API files), `scraper/` (the BCV scraper), `packages/` (the Python, npm and
+Cloudflare Worker packages, each with its own README) and `scripts/` (build
+helpers).
+
 Install Python dependencies:
 
 ```bash
-pip install -r requirements.txt
+pip install -r scraper/requirements.txt
 ```
 
-Install Jekyll dependencies:
+Install Jekyll dependencies (from `site/`):
 
 ```bash
+cd site
 bundle install
 ```
 
@@ -32,23 +38,24 @@ BUNDLE_PATH=vendor/bundle bundle install
 Run the scraper and regenerate API JSON files:
 
 ```bash
-python main.py
+python scraper/main.py
 ```
 
 This writes generated data under:
 
-- `api/v1/rate.json`
-- `api/v1/status.json`
-- `api/v1/history.json`
-- `api/v1/history/YYYY-MM-DD.json`
-- `_data/rate.json`
+- `site/api/v1/rate.json`
+- `site/api/v1/status.json`
+- `site/api/v1/history.json`
+- `site/api/v1/history/YYYY-MM-DD.json`
+- `site/_data/rate.json`
+- `site/_data/recent_usd.json`
 
 Only commit generated data when the change is intentional. Avoid committing
 unrelated rate refreshes in documentation-only or styling-only changes.
 
 ## Previewing The Site
 
-Run Jekyll locally:
+Run Jekyll locally from `site/`:
 
 ```bash
 bundle exec jekyll serve --baseurl ""
@@ -71,12 +78,12 @@ http://127.0.0.1:4000
 Before opening a pull request, run the checks that match your change:
 
 ```bash
-python3 -m py_compile main.py
-node --check assets/js/dashboard.js
-node --check assets/js/history.js
-python3 -m json.tool openapi.json
-python3 -m json.tool api/v1/status.json
-BUNDLE_PATH=vendor/bundle bundle exec jekyll build --baseurl ""
+python3 -m py_compile scraper/main.py
+node --check site/assets/js/dashboard.js
+node --check site/assets/js/history.js
+python3 -m json.tool site/openapi.json
+python3 -m json.tool site/api/v1/status.json
+(cd site && BUNDLE_PATH=vendor/bundle bundle exec jekyll build --baseurl "")
 ```
 
 If a check is not relevant or cannot be run locally, mention that in the pull
@@ -92,7 +99,7 @@ history behavior:
 - Update `openapi.json`.
 - Update Spanish and English API docs.
 - Update `README.md`.
-- Update `llms.txt`, `llms-full.txt`, and `.well-known` discovery files when
+- Update `site/llms.txt`, `site/llms-full.txt`, and `site/.well-known` discovery files when
   machine-readable agent context changes.
 - Preserve existing fields whenever possible.
 
@@ -105,12 +112,12 @@ Spanish and English.
 
 Common text sources:
 
-- `_data/i18n.yml`
-- `_data/faq.yml`
-- `api/index.md`
-- `en/api/index.md`
-- Spanish pages at the repository root
-- English pages under `en/`
+- `site/_data/i18n.yml`
+- `site/_data/faq.yml`
+- `site/api/index.md`
+- `site/en/api/index.md`
+- Spanish pages at the root of `site/` and in `site/pages/`
+- English pages under `site/en/`
 
 ## Code Style
 
@@ -133,4 +140,4 @@ A useful pull request includes:
 ## Security
 
 Do not open public issues with exploit details or secrets. Follow the security
-reporting process in `.github/SECURITY.md`.
+reporting process in `SECURITY.md`.

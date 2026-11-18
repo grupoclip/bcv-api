@@ -114,13 +114,13 @@ Code and docs: [js/ on GitHub](https://github.com/{{ site.repository }}/tree/mai
 
 ## Odoo module {#odoo}
 
-Free module [`l10n_ve_bcv_rate`](https://apps.odoo.com/apps/modules/19.0/l10n_ve_bcv_rate) that updates every company's currency rates in Odoo daily with the official BCV rate read from this API (USD, EUR, CNY, TRY and RUB), dated with the value date. It works with companies in bolivars or in foreign currency, can backfill history from 2021-08-02 and needs no API key or extra Python packages.
+Free module [`l10n_ve_bcv_rate`](https://apps.odoo.com/apps/modules/20.0/l10n_ve_bcv_rate) that updates every company's currency rates in Odoo daily with the official BCV rate read from this API (USD, EUR, CNY, TRY and RUB), dated with the value date. It works with companies in bolivars or in foreign currency, can backfill history from 2021-08-02 and needs no API key or extra Python packages.
 
 - **Versions:** Odoo 16.0, 17.0, 18.0, 19.0 and 20.0, Community and Enterprise, on Odoo.sh or on-premise.
 - **Not available on Odoo Online** (SaaS), which does not allow third-party modules.
 - **Install:** copy `l10n_ve_bcv_rate/` (from the branch for your version) into your addons path, update the apps list and install it from *Apps*; then enable it in *Settings › Accounting › Currencies*.
 
-Download: [Odoo Apps](https://apps.odoo.com/apps/modules/19.0/l10n_ve_bcv_rate) · Code: [grupoclip/odoo-bcv-rate on GitHub](https://github.com/grupoclip/odoo-bcv-rate) (branches `16.0` to `20.0`).
+Download: [Odoo Apps](https://apps.odoo.com/apps/modules/20.0/l10n_ve_bcv_rate) · Code: [grupoclip/odoo-bcv-rate on GitHub](https://github.com/grupoclip/odoo-bcv-rate) (branches `16.0` to `20.0`).
 
 ## A2A agent
 

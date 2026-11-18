@@ -128,7 +128,7 @@
       "identifier": "urn:air:bcv.today:integration:odoo-bcv-rate",
       "displayName": "Odoo module l10n_ve_bcv_rate (Odoo Apps)",
       "type": "text/html",
-      "url": "https://apps.odoo.com/apps/modules/19.0/l10n_ve_bcv_rate",
+      "url": "https://apps.odoo.com/apps/modules/20.0/l10n_ve_bcv_rate",
       "description": "Free Odoo module that updates each company's currency rates daily with the official Banco Central de Venezuela rate (USD, EUR, CNY, TRY, RUB) from the BCV Today API, dated with the BCV value date, with a history backfill wizard. Odoo 16.0 to 20.0, Community and Enterprise, Odoo.sh or on-premise; not available on Odoo Online. Source: https://github.com/grupoclip/odoo-bcv-rate.",
       "tags": ["odoo", "erp", "accounting", "exchange-rates", "venezuela", "bcv"],
       "representativeQueries": [

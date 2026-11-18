@@ -180,7 +180,7 @@ Other ways to use the same BCV Today data:
 
 - All integrations: https://bcv.today/en/integrations/ (en español: https://bcv.today/integraciones/)
 - Odoo module `l10n_ve_bcv_rate` (Odoo 16-20, daily company currency rates):
-  https://apps.odoo.com/apps/modules/19.0/l10n_ve_bcv_rate
+  https://apps.odoo.com/apps/modules/20.0/l10n_ve_bcv_rate
 - MCP server for AI assistants (Streamable HTTP, no auth): `https://mcp.bcv.today/mcp`,
   setup at https://bcv.today/en/api/#mcp-server
 

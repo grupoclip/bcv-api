@@ -1,7 +1,8 @@
 ---
-name: Accessibility report / Reporte de accesibilidad
-about: Something on the site or in a package gets in your way / Algo del sitio o de una librería te impide usarlo
 title: ''
+name: Accessibility report / Reporte de accesibilidad
+about: Something on the site or in a package gets in your way / Algo del sitio o de
+  una librería te impide usarlo
 labels: accessibility
 assignees: ''
 ---

@@ -1,0 +1,58 @@
+---
+title: BCV Today
+timezone: UTC
+collections:
+  posts:
+    title: Posts
+    output: true
+  uploads:
+    title: Uploads
+    output: true
+defaults:
+- scope:
+    path: ''
+  values:
+    lang: es
+- scope:
+    path: en
+  values:
+    lang: en
+description: Tasas oficiales del Banco Central de Venezuela, hoy. USD, EUR, CNY, TRY
+  y RUB contra el bolívar, actualizadas a diario.
+url: https://bcv.today
+baseurl: ''
+repository: grupoclip/bcv-api
+include:
+- ".well-known"
+permalink: pretty
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight
+plugins:
+- jekyll-minifier
+jekyll-minifier:
+  compress_html: true
+  compress_json: true
+  compress_css: false
+  compress_javascript: true
+  exclude:
+  - assets/js/lib/*.js
+exclude:
+- main.py
+- mcp
+- python
+- js
+- scripts
+- requirements.txt
+- README.md
+- LICENSE
+- ".gitignore"
+- ".gitattributes"
+- ".idea"
+- vendor
+- Gemfile
+- Gemfile.lock
+- "*.xlsx"

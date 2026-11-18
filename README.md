@@ -13,11 +13,25 @@
   </a>
 </p>
 
-[![Website](https://img.shields.io/badge/site-bcv.today-ffd166)](https://bcv.today)
-[![API v1](https://img.shields.io/badge/API-v1-187a3b)](https://bcv.today/api/)
-[![Status](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fbcv.today%2Fapi%2Fv1%2Fstatus.json&query=$.status&label=status)](https://bcv.today/api/v1/status.json)
-[![USD BCV](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fbcv.today%2Fapi%2Fv1%2Frate.json&query=$.USD&label=USD%20BCV&suffix=%20Bs)](https://bcv.today/api/v1/rate.json)
-[![License](https://img.shields.io/github/license/grupoclip/bcv-api)](LICENSE)
+<p align="center">
+  <a href="https://bcv.today"><img alt="Website: bcv.today" src="https://img.shields.io/badge/site-bcv.today-ffd166"></a>
+  <a href="https://bcv.today/api/"><img alt="API v1" src="https://img.shields.io/badge/API-v1-187a3b"></a>
+  <a href="https://bcv.today/api/v1/status.json"><img alt="API status" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fbcv.today%2Fapi%2Fv1%2Fstatus.json&query=$.status&label=status"></a>
+  <a href="https://bcv.today/api/v1/rate.json"><img alt="Today's USD BCV rate" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fbcv.today%2Fapi%2Fv1%2Frate.json&query=$.USD&label=USD%20BCV&suffix=%20Bs"></a>
+  <a href="https://bcv.today/api/v1/rate.json"><img alt="Effective date (fecha valor)" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fbcv.today%2Fapi%2Fv1%2Frate.json&query=$.effective_date&label=fecha%20valor&color=2e7d4f"></a>
+  <a href="https://github.com/grupoclip/bcv-api/actions/workflows/update-rate.yml"><img alt="Rate update workflow" src="https://img.shields.io/github/actions/workflow/status/grupoclip/bcv-api/update-rate.yml?branch=main&label=rate%20update"></a>
+  <br>
+  <a href="https://pypi.org/project/bcv/"><img alt="PyPI package bcv" src="https://img.shields.io/pypi/v/bcv?label=PyPI%20bcv&color=3775a9"></a>
+  <a href="https://pypi.org/project/bcv/"><img alt="Supported Python versions" src="https://img.shields.io/pypi/pyversions/bcv"></a>
+  <a href="https://www.npmjs.com/package/bcv-today"><img alt="npm package bcv-today" src="https://img.shields.io/npm/v/bcv-today?label=npm%20bcv-today&color=cb3837"></a>
+  <a href="https://www.npmjs.com/package/bcv-today"><img alt="Supported Node.js versions" src="https://img.shields.io/node/v/bcv-today"></a>
+  <a href="https://socket.dev/npm/package/bcv-today"><img alt="Socket score" src="https://badge.socket.dev/npm/package/bcv-today"></a>
+  <a href="https://apps.odoo.com/apps/modules/l10n_ve_bcv_rate"><img alt="Odoo Apps: versions 16 to 20" src="https://img.shields.io/badge/Odoo%20Apps-16%E2%80%9320-714b67"></a>
+  <a href="https://bcv.today/en/api/#mcp-server"><img alt="MCP server at mcp.bcv.today" src="https://img.shields.io/badge/MCP-mcp.bcv.today-f2b33d"></a>
+  <br>
+  <a href="LICENSE"><img alt="Code license: Apache-2.0" src="https://img.shields.io/badge/code-Apache--2.0-blue"></a>
+  <a href="https://bcv.today/en/license/"><img alt="Data license: CC BY 4.0" src="https://img.shields.io/badge/data-CC%20BY%204.0-ef9421"></a>
+</p>
 
 > [bcv.today](https://bcv.today) - official Banco Central de Venezuela exchange rates, served as a static JSON API and dashboard.
 

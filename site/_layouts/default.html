@@ -223,26 +223,23 @@
 {%- endif %}
 <header class="site-header">
     <div class="container">
-        <a class="brand"
-           href="{% if page.lang == 'en' %}{{ '/en/' | relative_url }}{% else %}{{ '/' | relative_url }}{% endif %}">
+        {%- if page.lang == 'en' -%}{%- assign home_url = '/en/' | relative_url -%}{%- else -%}{%- assign home_url = '/' | relative_url -%}{%- endif %}
+        <a class="brand" href="{{ home_url }}"{% if page.url == home_url %} aria-current="page"{% endif %}>
             <img alt="BCV Today logo" height="28" src="{{ '/assets/logo.svg' | relative_url }}?v={{ asset_version }}"
                  width="28"/>
             <span>{{ site.title }}</span>
         </a>
         <nav class="site-nav" aria-label="{{ t.primary_navigation }}">
             {% if page.lang == 'en' %}
-            {% assign rates_url = '/en/' | relative_url %}
             {% assign history_url = '/en/history/' | relative_url %}
             {% assign api_url = '/en/api/' | relative_url %}
             {% assign integrations_url = '/en/integrations/' | relative_url %}
             {% else %}
-            {% assign rates_url = '/' | relative_url %}
             {% assign history_url = '/history/' | relative_url %}
             {% assign api_url = '/api/' | relative_url %}
             {% assign integrations_url = '/integraciones/' | relative_url %}
             {% endif %}
             {% assign current = page.url | replace: 'index.html', '' %}
-            <a href="{{ rates_url }}" {% if current== rates_url %} aria-current="page" {% endif %}>{{ t.nav_rates }}</a>
             <a href="{{ history_url }}" {% if current== history_url %} aria-current="page" {% endif %}>{{ t.nav_history }}</a>
             <a href="{{ integrations_url }}" {% if current== integrations_url %} aria-current="page" {% endif %}>{{ t.footer_integrations }}</a>
             <a href="{{ api_url }}" {% if current== api_url %} aria-current="page" {% endif %}>{{ t.nav_api }}</a>
@@ -321,6 +318,7 @@
 <main id="main-content" class="container" tabindex="-1">{{ content }}</main>
 
 <footer class="site-footer">
+    {%- assign f_repo = 'https://github.com/' | append: site.repository -%}
     {%- if page.lang == 'en' -%}
     {%- assign f_home = '/en/' | relative_url -%}
     {%- assign f_history = '/en/history/' | relative_url -%}
@@ -329,6 +327,11 @@
     {%- assign f_license = '/en/license/' | relative_url -%}
     {%- assign f_code_anchor = '#code' -%}
     {%- assign f_data_anchor = '#data' -%}
+    {%- assign f_dollar = '/en/bcv-dollar/' | relative_url -%}
+    {%- assign f_euro = '/en/bcv-euro/' | relative_url -%}
+    {%- assign f_yuan = '/en/bcv-yuan/' | relative_url -%}
+    {%- assign f_lira = '/en/bcv-lira/' | relative_url -%}
+    {%- assign f_ruble = '/en/bcv-ruble/' | relative_url -%}
     {%- else -%}
     {%- assign f_home = '/' | relative_url -%}
     {%- assign f_history = '/history/' | relative_url -%}
@@ -337,58 +340,71 @@
     {%- assign f_license = '/licencia/' | relative_url -%}
     {%- assign f_code_anchor = '#codigo' -%}
     {%- assign f_data_anchor = '#datos' -%}
-    {%- endif -%}
-    {%- assign f_repo = 'https://github.com/' | append: site.repository %}
-    {%- if page.lang == 'en' -%}
-    {%- assign f_dollar = '/en/bcv-dollar/' | relative_url -%}
-    {%- assign f_euro = '/en/bcv-euro/' | relative_url -%}
-    {%- else -%}
     {%- assign f_dollar = '/dolar-bcv/' | relative_url -%}
     {%- assign f_euro = '/euro-bcv/' | relative_url -%}
-    {%- endif %}
+    {%- assign f_yuan = '/yuan-bcv/' | relative_url -%}
+    {%- assign f_lira = '/lira-bcv/' | relative_url -%}
+    {%- assign f_ruble = '/rublo-bcv/' | relative_url -%}
+    {%- endif -%}
+    {%- assign f_current = page.url | replace: 'index.html', '' -%}
+    {%- assign f_rate = site.data.rate %}
     <div class="container">
-        <div class="footer-main">
+        <div class="footer-top">
             <div class="footer-about">
                 <a class="footer-brand" href="{{ f_home }}">
                     <img alt="" height="24" src="{{ '/assets/logo.svg' | relative_url }}?v={{ asset_version }}" width="24"/>
                     <span>{{ site.title }}</span>
                 </a>
                 <p class="footer-tagline">{{ t.footer_tagline }}</p>
-                {%- if site.data.rate.effective_date %}
-                <span class="stamp footer-stamp">{{ t.stamp_label }} <b>{% include date.html date=site.data.rate.effective_date %}</b></span>
-                {%- endif %}
             </div>
-            <nav class="footer-nav" aria-label="{{ t.footer_nav_label }}">
-                <div class="footer-col">
-                    <h2 class="footer-heading">{{ t.footer_col_rates }}</h2>
-                    <ul>
-                        <li><a href="{{ f_home }}">{{ t.footer_today }}</a></li>
-                        <li><a href="{{ f_dollar }}">{{ t.footer_dollar }}</a></li>
-                        <li><a href="{{ f_euro }}">{{ t.footer_euro }}</a></li>
-                        <li><a href="{{ f_history }}">{{ t.nav_history }}</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h2 class="footer-heading">{{ t.footer_col_dev }}</h2>
-                    <ul>
-                        <li><a href="{{ f_api }}">{{ t.nav_api }}</a></li>
-                        <li><a href="{{ f_integrations }}"{% if page.url == f_integrations %} aria-current="page"{% endif %}>{{ t.footer_integrations }}</a></li>
-                        <li><a href="{{ '/api/v1/status.json' | relative_url }}">{{ t.footer_status }}</a></li>
-                        <li><a href="{{ '/openapi.json' | relative_url }}">{{ t.footer_openapi }}</a></li>
-                        <li><a href="{{ '/llms.txt' | relative_url }}">{{ t.footer_llms }}</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h2 class="footer-heading">{{ t.footer_col_project }}</h2>
-                    <ul>
-                        <li><a href="{{ f_repo }}" target="_blank" rel="noopener">{{ t.footer_github }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
-                        <li><a href="{{ f_repo }}/issues/new/choose" target="_blank" rel="noopener">{{ t.footer_issue }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
-                        <li><a href="{{ f_license }}"{% if page.url == f_license %} aria-current="page"{% endif %}>{{ t.footer_license }}</a></li>
-                        <li><a href="https://www.bcv.org.ve/" title="{{ t.footer_bcv_title }}" target="_blank" rel="noopener">{{ t.footer_source }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
-                    </ul>
-                </div>
-            </nav>
+            {%- if f_rate.USD and f_rate.effective_date %}
+            <p class="footer-rate"><a href="{{ f_dollar }}"><span>USD <b>{% include num.html value=f_rate.USD %} Bs.</b></span><span aria-hidden="true">·</span><span><span class="visually-hidden">{{ t.stamp_label }} </span>{% include date.html date=f_rate.effective_date %}</span></a></p>
+            {%- endif %}
         </div>
+        <nav class="footer-nav" aria-label="{{ t.footer_nav_label }}">
+            <div class="footer-col">
+                <h2 class="footer-heading">{{ t.footer_col_rates }}</h2>
+                <ul>
+                    <li><a href="{{ f_dollar }}"{% if f_current == f_dollar %} aria-current="page"{% endif %}>{{ t.footer_dollar }}</a></li>
+                    <li><a href="{{ f_euro }}"{% if f_current == f_euro %} aria-current="page"{% endif %}>{{ t.footer_euro }}</a></li>
+                    <li><a href="{{ f_yuan }}"{% if f_current == f_yuan %} aria-current="page"{% endif %}>{{ t.footer_yuan }}</a></li>
+                    <li><a href="{{ f_lira }}"{% if f_current == f_lira %} aria-current="page"{% endif %}>{{ t.footer_lira }}</a></li>
+                    <li><a href="{{ f_ruble }}"{% if f_current == f_ruble %} aria-current="page"{% endif %}>{{ t.footer_ruble }}</a></li>
+                    <li><a href="{{ f_history }}"{% if f_current == f_history %} aria-current="page"{% endif %}>{{ t.nav_history }}</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h2 class="footer-heading">{{ t.footer_integrations }}</h2>
+                <ul>
+                    <li><a href="{{ f_api }}">{{ t.footer_api_json }}</a></li>
+                    <li><a href="{{ f_integrations }}#int-python">Python</a></li>
+                    <li><a href="{{ f_integrations }}#int-javascript">JavaScript</a></li>
+                    <li><a href="{{ f_integrations }}#int-odoo">Odoo</a></li>
+                    <li><a href="{{ f_integrations }}#int-mcp">{{ t.footer_mcp }}</a></li>
+                    <li><a href="{{ f_integrations }}#int-telegram">Telegram</a></li>
+                    <li><a href="{{ f_integrations }}"{% if f_current == f_integrations %} aria-current="page"{% endif %}>{{ t.footer_int_all }}</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h2 class="footer-heading">{{ t.footer_col_resources }}</h2>
+                <ul>
+                    <li><a href="{{ f_api }}"{% if f_current == f_api %} aria-current="page"{% endif %}>{{ t.footer_api_docs }}</a></li>
+                    <li><a href="{{ '/api/v1/status.json' | relative_url }}">{{ t.footer_status }}</a></li>
+                    <li><a href="{{ '/openapi.json' | relative_url }}">{{ t.footer_openapi }}</a></li>
+                    <li><a href="{{ '/llms.txt' | relative_url }}">{{ t.footer_llms }}</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h2 class="footer-heading">{{ t.footer_col_project }}</h2>
+                <ul>
+                    <li><a href="{{ f_repo }}" target="_blank" rel="noopener">{{ t.footer_github }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
+                    <li><a href="{{ f_repo }}/issues/new/choose" target="_blank" rel="noopener">{{ t.footer_issue }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
+                    <li><a href="{{ f_license }}"{% if f_current == f_license %} aria-current="page"{% endif %}>{{ t.footer_license }}</a></li>
+                    <li><a href="{{ f_repo }}/blob/main/ACCESSIBILITY.md" target="_blank" rel="noopener">{{ t.footer_accessibility }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
+                    <li><a href="https://www.bcv.org.ve/" title="{{ t.footer_bcv_title }}" target="_blank" rel="noopener">{{ t.footer_source }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
+                </ul>
+            </div>
+        </nav>
         <div class="footer-legal">
             <p>{{ t.footer_unofficial }}</p>
             <p class="footer-licenses">

@@ -36,6 +36,10 @@ Otras formas de usar los mismos datos (bibliotecas de Python y JavaScript, módu
 | Contexto completo para LLM | `/llms-full.txt` | Toda la documentación en un solo archivo de texto. |
 | Tarjeta del servidor MCP | `/.well-known/mcp/server-card.json` | Tarjeta del servidor MCP (dirección, transporte y herramientas). |
 
+### WebMCP en el navegador {#webmcp}
+
+En los navegadores con WebMCP (`navigator.modelContext`), cada página de bcv.today registra cinco herramientas de solo lectura para el agente que navega contigo: `get_latest_bcv_rates`, `get_bcv_api_status`, `get_bcv_rate_history`, `get_bcv_rate_by_date` y `open_bcv_api_docs`. Leen la misma API pública y no hay que configurar nada; los navegadores sin WebMCP ni siquiera cargan el script. Código: [`site/assets/js/webmcp.js`](https://github.com/{{ site.repository }}/blob/main/site/assets/js/webmcp.js). Especificación: [WebMCP](https://webmachinelearning.github.io/webmcp/).
+
 ## Servidor MCP
 
 Servidor remoto [Model Context Protocol](https://modelcontextprotocol.io) para asistentes y agentes de IA (Claude, ChatGPT, Cursor, VS Code y otros). Es gratuito, de solo lectura, sin estado y sin autenticación; usa los mismos datos de esta API.

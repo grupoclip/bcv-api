@@ -2,41 +2,34 @@
 title: Integraciones de BCV Today
 permalink: "/integraciones/"
 layout: default
-seo_title: Integraciones | API, Python, Odoo, MCP y A2A con la tasa BCV
+seo_title: Integraciones | API, Python, Odoo, widget, MCP y Telegram con la tasa BCV
 lang: es
 alt_url: "/en/integrations/"
-description: Todas las formas de usar la tasa oficial del BCV con BCV Today. Sitio
-  web, API JSON, biblioteca de Python, módulo de Odoo, servidor MCP, agente A2A y llms.txt,
-  gratis y sin claves.
+description: La tasa oficial del BCV donde la necesites. API JSON, bibliotecas de
+  Python, JavaScript y PHP, módulo de Odoo, widget web, WooCommerce, servidor MCP,
+  agente A2A y bot de Telegram, gratis y sin claves.
 keywords:
 - integraciones BCV
 - tasa BCV Odoo
 - tasa BCV Python
+- widget tasa BCV
+- bot Telegram dólar BCV
 - servidor MCP tasa BCV
 - API dólar BCV
 copy_code: true
 ---
 
+{%- assign t = site.data.i18n[page.lang] -%}
 {%- assign repo = 'https://github.com/' | append: site.repository -%}
 {%- assign odoo_repo = 'https://github.com/grupoclip/odoo-bcv-rate' -%}
-{%- assign odoo_apps = 'https://apps.odoo.com/apps/modules/l10n_ve_bcv_rate' -%}
-{%- assign npm_published = site.data.integrations.npm_published -%}
 <div class="int-page">
-<div class="int-hero">
-  <div class="int-hero-text">
-    <h1>Integraciones</h1>
-    <p class="lede">
-      Las mismas tasas oficiales del Banco Central de Venezuela, donde las necesites:
-      en el navegador, en tu código, en tu ERP o en tu asistente de IA.
-    </p>
-    <p class="int-intro">
-      Todo sale de los mismos datos: la tasa que publica el BCV, con su fecha valor.
-      Todo es gratuito, de solo lectura y sin claves de acceso. Los datos se publican bajo
-      <a href="{{ '/licencia/' | relative_url }}">CC BY 4.0</a>: si los muestras, cita la fuente.
-    </p>
-  </div>
-  {% include integrations-flow.html %}
+<div class="int-head-block">
+  <h1>Integraciones</h1>
+  <p class="lede">La tasa oficial del BCV donde la necesites. Todo es gratis, sin claves y con los mismos datos.</p>
+  <p class="int-credit">{{ t.cat.credit_html | replace: '__LICENSE__', '/licencia/' }}</p>
 </div>
+
+{% include integrations-catalog.html %}
 
 <section class="int-try" aria-labelledby="int-try-heading">
   <h2 id="int-try-heading">Pruébalo</h2>
@@ -44,209 +37,8 @@ copy_code: true
   {% include integrations-tabs.html id="hub-int" %}
 </section>
 
-<section class="int-group" aria-labelledby="int-people">
-  <h2 id="int-people">Para personas</h2>
-  <div class="int-list">
-    <article class="int-card" aria-labelledby="int-site">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">www</span>
-        <div>
-          <h3 id="int-site">Sitio web</h3>
-          <p class="int-meta">bcv.today</p>
-        </div>
-      </header>
-      <p>Las tasas vigentes de USD, EUR, CNY, TRY y RUB con una calculadora, para saber cuánto vale hoy el dólar BCV.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Disponible · se actualiza a diario</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ '/' | relative_url }}">Ver las tasas de hoy</a>
-      </footer>
-    </article>
-
-    <article class="int-card" aria-labelledby="int-history">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">hist</span>
-        <div>
-          <h3 id="int-history">Histórico</h3>
-          <p class="int-meta">gráfico · tabla</p>
-        </div>
-      </header>
-      <p>El gráfico y la tabla diaria de cada moneda, para comparar fechas o buscar la tasa de un día.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Disponible · datos diarios desde 2021</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ '/history/' | relative_url }}">Ver el histórico</a>
-      </footer>
-    </article>
-  </div>
-</section>
-
-<section class="int-group" aria-labelledby="int-devs">
-  <h2 id="int-devs">Para desarrolladores</h2>
-  <div class="int-list">
-    <article class="int-card" aria-labelledby="int-api">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">{ }</span>
-        <div>
-          <h3 id="int-api">API JSON</h3>
-          <p class="int-meta">HTTP · JSON</p>
-        </div>
-      </header>
-      <p>Archivos JSON estáticos con la tasa vigente, el histórico diario y el estado de los datos, para cualquier lenguaje que haga peticiones HTTP.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Disponible · gratis, sin clave</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ '/api/' | relative_url }}">Documentación</a>
-        <a href="{{ '/openapi.json' | relative_url }}">OpenAPI</a>
-        <a href="{{ '/api/v1/status.json' | relative_url }}">Estado</a>
-      </footer>
-    </article>
-
-    <article class="int-card" aria-labelledby="int-python">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">py</span>
-        <div>
-          <h3 id="int-python">Biblioteca de Python <code>bcv</code></h3>
-          <p class="int-meta">pip install bcv</p>
-        </div>
-      </header>
-      <p>Cliente sin dependencias con caché, <code>Decimal</code>, arrastre de fines de semana y el comando <code>bcv</code>, para scripts, cuadernos de Jupyter y servidores.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Disponible en PyPI · Python 3.9+</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="https://pypi.org/project/bcv/">Ver en PyPI</a>
-        <a href="{{ '/api/' | relative_url }}#biblioteca-de-python">Guía</a>
-        <a href="{{ repo }}/tree/main/packages/python">Código fuente</a>
-      </footer>
-    </article>
-
-    <article class="int-card" aria-labelledby="int-js">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">js</span>
-        <div>
-          <h3 id="int-js">Biblioteca de JavaScript <code>bcv-today</code></h3>
-          <p class="int-meta">npm · TypeScript</p>
-        </div>
-      </header>
-      <p>Cliente TypeScript sin dependencias con caché, aritmética decimal exacta y el comando <code>bcv-today</code>, para Node 18+, Deno, Bun, navegadores y Workers.</p>
-      {%- if npm_published %}
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Disponible en npm · <code>npm install bcv-today</code></p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="https://www.npmjs.com/package/bcv-today">Ver en npm</a>
-        <a href="{{ '/api/' | relative_url }}#javascript">Guía</a>
-        <a href="{{ repo }}/tree/main/packages/js">Código fuente</a>
-      </footer>
-      {%- else %}
-      <p class="int-status is-soon"><span class="int-dot" aria-hidden="true"></span>Próximamente en npm · el código ya está en GitHub</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ repo }}/tree/main/packages/js">Ver el código</a>
-        <a href="{{ '/api/' | relative_url }}#javascript">Guía</a>
-      </footer>
-      {%- endif %}
-    </article>
-
-    <article class="int-card" aria-labelledby="int-odoo">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">erp</span>
-        <div>
-          <h3 id="int-odoo">Módulo de Odoo <code>l10n_ve_bcv_rate</code></h3>
-          <p class="int-meta">Community · Enterprise</p>
-        </div>
-      </header>
-      <p>Actualiza a diario las tasas de cada compañía en Odoo.sh o servidor propio, para quien factura en bolívares o en divisas.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Odoo 16–20 · gratis · no Odoo Online</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ odoo_apps }}">Ver en Odoo Apps</a>
-        <a href="{{ odoo_repo }}">Código fuente</a>
-        <a href="{{ '/api/' | relative_url }}#odoo">Guía</a>
-      </footer>
-    </article>
-  </div>
-</section>
-
-<section class="int-group" aria-labelledby="int-agents">
-  <h2 id="int-agents">Para agentes de IA</h2>
-  <div class="int-list">
-    <article class="int-card" aria-labelledby="int-mcp">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">mcp</span>
-        <div>
-          <h3 id="int-mcp">Servidor MCP</h3>
-          <p class="int-meta">Streamable HTTP</p>
-        </div>
-      </header>
-      <p>Cinco herramientas de tasas, fechas, histórico y conversión para Claude, ChatGPT, Cursor, VS Code y cualquier cliente MCP.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Disponible · sin autenticación</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ '/api/' | relative_url }}#servidor-mcp">Cómo conectarlo</a>
-        <a href="{{ '/.well-known/mcp/server-card.json' | relative_url }}">Tarjeta del servidor</a>
-      </footer>
-    </article>
-
-    <article class="int-card" aria-labelledby="int-a2a">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">a2a</span>
-        <div>
-          <h3 id="int-a2a">Agente A2A</h3>
-          <p class="int-meta">JSON-RPC 2.0</p>
-        </div>
-      </header>
-      <p>Un agente Agent2Agent que responde en español o inglés sobre tasas, fechas y conversiones, sin que el otro agente conozca la API.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Disponible · A2A 1.0 y 0.3</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ '/api/' | relative_url }}#agente-a2a">Cómo usarlo</a>
-        <a href="{{ '/.well-known/agent-card.json' | relative_url }}">Tarjeta del agente</a>
-      </footer>
-    </article>
-
-    <article class="int-card" aria-labelledby="int-webmcp">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">nav</span>
-        <div>
-          <h3 id="int-webmcp">WebMCP en el navegador</h3>
-          <p class="int-meta">navigator.modelContext</p>
-        </div>
-      </header>
-      <p>Cada página de bcv.today registra cinco herramientas de solo lectura para el agente que navega contigo.</p>
-      <p class="int-status is-soon"><span class="int-dot" aria-hidden="true"></span>En navegadores con WebMCP</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ repo }}/blob/main/site/assets/js/webmcp.js">Ver las herramientas</a>
-        <a href="https://webmachinelearning.github.io/webmcp/">Especificación</a>
-      </footer>
-    </article>
-
-    <article class="int-card" aria-labelledby="int-markdown">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">md</span>
-        <div>
-          <h3 id="int-markdown">Páginas en Markdown</h3>
-          <p class="int-meta">Accept: text/markdown</p>
-        </div>
-      </header>
-      <p>Cada página también se sirve como Markdown limpio: pídela con esa cabecera o agrega <code>index.md</code> a la URL.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Disponible · todas las páginas</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ '/index.md' | relative_url }}">Ver el inicio en Markdown</a>
-      </footer>
-    </article>
-
-    <article class="int-card" aria-labelledby="int-llms">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">txt</span>
-        <div>
-          <h3 id="int-llms">llms.txt</h3>
-          <p class="int-meta">texto plano</p>
-        </div>
-      </header>
-      <p>Un índice corto del sitio y de la API para modelos de lenguaje, con una versión completa y un catálogo de recursos para agentes.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Disponible</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ '/llms.txt' | relative_url }}">Abrir llms.txt</a>
-        <a href="{{ '/llms-full.txt' | relative_url }}">llms-full.txt</a>
-        <a href="{{ '/.well-known/ai-catalog.json' | relative_url }}">AI catalog</a>
-      </footer>
-    </article>
-  </div>
-</section>
-
 <p class="int-outro">
-  El código de todo esto es abierto: <a href="{{ repo }}">bcv-api</a> (sitio, API, MCP, A2A, Python y JavaScript)
+  Todo es código abierto: <a href="{{ repo }}">bcv-api</a> (sitio, API, MCP, A2A, widget y bibliotecas)
   y <a href="{{ odoo_repo }}">odoo-bcv-rate</a> (módulo de Odoo), en GitHub.
   ¿Falta una integración? <a href="{{ repo }}/issues/new/choose">Cuéntanos</a>.
 </p>

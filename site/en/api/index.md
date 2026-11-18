@@ -37,6 +37,10 @@ Other ways to use the same data (Python and JavaScript libraries, Odoo module, M
 | LLM full context | `/llms-full.txt` | Full Markdown/text context. |
 | MCP server card | `/.well-known/mcp/server-card.json` | MCP server card (endpoint, transport and tools). |
 
+### WebMCP in the browser {#webmcp}
+
+In browsers with WebMCP (`navigator.modelContext`), every bcv.today page registers five read-only tools for the agent browsing with you: `get_latest_bcv_rates`, `get_bcv_api_status`, `get_bcv_rate_history`, `get_bcv_rate_by_date` and `open_bcv_api_docs`. They read the same public API and need no setup; browsers without WebMCP never load the script. Source: [`site/assets/js/webmcp.js`](https://github.com/{{ site.repository }}/blob/main/site/assets/js/webmcp.js). Specification: [WebMCP](https://webmachinelearning.github.io/webmcp/).
+
 ## MCP server
 
 A remote [Model Context Protocol](https://modelcontextprotocol.io) server for AI assistants and agents (Claude, ChatGPT, Cursor, VS Code and others). It is free, read-only, stateless and needs no authentication; it uses the same data as this API.

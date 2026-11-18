@@ -30,7 +30,7 @@ Every page is also available as Markdown: request it with `Accept: text/markdown
 
 ## Client libraries and integrations
 
-- [Integrations](https://bcv.today/en/integrations/): every BCV Today product in one page (website, JSON API, Python and JavaScript libraries, Odoo module, MCP server, A2A agent, WebMCP, Markdown, llms.txt); Spanish version at https://bcv.today/integraciones/
+- [Integrations](https://bcv.today/en/integrations/): every BCV Today product in one page (JSON API, Python, JavaScript and PHP libraries, Odoo module, web widget, WooCommerce plugin, MCP server, A2A agent, Markdown, llms.txt, Telegram bot and channel); Spanish version at https://bcv.today/integraciones/
 - [Python package `bcv`](https://pypi.org/project/bcv/): official zero-dependency Python client and `bcv` CLI (`pip install bcv`) with latest rates, rate on a date with weekend carry-forward, history and conversions
 - [npm package `bcv-today`](https://www.npmjs.com/package/bcv-today): official zero-dependency JavaScript/TypeScript client (`npm install bcv-today`; ESM + CommonJS, Node 18+, Deno, Bun, browsers, Cloudflare Workers) with exact decimal conversions, weekend carry-forward, history and the `bcv-today` CLI
 - [Odoo module `l10n_ve_bcv_rate`](https://apps.odoo.com/apps/modules/l10n_ve_bcv_rate): free Odoo 16.0-20.0 module (Community and Enterprise, Odoo.sh or on-premise; not Odoo Online) that updates each company's currency rates daily with the official BCV rate from this API; source at https://github.com/grupoclip/odoo-bcv-rate (branches 16.0 to 20.0)

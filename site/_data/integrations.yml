@@ -1,7 +1,12 @@
-# Integration availability flags, read by _includes/integrations-tabs.html,
-# _includes/integrations-flow.html and the integrations hub.
+# Integration availability flags, read by _includes/integrations-tabs.html
+# and _includes/integrations-catalog.html (the integrations hub).
 #
 # npm_published: flip to true once https://registry.npmjs.org/bcv-today
 # returns 200. While false, the JavaScript tab and card say "coming soon"
 # and link to the source on GitHub instead of npm.
 npm_published: true
+#
+# php_published: flip to true once
+# https://packagist.org/packages/grupoclip/bcv-today exists. While false,
+# the PHP tab and card say "coming soon" and link to the source on GitHub.
+php_published: false

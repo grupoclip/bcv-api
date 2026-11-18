@@ -2,251 +2,43 @@
 title: BCV Today integrations
 permalink: "/en/integrations/"
 layout: default
-seo_title: Integrations | BCV rate API, Python, Odoo, MCP and A2A
+seo_title: Integrations | BCV rate API, Python, Odoo, widget, MCP and Telegram
 lang: en
 alt_url: "/integraciones/"
-description: Every way to use the official BCV exchange rate with BCV Today. Website,
-  JSON API, Python library, Odoo module, MCP server, A2A agent and llms.txt, free
-  and with no API keys.
+description: The official BCV rate wherever you need it. JSON API, Python, JavaScript
+  and PHP libraries, Odoo module, web widget, WooCommerce, MCP server, A2A agent and
+  Telegram bot, free and with no API keys.
 keywords:
 - BCV integrations
 - BCV rate Odoo
 - BCV rate Python
+- BCV rate widget
+- BCV dollar Telegram bot
 - BCV MCP server
 - BCV dollar API
 copy_code: true
 ---
 
+{%- assign t = site.data.i18n[page.lang] -%}
 {%- assign repo = 'https://github.com/' | append: site.repository -%}
 {%- assign odoo_repo = 'https://github.com/grupoclip/odoo-bcv-rate' -%}
-{%- assign odoo_apps = 'https://apps.odoo.com/apps/modules/l10n_ve_bcv_rate' -%}
-{%- assign npm_published = site.data.integrations.npm_published -%}
 <div class="int-page">
-<div class="int-hero">
-  <div class="int-hero-text">
-    <h1>Integrations</h1>
-    <p class="lede">
-      The same official Banco Central de Venezuela rates, wherever you need them:
-      in the browser, in your code, in your ERP or in your AI assistant.
-    </p>
-    <p class="int-intro">
-      Everything comes from the same data: the rate the BCV publishes, with its value date.
-      Everything is free, read-only and needs no API key. The data is published under
-      <a href="{{ '/en/license/' | relative_url }}">CC BY 4.0</a>: if you show it, credit the source.
-    </p>
-  </div>
-  {% include integrations-flow.html %}
+<div class="int-head-block">
+  <h1>Integrations</h1>
+  <p class="lede">The official BCV rate wherever you need it. Everything is free, with no keys and the same data.</p>
+  <p class="int-credit">{{ t.cat.credit_html | replace: '__LICENSE__', '/en/license/' }}</p>
 </div>
+
+{% include integrations-catalog.html %}
 
 <section class="int-try" aria-labelledby="int-try-heading">
   <h2 id="int-try-heading">Try it</h2>
-  <p class="int-try-lede">One minimal example per integration, with today's rate.</p>
+  <p class="int-try-lede">A minimal example per integration, with today's rate.</p>
   {% include integrations-tabs.html id="hub-int" %}
 </section>
 
-<section class="int-group" aria-labelledby="int-people">
-  <h2 id="int-people">For people</h2>
-  <div class="int-list">
-    <article class="int-card" aria-labelledby="int-site">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">www</span>
-        <div>
-          <h3 id="int-site">Website</h3>
-          <p class="int-meta">bcv.today</p>
-        </div>
-      </header>
-      <p>The current USD, EUR, CNY, TRY and RUB rates with a calculator, to know what the BCV dollar is worth today.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Available · updated daily</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ '/en/' | relative_url }}">See today's rates</a>
-      </footer>
-    </article>
-
-    <article class="int-card" aria-labelledby="int-history">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">hist</span>
-        <div>
-          <h3 id="int-history">History</h3>
-          <p class="int-meta">chart · table</p>
-        </div>
-      </header>
-      <p>The daily chart and table for each currency, to compare dates or look up the rate on a given day.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Available · daily data since 2021</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ '/en/history/' | relative_url }}">See the history</a>
-      </footer>
-    </article>
-  </div>
-</section>
-
-<section class="int-group" aria-labelledby="int-devs">
-  <h2 id="int-devs">For developers</h2>
-  <div class="int-list">
-    <article class="int-card" aria-labelledby="int-api">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">{ }</span>
-        <div>
-          <h3 id="int-api">JSON API</h3>
-          <p class="int-meta">HTTP · JSON</p>
-        </div>
-      </header>
-      <p>Static JSON files with the current rate, the daily history and the data status, for any language that can make an HTTP request.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Available · free, no key</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ '/en/api/' | relative_url }}">Documentation</a>
-        <a href="{{ '/openapi.json' | relative_url }}">OpenAPI</a>
-        <a href="{{ '/api/v1/status.json' | relative_url }}">Status</a>
-      </footer>
-    </article>
-
-    <article class="int-card" aria-labelledby="int-python">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">py</span>
-        <div>
-          <h3 id="int-python">Python library <code>bcv</code></h3>
-          <p class="int-meta">pip install bcv</p>
-        </div>
-      </header>
-      <p>A zero-dependency client with caching, <code>Decimal</code> math, weekend carry-forward and a <code>bcv</code> command, for scripts, notebooks and backends.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Available on PyPI · Python 3.9+</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="https://pypi.org/project/bcv/">View on PyPI</a>
-        <a href="{{ '/en/api/' | relative_url }}#python-library">Guide</a>
-        <a href="{{ repo }}/tree/main/packages/python">Source code</a>
-      </footer>
-    </article>
-
-    <article class="int-card" aria-labelledby="int-js">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">js</span>
-        <div>
-          <h3 id="int-js">JavaScript library <code>bcv-today</code></h3>
-          <p class="int-meta">npm · TypeScript</p>
-        </div>
-      </header>
-      <p>A zero-dependency TypeScript client with caching, exact decimal math and a <code>bcv-today</code> command, for Node 18+, Deno, Bun, browsers and Workers.</p>
-      {%- if npm_published %}
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Available on npm · <code>npm install bcv-today</code></p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="https://www.npmjs.com/package/bcv-today">View on npm</a>
-        <a href="{{ '/en/api/' | relative_url }}#javascript">Guide</a>
-        <a href="{{ repo }}/tree/main/packages/js">Source code</a>
-      </footer>
-      {%- else %}
-      <p class="int-status is-soon"><span class="int-dot" aria-hidden="true"></span>Coming soon to npm · the code is already on GitHub</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ repo }}/tree/main/packages/js">See the code</a>
-        <a href="{{ '/en/api/' | relative_url }}#javascript">Guide</a>
-      </footer>
-      {%- endif %}
-    </article>
-
-    <article class="int-card" aria-labelledby="int-odoo">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">erp</span>
-        <div>
-          <h3 id="int-odoo">Odoo module <code>l10n_ve_bcv_rate</code></h3>
-          <p class="int-meta">Community · Enterprise</p>
-        </div>
-      </header>
-      <p>Updates every company's rates daily on Odoo.sh or on-premise, for anyone invoicing in bolivars or foreign currency.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Odoo 16–20 · free · not Odoo Online</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ odoo_apps }}">View on Odoo Apps</a>
-        <a href="{{ odoo_repo }}">Source code</a>
-        <a href="{{ '/en/api/' | relative_url }}#odoo">Guide</a>
-      </footer>
-    </article>
-  </div>
-</section>
-
-<section class="int-group" aria-labelledby="int-agents">
-  <h2 id="int-agents">For AI agents</h2>
-  <div class="int-list">
-    <article class="int-card" aria-labelledby="int-mcp">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">mcp</span>
-        <div>
-          <h3 id="int-mcp">MCP server</h3>
-          <p class="int-meta">Streamable HTTP</p>
-        </div>
-      </header>
-      <p>Five tools for rates, dates, history and conversion, for Claude, ChatGPT, Cursor, VS Code and any MCP client.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Available · no authentication</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ '/en/api/' | relative_url }}#mcp-server">How to connect it</a>
-        <a href="{{ '/.well-known/mcp/server-card.json' | relative_url }}">Server card</a>
-      </footer>
-    </article>
-
-    <article class="int-card" aria-labelledby="int-a2a">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">a2a</span>
-        <div>
-          <h3 id="int-a2a">A2A agent</h3>
-          <p class="int-meta">JSON-RPC 2.0</p>
-        </div>
-      </header>
-      <p>An Agent2Agent agent that answers in Spanish or English about rates, dates and conversions, so other agents don't need to learn the API.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Available · A2A 1.0 and 0.3</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ '/en/api/' | relative_url }}#a2a-agent">How to use it</a>
-        <a href="{{ '/.well-known/agent-card.json' | relative_url }}">Agent card</a>
-      </footer>
-    </article>
-
-    <article class="int-card" aria-labelledby="int-webmcp">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">nav</span>
-        <div>
-          <h3 id="int-webmcp">WebMCP in the browser</h3>
-          <p class="int-meta">navigator.modelContext</p>
-        </div>
-      </header>
-      <p>Every bcv.today page registers five read-only tools for the agent browsing with you.</p>
-      <p class="int-status is-soon"><span class="int-dot" aria-hidden="true"></span>In browsers with WebMCP</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ repo }}/blob/main/site/assets/js/webmcp.js">See the tools</a>
-        <a href="https://webmachinelearning.github.io/webmcp/">Specification</a>
-      </footer>
-    </article>
-
-    <article class="int-card" aria-labelledby="int-markdown">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">md</span>
-        <div>
-          <h3 id="int-markdown">Pages as Markdown</h3>
-          <p class="int-meta">Accept: text/markdown</p>
-        </div>
-      </header>
-      <p>Every page is also served as clean Markdown: ask for it with that header or append <code>index.md</code> to the URL.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Available · every page</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ '/en/index.md' | relative_url }}">See the home page as Markdown</a>
-      </footer>
-    </article>
-
-    <article class="int-card" aria-labelledby="int-llms">
-      <header class="int-head">
-        <span class="int-tile" aria-hidden="true">txt</span>
-        <div>
-          <h3 id="int-llms">llms.txt</h3>
-          <p class="int-meta">plain text</p>
-        </div>
-      </header>
-      <p>A short index of the site and the API for language models, with a complete version and a resource catalog for agents.</p>
-      <p class="int-status"><span class="int-dot" aria-hidden="true"></span>Available</p>
-      <footer class="int-actions">
-        <a class="button-link int-primary" href="{{ '/llms.txt' | relative_url }}">Open llms.txt</a>
-        <a href="{{ '/llms-full.txt' | relative_url }}">llms-full.txt</a>
-        <a href="{{ '/.well-known/ai-catalog.json' | relative_url }}">AI catalog</a>
-      </footer>
-    </article>
-  </div>
-</section>
-
 <p class="int-outro">
-  All of it is open source: <a href="{{ repo }}">bcv-api</a> (site, API, MCP, A2A, Python and JavaScript)
+  All of it is open source: <a href="{{ repo }}">bcv-api</a> (site, API, MCP, A2A, widget and libraries)
   and <a href="{{ odoo_repo }}">odoo-bcv-rate</a> (Odoo module), on GitHub.
   Missing an integration? <a href="{{ repo }}/issues/new/choose">Tell us</a>.
 </p>

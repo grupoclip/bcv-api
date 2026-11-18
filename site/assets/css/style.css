@@ -1220,6 +1220,12 @@ code {
     font-size: 0.875em;
 }
 
+/* Long inline URLs and keys in prose wrap instead of widening the page. */
+p > code,
+li > code {
+    overflow-wrap: anywhere;
+}
+
 pre {
     margin: 16px 0;
     padding: 16px;
@@ -1354,8 +1360,8 @@ main img {
 }
 
 /* Footer ---------------------------------------------------------------- */
-/* Three bands split by hairlines: identity and value date, a compact
-   three-column index, then the legal line. Muted roles throughout; links
+/* Three bands split by hairlines: identity with today's dollar, a
+   four-column index, then the legal line. Muted roles throughout; links
    only darken to --text on hover. */
 .site-footer {
     margin-top: 64px;
@@ -1370,20 +1376,20 @@ main img {
     margin: 0;
 }
 
-/* Identity on the left, a three-column index grouped by purpose on the
-   right, then the legal line. */
-.footer-main {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    gap: 32px 48px;
-    padding-bottom: 32px;
+.footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 32px;
+    padding-bottom: 24px;
 }
 
 .footer-about {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 8px;
 }
 
 .footer-brand {
@@ -1404,14 +1410,45 @@ main img {
 }
 
 .footer-tagline {
-    max-width: 22rem;
+    max-width: 26rem;
     color: var(--text-2);
+}
+
+/* Today's dollar, in the same format as the rest of the site. */
+.footer-rate {
+    color: var(--text-2);
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.footer-rate a {
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0 6px;
+    min-height: 32px;
+    padding-top: 6px;
+    color: var(--text-2);
+    text-decoration: none;
+}
+
+.footer-rate b {
+    color: var(--text);
+    font-weight: 500;
+}
+
+.footer-rate a:hover b {
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
 }
 
 .footer-nav {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 24px;
+    padding: 24px 0 32px;
+    border-top: 1px solid var(--line);
 }
 
 .footer-heading {
@@ -1473,9 +1510,9 @@ main img {
 }
 
 @media (max-width: 720px) {
-    .footer-main {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 24px;
+    .footer-nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px 16px;
     }
 }
 
@@ -1485,14 +1522,9 @@ main img {
         padding-top: 24px;
     }
 
-    .footer-nav {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 0;
-    }
-
-    .footer-col {
-        padding: 16px 0;
-        border-top: 1px solid var(--line);
+    .footer-top {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .footer-col a {
@@ -1883,7 +1915,7 @@ main img {
    every tab change on wide screens. */
 @media (min-width: 721px) {
     .is-tabbed .itabs-inner {
-        min-height: 404px;
+        min-height: 416px;
     }
 }
 
@@ -2062,101 +2094,246 @@ main img {
 }
 
 /* Integrations page ----------------------------------------------------- */
-/* Hero with the data-flow diagram, the shared tabs, then one card per
-   product grouped by audience. */
-.int-hero-text {
-    max-width: 40rem;
+/* A short head, filter chips over one grid of product cards (real logos),
+   then the shared tabs. */
+.int-head-block .lede {
+    margin-bottom: 8px;
 }
 
-.int-intro {
+.int-credit {
+    max-width: 36rem;
+    color: var(--muted);
+    font-size: 0.875rem;
+}
+
+.cat {
+    margin-top: 24px;
+}
+
+.cat-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 16px;
+}
+
+.cat-filters[hidden] {
+    display: none;
+}
+
+.cat-filters button {
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--surface);
     color: var(--text-2);
+    font: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: color var(--fast) var(--ease), background-color var(--fast) var(--ease);
 }
 
-.int-flow {
-    margin: 24px 0 0;
+.cat-filters button:hover {
+    background: var(--raised);
+    color: var(--text);
+}
+
+/* Pressed: ink fill plus weight, never colour alone. */
+.cat-filters button[aria-pressed="true"] {
+    border-color: transparent;
+    background: var(--text);
+    color: var(--bg);
+    font-weight: 500;
+}
+
+.cat-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
     padding: 20px;
     border: 1px solid var(--line);
-    border-radius: 16px;
+    border-radius: 12px;
     background: var(--surface);
     box-shadow: var(--shadow-sm);
+    scroll-margin-top: 96px;
 }
 
-.int-flow-caption {
-    margin: 0 0 16px;
+.cat-card[hidden] {
+    display: none;
+}
+
+.cat-card-wide {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+}
+
+.cat-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+}
+
+.cat-card p {
+    margin: 0;
+}
+
+.cat-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cat-head h3 {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    font-size: 1.0625rem;
+}
+
+.cat-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--text);
+}
+
+.cat-logo svg {
+    display: block;
+    width: 22px;
+    height: 22px;
+}
+
+/* Products without a logo: a short monospace mark, like the code itself. */
+.cat-mark {
+    width: auto;
+    min-width: 40px;
+    padding: 0 8px;
+    color: var(--text-2);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.cat-status {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    gap: 6px;
+    padding: 2px 8px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    color: var(--text-2);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+.cat-status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.cat-status.is-soon::before {
+    background: transparent;
+    box-shadow: inset 0 0 0 1.5px var(--muted);
+}
+
+.cat-meta {
     color: var(--muted);
     font-family: var(--mono);
     font-size: 0.75rem;
 }
 
-.flow {
+.cat-meta code {
+    padding: 0;
+    background: none;
+    color: var(--text-2);
+    font-size: inherit;
+}
+
+.cat-desc {
+    color: var(--text-2);
+}
+
+/* One-liners wrap instead of scrolling: no hidden overflow to reach. */
+pre.cat-snip {
+    margin: 0;
+    padding: 8px 12px;
+    overflow: visible;
+    border-radius: 8px;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.cat-card .cat-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 16px;
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+    font-size: 0.875rem;
+}
+
+.cat-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+}
+
+/* The live <bcv-rate>, on a paper tray so it reads as a preview. */
+.cat-demo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 0;
+    padding: 16px;
+    border: 1px dashed var(--line-strong);
+    border-radius: 10px;
+    background: var(--bg);
+}
+
+.cat-demo bcv-rate {
     display: block;
     width: 100%;
-    height: auto;
+    max-width: 320px;
 }
 
-.flow-v {
-    display: none;
-    max-width: 420px;
-}
-
-.flow-node {
-    fill: var(--bg);
-    stroke: var(--line-strong);
-    stroke-width: 1;
-}
-
-.flow-node-main {
-    fill: var(--raised);
-    stroke: color-mix(in srgb, var(--accent) 70%, transparent);
-}
-
-.flow-dot {
-    fill: var(--accent);
-}
-
-.flow-edge {
-    fill: none;
-    stroke: var(--muted);
-    stroke-width: 1.25;
-}
-
-.flow-arrowhead {
-    fill: var(--muted);
-}
-
-.flow-t {
-    fill: var(--text);
-    font-family: var(--font);
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.flow-t-main {
-    font-size: 15px;
-    font-weight: 600;
-}
-
-.flow-sub {
-    fill: var(--muted);
+.cat-demo bcv-rate:not(:defined) {
+    color: var(--text);
     font-family: var(--mono);
-    font-size: 11px;
 }
 
-.flow-g {
-    fill: var(--text-2);
-    font-family: var(--font);
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.flow-items {
-    fill: var(--text);
+.cat-demo figcaption {
+    color: var(--muted);
     font-family: var(--mono);
-    font-size: 12px;
-}
-
-.flow-items-sm {
-    font-size: 11px;
+    font-size: 0.75rem;
 }
 
 .int-try h2 {
@@ -2168,139 +2345,19 @@ main img {
     color: var(--text-2);
 }
 
-.int-group h2 {
-    margin-top: 48px;
-}
-
-/* Cards in a row share their region heights (subgrid): header, sentence,
-   status and actions line up across the row. */
-.int-list {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 12px;
-}
-
-.int-card {
-    display: grid;
-    grid-row: span 4;
-    grid-template-rows: subgrid;
-    row-gap: 12px;
-    padding: 20px;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: var(--surface);
-    box-shadow: var(--shadow-sm);
-}
-
-.int-card p {
-    margin: 0;
-}
-
-.int-card > p:not(.int-status) {
-    color: var(--text-2);
-}
-
-.int-head {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-}
-
-.int-tile {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex: none;
-    min-width: 40px;
-    height: 40px;
-    padding: 0 8px;
-    border-radius: 8px;
-    background: var(--raised);
-    color: var(--text-2);
-    font-family: var(--mono);
-    font-size: 0.8125rem;
-    font-weight: 500;
-}
-
-.int-head h3 {
-    margin: 0 0 2px;
-    font-size: 1.0625rem;
-}
-
-.int-head h3 code {
-    font-size: 0.8125rem;
-    font-weight: 500;
-}
-
-.int-meta {
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.75rem;
-}
-
-.int-status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    align-self: end;
-    color: var(--text-2);
-    font-size: 0.8125rem;
-}
-
-.int-status code {
-    font-size: 0.75rem;
-}
-
-.int-dot {
-    flex: none;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-}
-
-.int-status.is-soon .int-dot {
-    background: transparent;
-    box-shadow: inset 0 0 0 1.5px var(--muted);
-}
-
-.int-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px 16px;
-    padding-top: 12px;
-    border-top: 1px solid var(--line);
-    font-size: 0.875rem;
-}
-
-.int-actions .button-link {
-    height: 36px;
-    padding: 0 14px;
-    font-size: 0.875rem;
-}
-
-.int-actions a:not(.button-link) {
-    color: var(--text-2);
-}
-
 .int-outro {
     margin-top: 48px;
     color: var(--text-2);
 }
 
 @media (min-width: 721px) {
-    .int-flow {
-        padding: 24px;
-    }
-
-    .int-list {
+    .cat-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    /* An odd card out takes the full row instead of leaving a hole. */
-    .int-list > .int-card:last-child:nth-child(odd) {
+    .cat-card-wide {
         grid-column: 1 / -1;
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
     }
 }
 
@@ -2313,21 +2370,16 @@ main img {
         padding: 4px 12px 12px;
     }
 
-    .int-flow {
+    .cat-card {
         padding: 16px;
     }
+}
 
-    .flow-h {
-        display: none;
-    }
-
-    .flow-v {
-        display: block;
-    }
-
-    .int-card {
-        padding: 16px;
-    }
+/* History: one quiet line under the table */
+.history-note {
+    margin: 16px 0 0;
+    color: var(--muted);
+    font-size: 0.875rem;
 }
 
 /* 404 page ---------------------------------------------------------------

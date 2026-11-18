@@ -22,6 +22,7 @@
 {%- assign it_repo = 'https://github.com/' | append: site.repository -%}
 {%- assign odoo_apps = 'https://apps.odoo.com/apps/modules/l10n_ve_bcv_rate' -%}
 {%- assign js_src = it_repo | append: '/tree/main/packages/js' -%}
+{%- assign php_src = it_repo | append: '/tree/main/packages/php' -%}
 {%- if page.lang == 'en' -%}{%- assign api_url = '/en/api/' | relative_url -%}{%- else -%}{%- assign api_url = '/api/' | relative_url -%}{%- endif -%}
 {%- comment -%} 100 USD in VES, rounded half-up to 2 places, as the libraries print it {%- endcomment -%}
 {%- assign conv = rate.USD | times: 100 | round: 2 | append: '' | split: '.' -%}
@@ -33,9 +34,11 @@
       <button type="button" role="tab" id="{{ it_id }}-tab-curl" data-key="curl" aria-selected="true" tabindex="0">curl</button>
       <button type="button" role="tab" id="{{ it_id }}-tab-python" data-key="python" aria-selected="false" tabindex="-1">Python</button>
       <button type="button" role="tab" id="{{ it_id }}-tab-js" data-key="js" aria-selected="false" tabindex="-1">JavaScript{% unless ints.npm_published %} <span class="itabs-soon">{{ x.soon }}</span>{% endunless %}</button>
+      <button type="button" role="tab" id="{{ it_id }}-tab-php" data-key="php" aria-selected="false" tabindex="-1">PHP{% unless ints.php_published %} <span class="itabs-soon">{{ x.soon }}</span>{% endunless %}</button>
       <button type="button" role="tab" id="{{ it_id }}-tab-odoo" data-key="odoo" aria-selected="false" tabindex="-1">Odoo</button>
       <button type="button" role="tab" id="{{ it_id }}-tab-mcp" data-key="mcp" aria-selected="false" tabindex="-1">MCP</button>
       <button type="button" role="tab" id="{{ it_id }}-tab-a2a" data-key="a2a" aria-selected="false" tabindex="-1">A2A</button>
+      <button type="button" role="tab" id="{{ it_id }}-tab-telegram" data-key="telegram" aria-selected="false" tabindex="-1">Telegram</button>
     </div>
   </div>
 
@@ -95,6 +98,25 @@
     </div>
   </section>
 
+  <section class="itabs-panel" id="{{ it_id }}-php" data-tab="{{ it_id }}-tab-php">
+    <div class="itabs-inner">
+      <h3 class="itabs-title">{{ x.php_title }}{% unless ints.php_published %} <span class="itabs-soon">{{ x.soon }}</span>{% endunless %}</h3>
+      <p class="itabs-label">{{ x.install }}</p>
+      <div class="highlight itabs-cmd"><pre class="highlight"><code>composer require grupoclip/bcv-today</code></pre></div>
+      {%- unless ints.php_published %}
+      <p class="itabs-note">{{ x.php_soon_html | replace: '__PHP_SRC__', php_src }}</p>
+      {%- endunless %}
+      <p class="itabs-label">{{ x.usage }}</p>
+      <div class="highlight itabs-code"><pre class="highlight"><code><span class="nv">$bcv</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BcvToday\Bcv</span><span class="p">();</span>
+<span class="k">echo</span> <span class="nv">$bcv</span><span class="o">-&gt;</span><span class="nx">latest</span><span class="p">()</span><span class="o">-&gt;</span><span class="nx">rate</span><span class="p">(</span><span class="s1">'USD'</span><span class="p">),</span> <span class="no">PHP_EOL</span><span class="p">;</span>  <span class="c1">{{ x.php_comment }}</span>
+<span class="k">echo</span> <span class="nv">$bcv</span><span class="o">-&gt;</span><span class="nx">convert</span><span class="p">(</span><span class="s1">'100'</span><span class="p">,</span> <span class="s1">'USD'</span><span class="p">,</span> <span class="s1">'VES'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nx">result</span><span class="p">;</span></code></pre></div>
+      <p class="itabs-label">{{ x.output }}</p>
+      <pre class="itabs-out"><code>{{ rate.USD }}
+{{ conv_plain }}</code></pre>
+      <p class="itabs-foot">{% if ints.php_published %}<a href="https://packagist.org/packages/grupoclip/bcv-today">Packagist <span aria-hidden="true">→</span></a>{% endif %}<a href="{{ php_src }}">{{ x.php_more }}{% unless ints.php_published %} <span aria-hidden="true">→</span>{% endunless %}</a></p>
+    </div>
+  </section>
+
   <section class="itabs-panel" id="{{ it_id }}-odoo" data-tab="{{ it_id }}-tab-odoo">
     <div class="itabs-inner">
       <h3 class="itabs-title">{{ x.odoo_title }}</h3>
@@ -145,6 +167,28 @@
   <span class="p">]</span> <span class="p">}]</span>
 <span class="p">}</span> <span class="p">}</span> <span class="p">}</span></code></pre>
       <p class="itabs-foot"><a href="{{ api_url }}{{ x.a2a_anchor }}">{{ x.a2a_more }} <span aria-hidden="true">→</span></a><a href="{{ '/.well-known/agent-card.json' | relative_url }}">{{ x.agent_card }}</a></p>
+    </div>
+  </section>
+  <section class="itabs-panel" id="{{ it_id }}-telegram" data-tab="{{ it_id }}-tab-telegram">
+    <div class="itabs-inner">
+      <h3 class="itabs-title">{{ x.tg_title }}</h3>
+      <p class="itabs-label">Bot</p>
+      <p class="itabs-note">{{ x.tg_open_html }}</p>
+      <p class="itabs-label">{{ x.chat }}</p>
+      <dl class="itabs-chat">
+        <dt>{{ x.chat_you }}</dt>
+        <dd><code>{% if page.lang == 'en' %}/dollar{% else %}/dolar{% endif %}</code></dd>
+        <dt>{{ x.tg_bot }}</dt>
+        <dd>{{ x.tg_rate_name }}: <b>{% include num.html value=rate.USD %} Bs.</b> · {{ x.tg_effective }} {% include date.html date=rate.effective_date %}</dd>
+        <dt>{{ x.chat_you }}</dt>
+        <dd><code>{% if page.lang == 'en' %}/convert{% else %}/convertir{% endif %} 100 usd</code></dd>
+        <dt>{{ x.tg_bot }}</dt>
+        <dd>{% include num.html value=100 min=2 %} USD = <b>{% include num.html value=conv_plain min=2 max=2 %} Bs.</b></dd>
+      </dl>
+      <p class="itabs-label">{{ x.tg_inline }}</p>
+      <div class="highlight itabs-cmd"><pre class="highlight"><code>@BCVTodayBot 100 usd</code></pre></div>
+      <p class="itabs-note">{{ x.tg_channel_html }}</p>
+      <p class="itabs-foot"><a href="https://t.me/BCVTodayBot">{{ x.tg_more }} <span aria-hidden="true">→</span></a><a href="https://t.me/bcvtoday">{{ x.tg_channel }}</a></p>
     </div>
   </section>
 </div>

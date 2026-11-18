@@ -1,0 +1,264 @@
+{%- comment -%}
+  Integrations catalogue: one card per product, with filter chips.
+  Used by /integraciones/ and /en/integrations/ (single source; strings in
+  _data/i18n.yml under "cat", availability flags in _data/integrations.yml).
+
+  Progressive enhancement: without JS every card shows and the chips stay
+  hidden. The inline script after the grid turns the chips into toggle
+  buttons (aria-pressed), filters by data-cat / data-soon, announces the
+  count in a polite live region and mirrors the filter in the URL hash
+  (#codigo, #code…), so a filtered view can be shared.
+
+  Logos: _includes/brand-logo.html (Simple Icons, CC0). Products without a
+  logo there get a short monospace mark, like the code they stand for.
+{%- endcomment -%}
+{%- assign t = site.data.i18n[page.lang] -%}
+{%- assign c = t.cat -%}
+{%- assign ints = site.data.integrations -%}
+{%- assign repo = 'https://github.com/' | append: site.repository -%}
+{%- assign odoo_repo = 'https://github.com/grupoclip/odoo-bcv-rate' -%}
+{%- assign odoo_apps = 'https://apps.odoo.com/apps/modules/l10n_ve_bcv_rate' -%}
+{%- assign php_src = repo | append: '/tree/main/packages/php' -%}
+{%- assign base = site.url | append: site.baseurl -%}
+{%- if page.lang == 'en' -%}
+{%- assign api_url = '/en/api/' | relative_url -%}
+{%- assign md_home = '/en/index.md' | relative_url -%}
+{%- else -%}
+{%- assign api_url = '/api/' | relative_url -%}
+{%- assign md_home = '/index.md' | relative_url -%}
+{%- endif -%}
+<section class="cat" id="catalogo" aria-labelledby="cat-heading">
+  <h2 id="cat-heading" class="visually-hidden">{{ c.heading }}</h2>
+  <div class="cat-filters" role="group" aria-label="{{ c.filter_label }}" hidden>
+    <button type="button" data-filter="all" data-hash="" aria-pressed="true">{{ c.f_all }}</button>
+    <button type="button" data-filter="business" data-hash="{{ c.hash_business }}" aria-pressed="false">{{ c.f_business }}</button>
+    <button type="button" data-filter="code" data-hash="{{ c.hash_code }}" aria-pressed="false">{{ c.f_code }}</button>
+    <button type="button" data-filter="ai" data-hash="{{ c.hash_ai }}" aria-pressed="false">{{ c.f_ai }}</button>
+    <button type="button" data-filter="people" data-hash="{{ c.hash_people }}" aria-pressed="false">{{ c.f_people }}</button>
+    <button type="button" data-filter="soon" data-hash="{{ c.hash_soon }}" aria-pressed="false">{{ c.f_soon }}</button>
+  </div>
+  <p class="visually-hidden" role="status" data-cat-live data-one="{{ c.count_one }}" data-other="{{ c.count_other }}"></p>
+
+  <ul class="cat-grid" role="list">
+    <li class="cat-card cat-card-wide" data-cat="business" id="int-widget">
+      <div class="cat-body">
+        <div class="cat-head">
+          <span class="cat-logo cat-mark" aria-hidden="true">&lt;bcv-rate&gt;</span>
+          <h3>{{ c.widget_name }}</h3>
+          <span class="cat-status">{{ c.st_available }}</span>
+        </div>
+        <p class="cat-desc">{{ c.widget_desc }}</p>
+        <pre class="cat-snip"><code>&lt;script type="module" src="{{ base }}/widget/v1.js"&gt;&lt;/script&gt;
+&lt;bcv-rate currency="USD"&gt;&lt;/bcv-rate&gt;</code></pre>
+        <p class="cat-links"><a href="{{ repo }}/tree/main/packages/widget">{{ c.l_source }}</a></p>
+      </div>
+      <figure class="cat-demo">
+        <bcv-rate currency="USD" lang="{{ page.lang }}" id="cat-widget-demo">{{ c.widget_fallback }} {% include num.html value=site.data.rate.USD %} Bs.</bcv-rate>
+        <figcaption>{{ c.widget_live }}</figcaption>
+      </figure>
+    </li>
+
+    <li class="cat-card" data-cat="business" id="int-odoo">
+      <div class="cat-head">
+        <span class="cat-logo" aria-hidden="true">{% include brand-logo.html name="odoo" %}</span>
+        <h3>Odoo</h3>
+        <span class="cat-status">{{ c.st_available }}</span>
+      </div>
+      <p class="cat-meta"><code>l10n_ve_bcv_rate</code> · {{ c.odoo_meta }}</p>
+      <p class="cat-desc">{{ c.odoo_desc }}</p>
+      <p class="cat-links"><a href="{{ odoo_apps }}">Odoo Apps</a><a href="{{ odoo_repo }}">{{ c.l_source }}</a><a href="{{ api_url }}#odoo">{{ c.l_guide }}</a></p>
+    </li>
+
+    <li class="cat-card" data-cat="business" data-soon="true" id="int-woocommerce">
+      <div class="cat-head">
+        <span class="cat-logo" aria-hidden="true">{% include brand-logo.html name="woocommerce" %}</span>
+        <h3>{{ c.woo_name }}</h3>
+        <span class="cat-status is-soon">{{ c.st_review }}</span>
+      </div>
+      <p class="cat-meta">{{ c.woo_meta }}</p>
+      <p class="cat-desc">{{ c.woo_desc }}</p>
+      <p class="cat-links"><a href="https://github.com/grupoclip/wp-bcv-today">{{ c.l_source }}</a></p>
+    </li>
+
+    <li class="cat-card" data-cat="code" id="int-api">
+      <div class="cat-head">
+        <span class="cat-logo cat-mark" aria-hidden="true">{ }</span>
+        <h3>{{ c.api_name }}</h3>
+        <span class="cat-status">{{ c.st_available }}</span>
+      </div>
+      <p class="cat-meta">{{ c.api_meta }}</p>
+      <p class="cat-desc">{{ c.api_desc }}</p>
+      <pre class="cat-snip"><code>curl -s {{ base }}/api/v1/rate.json</code></pre>
+      <p class="cat-links"><a href="{{ api_url }}">{{ c.l_docs }}</a><a href="{{ '/openapi.json' | relative_url }}">OpenAPI</a></p>
+    </li>
+
+    <li class="cat-card" data-cat="code" id="int-python">
+      <div class="cat-head">
+        <span class="cat-logo" aria-hidden="true">{% include brand-logo.html name="python" %}</span>
+        <h3>Python</h3>
+        <span class="cat-status">{{ c.st_available }}</span>
+      </div>
+      <p class="cat-meta"><code>bcv</code> · Python 3.9+</p>
+      <p class="cat-desc">{{ c.py_desc }}</p>
+      <pre class="cat-snip"><code>pip install bcv</code></pre>
+      <p class="cat-links"><a href="https://pypi.org/project/bcv/">PyPI</a><a href="{{ api_url }}{{ t.itabs.py_anchor }}">{{ c.l_guide }}</a><a href="{{ repo }}/tree/main/packages/python">{{ c.l_source }}</a></p>
+    </li>
+
+    <li class="cat-card" data-cat="code"{% unless ints.npm_published %} data-soon="true"{% endunless %} id="int-javascript">
+      <div class="cat-head">
+        <span class="cat-logo" aria-hidden="true">{% include brand-logo.html name="javascript" %}</span>
+        <h3>JavaScript</h3>
+        {%- if ints.npm_published %}
+        <span class="cat-status">{{ c.st_available }}</span>
+        {%- else %}
+        <span class="cat-status is-soon">{{ c.st_soon }}</span>
+        {%- endif %}
+      </div>
+      <p class="cat-meta"><code>bcv-today</code> · TypeScript</p>
+      <p class="cat-desc">{{ c.js_desc }}</p>
+      <pre class="cat-snip"><code>npm install bcv-today</code></pre>
+      <p class="cat-links">{% if ints.npm_published %}<a href="https://www.npmjs.com/package/bcv-today">npm</a>{% endif %}<a href="{{ api_url }}#javascript">{{ c.l_guide }}</a><a href="{{ repo }}/tree/main/packages/js">{{ c.l_source }}</a></p>
+    </li>
+
+    <li class="cat-card" data-cat="code"{% unless ints.php_published %} data-soon="true"{% endunless %} id="int-php">
+      <div class="cat-head">
+        <span class="cat-logo" aria-hidden="true">{% include brand-logo.html name="php" %}</span>
+        <h3>PHP</h3>
+        {%- if ints.php_published %}
+        <span class="cat-status">{{ c.st_available }}</span>
+        {%- else %}
+        <span class="cat-status is-soon">{{ c.st_soon }}</span>
+        {%- endif %}
+      </div>
+      <p class="cat-meta"><code>grupoclip/bcv-today</code> · PHP 8.1+</p>
+      <p class="cat-desc">{{ c.php_desc }}</p>
+      <pre class="cat-snip"><code>composer require grupoclip/bcv-today</code></pre>
+      <p class="cat-links">{% if ints.php_published %}<a href="https://packagist.org/packages/grupoclip/bcv-today">Packagist</a>{% endif %}<a href="{{ php_src }}">{{ c.l_source }}</a></p>
+    </li>
+
+    <li class="cat-card" data-cat="ai" id="int-mcp">
+      <div class="cat-head">
+        <span class="cat-logo" aria-hidden="true">{% include brand-logo.html name="modelcontextprotocol" %}</span>
+        <h3>{{ c.mcp_name }}</h3>
+        <span class="cat-status">{{ c.st_available }}</span>
+      </div>
+      <p class="cat-meta">Streamable HTTP</p>
+      <p class="cat-desc">{{ c.mcp_desc }}</p>
+      <pre class="cat-snip"><code>https://mcp.bcv.today/mcp</code></pre>
+      <p class="cat-links"><a href="{{ api_url }}{{ t.itabs.mcp_anchor }}">{{ c.l_connect }}</a><a href="{{ '/.well-known/mcp/server-card.json' | relative_url }}">{{ t.itabs.server_card }}</a></p>
+    </li>
+
+    <li class="cat-card" data-cat="ai" id="int-a2a">
+      <div class="cat-head">
+        <span class="cat-logo cat-mark" aria-hidden="true">A2A</span>
+        <h3>{{ c.a2a_name }}</h3>
+        <span class="cat-status">{{ c.st_available }}</span>
+      </div>
+      <p class="cat-meta">JSON-RPC 2.0 · A2A 1.0</p>
+      <p class="cat-desc">{{ c.a2a_desc }}</p>
+      <pre class="cat-snip"><code>https://mcp.bcv.today/a2a</code></pre>
+      <p class="cat-links"><a href="{{ api_url }}{{ t.itabs.a2a_anchor }}">{{ c.l_use }}</a><a href="{{ '/.well-known/agent-card.json' | relative_url }}">{{ t.itabs.agent_card }}</a></p>
+    </li>
+
+    <li class="cat-card" data-cat="ai" id="int-markdown">
+      <div class="cat-head">
+        <span class="cat-logo" aria-hidden="true">{% include brand-logo.html name="markdown" %}</span>
+        <h3>{{ c.md_name }}</h3>
+        <span class="cat-status">{{ c.st_available }}</span>
+      </div>
+      <p class="cat-meta">text/markdown · text/plain</p>
+      <p class="cat-desc">{{ c.md_desc }}</p>
+      <pre class="cat-snip"><code>Accept: text/markdown</code></pre>
+      <p class="cat-links"><a href="{{ '/llms.txt' | relative_url }}">llms.txt</a><a href="{{ md_home }}">{{ c.l_md_home }}</a></p>
+    </li>
+
+    <li class="cat-card" data-cat="people" id="int-telegram">
+      <div class="cat-head">
+        <span class="cat-logo" aria-hidden="true">{% include brand-logo.html name="telegram" %}</span>
+        <h3>Telegram</h3>
+        <span class="cat-status">{{ c.st_available }}</span>
+      </div>
+      <p class="cat-meta">{{ c.tg_meta }}</p>
+      <p class="cat-desc">{{ c.tg_desc }}</p>
+      <pre class="cat-snip"><code>{% if page.lang == 'en' %}/dollar · /convert 100 usd{% else %}/dolar · /convertir 100 usd{% endif %}</code></pre>
+      <p class="cat-links"><a href="https://t.me/BCVTodayBot">{{ c.l_bot }}</a><a href="https://t.me/bcvtoday">{{ c.l_channel }}</a></p>
+    </li>
+  </ul>
+</section>
+<script>
+  (function () {
+    // Filter chips: enhance only when this runs. Without it, every card shows.
+    var root = document.currentScript && document.currentScript.previousElementSibling;
+    if (!root || !root.classList.contains("cat")) return;
+    var bar = root.querySelector(".cat-filters");
+    var chips = Array.prototype.slice.call(bar.querySelectorAll("button"));
+    var cards = Array.prototype.slice.call(root.querySelectorAll(".cat-card"));
+    var live = root.querySelector("[data-cat-live]");
+
+    function matches(card, filter) {
+      if (filter === "all") return true;
+      if (filter === "soon") return card.dataset.soon === "true";
+      return card.dataset.cat === filter;
+    }
+
+    function apply(chip, announce) {
+      var filter = chip.dataset.filter;
+      var shown = 0;
+      cards.forEach(function (card) {
+        var on = matches(card, filter);
+        card.hidden = !on;
+        if (on) shown++;
+      });
+      chips.forEach(function (c) {
+        c.setAttribute("aria-pressed", c === chip ? "true" : "false");
+      });
+      if (announce) {
+        live.textContent = shown === 1 ? live.dataset.one : live.dataset.other.replace("%{n}", shown);
+      }
+    }
+
+    function fromHash() {
+      var h = decodeURIComponent(location.hash.slice(1));
+      for (var i = 1; i < chips.length; i++) {
+        if (chips[i].dataset.hash === h) return chips[i];
+      }
+      return null;
+    }
+
+    bar.hidden = false;
+    root.classList.add("is-filterable");
+    var initial = fromHash();
+    if (initial) apply(initial, false);
+
+    bar.addEventListener("click", function (event) {
+      var chip = event.target.closest("button[data-filter]");
+      if (!chip) return;
+      apply(chip, true);
+      var url = location.pathname + location.search + (chip.dataset.hash ? "#" + chip.dataset.hash : "");
+      try {
+        history.replaceState(null, "", url);
+      } catch (e) {
+      }
+    });
+
+    window.addEventListener("hashchange", function () {
+      var chip = fromHash();
+      if (chip) apply(chip, true);
+    });
+  })();
+</script>
+<script>
+  (function () {
+    // The live widget follows the site's theme switch, not only the system one.
+    var demo = document.getElementById("cat-widget-demo");
+    var meta = document.querySelector('meta[name="color-scheme"]');
+    if (!demo || !meta) return;
+    function sync() {
+      var v = meta.content;
+      demo.setAttribute("theme", v === "light" || v === "dark" ? v : "auto");
+    }
+    sync();
+    new MutationObserver(sync).observe(meta, { attributes: true });
+  })();
+</script>
+<script type="module" src="{{ '/widget/v1.js' | relative_url }}"></script>

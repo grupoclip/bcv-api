@@ -1,0 +1,120 @@
+name: Web widget
+
+# Lints, type-checks, tests and builds the `bcv-today-widget` npm package (<bcv-rate>) in packages/widget/.
+# The minified bundle is also served by the website as https://bcv.today/widget/v1.js (npm run build:site).
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "packages/widget/**"
+      - ".github/workflows/widget.yml"
+  pull_request:
+    paths:
+      - "packages/widget/**"
+      - ".github/workflows/widget.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: widget-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: packages/widget
+
+jobs:
+  test:
+    name: Unit tests (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # The unit tests import the TypeScript sources directly (type stripping: Node >= 22.18).
+        node-version: ["22", "24"]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+          cache-dependency-path: packages/widget/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Unit tests (offline; build + formatting, data layer, bundle)
+        run: npm test
+
+  lint:
+    name: Lint, typecheck and size
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: packages/widget/package-lock.json
+      - run: npm ci
+      - name: Biome
+        run: npm run lint
+      - name: tsc --noEmit (strict)
+        run: npm run typecheck
+      - name: Bundle size (fails above 6 KB min+gzip)
+        run: npm run size
+      - name: site/widget/v1.js is up to date with the source
+        run: |
+          npm run build:site
+          git diff --exit-code -- ../../site/widget/v1.js || {
+            echo "::error::site/widget/v1.js is stale: run 'npm run build:site' in packages/widget and commit it"
+            exit 1
+          }
+
+  browser:
+    name: Browser tests (Chromium, axe-core)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: packages/widget/package-lock.json
+      - run: npm ci
+      - name: Install playwright-core and axe-core (outside the package, pinned)
+        run: |
+          npm install --no-audit --no-fund --prefix "$RUNNER_TEMP/pw" playwright-core@1.58.0 axe-core@4.10.3
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright-core" install --with-deps chromium
+      - name: Playwright tests
+        run: npm run test:browser
+        env:
+          PW_NODE_MODULES: ${{ runner.temp }}/pw/node_modules
+          SCREENSHOT_DIR: ${{ runner.temp }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: widget-demo-screenshots
+          path: ${{ runner.temp }}/bcv-rate-demo-*.png
+          if-no-files-found: ignore
+
+  pack:
+    name: Build and pack
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: packages/widget/package-lock.json
+      - run: npm ci
+      - name: Pack
+        run: |
+          npm pack --pack-destination "$RUNNER_TEMP"
+          tar -tzf "$RUNNER_TEMP"/bcv-today-widget-*.tgz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: npm-tarball-widget
+          path: ${{ runner.temp }}/bcv-today-widget-*.tgz
+          if-no-files-found: error

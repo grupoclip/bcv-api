@@ -395,6 +395,13 @@ function ratesLine(lang: Lang, rates: Record<string, number>): string {
     .join(", ");
 }
 
+/** Spanish version of the history window notes built in bcv-today (rules.ts); unknown text passes through. */
+function historyNoteEs(note: string): string {
+  return note
+    .replace(/History for (\w+) starts on (\S+); earlier dates were skipped\./g, "El historial de $1 empieza el $2; se omitieron las fechas anteriores.")
+    .replace(/Latest available date is (\S+)\./g, "La fecha más reciente disponible es el $1.");
+}
+
 /** Short human text for a successful tool outcome. English reuses the tool summary. */
 export function renderText(intent: Intent, lang: Lang, r: Extract<ToolOutcome, { ok: true }>): string {
   const d = r.data as Record<string, any>;
@@ -418,8 +425,8 @@ export function renderText(intent: Intent, lang: Lang, r: Extract<ToolOutcome, {
       let s = `Tasa BCV vigente el ${d.date} (Bs. por unidad): ${ratesLine("es", d.rates)}.`;
       if (d.carried_forward) {
         s +=
-          ` El ${d.date} (${weekdayEs(d.date)}) usa la tasa con fecha valor ${d.effective_date} (${weekdayEs(d.effective_date)}):` +
-          " el BCV no publica fines de semana ni feriados, así que la última tasa publicada sigue vigente.";
+          ` Para el ${d.date} (${weekdayEs(d.date)}) rige la tasa con fecha valor ${d.effective_date} (${weekdayEs(d.effective_date)}):` +
+          " el BCV no publica los fines de semana ni los feriados, así que la última tasa publicada sigue vigente.";
       }
       return s;
     }
@@ -427,7 +434,7 @@ export function renderText(intent: Intent, lang: Lang, r: Extract<ToolOutcome, {
       let s =
         `${n("es", d.amount, 2)} ${d.from} = ${n("es", d.result, 2)} ${d.to} a la tasa oficial del BCV ` +
         `(fecha valor ${d.effective_date}; 1 ${d.from} = ${n("es", d.rate, 6)} ${d.to}).`;
-      if (d.note) s += ` El ${d.date} usa la tasa con fecha valor ${d.effective_date} (fines de semana y feriados mantienen la última tasa).`;
+      if (d.note) s += ` Para el ${d.date} rige la tasa con fecha valor ${d.effective_date} (los fines de semana y feriados se mantiene la última tasa publicada).`;
       return s;
     }
     case "history": {
@@ -436,7 +443,7 @@ export function renderText(intent: Intent, lang: Lang, r: Extract<ToolOutcome, {
       return (
         `${d.currency}/VES del ${d.from} al ${d.to} (${d.points} días): ${n("es", d.first.rate)} → ${n("es", d.last.rate)} ` +
         `(${sign}${n("es", pct, 2)} %). Mínimo ${n("es", d.min.rate)} el ${d.min.date}, máximo ${n("es", d.max.rate)} el ${d.max.date}.` +
-        (d.note ? ` Nota: ${d.note}` : "")
+        (d.note ? ` Nota: ${historyNoteEs(d.note)}` : "")
       );
     }
     case "status": {
@@ -511,7 +518,7 @@ export async function runIntent(data: DataClient, intent: Intent, lang: Lang): P
           lang,
           text:
             lang === "es"
-              ? `Indica dos monedas distintas para convertir (recibí ${c} en ambos lados), p. ej. «convertir 100 USD a VES».`
+              ? `Indica dos monedas distintas para convertir (recibí ${c} como origen y como destino), p. ej. «convertir 100 USD a VES».`
               : `Name two different currencies to convert (I got ${c} on both sides), e.g. "convert 100 USD to VES".`,
           data: { type: "error", code: "invalid_arguments", skill: "convert", arguments: intent.args, message: `"from" and "to" are both ${c}.` },
         };

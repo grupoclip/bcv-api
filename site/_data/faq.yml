@@ -15,7 +15,7 @@ es:
       - question: "¿Qué monedas publica el BCV?"
         answer: "Dólar estadounidense, euro, yuan chino, lira turca y rublo ruso, todas frente al bolívar. Cada una tiene su página con la tasa del día y los valores recientes, y el histórico diario las reúne todas."
       - question: "¿Dólar BCV hoy es lo mismo que Dolartoday BCV?"
-        answer: "No. Esta página muestra solo la tasa oficial USD/VES del Banco Central de Venezuela, la misma que publica bcv.org.ve. Dolartoday y el precio de USDT en apps P2P son otro mercado. Si llegaste buscando «bcvhoy» o «dólar BCV hoy», este es el número del BCV."
+        answer: "No. Esta página muestra solo la tasa oficial USD/VES del Banco Central de Venezuela, la misma que publica bcv.org.ve. Dolartoday y el precio de USDT en aplicaciones P2P son otro mercado. Si llegaste buscando «bcvhoy» o «dólar BCV hoy», este es el número del BCV."
       - question: "¿Este sitio es oficial del BCV?"
         answer: "No. BCV Today es un proyecto no oficial que toma los datos publicados por el Banco Central de Venezuela y los organiza como sitio web y API estática."
   currency:
@@ -26,7 +26,7 @@ es:
       - question: "¿Dónde puedo ver el histórico?"
         answer: "Cada página de moneda enlaza al histórico diario, donde puedes revisar la evolución de la tasa frente al bolívar."
       - question: "¿Puedo consumir esta tasa por API?"
-        answer: "Sí. La API pública devuelve la tasa vigente, el histórico y un endpoint de estado sin requerir autenticación."
+        answer: "Sí. La API pública devuelve la tasa vigente, el histórico y una ruta de estado, sin autenticación."
 
 en:
   homepage:

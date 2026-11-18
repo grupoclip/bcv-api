@@ -21,7 +21,7 @@
 {%- assign it_base = site.url | append: site.baseurl -%}
 {%- assign it_repo = 'https://github.com/' | append: site.repository -%}
 {%- assign odoo_apps = 'https://apps.odoo.com/apps/modules/l10n_ve_bcv_rate' -%}
-{%- assign js_src = it_repo | append: '/tree/main/js' -%}
+{%- assign js_src = it_repo | append: '/tree/main/packages/js' -%}
 {%- if page.lang == 'en' -%}{%- assign api_url = '/en/api/' | relative_url -%}{%- else -%}{%- assign api_url = '/api/' | relative_url -%}{%- endif -%}
 {%- comment -%} 100 USD in VES, rounded half-up to 2 places, as the libraries print it {%- endcomment -%}
 {%- assign conv = rate.USD | times: 100 | round: 2 | append: '' | split: '.' -%}
@@ -125,7 +125,7 @@
         <dt>Claude</dt>
         <dd><code class="itabs-tool">get_latest_rates</code> {{ x.chat_a_pre }} <b>{% include num.html value=rate.USD %}</b> {{ x.chat_a_mid }} {% include date.html date=rate.effective_date %}.</dd>
       </dl>
-      <p class="itabs-foot"><a href="{{ api_url }}{{ x.mcp_anchor }}">{{ x.mcp_more }} <span aria-hidden="true">→</span></a><a href="{{ '/.well-known/mcp/server-card.json' | relative_url }}">Server card</a></p>
+      <p class="itabs-foot"><a href="{{ api_url }}{{ x.mcp_anchor }}">{{ x.mcp_more }} <span aria-hidden="true">→</span></a><a href="{{ '/.well-known/mcp/server-card.json' | relative_url }}">{{ x.server_card }}</a></p>
     </div>
   </section>
 
@@ -144,7 +144,7 @@
     <span class="p">{</span> <span class="nt">"data"</span><span class="p">:</span> <span class="p">{</span> <span class="nt">"result"</span><span class="p">:</span> <span class="p">{</span> <span class="nt">"result"</span><span class="p">:</span> <span class="mf">{{ conv_plain | plus: 0 }}</span><span class="p">,</span> <span class="nt">"rate"</span><span class="p">:</span> <span class="mf">{{ rate.USD }}</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span>
   <span class="p">]</span> <span class="p">}]</span>
 <span class="p">}</span> <span class="p">}</span> <span class="p">}</span></code></pre>
-      <p class="itabs-foot"><a href="{{ api_url }}{{ x.a2a_anchor }}">{{ x.a2a_more }} <span aria-hidden="true">→</span></a><a href="{{ '/.well-known/agent-card.json' | relative_url }}">Agent card</a></p>
+      <p class="itabs-foot"><a href="{{ api_url }}{{ x.a2a_anchor }}">{{ x.a2a_more }} <span aria-hidden="true">→</span></a><a href="{{ '/.well-known/agent-card.json' | relative_url }}">{{ x.agent_card }}</a></p>
     </div>
   </section>
 </div>

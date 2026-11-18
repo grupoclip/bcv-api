@@ -123,11 +123,11 @@ oficial, no afiliado al Banco Central de Venezuela.** Datos bajo [CC BY 4.0](htt
 import { BCV } from "bcv-today";
 const bcv = new BCV();
 (await bcv.latest()).rates.USD;                  // bolívares por dólar
-(await bcv.on("2026-01-04", "USD")).effectiveDate; // domingo: usa la tasa con fecha valor 2026-01-03
+(await bcv.on("2026-01-04", "USD")).effectiveDate; // domingo: rige la tasa con fecha valor 2026-01-03
 (await bcv.convert(100, "USD", "VES")).resultText; // "91664.77"
 ```
 
-Las conversiones usan aritmética decimal exacta y redondeo half-up a 2 decimales por defecto. En la terminal:
+Las conversiones usan aritmética decimal exacta y, por defecto, redondean a 2 decimales con la mitad hacia arriba (0,005 → 0,01). En la terminal:
 `npx bcv-today convert 100 USD VES`. Más integraciones (Python, Odoo, MCP, A2A): https://bcv.today/integraciones/
 
 ## Links

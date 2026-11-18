@@ -160,14 +160,14 @@ credit the source, for example:
 
 `bcv` es el cliente Python oficial de la API de [BCV Today](https://bcv.today):
 tasas oficiales del Banco Central de Venezuela (bolívares por USD, EUR, CNY, TRY y
-RUB), sin dependencias y con línea de comandos. **Proyecto no oficial: no está
+RUB), sin dependencias externas y con un comando para la terminal. **Proyecto no oficial: no está
 afiliado al Banco Central de Venezuela.**
 
 ```bash
 pip install bcv
 bcv latest
 bcv convert 100 USD VES
-bcv on 2026-01-04 --currency USD   # domingo: usa la tasa vigente con fecha valor 2026-01-03
+bcv on 2026-01-04 --currency USD   # domingo: rige la tasa con fecha valor 2026-01-03
 ```
 
 `effective_date` es la fecha valor del BCV. Los fines de semana y feriados se

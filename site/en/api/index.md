@@ -91,7 +91,7 @@ print(client.on("2026-01-04", "USD"))          # Sunday: uses the rate effective
 print(client.convert(100, "USD", "VES"))
 ```
 
-Code and docs: [python/ on GitHub](https://github.com/{{ site.repository }}/tree/main/python).
+Code and docs: [packages/python on GitHub](https://github.com/{{ site.repository }}/tree/main/packages/python).
 
 ## JavaScript / TypeScript {#javascript}
 
@@ -110,7 +110,7 @@ console.log((await bcv.on("2026-01-04", "USD")).effectiveDate); // Sunday: "2026
 console.log((await bcv.convert(100, "USD", "VES")).resultText); // "91664.77"
 ```
 
-Code and docs: [js/ on GitHub](https://github.com/{{ site.repository }}/tree/main/js).
+Code and docs: [packages/js on GitHub](https://github.com/{{ site.repository }}/tree/main/packages/js).
 
 ## Odoo module {#odoo}
 
@@ -358,7 +358,7 @@ console.log(convert(1000, "VES", "USD", rate));
 - Files are served by **GitHub Pages** behind GitHub's CDN cache.
 - To force a fresh read, use `cache: "no-cache"` with `fetch` or send `Cache-Control: no-cache` with cURL.
 - You can also consume the files through jsDelivr:
-  `https://cdn.jsdelivr.net/gh/{{ site.repository }}/api/v1/rate.json`.
+  `https://cdn.jsdelivr.net/gh/{{ site.repository }}/site/api/v1/rate.json`.
 
 ## Web Bot Auth {#web-bot-auth}
 

@@ -80,7 +80,7 @@ Returns the publication status, latest generated timestamp, effective date and s
 - MCP server card: https://bcv.today/.well-known/mcp/server-card.json
 - Python client library (PyPI `bcv`, zero dependencies, `bcv` CLI): https://pypi.org/project/bcv/
 - JavaScript/TypeScript client library (npm `bcv-today`, zero dependencies, ESM + CommonJS, exact decimal conversions, `bcv-today` CLI and local stdio MCP server): https://www.npmjs.com/package/bcv-today
-- Odoo module `l10n_ve_bcv_rate` (Odoo 16.0-20.0, Community and Enterprise, not Odoo Online; daily company currency rates from this API): https://apps.odoo.com/apps/modules/20.0/l10n_ve_bcv_rate — source https://github.com/grupoclip/odoo-bcv-rate
+- Odoo module `l10n_ve_bcv_rate` (Odoo 16.0-20.0, Community and Enterprise, not Odoo Online; daily company currency rates from this API): https://apps.odoo.com/apps/modules/l10n_ve_bcv_rate — source https://github.com/grupoclip/odoo-bcv-rate
 - Integrations overview (all products): https://bcv.today/en/integrations/ (Spanish: https://bcv.today/integraciones/)
 - A2A agent (JSON-RPC, A2A 1.0 and 0.3, no auth): https://mcp.bcv.today/a2a — skills latest-rates, rate-on-date, convert, history, status; text in Spanish/English or a DataPart like {"skill":"convert","amount":100,"from":"USD","to":"VES"}
 - Sitemap: https://bcv.today/sitemap.xml

@@ -20,7 +20,7 @@
 {%- assign ints = site.data.integrations -%}
 {%- assign it_base = site.url | append: site.baseurl -%}
 {%- assign it_repo = 'https://github.com/' | append: site.repository -%}
-{%- assign odoo_apps = 'https://apps.odoo.com/apps/modules/20.0/l10n_ve_bcv_rate' -%}
+{%- assign odoo_apps = 'https://apps.odoo.com/apps/modules/l10n_ve_bcv_rate' -%}
 {%- assign js_src = it_repo | append: '/tree/main/js' -%}
 {%- if page.lang == 'en' -%}{%- assign api_url = '/en/api/' | relative_url -%}{%- else -%}{%- assign api_url = '/api/' | relative_url -%}{%- endif -%}
 {%- comment -%} 100 USD in VES, rounded half-up to 2 places, as the libraries print it {%- endcomment -%}

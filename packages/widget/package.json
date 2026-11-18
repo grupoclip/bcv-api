@@ -1,0 +1,76 @@
+{
+  "name": "bcv-today-widget",
+  "version": "0.1.0",
+  "description": "<bcv-rate>: an embeddable web component with the Banco Central de Venezuela exchange rate (USD, EUR, CNY, TRY, RUB to VES) from BCV Today. Card, inline and converter variants, Spanish and English, light and dark, no dependencies. Unofficial, not affiliated with the bank.",
+  "keywords": [
+    "bcv",
+    "banco central de venezuela",
+    "venezuela",
+    "exchange rate",
+    "tasa bcv",
+    "dolar bcv",
+    "bolivar",
+    "widget",
+    "web component",
+    "custom element"
+  ],
+  "homepage": "https://bcv.today/integraciones/",
+  "bugs": {
+    "url": "https://github.com/grupoclip/bcv-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grupoclip/bcv-api.git",
+    "directory": "packages/widget"
+  },
+  "license": "Apache-2.0",
+  "author": "BCV Today",
+  "type": "module",
+  "sideEffects": [
+    "./dist/bcv-rate.js"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/bcv-rate.d.ts",
+      "default": "./dist/bcv-rate.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "module": "./dist/bcv-rate.js",
+  "types": "./dist/bcv-rate.d.ts",
+  "unpkg": "./dist/bcv-rate.js",
+  "jsdelivr": "./dist/bcv-rate.js",
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "build:site": "npm run build && node scripts/build-site.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "test": "npm run build && node --test test/unit/*.test.mjs",
+    "test:browser": "npm run build && node --test test/browser/*.test.mjs",
+    "size": "npm run build && node scripts/size.mjs",
+    "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.4",
+    "@types/node": "22.19.21",
+    "esbuild": "0.28.1",
+    "tsup": "8.5.1",
+    "typescript": "5.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "overrides": {
+    "esbuild": "0.28.1",
+    "rollup": "4.67.4",
+    "lilconfig": "3.1.3",
+    "@jridgewell/resolve-uri": "3.1.2"
+  }
+}

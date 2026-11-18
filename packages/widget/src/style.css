@@ -1,0 +1,294 @@
+/* <bcv-rate> shadow styles. bcv.today tokens: warm paper and ink neutrals, the logo's gold as the only
+   accent, figures in monospace, "Fecha valor" as a small stamp. Public knobs: --bcv-accent, --bcv-bg,
+   --bcv-text, --bcv-radius, --bcv-font; everything else is private (--_*). Minified at build time. */
+:host {
+  --_bg: var(--bcv-bg, #fdfbf7);
+  --_text: var(--bcv-text, #1f1b16);
+  --_muted: #6a6155;
+  --_line: rgba(31, 27, 22, 0.16);
+  --_edge: #8a8073;
+  --_raised: #f3eee5;
+  --_ink: #7a5306;
+  --_up: #166534;
+  --_down: #b91c1c;
+  --_accent: var(--bcv-accent, #f2b33d);
+  --_radius: var(--bcv-radius, 12px);
+  --_font: var(--bcv-font, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
+  --_mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", Menlo, Consolas, monospace;
+  display: block;
+  color-scheme: light;
+}
+
+/* Dark: theme="dark", or theme="auto" (default) when the system prefers dark. Same block twice. */
+:host([theme="dark"]) {
+  --_bg: var(--bcv-bg, #1c1a18);
+  --_text: var(--bcv-text, #efe9de);
+  --_muted: #a8a196;
+  --_line: rgba(239, 233, 222, 0.14);
+  --_edge: #8a847a;
+  --_raised: #262421;
+  --_ink: #f2b33d;
+  --_up: #4cc38a;
+  --_down: #f27a7d;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :host(:not([theme="light"], [theme="dark"])) {
+    --_bg: var(--bcv-bg, #1c1a18);
+    --_text: var(--bcv-text, #efe9de);
+    --_muted: #a8a196;
+    --_line: rgba(239, 233, 222, 0.14);
+    --_edge: #8a847a;
+    --_raised: #262421;
+    --_ink: #f2b33d;
+    --_up: #4cc38a;
+    --_down: #f27a7d;
+    color-scheme: dark;
+  }
+}
+
+:host([variant="line"]) {
+  display: inline;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.box {
+  max-width: 100%;
+  padding: 16px;
+  border: 1px solid var(--_line);
+  border-radius: var(--_radius);
+  background: var(--_bg);
+  color: var(--_text);
+  font: 400 16px / 1.45 var(--_font);
+  text-align: start;
+}
+
+/* card and converter size their figures to the space they get (narrow sidebars, 320 px phones) */
+div.box {
+  container-type: inline-size;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  color: var(--_muted);
+  font-size: 13px;
+}
+
+svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+}
+
+.line svg {
+  width: 0.95em;
+  height: 0.95em;
+  vertical-align: -0.12em;
+}
+
+.gold {
+  fill: var(--_accent);
+  stroke: var(--_accent);
+}
+
+.num,
+.value,
+output,
+input,
+.stamp,
+.chg {
+  font-family: var(--_mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.value {
+  margin: 0;
+  font-size: clamp(20px, 15cqi, 32px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.num,
+.stamp b {
+  white-space: nowrap;
+}
+
+.unit {
+  color: var(--_muted);
+  font: 400 14px var(--_font);
+  letter-spacing: 0;
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 12px;
+  margin-top: 12px;
+  color: var(--_muted);
+  font-size: 13px;
+}
+
+.stamp {
+  padding: 1px 7px;
+  border: 1px solid var(--_line);
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.stamp b {
+  color: var(--_text);
+  font-weight: 500;
+}
+
+.up {
+  color: var(--_up);
+}
+
+.down {
+  color: var(--_down);
+}
+
+.note,
+.src {
+  display: block;
+  margin: 10px 0 0;
+  font-size: 12px;
+}
+
+.note {
+  color: var(--_ink);
+}
+
+a {
+  color: var(--_muted);
+  text-underline-offset: 2px;
+  border-radius: 2px;
+}
+
+a:hover {
+  color: var(--_text);
+}
+
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--_ink);
+  outline-offset: 2px;
+}
+
+label {
+  display: block;
+  color: var(--_muted);
+  font-size: 13px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--_edge);
+  border-radius: calc(var(--_radius) * 0.6);
+  background: var(--_bg);
+  color: var(--_text);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+input:focus-visible {
+  border-color: var(--_accent);
+  outline-offset: 1px;
+}
+
+input[aria-invalid="true"] {
+  border-color: var(--_down);
+}
+
+output {
+  display: block;
+  margin-top: 12px;
+  font-size: clamp(20px, 10cqi, 28px);
+  overflow-wrap: anywhere;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.err {
+  color: var(--_down);
+}
+
+/* line: an inline pill inside a sentence, sized by the surrounding text */
+.line {
+  padding: 0.1em 0.5em;
+  border: 0;
+  border-radius: var(--bcv-radius, 1em);
+  background: var(--_raised);
+  font: inherit;
+  font-family: var(--bcv-font, inherit);
+  /* wraps like the text around it; each fragment keeps the pill shape */
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.line .num {
+  font-weight: 600;
+}
+
+.line .unit,
+.line .note,
+.line .src,
+.line .stamp,
+.line .chg {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 0.85em;
+}
+
+.line .stamp b {
+  color: inherit;
+  font-weight: 400;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .value,
+  .line .num {
+    animation: in 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes in {
+    from {
+      opacity: 0.3;
+    }
+  }
+}

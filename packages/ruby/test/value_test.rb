@@ -5,7 +5,9 @@ require "test_helper"
 # BCV::Value uses Data.define on Ruby >= 3.2 and a frozen Struct on Ruby 3.1; both behave alike.
 class ValueTest < Minitest::Test
   def classes
-    [true, false].map do |struct|
+    # The Data flavour only exists on Ruby >= 3.2.
+    flavours = defined?(::Data.define) ? [true, false] : [true]
+    flavours.map do |struct|
       BCV::Value.define(:a, :b, struct: struct) { define_method(:sum) { a + b } }
     end
   end

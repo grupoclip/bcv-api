@@ -78,7 +78,7 @@
     "@biomejs/biome": "2.6.4",
     "@modelcontextprotocol/sdk": "1.32.2",
     "@types/node": "18.19.130",
-    "tsup": "8.5.1",
+    "tsup": "9.0.0",
     "typescript": "5.9.3"
   },
   "publishConfig": {

@@ -1,0 +1,8 @@
+# The repository's root .gitignore ignores every lib/ directory (Python template); keep the gem's.
+!/lib/
+/vendor/
+/.bundle/
+/pkg/
+*.gem
+# Library convention here: dev dependencies are pinned to exact versions in the Gemfile; no lock file.
+/Gemfile.lock

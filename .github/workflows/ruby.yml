@@ -1,0 +1,62 @@
+name: Ruby library
+
+# Lints and tests the `bcv` gem in packages/ruby/. The unit tests read the recorded API samples shared with the
+# Python, JavaScript and PHP clients (packages/python/tests/fixtures), so changes there re-run this workflow too.
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "packages/ruby/**"
+      - "packages/python/tests/fixtures/**"
+      - ".github/workflows/ruby.yml"
+  pull_request:
+    paths:
+      - "packages/ruby/**"
+      - "packages/python/tests/fixtures/**"
+      - ".github/workflows/ruby.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ruby-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: packages/ruby
+
+jobs:
+  test:
+    name: Test (Ruby ${{ matrix.ruby }})
+    # Pinned: prebuilt Ruby 3.1 is not guaranteed on newer ubuntu-latest images.
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: ["3.1", "3.3", "4.0"]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1.338.0
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true # dev dependencies are pinned to exact versions in the Gemfile; no lock file is committed
+          working-directory: packages/ruby
+      - name: RuboCop
+        if: matrix.ruby == '4.0'
+        run: bundle exec rubocop
+      - name: Minitest (offline, shared fixtures)
+        run: bundle exec rake test
+      - name: Build the gem and check its contents
+        if: matrix.ruby == '4.0'
+        run: |
+          gem build bcv.gemspec
+          gem spec bcv-*.gem files
+          unexpected=$(gem spec bcv-*.gem files | grep -vE '^(---|- (lib/|exe/bcv$|README\.md$|CHANGELOG\.md$|LICENSE$))' || true)
+          if [ -n "${unexpected}" ]; then
+            echo "::error::Unexpected files in the gem: ${unexpected}"
+            exit 1
+          fi

@@ -1,0 +1,114 @@
+name: Publish Ruby library
+
+# Publishes packages/ruby/ to https://rubygems.org/gems/bcv with RubyGems Trusted Publishing (OIDC, no API keys).
+#
+# Cut a release by bumping BCV::VERSION (packages/ruby/lib/bcv/version.rb) and CHANGELOG.md, then pushing a tag
+# rb-vX.Y.Z that matches it, e.g.:
+#   git tag rb-v1.0.0 && git push origin rb-v1.0.0
+#
+# One-time setup on rubygems.org (before the first release):
+#   1. Create a rubygems.org account and enable multi-factor authentication (the gem sets
+#      rubygems_mfa_required, and trusted publishing needs an MFA-protected owner).
+#   2. Account settings -> Trusted publishers -> "Create" a *pending* trusted publisher (the gem does not exist yet):
+#        gem name:          bcv
+#        repository owner:  grupoclip
+#        repository name:   bcv-api
+#        workflow filename: publish-ruby.yml
+#        environment:       rubygems
+#      The first successful run creates the gem and turns the pending publisher into a regular one.
+#   3. In this repository, create the environment "rubygems" (Settings -> Environments), optionally restricted to
+#      tags matching rb-v* and with required reviewers.
+on:
+  push:
+    tags:
+      - "rb-v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-ruby
+  cancel-in-progress: false
+
+defaults:
+  run:
+    working-directory: packages/ruby
+
+jobs:
+  test:
+    name: Check version and test (Ruby ${{ matrix.ruby }})
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        ruby: ["3.1", "4.0"]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1.338.0
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+          working-directory: packages/ruby
+      - name: Check that the tag matches the gem version and the changelog
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version=$(ruby -Ilib -e 'require "bcv/version"; print BCV::VERSION')
+          if [ "${TAG}" != "rb-v${version}" ]; then
+            echo "::error::Tag ${TAG} does not match BCV::VERSION ${version} (expected rb-v${version})."
+            exit 1
+          fi
+          if ! grep -q "^## \[${version}\]" CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no section for ${version}."
+            exit 1
+          fi
+          echo "Releasing bcv ${version}"
+      - name: Lint and test
+        run: |
+          bundle exec rubocop
+          bundle exec rake test
+
+  publish:
+    name: Publish to RubyGems
+    needs: test
+    runs-on: ubuntu-24.04
+    environment:
+      name: rubygems
+      url: https://rubygems.org/gems/bcv
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1.338.0
+        with:
+          ruby-version: "4.0"
+      - name: Build
+        id: build
+        run: |
+          gem build bcv.gemspec
+          version=$(ruby -Ilib -e 'require "bcv/version"; print BCV::VERSION')
+          echo "version=${version}" >> "${GITHUB_OUTPUT}"
+          gem spec "bcv-${version}.gem" files
+      - name: Skip if this version is already on RubyGems (re-run of a release)
+        id: exists
+        env:
+          VERSION: ${{ steps.build.outputs.version }}
+        run: |
+          if curl --fail --silent --show-error --output /dev/null "https://rubygems.org/api/v2/rubygems/bcv/versions/${VERSION}.json"; then
+            echo "bcv ${VERSION} is already published; skipping the push."
+            echo "published=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "published=false" >> "${GITHUB_OUTPUT}"
+          fi
+      - name: Configure RubyGems credentials (Trusted Publishing)
+        if: steps.exists.outputs.published == 'false'
+        uses: rubygems/configure-rubygems-credentials@v2.1.0
+      - name: Push
+        if: steps.exists.outputs.published == 'false'
+        env:
+          VERSION: ${{ steps.build.outputs.version }}
+        run: gem push "bcv-${VERSION}.gem"

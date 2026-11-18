@@ -11,17 +11,13 @@ name: Publish PHP library
 # tag php-vX.Y.Z that matches it, e.g.:
 #   git tag php-v1.0.0 && git push origin php-v1.0.0
 #
-# One-time setup (manual, not done by this workflow):
-#   1. Create the empty public repository grupoclip/bcv-today-php (no README, license or .gitignore, so the first
-#      push is a plain fast-forward). Mark it as a mirror in its description and disable issues/PRs there
-#      (issues go to grupoclip/bcv-api). Never commit to it directly: every release must fast-forward its main.
-#   2. Create a fine-grained personal access token (or a GitHub App token) with access to ONLY the repository
-#      grupoclip/bcv-today-php and the permission "Contents: Read and write". Store it in this repository as the
-#      Actions secret PHP_SPLIT_TOKEN (Settings -> Secrets and variables -> Actions), ideally scoped to the
-#      environment "packagist" used below so only this workflow can read it.
-#   3. After the first successful run, submit https://github.com/grupoclip/bcv-today-php on
-#      https://packagist.org/packages/submit (package name comes from composer.json: grupoclip/bcv-today), and
-#      enable the GitHub hook / Packagist GitHub integration so new tags are picked up automatically.
+# Setup (done once):
+#   - grupoclip/bcv-today-php is an empty public mirror (issues disabled; issues go to grupoclip/bcv-api). Never
+#     commit to it directly: every release must fast-forward its main.
+#   - It has a write deploy key "bcv-api publish-php (Actions)"; the private half is the secret
+#     PHP_SPLIT_DEPLOY_KEY of the environment "packagist" in this repository, so only this job can push there.
+#   - The same environment holds PACKAGIST_USERNAME and PACKAGIST_TOKEN (Packagist API token); the last step asks
+#     Packagist to re-read the mirror so the new tag shows up at once.
 on:
   push:
     tags:
@@ -97,14 +93,18 @@ jobs:
       - name: Push the split history to main and tag v<version>
         env:
           TAG: ${{ github.ref_name }}
-          PHP_SPLIT_TOKEN: ${{ secrets.PHP_SPLIT_TOKEN }}
+          PHP_SPLIT_DEPLOY_KEY: ${{ secrets.PHP_SPLIT_DEPLOY_KEY }}
         run: |
-          if [ -z "${PHP_SPLIT_TOKEN}" ]; then
-            echo "::error::The secret PHP_SPLIT_TOKEN is not set (see the setup notes at the top of this workflow)."
+          if [ -z "${PHP_SPLIT_DEPLOY_KEY}" ]; then
+            echo "::error::The secret PHP_SPLIT_DEPLOY_KEY is not set (see the setup notes at the top of this workflow)."
             exit 1
           fi
+          key="${RUNNER_TEMP}/split_key"
+          printf '%s\n' "${PHP_SPLIT_DEPLOY_KEY}" > "${key}"
+          chmod 600 "${key}"
+          export GIT_SSH_COMMAND="ssh -i ${key} -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
           version="${TAG#php-v}"
-          remote="https://x-access-token:${PHP_SPLIT_TOKEN}@github.com/${SPLIT_REPOSITORY}.git"
+          remote="git@github.com:${SPLIT_REPOSITORY}.git"
           if git ls-remote --exit-code --tags "${remote}" "refs/tags/v${version}" > /dev/null; then
             echo "::error::Tag v${version} already exists in ${SPLIT_REPOSITORY}."
             exit 1
@@ -114,4 +114,19 @@ jobs:
           git push "${remote}" "php-split:refs/heads/main"
           git tag "v${version}" php-split
           git push "${remote}" "refs/tags/v${version}"
-          echo "Pushed ${SPLIT_REPOSITORY} main and v${version}; Packagist will pick the tag up."
+          rm -f "${key}"
+          echo "Pushed ${SPLIT_REPOSITORY} main and v${version}."
+      - name: Ask Packagist to update grupoclip/bcv-today
+        env:
+          PACKAGIST_USERNAME: ${{ secrets.PACKAGIST_USERNAME }}
+          PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
+        run: |
+          if [ -z "${PACKAGIST_USERNAME}" ] || [ -z "${PACKAGIST_TOKEN}" ]; then
+            echo "::warning::Packagist credentials are not set; Packagist will see the tag on its next scheduled crawl."
+            exit 0
+          fi
+          curl --fail --show-error --silent -X POST \
+            "https://packagist.org/api/update-package?username=${PACKAGIST_USERNAME}&apiToken=${PACKAGIST_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data "{\"repository\":{\"url\":\"https://github.com/${SPLIT_REPOSITORY}\"}}"
+          echo

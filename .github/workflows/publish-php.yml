@@ -105,8 +105,15 @@ jobs:
           export GIT_SSH_COMMAND="ssh -i ${key} -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
           version="${TAG#php-v}"
           remote="git@github.com:${SPLIT_REPOSITORY}.git"
-          if git ls-remote --exit-code --tags "${remote}" "refs/tags/v${version}" > /dev/null; then
-            echo "::error::Tag v${version} already exists in ${SPLIT_REPOSITORY}."
+          existing=$(git ls-remote --tags "${remote}" "refs/tags/v${version}" | cut -f1)
+          if [ -n "${existing}" ]; then
+            # Re-run of a release: fine if the mirror already has this exact split, an error otherwise.
+            if [ "${existing}" = "$(git rev-parse php-split)" ]; then
+              echo "v${version} is already published at the same commit; skipping the push."
+              rm -f "${key}"
+              exit 0
+            fi
+            echo "::error::Tag v${version} already exists in ${SPLIT_REPOSITORY} at a different commit."
             exit 1
           fi
           # The split is deterministic, so a release only fast-forwards main; a rejected push means someone

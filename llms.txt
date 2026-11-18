@@ -22,6 +22,11 @@ Every page is also available as Markdown: request it with `Accept: text/markdown
 - [API documentation](https://bcv.today/api/): endpoints, response schema and code examples
 - [OpenAPI description](https://bcv.today/openapi.json): machine-readable description of the endpoints
 
+## MCP server
+
+- [BCV Today MCP server](https://mcp.bcv.today/mcp): remote Model Context Protocol endpoint (Streamable HTTP, stateless, no authentication) with the tools `get_latest_rates`, `get_rate_by_date`, `get_history`, `convert` and `get_status`
+- [MCP server card](https://bcv.today/.well-known/mcp/server-card.json): SEP-2127 server card with the endpoint, transport and tool list
+
 ## Data notes
 
 - Dates are ISO 8601 strings.

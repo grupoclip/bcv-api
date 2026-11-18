@@ -8,6 +8,20 @@
   },
   "entries": [
     {
+      "identifier": "urn:air:bcv.today:server:bcv-rates-mcp",
+      "displayName": "BCV Today MCP server",
+      "type": "application/mcp-server-card+json",
+      "url": "https://bcv.today/.well-known/mcp/server-card.json",
+      "description": "MCP Server Card for the remote BCV Today MCP server at https://mcp.bcv.today/mcp (Streamable HTTP, stateless, no authentication). Tools: get_latest_rates, get_rate_by_date, get_history, convert and get_status, backed by the official Banco Central de Venezuela rates for USD, EUR, CNY, TRY and RUB against the bolivar.",
+      "tags": ["mcp", "mcp-server", "exchange-rates", "venezuela", "bcv", "bolivar"],
+      "representativeQueries": [
+        "MCP server for the official Venezuelan exchange rate",
+        "convert dollars to bolivars at the BCV rate",
+        "¿cuál fue la tasa del dólar BCV el 2 de enero de 2026?",
+        "historial del euro BCV de los últimos 30 días"
+      ]
+    },
+    {
       "identifier": "urn:air:bcv.today:api:bcv-rates-openapi",
       "displayName": "BCV Today exchange-rate API (OpenAPI)",
       "type": "application/vnd.oai.openapi+json",

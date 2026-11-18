@@ -33,6 +33,44 @@ A free read-only JSON BCV API for the official exchange rates published by Banco
 | Agent card | `/.well-known/agent-card.json` | Data-access capabilities for agents. |
 | LLM index | `/llms.txt` | Short summary for agents and LLMs. |
 | LLM full context | `/llms-full.txt` | Full Markdown/text context. |
+| MCP server card | `/.well-known/mcp/server-card.json` | MCP server card (endpoint, transport and tools). |
+
+## MCP server
+
+A remote [Model Context Protocol](https://modelcontextprotocol.io) server for AI assistants and agents (Claude, ChatGPT, Cursor, VS Code and others). It is free, read-only, stateless and needs no authentication; it uses the same data as this API.
+
+**Endpoint (Streamable HTTP):** `https://mcp.bcv.today/mcp`
+
+| Tool | What it does |
+| --- | --- |
+| `get_latest_rates` | Official rates in effect (USD, EUR, CNY, TRY, RUB) with the effective date. |
+| `get_rate_by_date` | Rate in effect on a day (`YYYY-MM-DD`); explains weekend and holiday carry-forward. |
+| `get_history` | Daily series for one currency (last N days or a `from`/`to` range) with min, max and % change. |
+| `convert` | Converts an amount between VES, USD, EUR, CNY, TRY and RUB at the latest rate or a given day's rate. |
+| `get_status` | Data freshness: last capture, effective date and available currencies. |
+
+Claude Code:
+
+```bash
+claude mcp add --transport http bcv-today https://mcp.bcv.today/mcp
+```
+
+Claude Desktop / claude.ai: **Settings → Connectors → Add custom connector** with the URL `https://mcp.bcv.today/mcp`.
+
+Other clients (Cursor, VS Code, Windsurf…), in their MCP configuration file:
+
+```json
+{
+  "mcpServers": {
+    "bcv-today": {
+      "type": "http",
+      "url": "https://mcp.bcv.today/mcp"
+    }
+  }
+}
+```
+
+Clients that only speak stdio can use the bridge `npx -y mcp-remote https://mcp.bcv.today/mcp`.
 
 ## Endpoints
 

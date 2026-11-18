@@ -1,0 +1,23 @@
+# BCV Today remote MCP server (stateless Streamable HTTP, no Durable Objects).
+#
+# IMPORTANT: this Worker must only ever serve the mcp.bcv.today custom domain.
+# Never add a route on bcv.today/* — a Worker on the apex runs on every site
+# request and burns the free 100k/day Workers quota.
+name = "bcv-today-mcp"
+main = "src/index.ts"
+account_id = "d0158136a182d911d74096e2aa11332d"
+compatibility_date = "2026-11-01"
+workers_dev = false
+preview_urls = false
+
+routes = [
+  { pattern = "mcp.bcv.today", custom_domain = true }
+]
+
+[vars]
+# Where the static JSON API lives. Read-only; never bcv.org.ve.
+DATA_ORIGIN = "https://bcv.today"
+
+[observability]
+enabled = true
+head_sampling_rate = 0.1

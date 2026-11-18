@@ -1,0 +1,73 @@
+name: Deploy MCP server
+
+# Deploys the stateless MCP Worker in mcp/ to the mcp.bcv.today custom domain.
+# The Worker must never be routed on bcv.today/* (see mcp/wrangler.toml).
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "mcp/**"
+      - ".well-known/mcp/server-card.json"
+      - ".github/workflows/deploy-mcp.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-mcp
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  WRANGLER_VERSION: "4.157.0"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - name: Check Cloudflare token
+        working-directory: .
+        env:
+          CF_TOKEN: ${{ secrets.CF_WORKERS_API_TOKEN }}
+        run: |
+          if [ -z "$CF_TOKEN" ]; then
+            echo "::error title=Missing secret::CF_WORKERS_API_TOKEN is not set. Add a Cloudflare API token with Workers Scripts:Edit (account) plus Workers Routes:Edit and DNS:Edit on the bcv.today zone (needed for the mcp.bcv.today custom domain)."
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_WORKERS_API_TOKEN }}
+        run: npx --yes "wrangler@${WRANGLER_VERSION}" deploy
+
+      - name: Smoke test
+        run: |
+          for i in 1 2 3 4 5 6; do
+            body=$(curl -fsS -X POST https://mcp.bcv.today/mcp \
+              -H 'Content-Type: application/json' \
+              -H 'Accept: application/json, text/event-stream' \
+              -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"ci","version":"0"}}}') \
+              && echo "$body" | grep -q '"bcv-today"' && { echo "MCP endpoint OK"; exit 0; }
+            sleep 10
+          done
+          echo "::warning::MCP endpoint did not answer initialize yet (custom domain/certificate may still be provisioning)."

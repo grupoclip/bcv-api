@@ -32,6 +32,44 @@ API BCV gratuita en JSON, de solo lectura, con las tasas oficiales del Banco Cen
 | Agent card | `/.well-known/agent-card.json` | Capacidades de acceso a datos para agentes. |
 | LLM index | `/llms.txt` | Resumen corto para agentes y LLMs. |
 | LLM full context | `/llms-full.txt` | Contexto completo en Markdown/texto. |
+| MCP server card | `/.well-known/mcp/server-card.json` | Tarjeta del servidor MCP (endpoint, transporte y herramientas). |
+
+## Servidor MCP
+
+Servidor remoto [Model Context Protocol](https://modelcontextprotocol.io) para asistentes y agentes de IA (Claude, ChatGPT, Cursor, VS Code y otros). Es gratuito, de solo lectura, sin estado y sin autenticación; usa los mismos datos de esta API.
+
+**Endpoint (Streamable HTTP):** `https://mcp.bcv.today/mcp`
+
+| Herramienta | Qué hace |
+| --- | --- |
+| `get_latest_rates` | Tasas oficiales vigentes (USD, EUR, CNY, TRY, RUB) con fecha valor. |
+| `get_rate_by_date` | Tasa vigente en un día (`YYYY-MM-DD`); explica el arrastre de fines de semana y feriados. |
+| `get_history` | Serie diaria de una moneda (últimos N días o rango `from`/`to`) con mínimo, máximo y variación %. |
+| `convert` | Convierte un monto entre VES, USD, EUR, CNY, TRY y RUB, con la tasa actual o la de una fecha. |
+| `get_status` | Frescura de los datos: última captura, fecha valor y monedas disponibles. |
+
+Claude Code:
+
+```bash
+claude mcp add --transport http bcv-today https://mcp.bcv.today/mcp
+```
+
+Claude Desktop / claude.ai: **Settings → Connectors → Add custom connector** con la URL `https://mcp.bcv.today/mcp`.
+
+Otros clientes (Cursor, VS Code, Windsurf…), en su archivo de configuración MCP:
+
+```json
+{
+  "mcpServers": {
+    "bcv-today": {
+      "type": "http",
+      "url": "https://mcp.bcv.today/mcp"
+    }
+  }
+}
+```
+
+Clientes que solo hablan stdio pueden usar el puente `npx -y mcp-remote https://mcp.bcv.today/mcp`.
 
 ## Endpoints
 

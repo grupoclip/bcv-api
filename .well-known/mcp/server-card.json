@@ -1,0 +1,85 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/v1/server-card.schema.json",
+  "name": "today.bcv/rates",
+  "version": "1.0.0",
+  "title": "BCV Today",
+  "description": "Official Banco Central de Venezuela exchange rates (USD, EUR, CNY, TRY, RUB vs VES).",
+  "websiteUrl": "https://bcv.today/en/api/#mcp-server",
+  "repository": {
+    "url": "https://github.com/grupoclip/bcv-api",
+    "source": "github",
+    "subfolder": "mcp"
+  },
+  "icons": [
+    {
+      "src": "https://bcv.today/assets/icon-192.png",
+      "mimeType": "image/png",
+      "sizes": ["192x192"]
+    },
+    {
+      "src": "https://bcv.today/assets/logo.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": ["any"]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.bcv.today/mcp",
+      "supportedProtocolVersions": ["2025-11-25", "2025-06-18", "2025-03-26"]
+    }
+  ],
+  "serverInfo": {
+    "name": "bcv-today",
+    "title": "BCV Today",
+    "version": "1.0.0"
+  },
+  "protocolVersion": "2025-11-25",
+  "transport": {
+    "type": "streamable-http",
+    "endpoint": "https://mcp.bcv.today/mcp"
+  },
+  "capabilities": {
+    "tools": { "listChanged": false },
+    "resources": { "listChanged": false }
+  },
+  "authentication": {
+    "required": false,
+    "schemes": []
+  },
+  "instructions": "Free, public, read-only and stateless. No authentication. Rates are bolivars (VES) per one unit of each currency, as published by Banco Central de Venezuela. Unofficial project, not affiliated with the bank.",
+  "tools": [
+    {
+      "name": "get_latest_rates",
+      "description": "Official BCV rates currently in effect for USD, EUR, CNY, TRY and RUB, with effective date and capture time."
+    },
+    {
+      "name": "get_rate_by_date",
+      "description": "Official BCV rate(s) in effect on a calendar day (YYYY-MM-DD), with weekend/holiday carry-forward explained."
+    },
+    {
+      "name": "get_history",
+      "description": "Daily rate series for one currency (last N days or a date range) with min, max and percentage change."
+    },
+    {
+      "name": "convert",
+      "description": "Convert an amount between VES, USD, EUR, CNY, TRY and RUB using the latest or a given day's official rate."
+    },
+    {
+      "name": "get_status",
+      "description": "Freshness of the published data: last update time, effective date and supported currencies."
+    }
+  ],
+  "resources": [
+    {
+      "uri": "https://bcv.today/llms.txt",
+      "name": "llms-txt",
+      "mimeType": "text/plain"
+    },
+    {
+      "uri": "https://bcv.today/openapi.json",
+      "name": "openapi",
+      "mimeType": "application/json"
+    }
+  ]
+}

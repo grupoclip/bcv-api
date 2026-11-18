@@ -1,0 +1,5 @@
+/vendor/
+# Library: the lock file is not committed; dev dependencies are pinned to exact versions in composer.json.
+/composer.lock
+/.phpunit.cache/
+/.phpcs-cache

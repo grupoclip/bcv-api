@@ -1,0 +1,8 @@
+# Keep the Composer dist archive small: only src/, config/ and the docs ship.
+/tests export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/phpunit.xml.dist export-ignore
+/phpstan.neon.dist export-ignore
+/phpcs.xml.dist export-ignore
+/.phpstan export-ignore

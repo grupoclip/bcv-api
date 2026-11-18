@@ -1,0 +1,82 @@
+{
+    "name": "grupoclip/bcv-today",
+    "description": "Official PHP client for the BCV Today API: Banco Central de Venezuela (BCV) exchange rates for USD, EUR, CNY, TRY and RUB, with exact decimal conversions and Laravel integration.",
+    "type": "library",
+    "license": "Apache-2.0",
+    "keywords": [
+        "bcv",
+        "venezuela",
+        "exchange rate",
+        "tasa bcv",
+        "dolar bcv",
+        "bolivar",
+        "laravel",
+        "banco central de venezuela",
+        "ves",
+        "currency"
+    ],
+    "homepage": "https://bcv.today",
+    "authors": [
+        {
+            "name": "Grupo Clip",
+            "homepage": "https://bcv.today"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/grupoclip/bcv-api/issues",
+        "source": "https://github.com/grupoclip/bcv-api/tree/main/packages/php",
+        "docs": "https://bcv.today/api/"
+    },
+    "require": {
+        "php": ">=8.1",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "2.3.5",
+        "phpunit/phpunit": "10.5.66",
+        "squizlabs/php_codesniffer": "4.0.4"
+    },
+    "suggest": {
+        "ext-curl": "Used automatically when loaded (gzip, finer timeouts); PHP streams are used otherwise."
+    },
+    "autoload": {
+        "psr-4": {
+            "BcvToday\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BcvToday\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "BcvToday\\Laravel\\BcvServiceProvider"
+            ],
+            "aliases": {
+                "Bcv": "BcvToday\\Laravel\\Facades\\Bcv"
+            }
+        }
+    },
+    "scripts": {
+        "lint": "phpcs",
+        "analyse": "phpstan analyse --no-progress",
+        "test": "phpunit",
+        "test:live": [
+            "@putenv BCV_LIVE=1",
+            "phpunit --group live"
+        ],
+        "check": [
+            "@lint",
+            "@analyse",
+            "@test"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

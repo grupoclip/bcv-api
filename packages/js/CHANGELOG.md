@@ -4,13 +4,6 @@ All notable changes to the `bcv-today` npm package. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the package uses
 [Semantic Versioning](https://semver.org/).
 
-## [1.0.3] - 2026-11-19
-
-### Fixed
-
-- README: source link points to the package's new location in the repository,
-  `packages/js/`, and the Socket badge is added. No code changes.
-
 ## [1.0.2] - 2026-11-18
 
 ### Removed

@@ -1,6 +1,6 @@
 {
   "name": "bcv-today",
-  "version": "1.0.3",
+  "version": "1.0.2",
   "description": "Official client for the BCV Today API: Banco Central de Venezuela exchange rates (USD, EUR, CNY, TRY, RUB to VES), with exact decimal conversions and a CLI. Unofficial, not affiliated with the bank.",
   "keywords": [
     "bcv",

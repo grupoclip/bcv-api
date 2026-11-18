@@ -4,13 +4,6 @@ All notable changes to the `bcv` Python package. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/). Releases are tagged `py-vX.Y.Z`.
 
-## [1.0.1] - 2026-11-19
-
-### Fixed
-
-- Project links (Source, Changelog) point to the package's new location in the
-  repository, `packages/python/`. No code changes.
-
 ## [1.0.0] - 2026-11-18
 
 ### Added

@@ -36,9 +36,6 @@ plugins:
 jekyll-minifier:
   compress_html: true
   compress_json: true
-  # Off: its CSS minifier strips the space in "or (" / "not (", which turns
-  # valid @supports / @media conditions into invalid ones. Gzip/brotli on the
-  # CDN already compresses the stylesheet (~8 KB).
   compress_css: false
   compress_javascript: true
   exclude:

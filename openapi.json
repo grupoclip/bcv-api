@@ -5,8 +5,8 @@
     "version": "1.0.0",
     "description": "Public unauthenticated read-only JSON API for official Banco Central de Venezuela exchange rates served as static files. No OAuth, OIDC, API key, bearer token, cookie, or other authentication is required.",
     "license": {
-      "name": "MIT",
-      "url": "https://github.com/grupoclip/bcv-api/blob/main/LICENSE"
+      "name": "CC-BY-4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
     }
   },
   "servers": [

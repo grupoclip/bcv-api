@@ -14,25 +14,24 @@ layout: default
 
 <section class="rate-hero" aria-labelledby="rate-heading">
     <div>
-        <div class="code">{{ code }}</div>
+        <div class="code">
+            {{ code }}
+            {%- if rate.effective_date %}
+            <span class="stamp">{{ t.stamp_label }} <b>{% include date.html date=rate.effective_date %}</b></span>
+            {%- endif %}
+        </div>
         <h2 id="rate-heading">{{ page.rate_label }}</h2>
         {%- if value -%}
-        <div class="rate-hero-value">{{ value }}<span>Bs.</span></div>
+        <div class="rate-hero-value">{% include num.html value=value %}<span>Bs.</span></div>
         {%- else -%}
         <p>{{ t.loading }}</p>
         {%- endif -%}
     </div>
     <dl class="rate-facts">
-        {%- if rate.effective_date -%}
-        <div>
-            <dt>{{ t.date_label }}</dt>
-            <dd>{{ rate.effective_date }}</dd>
-        </div>
-        {%- endif -%}
         {%- if rate.updated_at -%}
         <div>
-            <dt>{{ t.updated_label }}</dt>
-            <dd>{{ rate.updated_at | date: "%Y-%m-%d %H:%M UTC" }}</dd>
+            <dt>{{ t.captured_label }} {{ t.caracas_zone }}</dt>
+            <dd>{{ rate.updated_at | date: '%s' | minus: 14400 | date: '%Y-%m-%d %H:%M' }}</dd>
         </div>
         {%- endif -%}
         <div>
@@ -45,46 +44,51 @@ layout: default
 {%- if code == 'USD' and value -%}
 {%- assign quick_amounts = '1,5,10,20,50,100' | split: ',' -%}
 {%- if page.lang == 'en' -%}
-{%- assign quick_heading = 'Quick USD to VES conversions with the BCV rate' -%}
-{%- assign quick_copy = 'Common dollar amounts converted with the official Banco Central de Venezuela USD/VES rate shown on this page.' -%}
+{%- assign quick_heading = 'Dollars to bolívares' -%}
+{%- assign quick_copy = 'Common amounts at the official rate above.' -%}
 {%- assign amount_label = 'Dollars' -%}
-{%- assign bolivar_label = 'Bolivares at official BCV rate' -%}
+{%- assign bolivar_label = 'Bolívares' -%}
 {%- assign recent_heading = 'Last 7 days of the BCV dollar' -%}
-{%- assign recent_copy = 'Recent official USD/VES values from the BCV history, useful for seeing the short-term trend.' -%}
-{%- assign change_label = 'Daily change' -%}
-{%- assign compare_heading = 'BCV dollar vs parallel dollar and Dolartoday' -%}
-{%- assign compare_copy = 'The BCV dollar is the official exchange rate published by Banco Central de Venezuela. Parallel-market references such as Dolartoday or USDT P2P can differ, but BCV Today only shows the official BCV Venezuela rate and its history.' -%}
+{%- assign change_label = 'Change vs previous day' -%}
+{%- assign compare_heading = 'BCV dollar and the parallel dollar' -%}
+{%- assign compare_copy = 'The BCV dollar is the official rate. Dolartoday or the USDT price on P2P apps belong to another market and can differ. This site only shows the BCV rate and its history.' -%}
 {%- else -%}
-{%- assign quick_heading = 'Conversiones rápidas de USD a VES con tasa BCV' -%}
-{%- assign quick_copy = 'Montos comunes en dólares convertidos con el precio oficial USD/VES del Banco Central de Venezuela mostrado en esta página.' -%}
+{%- assign quick_heading = 'Dólares a bolívares' -%}
+{%- assign quick_copy = 'Montos comunes a la tasa oficial de arriba.' -%}
 {%- assign amount_label = 'Dólares' -%}
-{%- assign bolivar_label = 'Bolívares a tasa BCV oficial' -%}
+{%- assign bolivar_label = 'Bolívares' -%}
 {%- assign recent_heading = 'Últimos 7 días del dólar BCV' -%}
-{%- assign recent_copy = 'Valores oficiales USD/VES recientes del histórico BCV para revisar la tendencia de corto plazo.' -%}
-{%- assign change_label = 'Variación diaria' -%}
-{%- assign compare_heading = 'Dólar BCV vs dólar paralelo y Dolartoday' -%}
-{%- assign compare_copy = 'El dólar BCV es la tasa oficial publicada por el Banco Central de Venezuela. Referencias paralelas como Dolartoday o USDT P2P pueden ser distintas, pero BCV Today solo muestra la tasa oficial del BCV Venezuela y su histórico.' -%}
+{%- assign change_label = 'Variación vs. día anterior' -%}
+{%- assign compare_heading = 'Dólar BCV y dólar paralelo' -%}
+{%- assign compare_copy = 'El dólar BCV es la tasa oficial. Dolartoday o el precio de USDT en apps P2P son otro mercado y pueden ser distintos. Aquí solo aparece la tasa del BCV y su histórico.' -%}
 {%- endif -%}
 
 <section aria-labelledby="quick-conversions-heading">
     <h2 id="quick-conversions-heading">{{ quick_heading }}</h2>
     <p>{{ quick_copy }}</p>
-    <div class="conversion-grid">
+    <table class="conversion-table">
+        <caption class="visually-hidden">{{ quick_heading }}</caption>
+        <thead>
+        <tr>
+            <th>{{ amount_label }}</th>
+            <th>{{ bolivar_label }}</th>
+        </tr>
+        </thead>
+        <tbody>
         {%- for amount in quick_amounts -%}
         {%- assign amount_num = amount | plus: 0 -%}
-        {%- assign converted = amount_num | times: value -%}
-        <div class="conversion-card">
-            <span class="conversion-label">{{ amount_label }}</span>
-            <strong>{{ amount_num }} USD</strong>
-            <span class="conversion-value">{{ converted | round: 2 }} Bs.</span>
-        </div>
+        {%- assign converted = amount_num | times: value | round: 2 -%}
+        <tr>
+            <td>{{ amount_num }} USD</td>
+            <td>{% include num.html value=converted min=2 max=2 %} Bs.</td>
+        </tr>
         {%- endfor -%}
-    </div>
+        </tbody>
+    </table>
 </section>
 
 <section aria-labelledby="recent-usd-heading">
     <h2 id="recent-usd-heading">{{ recent_heading }}</h2>
-    <p>{{ recent_copy }}</p>
     <div class="table-wrapper" tabindex="0" role="region" aria-labelledby="recent-usd-heading">
     <table class="history-table compact-table">
         <caption class="visually-hidden">{{ recent_heading }}</caption>
@@ -99,12 +103,13 @@ layout: default
         {%- for entry in site.data.recent_usd reversed -%}
         <tr>
             <td>{{ entry.date }}</td>
-            <td>{{ entry.USD }} Bs.</td>
+            <td>{% include num.html value=entry.USD %}</td>
             {%- if entry.change_pct == nil -%}
             <td>—</td>
             {%- else -%}
-            <td class="{% if entry.change_pct >= 0 %}up{% else %}down{% endif %}">
-                {{ entry.change_pct | round: 2 }}%
+            <td class="{% if entry.change_pct > 0 %}up{% elsif entry.change_pct < 0 %}down{% endif %}">
+                {%- assign pct = entry.change_pct | round: 2 -%}
+                {% include num.html value=pct min=2 max=2 sign=true %}%
             </td>
             {%- endif -%}
         </tr>

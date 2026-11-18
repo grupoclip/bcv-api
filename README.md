@@ -168,4 +168,9 @@ This project is not affiliated with the Banco Central de Venezuela. Rates are sc
 
 ## License
 
-See [LICENSE](LICENSE).
+- **Code** (scraper, site, scripts): [Apache License 2.0](LICENSE).
+- **Data and API content** (the JSON files, the history, the site texts): [Creative Commons Attribution 4.0 International (CC BY 4.0)](LICENSE-DATA.md). Free to use, including commercially; the only condition is attribution, for example: `Source: Banco Central de Venezuela, via BCV Today (https://bcv.today)`.
+
+The exchange rates themselves are official public facts published by Banco Central de Venezuela; CC BY 4.0 covers BCV Today's compilation, format, history and texts. The "BCV Today" name and logo are not covered by either license. Data is provided as is; for legal or accounting use, verify against [bcv.org.ve](https://www.bcv.org.ve/).
+
+Details and attribution examples: [bcv.today/licencia/](https://bcv.today/licencia/) (Spanish) and [bcv.today/en/license/](https://bcv.today/en/license/) (English).

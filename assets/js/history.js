@@ -50,10 +50,9 @@
       signDisplay: "exceptZero",
     }).format(n / 100);
 
-  const fmtDate = (iso) =>
-    new Intl.DateTimeFormat(LOCALE, { dateStyle: "medium" }).format(
-      new Date(iso + "T12:00:00")
-    );
+  // Tables and chart axes use ISO dates (2026-11-18): exact, sortable and the same
+  // in both languages, matching the server-rendered tables.
+  const fmtDate = (iso) => iso;
 
   const bust = (url) =>
     url + (url.includes("?") ? "&" : "?") + "t=" + Date.now();
@@ -243,7 +242,7 @@
     } else {
       c1.textContent = fmtPct(change1d);
       c1.className =
-        "stat-value " + (change1d >= 0 ? "up" : "down");
+        "stat-value" + (change1d > 0 ? " up" : change1d < 0 ? " down" : "");
     }
 
     document.getElementById("stat-change-n-label").textContent =
@@ -255,7 +254,7 @@
     } else {
       cn.textContent = fmtPct(changeN);
       cn.className =
-        "stat-value " + (changeN >= 0 ? "up" : "down");
+        "stat-value" + (changeN > 0 ? " up" : changeN < 0 ? " down" : "");
     }
     stats.hidden = false;
 
@@ -280,7 +279,7 @@
         let cls = "";
         if (next) {
           const ch = ((d.value - next.value) / next.value) * 100;
-          cls = ch >= 0 ? "up" : "down";
+          cls = ch > 0 ? "up" : ch < 0 ? "down" : "";
           changeCell = fmtPct(ch);
         }
         const tr = document.createElement("tr");

@@ -7,8 +7,8 @@
   "scope": "/",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
-  "background_color": "#050505",
-  "theme_color": "#101010",
+  "background_color": "#161513",
+  "theme_color": "#161513",
   "categories": ["finance", "utilities"],
   "lang": "es-VE",
   "dir": "ltr",
@@ -24,6 +24,12 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "/assets/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "/assets/logo.svg",

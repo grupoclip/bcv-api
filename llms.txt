@@ -48,3 +48,4 @@ Every page is also available as Markdown: request it with `Accept: text/markdown
 
 - [Full agent context](https://bcv.today/llms-full.txt): the complete documentation in one plain-text file
 - [Source code](https://github.com/grupoclip/bcv-api): scraper, site and API on GitHub
+- [License](https://bcv.today/en/license/): code under Apache 2.0, data and API under CC BY 4.0 (attribution required)

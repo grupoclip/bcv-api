@@ -1,6 +1,6 @@
 (function () {
     const FOREIGN_CODES = Object.keys(CURRENCY_NAMES).filter((c) => c !== "VES");
-    const SPARK_WINDOW = 20;
+    const CHANGE_WINDOW = 20;
     const CURRENCY_SYMBOLS = {
         USD: "$",
         EUR: "€",
@@ -10,8 +10,6 @@
         VES: "Bs",
     };
     const symbolFor = (c) => CURRENCY_SYMBOLS[c] || c;
-    const SVG_NS = "http://www.w3.org/2000/svg";
-
     // Build markup with DOM APIs, never by parsing HTML strings.
     function el(tag, className, text) {
         const node = document.createElement(tag);
@@ -37,12 +35,21 @@
     // Plain numeric string for <input type="number">: 2 decimals max, no locale separators.
     const numForInput = (n) => (isFinite(n) ? n.toFixed(2) : "");
 
-    const fmtDateTime = (iso) =>
-        new Intl.DateTimeFormat(LOCALE, {
-            dateStyle: "long",
-            timeStyle: "short",
+    // "18 de noviembre de 2026, 22:01" in Caracas time. Composed by hand so it
+    // matches the server-rendered string (_includes/date.html) in every browser.
+    const fmtDateTime = (iso) => {
+        const p = {};
+        new Intl.DateTimeFormat("en-CA", {
             timeZone: "America/Caracas",
-        }).format(new Date(iso));
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            hourCycle: "h23",
+        }).formatToParts(new Date(iso)).forEach((part) => (p[part.type] = part.value));
+        return fmtDate(p.year + "-" + p.month + "-" + p.day) + ", " + p.hour + ":" + p.minute;
+    };
 
     const fmtDate = (iso) =>
         new Intl.DateTimeFormat(LOCALE, {dateStyle: "long"}).format(
@@ -51,41 +58,6 @@
 
     const bust = (url) =>
         url + (url.includes("?") ? "&" : "?") + "t=" + Date.now();
-
-    function sparklineSvg(values) {
-        if (!values || values.length < 2) return null;
-        const w = 100;
-        const h = 28;
-        const pad = 2;
-        const min = Math.min(...values);
-        const max = Math.max(...values);
-        const range = max - min || 1;
-        const dx = (w - pad * 2) / (values.length - 1);
-        const points = values
-            .map((v, i) => {
-                const x = pad + i * dx;
-                const y = pad + (h - pad * 2) - ((v - min) / range) * (h - pad * 2);
-                return x.toFixed(2) + "," + y.toFixed(2);
-            })
-            .join(" ");
-        const svg = document.createElementNS(SVG_NS, "svg");
-        svg.setAttribute("class", "spark");
-        svg.setAttribute("viewBox", "0 0 " + w + " " + h);
-        svg.setAttribute("preserveAspectRatio", "none");
-        svg.setAttribute("aria-hidden", "true");
-        const line = document.createElementNS(SVG_NS, "polyline");
-        const attrs = {
-            points,
-            fill: "none",
-            stroke: "currentColor",
-            "stroke-width": "1.5",
-            "stroke-linejoin": "round",
-            "stroke-linecap": "round",
-        };
-        for (const name in attrs) line.setAttribute(name, attrs[name]);
-        svg.append(line);
-        return svg;
-    }
 
     function todayCaracas() {
         return new Intl.DateTimeFormat("en-CA", {
@@ -106,20 +78,61 @@
         return out.slice(-n);
     }
 
+    // Home backdrop: the last 12 months of USD, drawn faint behind the hero
+    // so the glass header has real data to refract. It ends a little short of
+    // the right edge in a gold dot, today's value (the logo's idea: the ridge
+    // is the rate chart and the dot is today). The box has a fixed size, so
+    // drawing it late never shifts the layout; an unchanged series is not
+    // redrawn, which would only make liquidGL recapture the page.
+    function renderBackdrop(history) {
+        const svg = document.getElementById("backdrop-chart");
+        if (!svg) return;
+        const values = lastValuesFor(history, "USD", 365);
+        if (values.length < 2) return;
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        const range = max - min || 1;
+        const top = 60;
+        const bottom = 380;
+        const end = 980;
+        const dx = end / (values.length - 1);
+        const pts = values.map((v, i) =>
+            (i * dx).toFixed(1) + "," + (bottom - ((v - min) / range) * (bottom - top)).toFixed(1));
+        const points = pts.join(" ");
+        if (svg.dataset.points === points) return;
+        svg.dataset.points = points;
+        const ns = "http://www.w3.org/2000/svg";
+        const shape = (tag, cls, attr, value) => {
+            const node = document.createElementNS(ns, tag);
+            node.setAttribute("class", cls);
+            node.setAttribute(attr, value);
+            return node;
+        };
+        const today = "M" + pts[pts.length - 1] + "h0";
+        svg.replaceChildren(
+            shape("polygon", "bd-area", "points", "0,400 " + points + " " + end + ",400"),
+            shape("polyline", "bd-line", "points", points),
+            shape("path", "bd-halo", "d", today),
+            shape("path", "bd-dot", "d", today)
+        );
+    }
+
     function renderCards(data, history) {
         const grid = document.getElementById("grid");
         grid.textContent = "";
         for (const code of FOREIGN_CODES) {
             if (typeof data[code] !== "number") continue;
-            const series = lastValuesFor(history, code, SPARK_WINDOW);
+            const series = lastValuesFor(history, code, CHANGE_WINDOW);
             const foot = el("div", "card-foot");
             if (series.length >= 2) {
                 const first = series[0];
                 const last = series[series.length - 1];
                 const change = ((last - first) / first) * 100;
-                const changeEl = el("span", "change " + (change >= 0 ? "up" : "down"), fmtPct(change));
-                changeEl.title = STRINGS.variation + " (" + series.length + "d)";
-                foot.append(sparklineSvg(series), changeEl);
+                // A change always says what it compares to.
+                foot.append(
+                    el("span", "change" + (change > 0 ? " up" : change < 0 ? " down" : ""), fmtPct(change)),
+                    el("span", null, STRINGS.changeRef.replace("%{n}", series.length))
+                );
             } else {
                 foot.append(el("span", "muted", STRINGS.no_history));
             }
@@ -239,20 +252,12 @@
         const status = document.getElementById("api-status");
         if (status) {
             const complete = FOREIGN_CODES.every((code) => typeof rate[code] === "number");
-            const labelled = (label, valueText) => {
-                const span = el("span", null, label + " ");
-                span.append(el("strong", null, valueText));
-                return span;
-            };
-            const link = el("a", null, STRINGS.apiLabel);
-            link.href = API_PAGE_URL;
-            status.replaceChildren(
-                el("span", "status-pill " + (complete ? "ok" : "partial"),
-                    complete ? STRINGS.statusOk : STRINGS.statusPartial),
-                labelled(STRINGS.effective, fmtDate(effective)),
-                labelled(STRINGS.scraped, fmtDateTime(rate.updated_at)),
-                link
-            );
+            const stamp = el("span", "stamp", STRINGS.stampLabel + " ");
+            stamp.append(el("b", null, fmtDate(effective)));
+            stamp.title = STRINGS.scraped + " " + fmtDateTime(rate.updated_at) + " " + STRINGS.zone;
+            // Quiet when all is well; the pill only shows up when rates are missing.
+            const parts = complete ? [stamp] : [el("span", "status-pill partial", STRINGS.statusPartial), stamp];
+            status.replaceChildren(...parts);
         }
     }
 
@@ -271,6 +276,7 @@
             renderMetaAndStatus(rate);
             const history = await fetchJson(HISTORY_URL).catch(() => []);
             renderCards(rate, history);
+            renderBackdrop(history);
             return rate;
         } catch (err) {
             if (showErrors) showError(err);

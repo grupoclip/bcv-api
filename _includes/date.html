@@ -1,0 +1,23 @@
+{%- comment -%}
+  Long date in the page language, matching Intl.DateTimeFormat({ dateStyle: "long" })
+  in the browser. With time=true, appends ", HH:MM" in Caracas time (UTC−4, no DST),
+  composed the same way as fmtDateTime in dashboard.js.
+  Params: date (YYYY-MM-DD, or a timestamp when time=true), lang (default page.lang), time.
+  es: 18 de noviembre de 2026, 22:01   en: November 18, 2026, 22:01
+{%- endcomment -%}
+{%- assign dt_lang = include.lang | default: page.lang -%}
+{%- assign dt_months = site.data.i18n[dt_lang].months -%}
+{%- if include.time -%}
+{%- assign dt_ts = include.date | date: '%s' | minus: 14400 -%}
+{%- else -%}
+{%- assign dt_ts = include.date | append: 'T12:00:00Z' | date: '%s' | plus: 0 -%}
+{%- endif -%}
+{%- assign dt_day = dt_ts | date: '%-d' -%}
+{%- assign dt_month_index = dt_ts | date: '%-m' | minus: 1 -%}
+{%- assign dt_year = dt_ts | date: '%Y' -%}
+{%- assign dt_month = dt_months[dt_month_index] -%}
+{%- if dt_lang == 'en' -%}
+{{- dt_month }} {{ dt_day }}, {{ dt_year -}}{%- if include.time %}, {{ dt_ts | date: '%H:%M' }}{%- endif -%}
+{%- else -%}
+{{- dt_day }} de {{ dt_month }} de {{ dt_year -}}{%- if include.time %}, {{ dt_ts | date: '%H:%M' }}{%- endif -%}
+{%- endif -%}

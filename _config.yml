@@ -38,6 +38,9 @@ jekyll-minifier:
   compress_json: true
   compress_css: true
   compress_javascript: true
+  # Third-party bundles ship already minified (and use syntax Uglifier rejects).
+  exclude:
+  - "assets/js/lib/*.js"
 exclude:
 - main.py
 - mcp

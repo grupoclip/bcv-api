@@ -35,9 +35,17 @@ jobs:
         id: pages
         uses: actions/configure-pages@v6
 
-      - name: Set asset version
+      - name: Set asset version and GitHub stars
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           printf 'asset_version: "%s"\n' "${GITHUB_SHA::12}" > _config.build.yml
+          # Star count is baked into the HTML at build time; a failed lookup just hides the badge.
+          stars="$(curl --silent --fail -H "Authorization: Bearer ${GH_TOKEN}" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}" | jq -r '.stargazers_count // empty' || true)"
+          if [ -n "${stars}" ]; then
+            printf 'github_stars: %s\n' "${stars}" >> _config.build.yml
+          fi
 
       - name: Build with Jekyll
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}" --config _config.yml,_config.build.yml

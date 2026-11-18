@@ -1,0 +1,9 @@
+{%- comment -%}
+  Home page backdrop behind the floating glass header and the hero, so the
+  liquid glass has real content to refract: the last 12 months of the official
+  USD rate, drawn by dashboard.js (renderBackdrop). The gold dot at the end of
+  the line is today's value, like the dot on the logo's ridge.
+{%- endcomment -%}
+<div class="home-backdrop" aria-hidden="true">
+  <svg class="bd-chart" id="backdrop-chart" viewBox="0 0 1000 400" preserveAspectRatio="none" focusable="false"></svg>
+</div>

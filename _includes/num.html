@@ -1,0 +1,36 @@
+{%- comment -%}
+  Formats a number like Intl.NumberFormat does in the browser, so server-rendered
+  figures match the ones dashboard.js / history.js draw later.
+  Params: value, lang (default page.lang), min (min decimals, default 4),
+          max (max decimals, optional), sign (true → leading "+" on positives).
+  es: 1.007,3866   en: 1,007.3866
+{%- endcomment -%}
+{%- assign num_lang = include.lang | default: page.lang -%}
+{%- assign num_min = include.min | default: 4 -%}
+{%- assign num_str = include.value | append: '' -%}
+{%- assign num_neg = false -%}
+{%- if num_str contains '-' -%}
+{%- assign num_neg = true -%}
+{%- assign num_str = num_str | remove: '-' -%}
+{%- endif -%}
+{%- assign num_parts = num_str | split: '.' -%}
+{%- assign num_int = num_parts[0] -%}
+{%- assign num_dec = num_parts[1] | default: '' -%}
+{%- if include.max -%}{%- assign num_dec = num_dec | slice: 0, include.max -%}{%- endif -%}
+{%- if num_dec.size < num_min -%}{%- assign num_dec = num_dec | append: '00000000' | slice: 0, num_min -%}{%- endif -%}
+{%- assign num_group = ',' -%}
+{%- assign num_point = '.' -%}
+{%- if num_lang == 'es' -%}{%- assign num_group = '.' -%}{%- assign num_point = ',' -%}{%- endif -%}
+{%- assign num_out = '' -%}
+{%- assign num_rest = num_int -%}
+{%- for num_i in (1..4) -%}
+{%- if num_rest.size > 3 -%}
+{%- assign num_cut = num_rest.size | minus: 3 -%}
+{%- assign num_chunk = num_rest | slice: num_cut, 3 -%}
+{%- assign num_out = num_group | append: num_chunk | append: num_out -%}
+{%- assign num_rest = num_rest | slice: 0, num_cut -%}
+{%- endif -%}
+{%- endfor -%}
+{%- assign num_out = num_rest | append: num_out -%}
+{%- if num_neg -%}-{%- elsif include.sign and num_str != '0' and num_str != '0.0' -%}+{%- endif -%}
+{{- num_out -}}{%- if num_dec != '' -%}{{ num_point }}{{ num_dec }}{%- endif -%}

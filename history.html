@@ -18,9 +18,12 @@ description: Histórico diario del dólar BCV, euro BCV y otras tasas oficiales 
   <div>
     <h1>{{ t.history_title }}</h1>
     <p class="lede">
-      Histórico diario de las tasas oficiales del Banco Central de Venezuela para
-      USD, EUR, CNY, TRY y RUB frente al bolívar.
+      Una entrada por día de las tasas oficiales del Banco Central de Venezuela
+      para USD, EUR, CNY, TRY y RUB frente al bolívar.
     </p>
+    {%- if site.data.rate.effective_date %}
+    <p><span class="stamp">{{ t.stamp_label }} <b>{% include date.html date=site.data.rate.effective_date %}</b></span></p>
+    {%- endif %}
   </div>
   <button
     type="button"
@@ -41,19 +44,11 @@ description: Histórico diario del dólar BCV, euro BCV y otras tasas oficiales 
   </button>
 </div>
 
-<h2>Qué muestra el histórico BCV</h2>
+<h2>Cómo se arma el histórico</h2>
 <p>
-    El histórico conserva una entrada diaria para consultar cómo han cambiado las
-    tasas oficiales frente al bolívar. Puedes revisar el dólar estadounidense,
-    euro, yuan chino, lira turca y rublo ruso, comparar la variación de corto o
-    largo plazo y usar la tabla como referencia para reportes, conciliaciones,
-    presupuestos o conversiones con fecha específica.
-</p>
-<p>
-    Las tasas provienen de los datos publicados por el Banco Central de Venezuela.
-    En días sin nueva publicación oficial, como fines de semana o feriados, el
-    histórico mantiene la tasa vigente del día hábil anterior para que cada fecha
-    del calendario tenga una referencia consistente.
+    Hay una entrada por cada día desde agosto de 2021, tomada de lo que publica el
+    Banco Central de Venezuela. Los fines de semana y feriados repiten la tasa del último
+    día hábil, así cada fecha del calendario tiene su valor.
 </p>
 
 <div class="history-controls">

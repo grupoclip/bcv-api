@@ -9,6 +9,7 @@ es:
   nav_history_title: "Ver el histórico diario de tasas BCV"
   nav_api_title: "Documentación de la API JSON pública"
   nav_github_title: "Repositorio del proyecto BCV Today en GitHub"
+  github_stars: "estrellas"
   footer_bcv_title: "Sitio oficial del Banco Central de Venezuela"
   link_bcv_title: "Sitio oficial del Banco Central de Venezuela"
   link_dollar_title: "Ver detalle del dólar BCV hoy"
@@ -41,24 +42,33 @@ es:
   effective_label: "Vigente"
   captured_label: "Capturado"
   status_ok: "API operativa"
-  status_partial: "API parcial"
+  status_partial: "Faltan algunas tasas"
   status_source: "Fuente BCV"
   status_history: "Histórico diario"
   card_current_rate: "Tasa vigente"
   index_title: "Dólar BCV hoy y tasas oficiales"
   index_lede_html: >-
-    Datos publicados por el
-    <a href="https://www.bcv.org.ve/" target="_blank" rel="noopener">Banco Central de Venezuela</a>.
-    El BCV publica la tasa los días hábiles, alrededor de las
-    4:30&nbsp;p.&nbsp;m. (hora de Caracas), con vigencia para el día siguiente.
-    El histórico se actualiza todos los días.
-  index_integrate_h2: "¿Necesitas integrarlo?"
+    Tasas oficiales del
+    <a href="https://www.bcv.org.ve/" target="_blank" rel="noopener">Banco Central de Venezuela</a>
+    en bolívares, vigentes desde la fecha valor.
+  index_integrate_h2: "API JSON"
   index_integrate_p_html: >-
-    Consulta la <a href="__API_URL__">documentación de la API</a>
-    para los endpoints, el formato de respuesta y ejemplos de uso.
+    Las mismas tasas en archivos JSON, gratis y sin clave. La
+    <a href="__API_URL__">documentación de la API</a> tiene los endpoints, el
+    formato de respuesta y ejemplos.
+  # Home: developer card
+  end_api_free: "JSON gratis, sin clave."
+  end_api_body: "Las mismas tasas de esta página en archivos estáticos: pública, de solo lectura y lista para tu sistema."
+  end_api_docs: "Documentación"
+  end_api_request: "Petición"
+  end_api_response: "Respuesta, recortada"
+  end_api_example: "Ejemplo de petición y respuesta"
   card_view_history: "Ver histórico"
   card_variation: "Variación"
   card_no_history: "Sin histórico"
+  card_change_ref: "en %{n} días"
+  stamp_label: "Fecha valor"
+  months: [enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre]
   calc_title: "Calculadora"
   calc_swap: "Intercambiar"
   history_title: "Histórico"
@@ -68,15 +78,31 @@ es:
   history_share_copied: "Enlace copiado"
   history_share_failed: "Copia el enlace"
   history_current: "Actual"
-  history_change_d: "Variación 1d"
-  history_change_n: "Variación %{n}d"
-  history_no_data: "Aún no hay datos suficientes para mostrar."
+  history_change_d: "Variación en 1 día"
+  history_change_n: "Variación en %{n} días"
+  history_no_data: "Aún no hay datos para esta moneda"
   history_table_date: "Fecha"
   history_table_value: "Valor (Bs.)"
   history_table_change: "Variación"
   history_prev: "Anterior"
   history_next: "Siguiente"
   history_page_label: "Página %{page} de %{pages}"
+  footer_tagline: "Las tasas oficiales del Banco Central de Venezuela, a diario, como sitio web y API JSON gratuita."
+  footer_nav_label: "Enlaces del pie de página"
+  footer_col_site: "Sitio"
+  footer_col_data: "Datos"
+  footer_col_project: "Proyecto"
+  footer_source: "Fuente: bcv.org.ve"
+  footer_status: "Estado de la API"
+  footer_openapi: "OpenAPI"
+  footer_llms: "llms.txt"
+  footer_github: "Código en GitHub"
+  footer_issue: "Reportar un error"
+  footer_license: "Licencia"
+  footer_unofficial: "Proyecto no oficial, sin relación con el Banco Central de Venezuela."
+  footer_code_license: "Código Apache 2.0"
+  footer_data_license: "Datos CC BY 4.0"
+  footer_external: "(abre en otra pestaña)"
   currencies:
     USD: "Dólar estadounidense"
     EUR: "Euro"
@@ -96,6 +122,7 @@ en:
   nav_history_title: "View the daily history of BCV rates"
   nav_api_title: "Public JSON API documentation"
   nav_github_title: "BCV Today project repository on GitHub"
+  github_stars: "stars"
   footer_bcv_title: "Official Banco Central de Venezuela website"
   link_bcv_title: "Official Banco Central de Venezuela website"
   link_dollar_title: "View BCV dollar details for today"
@@ -128,23 +155,33 @@ en:
   effective_label: "Effective"
   captured_label: "Captured"
   status_ok: "API operational"
-  status_partial: "Partial API"
+  status_partial: "Some rates are missing"
   status_source: "BCV source"
   status_history: "Daily history"
   card_current_rate: "Current rate"
   index_title: "BCV dollar today and official rates"
   index_lede_html: >-
-    Published by the
-    <a href="https://www.bcv.org.ve/" target="_blank" rel="noopener">Banco Central de Venezuela</a>.
-    BCV publishes the rate on business days around 4:30&nbsp;p.m. (Caracas
-    time), effective the following business day. History is updated every day.
-  index_integrate_h2: "Need to integrate it?"
+    Official
+    <a href="https://www.bcv.org.ve/" target="_blank" rel="noopener">Banco Central de Venezuela</a>
+    rates in bolívares, effective from the value date.
+  index_integrate_h2: "JSON API"
   index_integrate_p_html: >-
-    Check the <a href="__API_URL__">API documentation</a>
-    for endpoints, response format, and usage examples.
+    The same rates as JSON files, free and with no key. The
+    <a href="__API_URL__">API documentation</a> lists the endpoints, the
+    response format and examples.
+  # Home: developer card
+  end_api_free: "Free JSON, no key."
+  end_api_body: "The same rates as this page, as static files: public, read-only and ready for your system."
+  end_api_docs: "Documentation"
+  end_api_request: "Request"
+  end_api_response: "Response, trimmed"
+  end_api_example: "Example request and response"
   card_view_history: "View history"
   card_variation: "Change"
   card_no_history: "No history"
+  card_change_ref: "over %{n} days"
+  stamp_label: "Value date"
+  months: [January, February, March, April, May, June, July, August, September, October, November, December]
   calc_title: "Calculator"
   calc_swap: "Swap"
   history_title: "History"
@@ -154,15 +191,31 @@ en:
   history_share_copied: "Link copied"
   history_share_failed: "Copy link"
   history_current: "Current"
-  history_change_d: "1d change"
-  history_change_n: "%{n}d change"
-  history_no_data: "Not enough data to display yet."
+  history_change_d: "Change over 1 day"
+  history_change_n: "Change over %{n} days"
+  history_no_data: "No data for this currency yet"
   history_table_date: "Date"
   history_table_value: "Value (Bs.)"
   history_table_change: "Change"
   history_prev: "Previous"
   history_next: "Next"
   history_page_label: "Page %{page} of %{pages}"
+  footer_tagline: "The official Banco Central de Venezuela rates, every day, as a website and a free JSON API."
+  footer_nav_label: "Footer links"
+  footer_col_site: "Site"
+  footer_col_data: "Data"
+  footer_col_project: "Project"
+  footer_source: "Source: bcv.org.ve"
+  footer_status: "API status"
+  footer_openapi: "OpenAPI"
+  footer_llms: "llms.txt"
+  footer_github: "Code on GitHub"
+  footer_issue: "Report an issue"
+  footer_license: "License"
+  footer_unofficial: "Unofficial project, not affiliated with the Banco Central de Venezuela."
+  footer_code_license: "Code Apache 2.0"
+  footer_data_license: "Data CC BY 4.0"
+  footer_external: "(opens in a new tab)"
   currencies:
     USD: "US Dollar"
     EUR: "Euro"

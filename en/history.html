@@ -18,9 +18,12 @@ description: Daily BCV dollar history, euro history and other official Banco Cen
   <div>
     <h1>{{ t.history_title }}</h1>
     <p class="lede">
-      Daily history for official Banco Central de Venezuela rates covering USD,
-      EUR, CNY, TRY and RUB against the bolivar.
+      One entry per day of the official Banco Central de Venezuela rates for
+      USD, EUR, CNY, TRY and RUB against the bolívar.
     </p>
+    {%- if site.data.rate.effective_date %}
+    <p><span class="stamp">{{ t.stamp_label }} <b>{% include date.html date=site.data.rate.effective_date %}</b></span></p>
+    {%- endif %}
   </div>
   <button
     type="button"
@@ -41,19 +44,11 @@ description: Daily BCV dollar history, euro history and other official Banco Cen
   </button>
 </div>
 
-<h2>What the BCV history shows</h2>
+<h2>How the history is built</h2>
 <p>
-  The history keeps one daily entry for reviewing how official rates have moved
-  against the bolivar. You can check the US dollar, euro, Chinese yuan, Turkish
-  lira and Russian ruble, compare short- or long-term changes, and use the table
-  as a reference for reports, reconciliations, budgets or conversions tied to a
-  specific date.
-</p>
-<p>
-  Rates come from data published by Banco Central de Venezuela. On days without a
-  new official publication, such as weekends or holidays, the history keeps the
-  previous business day's effective rate so each calendar date has a consistent
-  official reference.
+    There is one entry for every day since August 2021, taken from what Banco Central
+    de Venezuela publishes. Weekends and holidays repeat the last business day's rate,
+    so every calendar date has a value.
 </p>
 
 <div class="history-controls">

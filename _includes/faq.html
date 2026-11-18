@@ -1,12 +1,29 @@
 {%- assign faq = include.faq -%}
 {%- if faq and faq.items -%}
+  {%- comment -%} columns=2 splits the items into two independent columns
+  (first half, second half) so opening one item never leaves a gap beside
+  it; reading and tab order run down the first column, then the second.
+  Without it, one plain list. {%- endcomment -%}
+  {%- if include.columns == 2 -%}
+    {%- assign faq_split = faq.items.size | plus: 1 | divided_by: 2 -%}
+  {%- else -%}
+    {%- assign faq_split = faq.items.size -%}
+  {%- endif -%}
   <section class="faq" aria-labelledby="{{ include.id | default: 'faq-heading' }}">
     <h2 id="{{ include.id | default: 'faq-heading' }}">{{ faq.title }}</h2>
+    <div class="faq-list">
+      <div class="faq-col">
     {%- for item in faq.items -%}
+      {%- if forloop.index0 == faq_split -%}
+      </div>
+      <div class="faq-col">
+      {%- endif -%}
       <details>
         <summary>{{ item.question }}</summary>
         <p>{{ item.answer }}</p>
       </details>
     {%- endfor -%}
+      </div>
+    </div>
   </section>
 {%- endif -%}

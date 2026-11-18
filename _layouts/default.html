@@ -27,8 +27,8 @@
     {%- if page.keywords -%}
     <meta name="keywords" content="{{ page.keywords | join: ', ' }}"/>
     {%- endif -%}
-    <meta name="theme-color" content="#101010" media="(prefers-color-scheme: dark)"/>
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/>
+    <meta name="theme-color" content="#161513" media="(prefers-color-scheme: dark)"/>
+    <meta name="theme-color" content="#f7f4ee" media="(prefers-color-scheme: light)"/>
     <meta name="application-name" content="{{ site.title }}"/>
     <meta name="mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-title" content="{{ site.title }}"/>
@@ -85,266 +85,6 @@
           href="{{ '/.well-known/agent-card.json' | absolute_url }}"/>
     <link rel="describedby" type="application/json" title="Agent Skills"
           href="{{ '/.well-known/agent-skills/index.json' | absolute_url }}"/>
-    <style>
-        /* Colors follow the computed color-scheme via light-dark(light, dark).
-           The scheme follows the system unless <meta name="color-scheme"> pins it. */
-        :root {
-            color-scheme: light dark;
-            --bg: light-dark(#eef4fb, #07090f);
-            --panel: light-dark(rgba(255, 255, 255, 0.62), rgba(17, 20, 28, 0.58));
-            --panel-2: light-dark(rgba(255, 255, 255, 0.46), rgba(28, 33, 45, 0.52));
-            --text: light-dark(#132038, #f5f7fb);
-            --muted: light-dark(#5c6677, #b5bdca);
-            --accent: light-dark(#875f00, #ffd166);
-            --focus-ring: light-dark(#005fcc, #8bd3ff);
-            --border: light-dark(rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.2));
-            --code-bg: light-dark(rgba(255, 255, 255, 0.62), rgba(8, 11, 18, 0.72));
-            --glass-strong: light-dark(rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.14));
-            --glass-shadow: 0 18px 60px light-dark(rgba(62, 79, 112, 0.18), rgba(0, 0, 0, 0.34));
-            --inner-light: inset 0 1px 0 light-dark(rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.24)),
-            inset 0 -1px 0 light-dark(rgba(31, 41, 55, 0.08), rgba(255, 255, 255, 0.08));
-            --shadow: 0 14px 50px light-dark(rgba(62, 79, 112, 0.16), rgba(0, 0, 0, 0.28));
-        }
-
-        :root:has(> head > meta[name="color-scheme"][content="light"]) {
-            color-scheme: light;
-        }
-
-        :root:has(> head > meta[name="color-scheme"][content="dark"]) {
-            color-scheme: dark;
-        }
-
-        .skip-link {
-            position: absolute;
-            inset-block-start: 8px;
-            inset-inline-start: 8px;
-            z-index: 100;
-            padding: 10px 16px;
-            border-radius: 999px;
-            background: var(--text);
-            color: var(--bg);
-            font-weight: 700;
-            transform: translateY(-200%);
-        }
-
-        .skip-link:focus-visible {
-            transform: none;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            background: var(--bg);
-        }
-
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-            "Helvetica Neue", Arial, sans-serif;
-            color: var(--text);
-            line-height: 1.6;
-            background: linear-gradient(135deg, rgba(255, 209, 102, 0.16), transparent 34%),
-            linear-gradient(225deg, rgba(125, 211, 252, 0.14), transparent 38%),
-            linear-gradient(315deg, rgba(240, 171, 252, 0.12), transparent 42%),
-            var(--bg);
-        }
-
-        .container {
-            max-width: 880px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        a {
-            color: var(--accent);
-            text-decoration: underline;
-            text-underline-offset: 0.14em;
-        }
-
-        :where(a, button, input, select, textarea, [tabindex]):focus-visible {
-            outline: 3px solid var(--focus-ring);
-            outline-offset: 3px;
-        }
-
-        .site-header {
-            border-bottom: 1px solid var(--border);
-            background: linear-gradient(180deg, var(--glass-strong), rgba(255, 255, 255, 0.04)),
-            var(--panel);
-            box-shadow: var(--shadow), var(--inner-light);
-        }
-
-        .site-header .container {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding-top: 14px;
-            padding-bottom: 14px;
-            flex-wrap: wrap;
-        }
-
-        .brand,
-        .nav-github,
-        .control {
-            display: inline-flex;
-            align-items: center;
-        }
-
-        .brand {
-            gap: 10px;
-            font-weight: 700;
-            font-size: 1.05rem;
-            color: var(--text);
-            text-decoration: none;
-        }
-
-        .brand img {
-            display: block;
-        }
-
-        .site-nav {
-            display: flex;
-            gap: 6px;
-            font-size: 0.95rem;
-            margin-left: auto;
-        }
-
-        .site-nav a {
-            color: var(--muted);
-            display: inline-flex;
-            align-items: center;
-            min-height: 44px;
-            padding: 0 8px;
-            border-radius: 999px;
-        }
-
-        .site-nav a[aria-current="page"] {
-            color: var(--text);
-        }
-
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .control {
-            justify-content: center;
-            height: 44px;
-            padding: 0 10px;
-            min-width: 44px;
-            border: 1px solid var(--border);
-            border-radius: 999px;
-            background: linear-gradient(140deg, var(--glass-strong), rgba(255, 255, 255, 0.03)),
-            var(--panel-2);
-            color: var(--muted);
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        main.container {
-            padding-top: 40px;
-            padding-bottom: 64px;
-        }
-
-        h1 {
-            margin: 0 0 8px;
-            font-size: 2rem;
-            line-height: 1.2;
-        }
-
-        h2 {
-            margin: 40px 0 12px;
-            font-size: 1.3rem;
-        }
-
-        .lede {
-            margin: 0 0 24px;
-            color: var(--muted);
-            font-size: 1.02rem;
-        }
-
-        .meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px 24px;
-            margin: 16px 0 24px;
-            font-size: 0.9rem;
-            color: var(--muted);
-        }
-
-        .grid {
-            display: grid;
-            gap: 16px;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        }
-
-        .card,
-        .rate-hero {
-            background: linear-gradient(145deg, var(--glass-strong), rgba(255, 255, 255, 0.035) 48%, rgba(255, 255, 255, 0.08)),
-            var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 22px;
-            box-shadow: var(--glass-shadow), var(--inner-light);
-        }
-
-        .card {
-            padding: 20px;
-        }
-
-        a.card {
-            text-decoration: none;
-        }
-
-        .card-head {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .curr-icon {
-            width: 36px;
-            height: 36px;
-            flex: 0 0 36px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #ffd166, #f4a300);
-            color: #0b1020;
-            font-weight: 800;
-        }
-
-        .card .code {
-            font-size: 0.8rem;
-            letter-spacing: 0.08em;
-            color: var(--muted);
-            text-transform: uppercase;
-        }
-
-        .card .name {
-            font-size: 0.95rem;
-            color: var(--text);
-        }
-
-        .card .value {
-            font-size: 1.6rem;
-            font-weight: 700;
-            font-variant-numeric: tabular-nums;
-        }
-
-        @media (max-width: 640px) {
-            .site-nav {
-                order: 3;
-                width: 100%;
-                margin-left: 0;
-            }
-        }
-    </style>
     <link href="{{ '/assets/css/style.css' | relative_url }}?v={{ asset_version }}" rel="stylesheet"/>
     {%- assign schema_lang = 'es-VE' -%}
     {%- assign schema_home_url = site.url | append: site.baseurl | append: '/' -%}
@@ -478,6 +218,9 @@
 </head>
 <body>
 <a class="skip-link" href="#main-content">{{ t.skip_to_content }}</a>
+{%- if page.backdrop %}
+{% include backdrop.html %}
+{%- endif %}
 <header class="site-header">
     <div class="container">
         <a class="brand"
@@ -501,12 +244,27 @@
             <a href="{{ history_url }}" {% if current== history_url %} aria-current="page" {% endif %}>{{ t.nav_history }}</a>
             <a href="{{ api_url }}" {% if current== api_url %} aria-current="page" {% endif %}>{{ t.nav_api }}</a>
             <a class="nav-github" href="https://github.com/{{ site.repository }}" target="_blank" rel="noopener"
-               aria-label="GitHub" title="{{ t.nav_github_title }}">
+               title="{{ t.nav_github_title }}">
                 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
                     <path fill="currentColor"
                           d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.3-3.2-.1-.3-.6-1.6.1-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.4-1.5 3.4-1.2 3.4-1.2.7 1.6.2 2.9.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.7-2.8 5.7-5.5 6 .4.3.8.9.8 1.9v2.8c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/>
                 </svg>
                 <span>GitHub</span>
+                {%- if site.github_stars -%}
+                {%- assign stars = site.github_stars | plus: 0 -%}
+                {%- if stars >= 1000 -%}
+                {%- assign stars_label = stars | divided_by: 100 | divided_by: 10.0 | append: 'k' -%}
+                {%- else -%}
+                {%- assign stars_label = stars -%}
+                {%- endif %}
+                <span class="nav-github-stars">
+                    <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true">
+                        <path fill="currentColor" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/>
+                    </svg>
+                    <span aria-hidden="true">{{ stars_label }}</span>
+                    <span class="visually-hidden">({{ stars }} {{ t.github_stars }})</span>
+                </span>
+                {%- endif %}
             </a>
         </nav>
         <div class="header-controls">
@@ -560,9 +318,68 @@
 <main id="main-content" class="container" tabindex="-1">{{ content }}</main>
 
 <footer class="site-footer">
+    {%- if page.lang == 'en' -%}
+    {%- assign f_home = '/en/' | relative_url -%}
+    {%- assign f_history = '/en/history/' | relative_url -%}
+    {%- assign f_api = '/en/api/' | relative_url -%}
+    {%- assign f_license = '/en/license/' | relative_url -%}
+    {%- assign f_code_anchor = '#code' -%}
+    {%- assign f_data_anchor = '#data' -%}
+    {%- else -%}
+    {%- assign f_home = '/' | relative_url -%}
+    {%- assign f_history = '/history/' | relative_url -%}
+    {%- assign f_api = '/api/' | relative_url -%}
+    {%- assign f_license = '/licencia/' | relative_url -%}
+    {%- assign f_code_anchor = '#codigo' -%}
+    {%- assign f_data_anchor = '#datos' -%}
+    {%- endif -%}
+    {%- assign f_repo = 'https://github.com/' | append: site.repository %}
     <div class="container">
-        {{ t.footer_text }}
-        <a href="https://www.bcv.org.ve/" title="{{ t.footer_bcv_title }}" target="_blank" rel="noopener">bcv.org.ve</a>.
+        <div class="footer-top">
+            <a class="footer-brand" href="{{ f_home }}">
+                <img alt="" height="24" src="{{ '/assets/logo.svg' | relative_url }}" width="24"/>
+                <span>{{ site.title }}</span>
+            </a>
+            <p class="footer-tagline">{{ t.footer_tagline }}</p>
+            {%- if site.data.rate.effective_date %}
+            <span class="stamp footer-stamp">{{ t.stamp_label }} <b>{% include date.html date=site.data.rate.effective_date %}</b></span>
+            {%- endif %}
+        </div>
+        <nav class="footer-nav" aria-label="{{ t.footer_nav_label }}">
+            <div class="footer-col">
+                <h2 class="footer-heading">{{ t.footer_col_site }}</h2>
+                <ul>
+                    <li><a href="{{ f_home }}">{{ t.nav_rates }}</a></li>
+                    <li><a href="{{ f_history }}">{{ t.nav_history }}</a></li>
+                    <li><a href="{{ f_api }}">{{ t.nav_api }}</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h2 class="footer-heading">{{ t.footer_col_data }}</h2>
+                <ul>
+                    <li><a href="https://www.bcv.org.ve/" title="{{ t.footer_bcv_title }}" target="_blank" rel="noopener">{{ t.footer_source }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
+                    <li><a href="{{ '/api/v1/status.json' | relative_url }}">{{ t.footer_status }}</a></li>
+                    <li><a href="{{ '/openapi.json' | relative_url }}">{{ t.footer_openapi }}</a></li>
+                    <li><a href="{{ '/llms.txt' | relative_url }}">{{ t.footer_llms }}</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h2 class="footer-heading">{{ t.footer_col_project }}</h2>
+                <ul>
+                    <li><a href="{{ f_repo }}" target="_blank" rel="noopener">{{ t.footer_github }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
+                    <li><a href="{{ f_repo }}/issues/new/choose" target="_blank" rel="noopener">{{ t.footer_issue }}<span class="visually-hidden"> {{ t.footer_external }}</span></a></li>
+                    <li><a href="{{ f_license }}"{% if page.url == f_license %} aria-current="page"{% endif %}>{{ t.footer_license }}</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="footer-legal">
+            <p>{{ t.footer_unofficial }}</p>
+            <p class="footer-licenses">
+                <a href="{{ f_license }}{{ f_code_anchor }}">{{ t.footer_code_license }}</a>
+                <span aria-hidden="true">·</span>
+                <a href="{{ f_license }}{{ f_data_anchor }}">{{ t.footer_data_license }}</a>
+            </p>
+        </div>
     </div>
 </footer>
 
@@ -572,7 +389,7 @@
         var meta = document.querySelector('meta[name="color-scheme"]');
         if (!btn || !meta) return;
         var KEY = "theme";
-        var COLORS = {dark: "#101010", light: "#ffffff"};
+        var COLORS = {dark: "#161513", light: "#f7f4ee"};
         var systemDark = matchMedia("(prefers-color-scheme: dark)");
         var themeColors = document.querySelectorAll('meta[name="theme-color"]');
 
@@ -619,6 +436,77 @@
         window.addEventListener("storage", function (e) {
             if (e.key === KEY || e.key === null) apply(readStored());
         });
+    })();
+</script>
+<script>
+    // Liquid glass on the floating header (liquidGL, MIT). Loaded after the page
+    // is up and idle, so it never delays the first paint. Skipped with reduced
+    // motion, Save-Data or no WebGL: the header then stays a solid bar.
+    (function () {
+        var header = document.querySelector(".site-header");
+        if (!header || typeof window.WebGLRenderingContext === "undefined") return;
+        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        if (navigator.connection && navigator.connection.saveData) return;
+
+        // Tint = the page background. liquidGL dyes (multiplies) with it, so it
+        // barely changes paper in light mode and deepens the glass to ink in
+        // dark mode. Legibility comes mostly from the frosted wash behind the
+        // bar's content (CSS, .site-header .container::before).
+        function tint() {
+            var rgb = getComputedStyle(document.body).backgroundColor.match(/\d+(\.\d+)?/g) || [247, 244, 238];
+            // Denser on phones, where the bar is taller and sits over more text.
+            var alpha = innerWidth < 640 ? 0.4 : 0.3;
+            return "rgba(" + rgb[0] + ", " + rgb[1] + ", " + rgb[2] + ", " + alpha + ")";
+        }
+
+        function start() {
+            import("{{ '/assets/js/lib/liquidGL.min.js' | relative_url }}?v={{ asset_version }}")
+                .then(function () {
+                    if (typeof window.liquidGL !== "function") return;
+                    window.liquidGL({
+                        target: ".site-header",
+                        snapshot: "body",
+                        resolution: innerWidth < 640 ? 1 : Math.min(devicePixelRatio || 1, 1.5),
+                        zIndex: 20,
+                        // A clear, deep bevel: the gold chart line visibly bends
+                        // at the bar's edges, while the centre stays calm.
+                        refraction: 0.025,
+                        bevelDepth: 0.16,
+                        bevelWidth: 0.2,
+                        frost: innerWidth < 640 ? 2.5 : 2,
+                        shadow: true,
+                        // Specular is driven by time: a render loop every frame. Off.
+                        specular: false,
+                        // No tilt or aberration: sober, and no extra layers or samples.
+                        tilt: false,
+                        aberration: 0,
+                        reveal: "fade",
+                        tint: tint(),
+                        on: {
+                            init: function (lens) {
+                                document.documentElement.classList.add("is-liquid");
+                                var retint = function () {
+                                    if (lens && typeof lens.setTint === "function") lens.setTint(tint());
+                                };
+                                var meta = document.querySelector('meta[name="color-scheme"]');
+                                if (meta) new MutationObserver(retint).observe(meta, {attributes: true});
+                                matchMedia("(prefers-color-scheme: dark)").addEventListener("change", retint);
+                            },
+                        },
+                    });
+                })
+                .catch(function () {
+                    document.documentElement.classList.remove("is-liquid");
+                });
+        }
+
+        function idle() {
+            if ("requestIdleCallback" in window) requestIdleCallback(start, {timeout: 3000});
+            else setTimeout(start, 1500);
+        }
+
+        if (document.readyState === "complete") idle();
+        else window.addEventListener("load", idle, {once: true});
     })();
 </script>
 <script>

@@ -19,6 +19,8 @@ keywords:
 - precio dolar bcv hoy
 - tasa BCV USD VES
 faq_key: homepage
+backdrop: true
+copy_code: true
 ---
 
 {%- assign t = site.data.i18n[page.lang] -%}
@@ -32,15 +34,38 @@ faq_key: homepage
 <h1>{{ t.index_title }}</h1>
 <p class="lede">{{ t.index_lede_html }}</p>
 
+<div class="hero-meta">
 <div class="status-strip" id="api-status">
-  <span class="status-pill ok">{{ t.status_ok }}</span>
-  {%- if rate.effective_date -%}
-    <span>{{ t.effective_label }} <strong>{{ rate.effective_date }}</strong></span>
-  {%- endif -%}
-  {%- if rate.updated_at -%}
-    <span>{{ t.captured_label }} <strong>{{ rate.updated_at | date: "%Y-%m-%d %H:%M UTC" }}</strong></span>
-  {%- endif -%}
-  <a href="{{ api_url }}" title="{{ t.link_api_title }}">{{ t.nav_api }}</a>
+  {%- comment -%} Visitors need the value date only. The capture time is a detail
+  for the curious (tooltip) and the status pill only appears when rates are missing
+  (dashboard.js). {%- endcomment -%}
+  {%- if rate.effective_date %}
+  {%- capture captured_text -%}{{ t.captured_label }} {% include date.html date=rate.updated_at time=true %} {{ t.caracas_zone }}{%- endcapture %}
+  <span class="stamp" title="{{ captured_text | strip }}">{{ t.stamp_label }} <b>{% include date.html date=rate.effective_date %}</b></span>
+  {%- endif %}
+</div>
+<div class="share-icons" role="group" aria-label="Compartir BCV Today">
+  <a class="share-icon" href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" rel="nofollow noopener" target="_blank" aria-label="Compartir en Facebook"><svg aria-hidden="true" class="ui-icon brand-icon" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg></a>
+  <a class="share-icon" href="https://twitter.com/intent/tweet?url={{ page.url | absolute_url }}&text=D%C3%B3lar%20BCV%20hoy" rel="nofollow noopener" target="_blank" aria-label="Compartir en X"><svg aria-hidden="true" class="ui-icon brand-icon" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg></a>
+  <a class="share-icon" href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url }}" rel="nofollow noopener" target="_blank" aria-label="Compartir en LinkedIn"><svg aria-hidden="true" class="ui-icon brand-icon" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+  <button
+            class="share-icon"
+            data-share-button
+            data-share-copied="{{ t.history_share_copied }}"
+            data-share-failed="{{ t.history_share_failed }}"
+            data-share-label="{{ t.history_share }}"
+            data-share-title="{{ page.title }}"
+            data-share-url="{{ page.url | absolute_url }}"
+            type="button"
+    >
+        <svg aria-hidden="true" class="ui-icon" viewBox="0 0 24 24">
+            <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/>
+            <path d="M16 6l-4-4-4 4"/>
+            <path d="M12 2v14"/>
+        </svg>
+        <span class="visually-hidden" data-share-text>{{ t.history_share }}</span>
+    </button>
+</div>
 </div>
 
 <div class="grid" id="grid">
@@ -49,7 +74,7 @@ faq_key: homepage
     {%- assign name = item[1] -%}
     {%- if code != 'VES' and rate[code] -%}
     {%- assign currency_page = currency_pages | where: 'currency', code | first -%}
-    <a class="card" href="{{ currency_page.url | relative_url }}" title="{{ t.card_open_title }} {{ name }}">
+    <a class="card" href="{{ currency_page.url | relative_url }}">
         <div class="card-head">
           <div class="curr-icon" data-code="{{ code }}">
             {%- case code -%}
@@ -61,8 +86,9 @@ faq_key: homepage
             <div class="name">{{ name }}</div>
           </div>
         </div>
-        <div class="value">{{ rate[code] }}<span class="unit">Bs.</span></div>
-        <div class="card-foot"><span class="muted">{{ t.card_current_rate }}</span></div>
+        {%- assign card_value = rate[code] -%}
+        <div class="value">{% include num.html value=card_value %}<span class="unit">Bs.</span></div>
+        <div class="card-foot"></div>
       </a>
     {%- endif -%}
   {%- endfor -%}
@@ -99,121 +125,29 @@ faq_key: homepage
   </div>
 </div>
 
-<h2>{{ t.index_integrate_h2 }}</h2>
-<p>{{ t.index_integrate_p_html | replace: '__API_URL__', api_url }}</p>
+<div class="home-end">
+  <section class="dev-card" aria-labelledby="dev-card-heading">
+    <div class="dev-card-pitch">
+      <h2 id="dev-card-heading">{{ t.index_integrate_h2 }}</h2>
+      <p class="dev-card-lede">{{ t.end_api_free }}</p>
+      <p class="dev-card-body">{{ t.end_api_body }}</p>
+      <a class="dev-card-docs" href="{{ api_url }}">{{ t.end_api_docs }} <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="dev-term" role="group" aria-label="{{ t.end_api_example }}">
+      <p class="dev-term-label"><span>{{ t.end_api_request }}</span></p>
+      <div class="highlight dev-term-cmd"><pre class="highlight"><code>curl -s {{ site.url }}{{ site.baseurl }}/api/v1/rate.json</code></pre></div>
+      <p class="dev-term-label"><span>{{ t.end_api_response }}</span><span class="dev-term-status"><span class="dev-dot" aria-hidden="true"></span>200 · application/json</span></p>
+      <pre class="highlight dev-term-json"><code><span class="p">{</span>
+  <span class="nt">"USD"</span><span class="p">:</span> <span class="mf">{{ rate.USD }}</span><span class="p">,</span>
+  <span class="nt">"EUR"</span><span class="p">:</span> <span class="mf">{{ rate.EUR }}</span><span class="p">,</span>
+  <span class="c">…</span>
+  <span class="nt">"effective_date"</span><span class="p">:</span> <span class="s2">"{{ rate.effective_date }}"</span>
+<span class="p">}</span></code></pre>
+    </div>
+  </section>
 
-<h2>Dólar BCV hoy, euro y otras tasas oficiales</h2>
-<p>
-  BCV Today publica la tasa oficial del
-  <a href="https://www.bcv.org.ve" title="{{ t.link_bcv_title }}" rel="noopener" target="_blank">Banco Central de Venezuela</a>
-  para el <a href="{{ '/dolar-bcv/' | relative_url }}" title="{{ t.link_dollar_title }}">dólar BCV</a>,
-  <a href="{{ '/euro-bcv/' | relative_url }}" title="{{ t.link_euro_title }}">euro</a>, yuan chino, lira turca y rublo ruso
-  frente al bolívar. Puedes consultar el valor vigente, revisar el
-  <a href="{{ history_page_url }}" title="{{ t.link_history_title }}">histórico diario</a> o consumir los datos desde una
-  <a href="{{ api_url }}" title="{{ t.link_api_title }}">API JSON pública</a>.
-</p>
-
-<p>
-  Si buscas bcvhoy, dólar BCV hoy, dolar bcv, bcv dolar o dolartoday bcv, esta
-  página muestra el precio oficial USD/VES publicado por el BCV Venezuela, no una
-  cotización paralela.
-</p>
-
-<div class="landing-links" aria-label="Páginas por moneda">
-  <a href="{{ '/dolar-bcv/' | relative_url }}" title="{{ t.link_dollar_title }}">Dólar BCV hoy</a>
-  <a href="{{ '/euro-bcv/' | relative_url }}" title="{{ t.link_euro_title }}">Euro BCV hoy</a>
-  <a href="{{ '/yuan-bcv/' | relative_url }}" title="{{ t.link_yuan_title }}">Yuan BCV hoy</a>
-  <a href="{{ '/lira-bcv/' | relative_url }}" title="{{ t.link_lira_title }}">Lira turca BCV hoy</a>
-  <a href="{{ '/rublo-bcv/' | relative_url }}" title="{{ t.link_ruble_title }}">Rublo BCV hoy</a>
+  {% include faq.html faq=site.data.faq.es.homepage id="faq" columns=2 %}
 </div>
-
-<h2>Cómo usar BCV Today para consultar el dólar oficial</h2>
-<p>
-    La página principal resume las tasas oficiales vigentes del Banco Central de
-    Venezuela y enlaza a una página dedicada para cada moneda. Para el dólar BCV,
-    la <a href="{{ '/dolar-bcv/' | relative_url }}" title="{{ t.link_dollar_title }}">página de USD</a> muestra el precio
-    oficial del día, conversiones rápidas de dólares a bolívares, los últimos valores del
-    <a href="{{ history_page_url }}" title="{{ t.link_history_title }}">histórico</a> y acceso a la
-    <a href="{{ api_url }}" title="{{ t.link_api_title }}">API JSON</a>. Esto ayuda a verificar pagos, presupuestos,
-    facturas, reportes internos y cálculos contables con una referencia oficial.
-</p>
-<p>
-    El dato principal es la tasa USD/VES, es decir, cuántos bolívares equivalen a
-    un dólar estadounidense según el BCV. Cuando la fecha de vigencia cae en fin
-    de semana o feriado, puede mantenerse la tasa publicada el último día hábil.
-    Por eso el sitio conserva tanto la fecha de captura como la fecha efectiva de
-    la tasa, y mantiene un histórico diario para revisar variaciones.
-</p>
-<p>
-    BCV Today no publica ni estima dólar paralelo. Si buscas Dolartoday BCV,
-    bcvhoy, bcv dolar o dólar BCV hoy, aquí encontrarás únicamente la referencia
-    oficial del Banco Central de Venezuela, junto con otras tasas oficiales como
-    euro, yuan, lira turca y rublo ruso.
-</p>
-
-<h2>Compartir y guardar esta referencia</h2>
-<div aria-label="Compartir BCV Today" class="share-links">
-    <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" title="{{ t.share_facebook_title }}" rel="nofollow noopener"
-       target="_blank">
-        <svg aria-hidden="true" class="ui-icon brand-icon" viewBox="0 0 24 24">
-            <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
-        </svg>
-        <span>Compartir en Facebook</span>
-    </a>
-    <a href="https://twitter.com/intent/tweet?url={{ page.url | absolute_url }}&text=D%C3%B3lar%20BCV%20hoy"
-       title="{{ t.share_x_title }}" rel="nofollow noopener" target="_blank">
-        <svg aria-hidden="true" class="ui-icon brand-icon" viewBox="0 0 24 24">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/>
-        </svg>
-        <span>Compartir en X</span>
-    </a>
-    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url }}" title="{{ t.share_linkedin_title }}" rel="nofollow noopener" target="_blank">
-        <svg aria-hidden="true" class="ui-icon brand-icon" viewBox="0 0 24 24">
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-        </svg>
-        <span>Compartir en LinkedIn</span>
-    </a>
-    <button
-            class="button-link"
-            data-share-button
-            data-share-copied="{{ t.history_share_copied }}"
-            data-share-failed="{{ t.history_share_failed }}"
-            data-share-label="{{ t.history_share }}"
-            data-share-title="{{ page.title }}"
-            data-share-url="{{ page.url | absolute_url }}"
-            type="button"
-    >
-        <svg aria-hidden="true" class="ui-icon" viewBox="0 0 24 24">
-            <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/>
-            <path d="M16 6l-4-4-4 4"/>
-            <path d="M12 2v14"/>
-        </svg>
-        <span data-share-text>{{ t.history_share }}</span>
-    </button>
-</div>
-
-<h2>Casos de uso frecuentes</h2>
-<p>
-    La tasa oficial BCV se usa a diario para convertir precios publicados en
-    dólares, estimar montos en bolívares, revisar pagos recibidos, preparar
-    presupuestos y documentar operaciones internas. En empresas y equipos
-    contables, tener una fuente estable ayuda a evitar diferencias entre hojas de
-    cálculo, sistemas administrativos y reportes financieros. Para desarrolladores,
-    la <a href="{{ api_url }}" title="{{ t.link_api_title }}">API</a> permite integrar el valor vigente en paneles, bots,
-    sistemas de facturación o procesos automáticos sin depender de copias manuales.
-</p>
-<p>
-    Cuando compares varias fuentes, revisa siempre la fecha de vigencia y la
-    fuente del dato. El
-    <a href="https://www.bcv.org.ve" title="{{ t.link_bcv_title }}" rel="noopener" target="_blank">Banco Central de Venezuela</a>
-    puede publicar la tasa para el siguiente día hábil, por lo que una tasa capturada en la
-    tarde puede tener una fecha efectiva posterior. BCV Today conserva esa información para
-    que puedas distinguir entre el momento de actualización y el día en que la tasa aplica
-    oficialmente. Si necesitas automatizar esa consulta, los mismos datos están disponibles
-    como <a href="{{ rate_url }}" title="{{ t.link_rate_json_title }}">archivos JSON estáticos</a>.
-</p>
-
-{% include faq.html faq=site.data.faq.es.homepage id="faq" %}
 
 <script>
   const LANG = "es";
@@ -249,6 +183,8 @@ faq_key: homepage
     view_history: "{{ t.card_view_history }}",
     variation: "{{ t.card_variation }}",
     no_history: "{{ t.card_no_history }}",
+    changeRef: "{{ t.card_change_ref }}",
+    stampLabel: "{{ t.stamp_label }}",
   };
   const CURRENCY_NAMES = {{ t.currencies | jsonify }};
 </script>

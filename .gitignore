@@ -185,3 +185,6 @@ _site/
 .jekyll-cache/
 .jekyll-metadata
 vendor/
+# macOS and local agent worktrees
+.DS_Store
+.claude/

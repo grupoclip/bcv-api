@@ -67,6 +67,19 @@
     });
 
     block.append(button, status);
+
+    // A code block wider than its box scrolls sideways: keyboard users can
+    // only scroll it if it can take focus, so add a tab stop only while it
+    // actually overflows.
+    const pre = block.querySelector("pre");
+    if (pre) {
+      const sync = () => {
+        if (pre.scrollWidth > pre.clientWidth) pre.tabIndex = 0;
+        else pre.removeAttribute("tabindex");
+      };
+      sync();
+      if ("ResizeObserver" in window) new ResizeObserver(sync).observe(pre);
+    }
   }
 
   document.querySelectorAll("div.highlight").forEach(enhance);

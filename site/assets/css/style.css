@@ -37,7 +37,7 @@
 
     /* Syntax highlight tokens (code samples on the API page) */
     --code-bg: var(--raised);
-    --syn-comment: light-dark(#7b7266, #8a847a);
+    --syn-comment: light-dark(#665e52, #9a948a); /* >= 5:1 on --code-bg */
     --syn-keyword: light-dark(#a3245a, #f08aa8);
     --syn-string: light-dark(#2f6f32, #a8d98c);
     --syn-number: light-dark(#7a5306, #f2b33d);

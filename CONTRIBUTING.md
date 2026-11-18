@@ -137,6 +137,13 @@ A useful pull request includes:
 - Commands run for validation.
 - Screenshots for visible UI changes when practical.
 
+## Accessibility
+
+Interface changes should keep the site usable with a keyboard, a screen reader
+and in both themes. See [ACCESSIBILITY.md](ACCESSIBILITY.md) for the checks to
+run and how accessibility issues are triaged; the pull request template lists
+them too.
+
 ## Security
 
 Do not open public issues with exploit details or secrets. Follow the security

@@ -28,6 +28,8 @@ All of them use the same data, are free and need no API key. Overview page: [bcv
 
 Code: Apache 2.0; data: CC BY 4.0 ([license](https://bcv.today/en/license/)).
 
+[Contributing](CONTRIBUTING.md) · [Accessibility](ACCESSIBILITY.md) · [Security](SECURITY.md) · [Code of conduct](CODE_OF_CONDUCT.md)
+
 ## Website
 
 The public site is available at:

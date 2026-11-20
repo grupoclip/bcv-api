@@ -131,7 +131,7 @@ copy_code: true
       <h2 id="ihome-heading">{{ t.int_home_h2 }}</h2>
       <p class="ihome-pitch">{{ t.int_home_pitch }}</p>
     </div>
-    {% include integrations-tabs.html id="home-int" %}
+    {% include integrations-home.html %}
     <p class="ihome-links">
       <a class="ihome-all" href="{{ '/en/integrations/' | relative_url }}">{{ t.int_all }} <span aria-hidden="true">→</span></a>
       <a href="{{ api_url }}">{{ t.int_docs }} <span aria-hidden="true">→</span></a>

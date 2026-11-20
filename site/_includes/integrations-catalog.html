@@ -53,7 +53,7 @@
         <p class="cat-links"><a href="{{ repo }}/tree/main/packages/widget">{{ c.l_source }}</a></p>
       </div>
       <figure class="cat-demo">
-        <bcv-rate currency="USD" lang="{{ page.lang }}" id="cat-widget-demo">{{ c.widget_fallback }} {% include num.html value=site.data.rate.USD %} Bs.</bcv-rate>
+        <bcv-rate currency="USD" lang="{{ page.lang }}" theme="light" id="cat-widget-demo">{{ c.widget_fallback }} {% include num.html value=site.data.rate.USD %} Bs.</bcv-rate>
         <figcaption>{{ c.widget_live }}</figcaption>
       </figure>
     </li>
@@ -273,20 +273,6 @@
       var chip = fromHash();
       if (chip) apply(chip, true);
     });
-  })();
-</script>
-<script>
-  (function () {
-    // The live widget follows the site's theme switch, not only the system one.
-    var demo = document.getElementById("cat-widget-demo");
-    var meta = document.querySelector('meta[name="color-scheme"]');
-    if (!demo || !meta) return;
-    function sync() {
-      var v = meta.content;
-      demo.setAttribute("theme", v === "light" || v === "dark" ? v : "auto");
-    }
-    sync();
-    new MutationObserver(sync).observe(meta, { attributes: true });
   })();
 </script>
 <script type="module" src="{{ '/widget/v1.js' | relative_url }}"></script>

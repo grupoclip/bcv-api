@@ -1,0 +1,58 @@
+{%- comment -%}
+  Home page integrations block: one tile per product (logo, name, how to get
+  it), each linking to its card on the integrations page (#int-<id>, the ids
+  used by _includes/integrations-catalog.html). Logos come from
+  _includes/brand-logo.html (Simple Icons, CC0); products without a logo get a
+  short monospace mark, as on the integrations page.
+{%- endcomment -%}
+{%- assign t = site.data.i18n[page.lang] -%}
+{%- assign ints = site.data.integrations -%}
+{%- if page.lang == 'en' -%}
+{%- assign hub = '/en/integrations/' | relative_url -%}
+{%- else -%}
+{%- assign hub = '/integraciones/' | relative_url -%}
+{%- endif -%}
+{%- capture tiles -%}
+api|API JSON|HTTP · JSON|mark:{ }|
+python|Python|pip install bcv|logo:python|
+javascript|JavaScript|npm i bcv-today|logo:javascript|
+php|PHP|Composer · Laravel|logo:php|{% unless ints.php_published %}soon{% endunless %}
+go|Go|go get …/packages/go|logo:go|
+ruby|Ruby|gem install bcv|logo:ruby|{% unless ints.ruby_published %}soon{% endunless %}
+odoo|Odoo|Odoo 16–20|logo:odoo|
+woocommerce|WooCommerce|WordPress|logo:wordpress|review
+widget|Widget web|&lt;bcv-rate&gt;|mark:&lt;/&gt;|
+mcp|MCP|Claude · ChatGPT · Cursor|logo:modelcontextprotocol|
+a2a|A2A|Agent2Agent|mark:A2A|
+telegram|Telegram|@BCVTodayBot|logo:telegram|
+{%- endcapture -%}
+<ul class="ihome-grid" role="list">
+  {%- assign rows = tiles | strip | split: '
+' -%}
+  {%- for row in rows -%}
+  {%- assign f = row | strip | split: '|' -%}
+  {%- assign id = f[0] -%}
+  {%- assign icon = f[3] -%}
+  {%- assign state = f[4] | strip -%}
+  <li>
+    <a class="ihome-tile{% if state != '' %} is-soon{% endif %}" href="{{ hub }}#int-{{ id }}">
+      {%- if icon contains 'logo:' -%}
+      {%- assign logo_name = icon | remove_first: 'logo:' -%}
+      <span class="ihome-logo" aria-hidden="true">{% include brand-logo.html name=logo_name %}</span>
+      {%- else -%}
+      <span class="ihome-logo ihome-mark" aria-hidden="true">{{ icon | remove_first: 'mark:' }}</span>
+      {%- endif -%}
+      <span class="ihome-text">
+        <span class="ihome-name">{{ f[1] }}</span>
+        {%- if state == 'soon' -%}
+        <span class="ihome-sub ihome-state">{{ t.cat.st_soon }}</span>
+        {%- elsif state == 'review' -%}
+        <span class="ihome-sub ihome-state">{{ t.cat.st_review }}</span>
+        {%- else -%}
+        <span class="ihome-sub">{{ f[2] }}</span>
+        {%- endif -%}
+      </span>
+    </a>
+  </li>
+  {%- endfor -%}
+</ul>

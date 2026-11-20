@@ -3,17 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"/>
-    <script>
-        // Apply a stored light/dark override before first paint (no flash).
-        try {
-            var storedTheme = localStorage.getItem("theme");
-            if (storedTheme === "light" || storedTheme === "dark") {
-                document.querySelector('meta[name="color-scheme"]').content = storedTheme;
-            }
-        } catch (e) {
-        }
-    </script>
+    <!-- Light mode only (design decision): no dark theme, no theme switch. -->
+    <meta name="color-scheme" content="light only"/>
     {%- assign t = site.data.i18n[page.lang] -%}
     {%- assign asset_version = site.asset_version | default: site.github.build_revision | default: '' -%}
     {%- if asset_version == '' -%}
@@ -27,8 +18,7 @@
     {%- if page.keywords -%}
     <meta name="keywords" content="{{ page.keywords | join: ', ' }}"/>
     {%- endif -%}
-    <meta name="theme-color" content="#161513" media="(prefers-color-scheme: dark)"/>
-    <meta name="theme-color" content="#f7f4ee" media="(prefers-color-scheme: light)"/>
+    <meta name="theme-color" content="#f7f4ee"/>
     <meta name="application-name" content="{{ site.title }}"/>
     <meta name="mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-title" content="{{ site.title }}"/>
@@ -242,7 +232,6 @@
             {% assign current = page.url | replace: 'index.html', '' %}
             <a href="{{ history_url }}" {% if current== history_url %} aria-current="page" {% endif %}>{{ t.nav_history }}</a>
             <a href="{{ integrations_url }}" {% if current== integrations_url %} aria-current="page" {% endif %}>{{ t.footer_integrations }}</a>
-            <a href="{{ api_url }}" {% if current== api_url %} aria-current="page" {% endif %}>{{ t.nav_api }}</a>
         </nav>
         <div class="header-controls">
         <a class="control nav-github" href="https://github.com/{{ site.repository }}" target="_blank" rel="noopener"
@@ -277,40 +266,6 @@
             ><span aria-hidden="true">{{ t.language_toggle_short }}</span><span class="visually-hidden">{{ t.language_toggle }}</span></a
             >
             {% endif %}
-            <button
-                    id="theme-toggle"
-                    class="control theme-toggle"
-                    type="button"
-                    title="{{ t.theme_toggle }}"
-            >
-                <!-- Only the option matching the rendered scheme is displayed (CSS),
-                     so the accessible name stays current without JS. -->
-                <span class="theme-option theme-option-light">
-                <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                    <circle cx="12" cy="12" r="4" fill="currentColor"/>
-                    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                        <path d="M12 2v3"/>
-                        <path d="M12 19v3"/>
-                        <path d="M2 12h3"/>
-                        <path d="M19 12h3"/>
-                        <path d="M4.2 4.2l2.1 2.1"/>
-                        <path d="M17.7 17.7l2.1 2.1"/>
-                        <path d="M4.2 19.8l2.1-2.1"/>
-                        <path d="M17.7 6.3l2.1-2.1"/>
-                    </g>
-                </svg>
-                <span class="visually-hidden">{{ t.theme_to_dark }}</span>
-                </span>
-                <span class="theme-option theme-option-dark">
-                <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                    <path
-                            d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"
-                            fill="currentColor"
-                    />
-                </svg>
-                <span class="visually-hidden">{{ t.theme_to_light }}</span>
-                </span>
-            </button>
         </div>
     </div>
 </header>
@@ -421,61 +376,6 @@
 </footer>
 
 <script>
-    (function () {
-        var btn = document.getElementById("theme-toggle");
-        var meta = document.querySelector('meta[name="color-scheme"]');
-        if (!btn || !meta) return;
-        var KEY = "theme";
-        var COLORS = {dark: "#161513", light: "#f7f4ee"};
-        var systemDark = matchMedia("(prefers-color-scheme: dark)");
-        var themeColors = document.querySelectorAll('meta[name="theme-color"]');
-
-        function readStored() {
-            try {
-                var v = localStorage.getItem(KEY);
-                return v === "light" || v === "dark" ? v : null;
-            } catch (e) {
-                return null;
-            }
-        }
-
-        function systemScheme() {
-            return systemDark.matches ? "dark" : "light";
-        }
-
-        // override: "light" | "dark" | null (follow the system).
-        function apply(override) {
-            meta.content = override || "light dark";
-            themeColors.forEach(function (m) {
-                var scheme = override || (m.media.indexOf("dark") >= 0 ? "dark" : "light");
-                m.content = COLORS[scheme];
-            });
-        }
-
-        apply(readStored());
-
-        btn.addEventListener("click", function () {
-            var rendered = meta.content === "light" || meta.content === "dark"
-                ? meta.content
-                : systemScheme();
-            var target = rendered === "dark" ? "light" : "dark";
-            // Choosing the system scheme again means "undo my override".
-            var override = target === systemScheme() ? null : target;
-            try {
-                if (override) localStorage.setItem(KEY, override);
-                else localStorage.removeItem(KEY);
-            } catch (e) {
-            }
-            apply(override);
-        });
-
-        // Keep other open tabs in sync.
-        window.addEventListener("storage", function (e) {
-            if (e.key === KEY || e.key === null) apply(readStored());
-        });
-    })();
-</script>
-<script>
     // Liquid glass on the floating header (liquidGL, MIT). Loaded after the page
     // is up and idle, so it never delays the first paint. Skipped with reduced
     // motion, Save-Data or no WebGL: the header then stays a solid bar.
@@ -522,22 +422,6 @@
                         on: {
                             init: function (lens) {
                                 document.documentElement.classList.add("is-liquid");
-                                // On a theme change, retint AND re-take the page snapshot the
-                                // glass refracts; otherwise it keeps refracting the old theme
-                                // (a dark bar on a light page). Wait two frames so the new
-                                // colours are painted before capturing.
-                                var retint = function () {
-                                    requestAnimationFrame(function () {
-                                        requestAnimationFrame(function () {
-                                            if (lens && typeof lens.setTint === "function") lens.setTint(tint());
-                                            var r = lens && lens.renderer;
-                                            if (r && typeof r.captureSnapshot === "function") r.captureSnapshot();
-                                        });
-                                    });
-                                };
-                                var meta = document.querySelector('meta[name="color-scheme"]');
-                                if (meta) new MutationObserver(retint).observe(meta, {attributes: true});
-                                matchMedia("(prefers-color-scheme: dark)").addEventListener("change", retint);
                             },
                         },
                     });

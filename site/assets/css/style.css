@@ -5,7 +5,8 @@
 
 /* Tokens --------------------------------------------------------------- */
 :root {
-    color-scheme: light dark;
+    /* Light mode only: light-dark() tokens always resolve to their light value. */
+    color-scheme: light;
 
     /* Warm neutral ramp: light-dark(light, dark) */
     --bg: light-dark(#f7f4ee, #161513);
@@ -46,14 +47,6 @@
     --syn-operator: var(--text-2);
     --syn-punct: var(--text-2);
     --syn-tag: light-dark(#a3245a, #f08aa8);
-}
-
-:root:has(> head > meta[name="color-scheme"][content="light"]) {
-    color-scheme: light;
-}
-
-:root:has(> head > meta[name="color-scheme"][content="dark"]) {
-    color-scheme: dark;
 }
 
 /* Base ----------------------------------------------------------------- */
@@ -388,41 +381,6 @@ html.is-liquid .site-header .container::before {
 .control:hover {
     color: var(--text);
     background: var(--raised);
-}
-
-.theme-toggle {
-    width: 36px;
-    padding: 0;
-}
-
-/* Show only the option for the rendered scheme: moon when dark, sun when light.
-   Hidden options are display:none, so they also leave the accessibility tree. */
-.theme-toggle .theme-option {
-    display: none;
-    align-items: center;
-    justify-content: center;
-}
-
-.theme-toggle svg {
-    width: 16px;
-    height: 16px;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root:not(:has(> head > meta[name="color-scheme"][content="light"])) .theme-option-dark {
-        display: inline-flex;
-    }
-}
-
-@media not (prefers-color-scheme: dark) {
-    :root:not(:has(> head > meta[name="color-scheme"][content="dark"])) .theme-option-light {
-        display: inline-flex;
-    }
-}
-
-:root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-option-dark,
-:root:has(> head > meta[name="color-scheme"][content="light"]) .theme-option-light {
-    display: inline-flex;
 }
 
 /* Main ------------------------------------------------------------------ */
@@ -1709,6 +1667,119 @@ main img {
     max-width: 36rem;
     margin: 0 0 24px;
     color: var(--text-2);
+}
+
+/* One tile per product, linking to its card on the integrations page. */
+.ihome-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ihome-tile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 100%;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg);
+    color: var(--text);
+    text-decoration: none;
+    transition: border-color var(--fast) var(--ease), background-color var(--fast) var(--ease), transform var(--fast) var(--ease);
+}
+
+.ihome-tile:hover {
+    border-color: var(--accent);
+    background: var(--surface);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .ihome-tile:hover {
+        transform: translateY(-1px);
+    }
+}
+
+.ihome-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface);
+}
+
+.ihome-logo svg {
+    display: block;
+    width: 21px;
+    height: 21px;
+}
+
+.ihome-mark {
+    color: var(--text-2);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.ihome-text {
+    display: grid;
+    min-width: 0;
+}
+
+.ihome-name {
+    overflow: hidden;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ihome-sub {
+    overflow: hidden;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ihome-state {
+    color: var(--accent-ink);
+    font-family: var(--font);
+}
+
+.ihome-tile.is-soon .ihome-logo {
+    opacity: 0.7;
+}
+
+@media (max-width: 560px) {
+    .ihome-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .ihome-tile {
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .ihome-logo {
+        width: 32px;
+        height: 32px;
+    }
+
+    .ihome-logo svg {
+        width: 18px;
+        height: 18px;
+    }
 }
 
 .ihome-links {

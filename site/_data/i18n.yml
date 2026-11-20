@@ -53,7 +53,7 @@ es:
   # Integrations: home block, shared tabs (_includes/integrations-tabs.html)
   # and the catalogue on the hub (_includes/integrations-catalog.html)
   int_home_h2: "Integraciones"
-  int_home_pitch: "Las mismas tasas en tu código, tu ERP o tu asistente de IA. Gratis, de solo lectura y sin clave."
+  int_home_pitch: "La tasa oficial del BCV en tu código, tu tienda, tu ERP, tu asistente de IA o Telegram. Gratis y sin clave."
   int_all: "Ver todas las integraciones"
   int_docs: "Documentación de la API"
   itabs:
@@ -287,7 +287,7 @@ en:
   # Integrations: home block, shared tabs (_includes/integrations-tabs.html)
   # and the catalogue on the hub (_includes/integrations-catalog.html)
   int_home_h2: "Integrations"
-  int_home_pitch: "The same rates in your code, your ERP or your AI assistant. Free, read-only and with no key."
+  int_home_pitch: "The official BCV rate in your code, your shop, your ERP, your AI assistant or Telegram. Free, with no key."
   int_all: "See all integrations"
   int_docs: "API documentation"
   itabs:

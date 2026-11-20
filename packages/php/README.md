@@ -10,7 +10,7 @@ Venezuela (BCV) for USD, EUR, CNY, TRY and RUB against the bolivar (VES).
 > its website. Data: [CC BY 4.0](https://bcv.today/licencia/), attribution "BCV Today (https://bcv.today), data from
 > Banco Central de Venezuela".
 
-- PHP 8.1+, zero runtime dependencies (no Guzzle, no bcmath): HTTP through ext-curl when it is loaded, PHP streams
+- PHP 8.1+ (tested on 8.1 to 8.6), zero runtime dependencies (no Guzzle, no bcmath): HTTP through ext-curl when it is loaded, PHP streams
   otherwise.
 - Exact decimal conversions in pure PHP, returned as strings (`"91664.77"`), rounded half-up.
 - Weekend and holiday carry-forward, the same rules and messages as the Python and JavaScript clients and the BCV Today

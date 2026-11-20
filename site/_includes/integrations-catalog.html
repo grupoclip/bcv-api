@@ -23,7 +23,9 @@
 {%- if page.lang == 'en' -%}
 {%- assign api_url = '/en/api/' | relative_url -%}
 {%- assign md_home = '/en/index.md' | relative_url -%}
+{%- assign widget_url = '/en/widget/' | relative_url -%}
 {%- else -%}
+{%- assign widget_url = '/widget/' | relative_url -%}
 {%- assign api_url = '/api/' | relative_url -%}
 {%- assign md_home = '/index.md' | relative_url -%}
 {%- endif -%}
@@ -50,7 +52,7 @@
         <p class="cat-desc">{{ c.widget_desc }}</p>
         <pre class="cat-snip"><code>&lt;script type="module" src="{{ base }}/widget/v1.js"&gt;&lt;/script&gt;
 &lt;bcv-rate currency="USD"&gt;&lt;/bcv-rate&gt;</code></pre>
-        <p class="cat-links"><a href="{{ repo }}/tree/main/packages/widget">{{ c.l_source }}</a></p>
+        <p class="cat-links"><a class="is-primary" href="{{ widget_url }}">{{ c.l_configure }}</a><a href="{{ repo }}/tree/main/packages/widget">{{ c.l_source }}</a></p>
       </div>
       <figure class="cat-demo">
         <bcv-rate currency="USD" lang="{{ page.lang }}" theme="light" id="cat-widget-demo">{{ c.widget_fallback }} {% include num.html value=site.data.rate.USD %} Bs.</bcv-rate>

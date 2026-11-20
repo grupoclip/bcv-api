@@ -279,6 +279,7 @@
     {%- assign f_history = '/en/history/' | relative_url -%}
     {%- assign f_api = '/en/api/' | relative_url -%}
     {%- assign f_integrations = '/en/integrations/' | relative_url -%}
+    {%- assign f_widget = '/en/widget/' | relative_url -%}
     {%- assign f_license = '/en/license/' | relative_url -%}
     {%- assign f_code_anchor = '#code' -%}
     {%- assign f_data_anchor = '#data' -%}
@@ -292,6 +293,7 @@
     {%- assign f_history = '/history/' | relative_url -%}
     {%- assign f_api = '/api/' | relative_url -%}
     {%- assign f_integrations = '/integraciones/' | relative_url -%}
+    {%- assign f_widget = '/widget/' | relative_url -%}
     {%- assign f_license = '/licencia/' | relative_url -%}
     {%- assign f_code_anchor = '#codigo' -%}
     {%- assign f_data_anchor = '#datos' -%}
@@ -332,6 +334,7 @@
                 <h2 class="footer-heading">{{ t.footer_integrations }}</h2>
                 <ul>
                     <li><a href="{{ f_api }}">{{ t.footer_api_json }}</a></li>
+                    <li><a href="{{ f_widget }}"{% if f_current == f_widget %} aria-current="page"{% endif %}>Widget</a></li>
                     <li><a href="{{ f_integrations }}#int-python">Python</a></li>
                     <li><a href="{{ f_integrations }}#int-javascript">JavaScript</a></li>
                     <li><a href="{{ f_integrations }}#int-odoo">Odoo</a></li>

@@ -53,11 +53,14 @@
         ok = false;
       }
       const message = ok ? copiedText : failedText;
+      // A block can name what was copied for screen readers
+      // (data-copy-announce="Código copiado"); the button keeps its short label.
+      const announcement = ok ? block.dataset.copyAnnounce || copiedText : failedText;
       label.textContent = message;
       button.classList.toggle("is-copied", ok);
       // Clear, then set after a tick so repeated copies are announced again.
       status.textContent = "";
-      window.setTimeout(() => (status.textContent = message), 50);
+      window.setTimeout(() => (status.textContent = announcement), 50);
 
       timer = window.setTimeout(() => {
         label.textContent = copyText;

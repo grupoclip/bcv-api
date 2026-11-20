@@ -1,0 +1,188 @@
+---
+title: BCV rate widget
+permalink: "/en/widget/"
+layout: default
+seo_title: BCV rate widget | The BCV dollar on your website, free
+lang: en
+alt_url: "/widget/"
+description: Show today's official BCV rate on any website with one line of code,
+  free. Configure the widget (card, inline or converter), see it live and copy the
+  HTML.
+keywords:
+- BCV rate widget
+- BCV dollar widget
+- BCV rate on my website
+- Venezuela exchange rate widget
+- BCV converter for websites
+copy_code: true
+---
+
+{%- assign t = site.data.i18n[page.lang] -%}
+{%- assign base = site.url | append: site.baseurl -%}
+{%- assign repo = 'https://github.com/' | append: site.repository -%}
+{%- assign license_credit = '/en/license/#attribution' | relative_url -%}
+<div class="wdg-page">
+<div class="int-head-block">
+  <h1>BCV rate widget</h1>
+  <p class="lede">Show today's official BCV rate on any website with one line of code, for free.</p>
+  <p class="int-credit">{{ t.cat.credit_html | replace: '__LICENSE__', '/en/license/' }}</p>
+</div>
+
+<section class="wcfg" aria-labelledby="wcfg-heading" data-wcfg data-src="{{ base }}/widget/v1.js">
+  <h2 id="wcfg-heading">Configure it</h2>
+  <p class="wcfg-nojs" data-wcfg-nojs>
+    The configurator needs JavaScript. Here is the basic code: paste it into your page and adjust the attributes with
+    the <a href="#reference">reference</a> below.
+  </p>
+
+  <div class="wcfg-grid">
+    <form class="wcfg-form" data-wcfg-form hidden aria-label="Widget options">
+      <div class="wcfg-field">
+        <label for="wcfg-currency">Currency</label>
+        <select id="wcfg-currency" name="currency" class="calc-select">
+          <option value="USD" selected>US dollar (USD)</option>
+          <option value="EUR">Euro (EUR)</option>
+          <option value="CNY">Chinese yuan (CNY)</option>
+          <option value="TRY">Turkish lira (TRY)</option>
+          <option value="RUB">Russian ruble (RUB)</option>
+        </select>
+      </div>
+
+      <fieldset class="wcfg-set">
+        <legend>Variant</legend>
+        <div class="wcfg-opts">
+          <label class="wcfg-opt"><input type="radio" name="variant" value="card" checked/> Card</label>
+          <label class="wcfg-opt"><input type="radio" name="variant" value="line"/> Inline</label>
+          <label class="wcfg-opt"><input type="radio" name="variant" value="converter"/> Converter</label>
+        </div>
+      </fieldset>
+
+      <div class="wcfg-field" data-wcfg-amount hidden>
+        <label for="wcfg-amount">Initial amount</label>
+        <input id="wcfg-amount" name="amount" class="calc-input" type="number" min="0" step="any" value="100"
+               inputmode="decimal" autocomplete="off" aria-describedby="wcfg-amount-hint"/>
+        <p class="wcfg-hint" id="wcfg-amount-hint">In the chosen currency. If empty, the converter starts at 1.</p>
+      </div>
+
+      <fieldset class="wcfg-set">
+        <legend>Language</legend>
+        <div class="wcfg-opts">
+          <label class="wcfg-opt"><input type="radio" name="lang" value="page" checked/> Your page's</label>
+          <label class="wcfg-opt" lang="es"><input type="radio" name="lang" value="es"/> Español</label>
+          <label class="wcfg-opt"><input type="radio" name="lang" value="en"/> English</label>
+        </div>
+      </fieldset>
+
+      <fieldset class="wcfg-set">
+        <legend>Theme</legend>
+        <div class="wcfg-opts">
+          <label class="wcfg-opt"><input type="radio" name="theme" value="auto" checked/> Automatic</label>
+          <label class="wcfg-opt"><input type="radio" name="theme" value="light"/> Light</label>
+          <label class="wcfg-opt"><input type="radio" name="theme" value="dark"/> Dark</label>
+        </div>
+      </fieldset>
+
+      <div class="wcfg-field">
+        <label class="wcfg-check">
+          <input type="checkbox" name="hide-source" aria-describedby="wcfg-notice"/>
+          Hide the "Source: BCV Today" link
+        </label>
+        <p class="wcfg-notice" id="wcfg-notice" data-wcfg-notice hidden>
+          Without that link, the CC BY 4.0 license requires you to credit the source somewhere else on the same page,
+          for example in your footer: "BCV Today (bcv.today)". <a href="{{ license_credit }}">How to give credit</a>.
+        </p>
+      </div>
+    </form>
+
+    <div class="wcfg-out">
+      <div class="wcfg-preview" role="region" aria-labelledby="wcfg-preview-heading" data-wcfg-preview hidden>
+        <h3 id="wcfg-preview-heading">Preview</h3>
+        <div class="wcfg-stage" data-wcfg-stage></div>
+      </div>
+
+      <h3 id="wcfg-code-heading">Code for your page</h3>
+      <div class="language-html highlighter-rouge wcfg-code" data-wcfg-code><div class="highlight" data-copy-announce="Code copied"><pre class="highlight"><code><span class="nt">&lt;script</span> <span class="na">type=</span><span class="s">"module"</span> <span class="na">src=</span><span class="s">"{{ base }}/widget/v1.js"</span><span class="nt">&gt;</span><span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;bcv-rate</span><span class="nt">&gt;</span><span class="nt">&lt;/bcv-rate&gt;</span></code></pre></div></div>
+      <p class="wcfg-hint">Add the <code>&lt;script&gt;</code> tag only once per page, even if you use several widgets.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wcfg-ref" id="reference" aria-labelledby="ref-heading">
+  <h2 id="ref-heading">Reference</h2>
+
+  <h3 id="attributes">Attributes</h3>
+  <p>All of them can be changed at any time and the widget updates.</p>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th scope="col">Attribute</th><th scope="col">Values</th><th scope="col">Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>currency</code></td><td><code>USD</code>, <code>EUR</code>, <code>CNY</code>, <code>TRY</code>, <code>RUB</code></td><td><code>USD</code></td></tr>
+        <tr><td><code>variant</code></td><td><code>card</code>, <code>line</code> (inline pill inside a sentence), <code>converter</code> (amount input to bolivars)</td><td><code>card</code></td></tr>
+        <tr><td><code>lang</code></td><td><code>es</code>, <code>en</code></td><td>The closest <code>lang</code> attribute on the page (<code>en*</code> is English), else <code>es</code></td></tr>
+        <tr><td><code>theme</code></td><td><code>auto</code> (follows <code>prefers-color-scheme</code>), <code>light</code>, <code>dark</code></td><td><code>auto</code></td></tr>
+        <tr><td><code>amount</code></td><td>The converter's initial amount, a plain number such as <code>100</code> or <code>1234.5</code></td><td><code>1</code></td></tr>
+        <tr><td><code>hide-source</code></td><td>Boolean: hides the "Source: BCV Today" link</td><td>Shown</td></tr>
+        <tr><td><code>api</code></td><td>Data origin, for tests or a mirror</td><td><code>https://bcv.today</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Numbers follow the language: Spanish uses the Venezuelan format (<code>916,6477</code>, <code>1.007,3867</code>),
+    English the US format (<code>916.6477</code>, <code>1,007.3867</code>). Rates have 4 decimals and converted amounts
+    2. The converter accepts amounts such as <code>1.234,5</code> or <code>1234.5</code>.
+  </p>
+
+  <h3 id="styling">CSS custom properties</h3>
+  <p>Set them on the element or any ancestor. <code>--bcv-bg</code> and <code>--bcv-text</code> replace both the light and the dark value, so choose a pair with enough contrast or set them per theme.</p>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th scope="col">Property</th><th scope="col">Default (light / dark)</th></tr></thead>
+      <tbody>
+        <tr><td><code>--bcv-accent</code></td><td><code>#f2b33d</code>, the gold of the BCV Today mark (logo and focused input border)</td></tr>
+        <tr><td><code>--bcv-bg</code></td><td><code>#fdfbf7</code> / <code>#1c1a18</code></td></tr>
+        <tr><td><code>--bcv-text</code></td><td><code>#1f1b16</code> / <code>#efe9de</code></td></tr>
+        <tr><td><code>--bcv-radius</code></td><td><code>12px</code> (card and converter); the inline pill is fully rounded unless set</td></tr>
+        <tr><td><code>--bcv-font</code></td><td>System UI font (the inline variant inherits the surrounding font); numbers are always monospace</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="parts">Parts (<code>::part()</code>)</h3>
+  <p>
+    The widget uses Shadow DOM: your CSS does not leak in and its CSS does not leak out. To style specific pieces use
+    <code>bcv-rate::part(name)</code> with these parts: <code>container</code>, <code>label</code>, <code>value</code>,
+    <code>change</code>, <code>date</code>, <code>note</code> (cached notice), <code>source</code>, <code>mark</code>,
+    <code>status</code> (loading and error text) and, in the converter, <code>input</code> and <code>result</code>.
+  </p>
+  <div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">bcv-rate</span> <span class="p">{</span>
+  <span class="py">--bcv-radius</span><span class="p">:</span> <span class="m">4px</span><span class="p">;</span>
+  <span class="py">--bcv-font</span><span class="p">:</span> <span class="s2">"Inter"</span><span class="p">,</span> <span class="nb">sans-serif</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">bcv-rate</span><span class="nd">::part</span><span class="o">(</span><span class="nt">value</span><span class="o">)</span> <span class="p">{</span>
+  <span class="nl">font-weight</span><span class="p">:</span> <span class="m">700</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div></div>
+
+  <h3 id="events">Events</h3>
+  <p>The widget does not fire events of its own. In the converter, the amount field is a regular <code>&lt;input&gt;</code> inside the Shadow DOM.</p>
+
+  <h3 id="details">Good to know</h3>
+  <ul>
+    <li><strong>No cookies, no tracking.</strong> It only keeps the last good rate in the browser's <code>localStorage</code>, to show it when the API is unreachable (with a "Cached value" notice).</li>
+    <li><strong>Reads public data only.</strong> It requests <code>{{ base }}/api/v1/rate.json</code> and the daily history files to work out the change. Every widget on the page shares the same requests, refreshed every 30 minutes while the page is visible.</li>
+    <li><strong>Works with a strict CSP.</strong> The markup is built with DOM APIs, never by parsing HTML, so <code>script-src https://bcv.today</code> and <code>connect-src https://bcv.today</code> are enough; it also works with Trusted Types.</li>
+    <li><strong>Small.</strong> About 5 KB min+gzip, with no dependencies.</li>
+    <li><strong>Accessible.</strong> Real text (no images of numbers), an accessible name such as "BCV rate: US dollar (USD)", the change direction spelled out for screen readers and a contrast of at least 4.5:1 in both themes.</li>
+  </ul>
+</section>
+
+<p class="int-outro">
+  Other ways to use the rate: <a href="{{ '/en/integrations/' | relative_url }}">all integrations</a>
+  and the <a href="{{ '/en/api/' | relative_url }}">API documentation</a>.
+  Widget source code on <a href="{{ repo }}/tree/main/packages/widget">GitHub</a>.
+</p>
+</div>
+{%- assign asset_version = site.asset_version | default: site.github.build_revision | default: '' -%}
+{%- if asset_version == '' -%}{%- assign asset_version = site.time | date: '%Y%m%d%H%M%S' -%}{%- endif %}
+<script defer src="{{ '/assets/js/widget-config.js' | relative_url }}?v={{ asset_version }}"></script>
+<script type="module" src="{{ '/widget/v1.js' | relative_url }}"></script>

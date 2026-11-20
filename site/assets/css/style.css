@@ -2670,3 +2670,220 @@ pre.cat-snip {
         transform: none;
     }
 }
+
+/* Widget page ----------------------------------------------------------- */
+/* Configurator: the form on the left, the live preview and the generated
+   code on the right (stacked on phones). Without JS only the code shows. */
+.cat-links a.is-primary {
+    font-weight: 500;
+}
+
+.wcfg-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.wcfg.is-enhanced .wcfg-grid {
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+}
+
+.wcfg-form[hidden],
+.wcfg-preview[hidden],
+.wcfg-field[hidden],
+.wcfg-notice[hidden],
+.wcfg-nojs[hidden] {
+    display: none;
+}
+
+.wcfg-form {
+    display: grid;
+    gap: 18px;
+    accent-color: var(--accent-ink);
+}
+
+.wcfg-field > label:not(.wcfg-check),
+.wcfg-set legend {
+    display: block;
+    margin: 0 0 6px;
+    padding: 0;
+    color: var(--text-2);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.wcfg-set {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.wcfg-opts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Native radios kept visible; the pill is the click target. Checked: ink
+   border plus weight, never colour alone. */
+.wcfg-opt {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 12px 0 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--text-2);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: color var(--fast) var(--ease), background-color var(--fast) var(--ease);
+}
+
+.wcfg-opt:hover {
+    background: var(--raised);
+    color: var(--text);
+}
+
+.wcfg-opt:has(:checked) {
+    border-color: var(--text);
+    color: var(--text);
+    font-weight: 500;
+}
+
+.wcfg-opt input {
+    margin: 0;
+}
+
+.wcfg-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 32px;
+    font-size: 0.9375rem;
+    cursor: pointer;
+}
+
+.wcfg-check input {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+}
+
+.wcfg-hint {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 0.8125rem;
+}
+
+.wcfg-notice {
+    margin: 8px 0 0;
+    padding: 8px 12px;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    background: var(--accent-soft);
+    color: var(--text);
+    font-size: 0.875rem;
+}
+
+.wcfg-out h3 {
+    margin: 0 0 8px;
+    color: var(--text-2);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.wcfg-preview {
+    margin-bottom: 20px;
+}
+
+/* The live <bcv-rate> on a paper tray, like the demo on the integrations
+   page. "Dark" is previewed on a dark sample frame (fixed colours: the site
+   itself is light). */
+.wcfg-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 168px;
+    padding: 20px 16px;
+    border: 1px dashed var(--line-strong);
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.wcfg-stage.is-dark {
+    border-color: rgba(239, 233, 222, 0.24);
+    background: #161513;
+    color: #efe9de;
+}
+
+.wcfg-stage > bcv-rate {
+    width: 100%;
+    max-width: 340px;
+}
+
+.wcfg-sentence {
+    margin: 0;
+    line-height: 1.8;
+}
+
+/* Generated code wraps instead of scrolling; the copy button sits in a
+   band above the first line, so it never covers the code. */
+.wcfg-code div.highlight {
+    margin: 0;
+}
+
+.wcfg-code pre {
+    position: relative;
+    padding-top: 44px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.wcfg-code pre::before {
+    content: "HTML";
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+}
+
+.wcfg-out > .wcfg-hint {
+    margin-top: 8px;
+}
+
+.wcfg-ref td code {
+    overflow-wrap: anywhere;
+}
+
+.wcfg-ref td:first-child {
+    white-space: nowrap;
+}
+
+@media (min-width: 721px) {
+    .wcfg.is-enhanced .wcfg-grid {
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: 28px;
+    }
+}
+
+@media (max-width: 640px) {
+    .wcfg.is-enhanced .wcfg-grid {
+        padding: 16px;
+    }
+
+    .wcfg-ref th,
+    .wcfg-ref td {
+        padding: 8px 12px;
+    }
+}

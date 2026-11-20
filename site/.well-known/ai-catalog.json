@@ -136,6 +136,58 @@
         "módulo de Odoo para actualizar la tasa BCV automáticamente",
         "tasa del dólar BCV en Odoo 19"
       ]
+    },
+    {
+      "identifier": "urn:air:bcv.today:library:bcv-php",
+      "displayName": "grupoclip/bcv-today PHP package (Packagist)",
+      "type": "text/html",
+      "url": "https://packagist.org/packages/grupoclip/bcv-today",
+      "description": "Official zero-dependency PHP 8.1+ client for the BCV Today API (composer require grupoclip/bcv-today): latest official Banco Central de Venezuela rates, rate on a date with weekend carry-forward, history and exact decimal conversions between VES, USD, EUR, CNY, TRY and RUB, with a Laravel service provider and facade.",
+      "tags": ["php", "composer", "packagist", "laravel", "library", "exchange-rates", "venezuela", "bcv"],
+      "representativeQueries": [
+        "PHP library for the official BCV dollar rate",
+        "librería PHP para la tasa del dólar BCV",
+        "Laravel package for Venezuela exchange rates"
+      ]
+    },
+    {
+      "identifier": "urn:air:bcv.today:library:bcv-go",
+      "displayName": "BCV Today Go module (pkg.go.dev)",
+      "type": "text/html",
+      "url": "https://pkg.go.dev/github.com/grupoclip/bcv-api/packages/go",
+      "description": "Official standard-library-only Go client for the BCV Today API (go get github.com/grupoclip/bcv-api/packages/go): latest official Banco Central de Venezuela rates, rate on a date with weekend carry-forward, history, exact decimal conversions and the bcv command-line tool.",
+      "tags": ["go", "golang", "module", "library", "cli", "exchange-rates", "venezuela", "bcv"],
+      "representativeQueries": [
+        "Go package for the BCV exchange rate",
+        "módulo de Go para la tasa BCV",
+        "golang convert dollars to bolivars"
+      ]
+    },
+    {
+      "identifier": "urn:air:bcv.today:integration:bcv-rate-widget",
+      "displayName": "<bcv-rate> web widget",
+      "type": "text/html",
+      "url": "https://bcv.today/en/widget/",
+      "description": "Embeddable web component that shows today's official BCV rate on any website with one script tag: card, inline or converter, Spanish or English, light or dark. The page has a live configurator that generates the HTML.",
+      "tags": ["widget", "web-component", "embed", "html", "exchange-rates", "venezuela", "bcv"],
+      "representativeQueries": [
+        "show the BCV dollar rate on my website",
+        "widget de la tasa del dólar BCV para mi página",
+        "embed Venezuela exchange rate"
+      ]
+    },
+    {
+      "identifier": "urn:air:bcv.today:integration:telegram-bot",
+      "displayName": "BCV Today Telegram bot and channel",
+      "type": "text/html",
+      "url": "https://t.me/BCVTodayBot",
+      "description": "Telegram bot @BCVTodayBot with the official BCV rates (/dolar, /tasas, /convertir 100 usd, /historial, daily subscription, inline mode in any chat) and the public channel @bcvtoday (https://t.me/bcvtoday), which posts each newly published dollar rate.",
+      "tags": ["telegram", "bot", "channel", "exchange-rates", "venezuela", "bcv"],
+      "representativeQueries": [
+        "Telegram bot for the BCV dollar rate",
+        "bot de Telegram con la tasa del dólar BCV",
+        "canal de Telegram con la tasa BCV diaria"
+      ]
     }
   ]
 }

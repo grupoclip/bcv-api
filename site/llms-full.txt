@@ -81,6 +81,10 @@ Returns the publication status, latest generated timestamp, effective date and s
 - Python client library (PyPI `bcv`, zero dependencies, `bcv` CLI): https://pypi.org/project/bcv/
 - JavaScript/TypeScript client library (npm `bcv-today`, zero dependencies, ESM + CommonJS, exact decimal conversions, `bcv-today` CLI): https://www.npmjs.com/package/bcv-today
 - Odoo module `l10n_ve_bcv_rate` (Odoo 16.0-20.0, Community and Enterprise, not Odoo Online; daily company currency rates from this API): https://apps.odoo.com/apps/modules/l10n_ve_bcv_rate — source https://github.com/grupoclip/odoo-bcv-rate
+- PHP client library (Packagist `grupoclip/bcv-today`, PHP 8.1+, zero dependencies, exact decimal conversions, Laravel service provider and facade): https://packagist.org/packages/grupoclip/bcv-today
+- Go client module (`github.com/grupoclip/bcv-api/packages/go`, standard library only, exact decimal conversions, `bcv` CLI via `go install github.com/grupoclip/bcv-api/packages/go/cmd/bcv@latest`): https://pkg.go.dev/github.com/grupoclip/bcv-api/packages/go
+- Web widget `<bcv-rate>` (one script tag, card / inline / converter, Spanish or English, light or dark; `<script type="module" src="https://bcv.today/widget/v1.js"></script><bcv-rate currency="USD"></bcv-rate>`): configurator and reference at https://bcv.today/en/widget/ (Spanish: https://bcv.today/widget/)
+- Telegram bot @BCVTodayBot (https://t.me/BCVTodayBot): /dolar, /tasas, /convertir 100 usd, /historial usd 7, /suscribir for a daily message, questions in Spanish or English, inline mode (`@BCVTodayBot 100 usd` in any chat); channel @bcvtoday (https://t.me/bcvtoday) posts each newly published dollar rate
 - Integrations overview (all products): https://bcv.today/en/integrations/ (Spanish: https://bcv.today/integraciones/)
 - A2A agent (JSON-RPC, A2A 1.0 and 0.3, no auth): https://mcp.bcv.today/a2a — skills latest-rates, rate-on-date, convert, history, status; text in Spanish/English or a DataPart like {"skill":"convert","amount":100,"from":"USD","to":"VES"}
 - Sitemap: https://bcv.today/sitemap.xml
@@ -94,6 +98,8 @@ Returns the publication status, latest generated timestamp, effective date and s
 - English API docs: https://bcv.today/en/api/
 - Spanish integrations: https://bcv.today/integraciones/
 - English integrations: https://bcv.today/en/integrations/
+- Spanish widget page: https://bcv.today/widget/
+- English widget page: https://bcv.today/en/widget/
 - Spanish history: https://bcv.today/history/
 - English history: https://bcv.today/en/history/
 - Dollar page: https://bcv.today/dolar-bcv/

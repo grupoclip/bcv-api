@@ -11,4 +11,4 @@ parameters:
     treatPhpDocTypesAsCertain: false
     phpVersion:
         min: 80100
-        max: 80599
+        max: 80699
